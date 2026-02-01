@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+.next/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Orchestrator runtime state (gitignored - regenerated per session)
+.bmad/AUTO_MODE
+.bmad/devlog.md
+_bmad/orchestrator-state.json
+
+# Keep templates
+!_bmad/orchestrator-state.template.json
+
+# Claude Code local data
+.claude/history.jsonl
+.claude/paste-cache/
+.claude/session-env/
+.claude/shell-snapshots/
+.claude/todos/
+.claude/debug/
+.claude/plans/

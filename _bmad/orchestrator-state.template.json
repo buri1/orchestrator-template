@@ -1,0 +1,31 @@
+{
+  "version": "1.0.0",
+  "settings": {
+    "auto_mode": true,
+    "auto_merge_on_green_ci": true,
+    "auto_start_next_story": true,
+    "notify_on_completion": true,
+    "max_fix_attempts": 3
+  },
+  "current_session": {
+    "phase": "idle",
+    "current_story": null,
+    "current_agent": {
+      "pane_id": null,
+      "started_at": null
+    },
+    "current_pr": {
+      "number": null,
+      "branch": null,
+      "ci_status": null
+    }
+  },
+  "progress": {
+    "stories_completed": 0,
+    "last_completed_story": null
+  },
+  "history": {
+    "completed_stories": [],
+    "last_activity": null
+  }
+}
