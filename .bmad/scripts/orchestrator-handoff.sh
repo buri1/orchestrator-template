@@ -1,74 +1,55 @@
 #!/bin/bash
-# Orchestrator Pre-Compact Handoff Script
-# Called by PreCompact hook to spawn a fresh Claude session before compaction
+# Orchestrator PreCompact Hook (Simplified v2)
+# Called BEFORE context compaction
 #
-# This script:
-# 1. Gets the current orchestrator pane ID
-# 2. Saves it to state file for the new session to close
-# 3. Spawns a new terminal with Claude
-# 4. Starts /orchestrator in the new session
+# OLD behavior: Spawned a new agent (complex, error-prone)
+# NEW behavior: Just persist state - SessionStart hook handles restoration
 #
-# The old session will compact, but the new one takes over with fresh context.
+# The SessionStart hook will:
+# 1. Read the saved state
+# 2. Inject the absolute rules + state via additionalContext
+# 3. The agent continues with full context - no new agent needed
 
 set -e
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-STATE_FILE="$PROJECT_DIR/.bmad/orchestrator-state.json"
+STATE_FILE="$PROJECT_DIR/_bmad/orchestrator-state.json"
 TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-# Get the current terminal panes
-PANES=$(conduit pane-list -t terminal 2>/dev/null || echo "[]")
+# === Ensure state directory exists ===
+mkdir -p "$(dirname "$STATE_FILE")"
 
-# Find the orchestrator pane (the one running Claude Code)
-# We look for panes with "Claude" in the title
-OLD_PANE_ID=$(echo "$PANES" | jq -r '.[] | select(.title | contains("Claude")) | .id' | head -1)
-
-if [ -z "$OLD_PANE_ID" ] || [ "$OLD_PANE_ID" = "null" ]; then
-    echo "Warning: Could not identify orchestrator pane"
-    OLD_PANE_ID=""
+# === Read current state or create default ===
+if [ -f "$STATE_FILE" ]; then
+    CURRENT_STATE=$(cat "$STATE_FILE")
+else
+    CURRENT_STATE='{
+      "current_session": {"phase": "idle"},
+      "progress": {"stories_completed": 0}
+    }'
 fi
 
-# Read current state
-CURRENT_STATE=$(cat "$STATE_FILE" 2>/dev/null || echo '{}')
-
-# Update state with handoff info
-UPDATED_STATE=$(echo "$CURRENT_STATE" | jq --arg pane "$OLD_PANE_ID" --arg ts "$TIMESTAMP" '
-  .handoff = {
-    "old_pane_id": $pane,
-    "handoff_started": $ts,
-    "reason": "pre_compact"
-  } |
-  .last_updated = $ts
+# === Update timestamp and add compaction marker ===
+UPDATED_STATE=$(echo "$CURRENT_STATE" | jq --arg ts "$TIMESTAMP" '
+  .last_compaction = $ts |
+  .last_updated = $ts |
+  .compaction_count = ((.compaction_count // 0) + 1)
 ')
 
+# === Write updated state ===
 echo "$UPDATED_STATE" > "$STATE_FILE"
 
-# Spawn new terminal
-NEW_PANE_ID=$(conduit pane-split right -t terminal | jq -r '.id' 2>/dev/null || echo "")
-
-if [ -z "$NEW_PANE_ID" ]; then
-    echo "Error: Failed to spawn new terminal pane"
-    exit 1
+# === Log to devlog if it exists ===
+DEVLOG="$PROJECT_DIR/.bmad/devlog.md"
+if [ -f "$DEVLOG" ]; then
+    {
+        echo ""
+        echo "### [$TIMESTAMP] Context Compaction"
+        echo "- State preserved to orchestrator-state.json"
+        echo "- Compaction #$(echo "$UPDATED_STATE" | jq -r '.compaction_count')"
+        echo "- SessionStart hook will restore context"
+    } >> "$DEVLOG"
 fi
 
-# Wait for pane to be ready
-sleep 1
-
-# Start Claude with dangerous skip permissions in the new pane
-conduit terminal-write -p "$NEW_PANE_ID" -e "cd $PROJECT_DIR && claude --dangerously-skip-permissions"
-
-# Wait for Claude to start
-conduit terminal-wait -p "$NEW_PANE_ID" -t 15
-
-# Invoke orchestrator
-conduit terminal-write -p "$NEW_PANE_ID" -e "/orchestrator"
-
-# Brief wait then tell it to start
-sleep 2
-conduit terminal-write -p "$NEW_PANE_ID" -e "start"
-
-echo "Handoff complete. New orchestrator pane: $NEW_PANE_ID"
-echo "Old pane ($OLD_PANE_ID) will be closed by new orchestrator."
-
-# Exit with 0 so compaction proceeds (we can't stop it anyway)
+echo "PreCompact: State saved at $TIMESTAMP"
 exit 0

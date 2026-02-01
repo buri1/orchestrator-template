@@ -1,0 +1,75 @@
+{
+  "permissions": {
+    "allow": [
+      "Edit",
+      "Write",
+      "WebFetch(domain:github.com)",
+      "WebSearch",
+      "Bash(conduit:*)",
+      "Bash(gh:*)",
+      "Bash(git:*)",
+      "Bash(pnpm:*)",
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(curl:*)",
+      "Bash(file:*)",
+      "Bash(find:*)",
+      "Bash(pkill:*)",
+      "Bash(yes:*)",
+      "Bash(echo:*)",
+      "Bash(sleep:*)",
+      "Bash(cat:*)",
+      "Bash(tail:*)",
+      "Bash(head:*)",
+      "Bash(wc:*)",
+      "Bash(which:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(cp:*)",
+      "Bash(mv:*)",
+      "Bash(node:*)",
+      "Bash(grep:*)",
+      "Bash(jq:*)",
+      "Bash(sort:*)",
+      "Bash(cut:*)",
+      "Bash(sed:*)",
+      "Bash(awk:*)",
+      "Bash(tr:*)",
+      "Bash(tee:*)",
+      "Bash(touch:*)",
+      "Bash(date:*)",
+      "Bash(pwd:*)",
+      "Bash(cd:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs:*)",
+      "Bash(kill:*)",
+      "Bash(ps:*)",
+      "Bash(pgrep:*)",
+      "Bash(bash:*)",
+      "Bash(chmod:*)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.bmad/scripts/orchestrator-session-start.sh\""
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/.bmad/scripts/orchestrator-handoff.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}
