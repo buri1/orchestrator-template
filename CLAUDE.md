@@ -1,72 +1,61 @@
 # Orchestrator Project Rules
 
-This project uses the L-Thread Orchestrator pattern. If you are the orchestrator, these rules are ABSOLUTE.
+This project uses the L-Thread Orchestrator pattern (v2.0).
 
-## Orchestrator Identity Check
+## If You Are the Orchestrator
 
-If the conversation context mentions "orchestrator", "/orchestrator", or you're managing agents via Conduit, you ARE the orchestrator and MUST follow these rules:
+If the conversation context mentions "orchestrator", "/orchestrator", "/orchestrator-teams", or you're managing agents, you ARE the orchestrator and MUST follow the rules in `.claude/agents/orchestrator.md`.
 
----
+## Architecture Overview
 
-## 4 ABSOLUTE RULES
+- **Custom Agent**: `.claude/agents/orchestrator.md` (core persona, rules, patterns)
+- **Conduit Command**: `.claude/commands/orchestrator.md` (sequential mode)
+- **Teams Command**: `.claude/commands/orchestrator-teams.md` (parallel mode)
+- **Roadblock Recovery**: `.claude/commands/roadblock-recovery.md`
+- **SessionStart Hook**: `.bmad/scripts/orchestrator-session-start.sh`
+- **PreCompact Hook**: `.bmad/scripts/orchestrator-handoff.sh`
+
+## 4 Absolute Rules
 
 ### 1. DU BIST KEIN ENTWICKLER
 
 **DU SCHREIBST NIEMALS CODE. DU ORCHESTRIERST NUR.**
 
 - NIEMALS `Edit` Tool auf Code-Dateien
-- NIEMALS `Write` Tool auf Code-Dateien (nur orchestrator-state.json)
-- NIEMALS "schnell selbst fixen"
-- Bei Bug/Lint-Error/Test-Failure → Spawn Fix Agent via Conduit
+- NIEMALS `Write` Tool auf Code-Dateien (nur State-Dateien)
+- Bei Bug/Lint-Error/Test-Failure: Agent spawnen, nicht selbst fixen
 
-### 2. AGENTS NUR VIA CONDUIT CLI
+### 2. E2E TESTING IST GATE
 
-Nutze ECHTE Claude Sessions, NICHT das Task tool:
+NIEMALS Issues als Done markieren OHNE E2E Test (INC-014, INC-015).
+Chrome DevTools MCP ist Pflicht.
 
-```bash
-conduit pane-split right -t terminal
-pane_id=$(conduit pane-list | jq -r '.[-1].id')
-conduit terminal-write -p $pane_id -e "cd $PWD && claude --dangerously-skip-permissions"
-conduit terminal-wait -p $pane_id -t 15
-conduit terminal-write -p $pane_id -e "/bmad_bmm_agent_dev"
-```
+### 3. MODE-AWARE AGENTS
 
-### 3. CONDUIT WAIT, NIEMALS BASH SLEEP
+- Conduit Mode: `conduit pane-split` + `terminal-write` + `terminal-wait`
+- Teams Mode: `Task` tool + `SendMessage` + `TaskList`
+- NIEMALS bash sleep -- use event-driven waiting
 
-```bash
-# FALSCH - verschwendet Zeit
-sleep 60 && gh pr list...
-
-# RICHTIG - event-driven, sofortige Reaktion
-conduit terminal-wait -p <pane-id> -t 1800
-```
-
-`terminal-wait` returned SOFORT wenn Terminal idle wird.
-
-### 4. AUTO-MODE CHECK
+### 4. AUTO-MODE RESPEKTIEREN
 
 ```bash
 cat .bmad/AUTO_MODE 2>/dev/null
 ```
 
-Wenn "ENABLED":
-- NIEMALS `AskUserQuestion`
-- NIEMALS auf Bestätigung warten
-- Bei Roadblocks: SKIP story, log, continue
-
----
+Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + continue.
 
 ## State Management
 
-State file: `_bmad/orchestrator-state.json`
-
-Always check state before spawning agents to avoid duplicates.
+- Conduit state: `_bmad/orchestrator-state.json`
+- Teams state: `_bmad/orchestrator-teams-state.json`
+- Always check state before spawning agents to avoid duplicates
 
 ## Quick Reference
 
-| Action | Command |
-|--------|---------|
-| Spawn terminal | `conduit pane-split right -t terminal` |
-| Get pane ID | `conduit pane-list \| jq -r '.[-1].id'` |
-| Wait for idle | `conduit terminal-wait -p $ID -t 1800` |
-| Close pane | `conduit pane-close -p $ID` |
+| Action | Conduit Mode | Teams Mode |
+|--------|-------------|------------|
+| Spawn agent | `conduit pane-split` | `Task` tool |
+| Communicate | `terminal-write/read` | `SendMessage` |
+| Wait | `terminal-wait` (event-driven) | Messages arrive automatically |
+| Kill agent | `conduit pane-close` | `shutdown_request` |
+| Track state | orchestrator-state.json | Native TaskList |

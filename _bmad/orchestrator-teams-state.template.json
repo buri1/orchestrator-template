@@ -1,0 +1,17 @@
+{
+  "version": "2.0.0",
+  "mode": "teams",
+  "team_name": null,
+  "target_branch": "main",
+  "auto_mode": true,
+  "phase": "idle",
+  "prs": {},
+  "sprint_metrics": {
+    "started_at": null,
+    "tasks_total": 0,
+    "tasks_merged": 0,
+    "tasks_skipped": 0
+  },
+  "last_updated": null,
+  "compaction_count": 0
+}

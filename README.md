@@ -1,76 +1,175 @@
-# L-Thread Orchestrator Template
+# L-Thread Orchestrator Template v2.0
 
-> Autonomous Agent Orchestrator for Claude Code using Conduit CLI
+> Autonomous Multi-Agent Orchestration System for Claude Code.
+> Supports both Conduit CLI (sequential) and Claude Code Teams (parallel) modes.
 
-## Overview
+## What Is This?
 
-The L-Thread Orchestrator is an autonomous agent management system that can run unattended for hours, spawning and managing Dev Agents to implement stories sequentially. Based on IndyDevDan's orchestrator patterns.
+The L-Thread Orchestrator is an autonomous agent management system that can run unattended for hours. It spawns and manages Dev Agents, handles code review cycles, and automates the merge/fix workflow -- all without writing a single line of code itself.
 
-### Key Concepts
+**The orchestrator is the conductor, not the musician.** It delegates all development work to sub-agents and focuses entirely on coordination, quality gates, and progress tracking.
 
-| Concept | Description |
-|---------|-------------|
-| **L-Thread** | Long-running orchestrator loop |
-| **Conduit CLI** | Terminal management for real Claude sessions |
-| **Event-Driven** | No polling - uses `terminal-wait` for instant response |
-| **CRUD for Agents** | Create/Read/Delete agents via Conduit |
-| **Auto-Mode** | Fully autonomous operation with roadblock handling |
+### Key Capabilities
+
+| Capability | Description |
+|-----------|-------------|
+| **Dual Mode** | Conduit CLI (sequential) or Claude Code Teams (parallel) |
+| **Autonomous Loop** | Picks up tasks, spawns agents, reviews, merges, continues |
+| **Roadblock Recovery** | Checks documented incidents, provides targeted fix instructions |
+| **E2E Gate** | Chrome DevTools MCP testing required before marking tasks done |
+| **Context Preservation** | State persists across compaction via hooks |
+| **Auto-Mode** | Fully autonomous with roadblock skip-and-continue |
 
 ## Architecture
 
 ```
-+----------------------------------+
-|        L-THREAD ORCHESTRATOR     |
-|        (main terminal)           |
-+----------------------------------+
-              |
-              | conduit pane-split
-              v
-+----------------------------------+
-|          DEV AGENT               |
-|  (real terminal, visible)        |
-|  - Full Claude session           |
-|  - Implements story end-to-end   |
-|  - Creates PR                    |
-+----------------------------------+
++------------------------------------------+
+|        L-THREAD ORCHESTRATOR             |
+|     (Custom Agent + Command)             |
+|                                          |
+|  Tier 0: Absolute Rules, Mode Detection  |
+|  Tier 1: Session State (injected)        |
+|  Tier 2: FutureLearnings (on-demand)     |
++------------------------------------------+
+         |                    |
+    Conduit Mode         Teams Mode
+         |                    |
+   +----------+      +-----------------+
+   | Conduit  |      | Claude Code     |
+   | CLI      |      | Agent Teams     |
+   +----------+      +-----------------+
+         |                    |
+   Sequential:           Parallel:
+   1 agent at a time     2-3 agents + reviewer
 ```
+
+### Custom Agent vs Commands
+
+The **Custom Agent** (`.claude/agents/orchestrator.md`) defines the core persona, rules, and patterns:
+- Absolute Rules (never write code, E2E gate, auto-mode, state management)
+- Mode Detection (auto-detect Conduit vs Teams)
+- Roadblock Recovery Pattern
+- State Management schemas
+- Orchestrator Loop (both modes)
+
+The **Commands** provide mode-specific workflows:
+- `/orchestrator` -- Conduit CLI mode with sequential execution
+- `/orchestrator-teams` -- Teams mode with parallel execution
+- `/roadblock-recovery` -- Incident lookup and fix instructions
+
+### Tiered Context System
+
+Not all context needs to be loaded at all times. The orchestrator uses three tiers:
+
+| Tier | When Loaded | Contents |
+|------|-------------|----------|
+| **Tier 0** | Always | Absolute Rules, Mode Detection, Core Loop |
+| **Tier 1** | SessionStart hook | Current state, environment, AUTO_MODE, branch info |
+| **Tier 2** | On-demand | FutureLearnings (roadblocks), Sprint Briefings (new sprint) |
+
+This reduces context consumption and keeps the orchestrator focused.
+
+### Roadblock Recovery
+
+When an agent hits a problem, the orchestrator:
+
+1. Loads `memory/FutureLearnings.md` (documented incidents)
+2. Matches the error to known INC-XXX entries
+3. Sends targeted fix instructions to the agent
+4. If still stuck: spawns a fresh recovery agent
+5. In Auto-Mode: skips after 3 failed attempts
+
+Common incident patterns (from production use):
+- **INC-001**: Database connections hanging (add `prepare: false`)
+- **INC-002**: Validation schema mismatch (update Zod enum)
+- **INC-013**: Chrome DevTools instability (retry 3x, file-based prompts)
+- **INC-014**: E2E testing skipped (E2E is gate before Done)
 
 ## Prerequisites
 
-- **Conduit**: Must run inside Conduit terminal
-- **Claude Code**: `claude` CLI installed
-- **GitHub CLI**: `gh` authenticated
-- **jq**: JSON processor
+- **Claude Code** CLI installed (`claude`)
+- **GitHub CLI** authenticated (`gh`)
+- **jq** JSON processor
+- **Conduit** (for Conduit Mode) or **Claude Code Teams** (for Teams Mode)
 
-## Quick Start
+## Installation
 
-### 1. Clone and Setup
+### Global Installation (Recommended)
+
+Install the orchestrator globally so it is available in all your projects:
 
 ```bash
-git clone <your-repo> my-project
-cd my-project
+git clone https://github.com/buri1/orchestrator-template.git
+cd orchestrator-template
 
-# Run setup
-./setup/quick-setup.sh
+# Install with symlinks (auto-update when you pull)
+./setup.sh
+
+# Or install with copies (static)
+./setup.sh --copy
+
+# Uninstall
+./setup.sh --remove
 ```
 
-### 2. Manual Setup (Alternative)
+This installs to `~/.claude/`:
+- `agents/orchestrator.md` -- Custom Agent definition
+- `commands/orchestrator.md` -- Conduit Mode command
+- `commands/orchestrator-teams.md` -- Teams Mode command
+- `commands/roadblock-recovery.md` -- Roadblock Recovery command
+
+### Per-Project Setup
+
+After global installation, set up each project:
 
 ```bash
-# Create runtime directories
-mkdir -p .bmad
+cd your-project
 
-# Enable Auto-Mode (optional)
+# 1. Create runtime directories
+mkdir -p .bmad _bmad
+
+# 2. Copy hook scripts
+mkdir -p .bmad/scripts
+cp /path/to/orchestrator-template/.bmad/scripts/orchestrator-session-start.sh .bmad/scripts/
+cp /path/to/orchestrator-template/.bmad/scripts/orchestrator-handoff.sh .bmad/scripts/
+chmod +x .bmad/scripts/*.sh
+
+# 3. Initialize state
+cp /path/to/orchestrator-template/_bmad/orchestrator-state.template.json _bmad/orchestrator-state.json
+
+# 4. Enable Auto-Mode (optional)
 echo "ENABLED" > .bmad/AUTO_MODE
 
-# Copy state template
-cp _bmad/orchestrator-state.template.json _bmad/orchestrator-state.json
-
-# Create devlog
+# 5. Create devlog
 echo -e "# Orchestrator Devlog\n\n## Session Start" > .bmad/devlog.md
+
+# 6. Configure hooks in .claude/settings.local.json
 ```
 
-### 3. Start Orchestrator
+Add hooks to your project's `.claude/settings.local.json`:
+
+```json
+{
+  "hooks": {
+    "SessionStart": [{
+      "hooks": [{
+        "type": "command",
+        "command": "bash \"$CLAUDE_PROJECT_DIR/.bmad/scripts/orchestrator-session-start.sh\""
+      }]
+    }],
+    "PreCompact": [{
+      "hooks": [{
+        "type": "command",
+        "command": "bash \"$CLAUDE_PROJECT_DIR/.bmad/scripts/orchestrator-handoff.sh\""
+      }]
+    }]
+  }
+}
+```
+
+## Usage
+
+### Conduit Mode (Sequential)
 
 ```bash
 # Open Conduit terminal
@@ -86,96 +185,124 @@ claude
 > start
 ```
 
+The orchestrator will:
+1. Pick the next open issue
+2. Spawn a Dev Agent in a new Conduit pane
+3. Wait for PR creation
+4. Run review-fix cycles (max 3)
+5. Auto-merge, E2E test, mark done
+6. Continue to next issue
+
+### Teams Mode (Parallel)
+
+```bash
+# Start Claude (no Conduit needed)
+claude
+
+# Invoke orchestrator
+/orchestrator-teams
+
+# Begin the sprint
+> start
+```
+
+The orchestrator will:
+1. Create a team and tasks from your issue tracker
+2. Spawn 2-3 dev agents as teammates
+3. Assign work and monitor via messages
+4. Review, merge, E2E test in parallel
+5. Continue until all tasks complete
+
+### Roadblock Recovery
+
+When stuck:
+```bash
+/roadblock-recovery
+# Describe the error/problem
+```
+
+Or the orchestrator invokes it automatically when it detects agent failures.
+
 ## Directory Structure
 
 ```
 .
 +-- .claude/
+|   +-- agents/
+|   |   +-- orchestrator.md              # Custom Agent (core persona + rules)
 |   +-- commands/
-|   |   +-- orchestrator.md         # Main orchestrator skill
-|   +-- settings.local.json         # Permissions & hooks
+|   |   +-- orchestrator.md              # Conduit Mode command
+|   |   +-- orchestrator-teams.md        # Teams Mode command
+|   |   +-- roadblock-recovery.md        # Roadblock Recovery command
+|   +-- settings.local.json              # Permissions & hooks
 +-- .bmad/
 |   +-- scripts/
-|       +-- orchestrator-handoff.sh # Pre-compact handoff
+|       +-- orchestrator-session-start.sh # SessionStart hook (mode-agnostic)
+|       +-- orchestrator-handoff.sh       # PreCompact hook (mode-agnostic)
 +-- _bmad/
-|   +-- extensions/
-|   |   +-- conduit-orchestrator/
-|   |       +-- README.md           # Extension docs
-|   |       +-- decisions.md        # Architecture decisions
-|   |       +-- concept/            # State machine, diagrams
-|   |       +-- scripts/            # Helper scripts
-|   |       +-- skill/              # Skill drafts
-|   +-- orchestrator-post-compaction-briefing.md
-|   +-- orchestrator-state.template.json
-+-- docs/
-    +-- getting-started.md
+|   +-- orchestrator-state.template.json  # State file template
+|   +-- extensions/                       # Extension docs and drafts
++-- setup.sh                              # Global installation script
++-- setup/
+|   +-- quick-setup.sh                    # Legacy per-project setup
++-- docs/                                 # Additional documentation
++-- CHANGELOG.md                          # Version history
 ```
 
-## User Commands
+### Runtime Files (gitignored, created per session)
 
-| Command | Action |
-|---------|--------|
-| `start` | Begin automated L-Thread loop |
-| `status` | Show current state |
-| `pause` | Pause after current story |
-| `stop` | Stop immediately, close agent |
-| `skip` | Skip current story |
-
-## Auto-Mode
-
-When `.bmad/AUTO_MODE` contains "ENABLED":
-- No user prompts or confirmations
-- Roadblocks are logged and skipped
-- Loop continues until all stories complete
-
-### Roadblock Handling (Auto-Mode)
-
-| Roadblock | Action |
-|-----------|--------|
-| Tests fail 3x | Skip story, continue |
-| Merge conflict | Skip story, continue |
-| Agent timeout | Close pane, skip, continue |
-| No PR created | Close pane, skip, continue |
-
-## Key Features
-
-### Event-Driven (No Polling)
-
-```bash
-# WRONG - wastes time
-sleep 60 && gh pr list...
-
-# RIGHT - instant response
-conduit terminal-wait -p <pane-id> -t 1800
 ```
+.bmad/
++-- AUTO_MODE                    # "ENABLED" for autonomous operation
++-- devlog.md                    # Session log
 
-### Context Preservation
-
-PreCompact hook spawns fresh session before compaction, preserving orchestrator continuity.
-
-### State Persistence
-
-`_bmad/orchestrator-state.json` survives context compaction and allows recovery.
+_bmad/
++-- orchestrator-state.json      # Conduit mode state (persists across compaction)
++-- orchestrator-teams-state.json # Teams mode state
+```
 
 ## Customization
 
-### Add Project-Specific Labels
+### Add Project-Specific Issue Labels
 
-Edit `.claude/commands/orchestrator.md` Step 1 to change GitHub issue filters:
+Edit the GitHub issue query in `/orchestrator` Step 5:
 
 ```bash
 gh issue list --label "your-label" --state open ...
 ```
 
-### Modify Review Agent
+### Configure Target Branch
 
-The orchestrator spawns `/bmad_bmm_code-review` by default. Change this in Step 5 of the orchestrator.
+Set in your state file or briefing. Default: `main`.
 
-### Adjust Permissions
+### Adjust Agent Prompts
 
-Edit `.claude/settings.local.json` to add/remove allowed commands.
+When spawning agents in Teams Mode, customize the prompt in `/orchestrator-teams` Step 7 with your project's tech stack, conventions, and CI commands.
+
+### Add FutureLearnings
+
+Create `memory/FutureLearnings.md` in your project with the incident template from `/roadblock-recovery`. Each documented incident helps future agents avoid the same mistakes.
+
+## Auto-Mode
+
+When `.bmad/AUTO_MODE` contains "ENABLED":
+- No user prompts or confirmations
+- All decisions made autonomously
+- Roadblocks logged and skipped after 3 attempts
+- Loop continues until all tasks complete or user says `stop`
+
+### User Commands
+
+| Command | Action |
+|---------|--------|
+| `start` | Begin automated loop |
+| `status` | Show current state and progress |
+| `pause` | Pause after current task completes |
+| `stop` | Stop immediately, shutdown all agents |
+| `skip` | Skip current task, continue to next |
+| `reset` | Clear state, start fresh |
 
 ## Credits
 
-- Architecture based on [IndyDevDan's Orchestrator Pattern](https://www.youtube.com/@indydevdan)
+- Architecture inspired by [IndyDevDan's Orchestrator Pattern](https://www.youtube.com/@indydevdan)
 - Built with [Claude Code](https://claude.ai/claude-code) and [BMAD Framework](https://github.com/bmad-method/bmad)
