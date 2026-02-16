@@ -66,6 +66,7 @@ declare -a FILES=(
     ".claude/commands/orchestrator.md:commands/orchestrator.md"
     ".claude/commands/orchestrator-teams.md:commands/orchestrator-teams.md"
     ".claude/commands/roadblock-recovery.md:commands/roadblock-recovery.md"
+    ".claude/commands/tmux-recovery.md:commands/tmux-recovery.md"
 )
 
 # === Uninstall ===

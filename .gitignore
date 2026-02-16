@@ -26,10 +26,12 @@ Thumbs.db
 .bmad/devlog.md
 _bmad/orchestrator-state.json
 _bmad/orchestrator-teams-state.json
+_bmad/orchestrator-tmux-state.json
 
 # Keep templates
 !_bmad/orchestrator-state.template.json
 !_bmad/orchestrator-teams-state.template.json
+!_bmad/orchestrator-tmux-state.template.json
 
 # Claude Code local data
 .claude/history.jsonl

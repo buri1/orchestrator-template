@@ -47,7 +47,8 @@
       "Bash(ps:*)",
       "Bash(pgrep:*)",
       "Bash(bash:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(tmux:*)"
     ]
   },
   "hooks": {

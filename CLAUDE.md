@@ -12,8 +12,10 @@ If the conversation context mentions "orchestrator", "/orchestrator", "/orchestr
 - **Conduit Command**: `.claude/commands/orchestrator.md` (sequential mode)
 - **Teams Command**: `.claude/commands/orchestrator-teams.md` (parallel mode)
 - **Roadblock Recovery**: `.claude/commands/roadblock-recovery.md`
+- **Tmux Recovery**: `.claude/commands/tmux-recovery.md`
 - **SessionStart Hook**: `.bmad/scripts/orchestrator-session-start.sh`
 - **PreCompact Hook**: `.bmad/scripts/orchestrator-handoff.sh`
+- **Tmux Helpers**: `.bmad/scripts/tmux-helpers.sh`
 
 ## 4 Absolute Rules
 
@@ -48,6 +50,7 @@ Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + cont
 
 - Conduit state: `_bmad/orchestrator-state.json`
 - Teams state: `_bmad/orchestrator-teams-state.json`
+- **Tmux State**: `_bmad/orchestrator-tmux-state.json`
 - Always check state before spawning agents to avoid duplicates
 
 ## Quick Reference
@@ -59,3 +62,17 @@ Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + cont
 | Wait | `terminal-wait` (event-driven) | Messages arrive automatically |
 | Kill agent | `conduit pane-close` | `shutdown_request` |
 | Track state | orchestrator-state.json | Native TaskList |
+
+## Tmux Quick Reference
+
+| Action | Command |
+|--------|---------|
+| Probe session | `tmux has-session -t <name>` |
+| Check claude | `tmux list-panes -t <name> -F '#{pane_current_command}'` |
+| Send command | `tmux send-keys -t <name> '<cmd>' Enter` |
+| Read output | `tmux capture-pane -t <name> -p -S -50` |
+| Create session | `tmux new-session -d -s <name> -c <dir>` |
+| Start claude | `tmux send-keys -t <name> 'unset CLAUDECODE && claude --dangerously-skip-permissions' Enter` |
+| Recovery | `/tmux-recovery` |
+| State file | `_bmad/orchestrator-tmux-state.json` |
+| Template | `_bmad/orchestrator-tmux-state.template.json` |

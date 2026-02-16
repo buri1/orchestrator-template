@@ -89,13 +89,34 @@ In Conduit Mode:
 - Track state via `_bmad/orchestrator-state.json`
 - Close agents via `conduit pane-close`
 
+### Tmux Mode (Cross-Project Session Management)
+
+Detected when:
+- `tmux list-sessions` returns valid session data
+- `_bmad/orchestrator-tmux-state.json` exists
+- Conduit CLI may or may not be available (tmux is independent)
+
+In Tmux Mode:
+- Sessions are persistent named tmux sessions (survive crashes)
+- Each session maps to a project working directory
+- Claude runs inside tmux sessions, not conduit panes
+- Send commands via `tmux send-keys -t <session> '<cmd>' Enter`
+- Check if claude is running: `tmux list-panes -t <session> -F '#{pane_current_command}'`
+- Read output: `tmux capture-pane -t <session> -p -S -50`
+- Create session: `tmux new-session -d -s <name> -c <directory>`
+- Track state via `_bmad/orchestrator-tmux-state.json`
+
+Key difference from Conduit: Tmux sessions persist across Conduit crashes. They are the crash-protection layer.
+
+Note: Tmux Mode and Conduit Mode can COEXIST. Tmux provides crash-protection for sessions, Conduit provides the workspace UI. When both are available, use tmux as the source of truth for which sessions exist.
+
 ### Mode Detection Algorithm
 
 ```
 1. Check if SendMessage tool exists -> Teams Mode
-2. Else run: conduit pane-list
-   - Success -> Conduit Mode
-   - Failure -> ERROR: No orchestration backend available
+2. Check if _bmad/orchestrator-tmux-state.json exists AND tmux is available -> Tmux Mode (can coexist with Conduit)
+3. Else run: conduit pane-list -> Conduit Mode
+4. Failure -> ERROR: No orchestration backend available
 ```
 
 ---
@@ -308,6 +329,25 @@ Native `TaskList` is primary. Custom state only for:
   }
 }
 ```
+
+### Tmux Mode State: `_bmad/orchestrator-tmux-state.json`
+
+Schema:
+- `sessions.<name>.tmux_session` - tmux session name
+- `sessions.<name>.working_directory` - project path
+- `sessions.<name>.claude_running` - boolean, verified by live probe
+- `sessions.<name>.claude_flags` - flags used to launch claude
+- `sessions.<name>.last_seen_alive` - last probe timestamp
+- `recovery.recovery_log` - append-only crash/recovery audit trail
+
+### Tmux Recovery Workflow
+
+After a crash (Conduit or terminal restart):
+1. Read `_bmad/orchestrator-tmux-state.json` for expected sessions
+2. Probe each: `tmux has-session -t <name>`
+3. Check claude: `tmux list-panes -t <name> -F '#{pane_current_command}'`
+4. Dead sessions: recreate with `tmux new-session -d -s <name> -c <dir>` then start claude
+5. Update state, log recovery
 
 ### State Update Rules
 

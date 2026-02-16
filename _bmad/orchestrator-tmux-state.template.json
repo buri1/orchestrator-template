@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "mode": "tmux",
+  "last_updated": null,
+  "compaction_count": 0,
+  "sessions": {
+    "autarkis1": {
+      "tmux_session": "autarkis1",
+      "working_directory": "/Users/buraksmac/Desktop/code/Lagerlink Hildesheim",
+      "project": "Lagerlink Hildesheim",
+      "claude_running": false,
+      "claude_flags": "--dangerously-skip-permissions",
+      "last_seen_alive": null,
+      "purpose": "Primary dev session for Autarkis/Lagerlink"
+    },
+    "autarkis2": {
+      "tmux_session": "autarkis2",
+      "working_directory": "/Users/buraksmac/Desktop/code/Lagerlink Hildesheim",
+      "project": "Lagerlink Hildesheim",
+      "claude_running": false,
+      "claude_flags": "--dangerously-skip-permissions",
+      "last_seen_alive": null,
+      "purpose": "Secondary dev session for Autarkis/Lagerlink"
+    },
+    "orchy": {
+      "tmux_session": "orchy",
+      "working_directory": "/Users/buraksmac/Desktop/code2/orchestrator",
+      "project": "Orchestrator",
+      "claude_running": false,
+      "claude_flags": "--dangerously-skip-permissions",
+      "last_seen_alive": null,
+      "purpose": "Orchestrator meta-session"
+    },
+    "cityhub": {
+      "tmux_session": "cityhub",
+      "working_directory": "/Users/buraksmac/Desktop/code2/CityHub",
+      "project": "CityHub",
+      "claude_running": false,
+      "claude_flags": "--dangerously-skip-permissions",
+      "last_seen_alive": null,
+      "purpose": "CityHub development"
+    },
+    "finance": {
+      "tmux_session": "finance",
+      "working_directory": "/Users/buraksmac/Desktop/code2/Finance-agent",
+      "project": "Finance Agent",
+      "claude_running": false,
+      "claude_flags": "--dangerously-skip-permissions",
+      "last_seen_alive": null,
+      "purpose": "Finance agent development"
+    },
+    "contentos": {
+      "tmux_session": "contentos",
+      "working_directory": "/Users/buraksmac/Desktop/code2/ContentOS",
+      "project": "ContentOS",
+      "claude_running": false,
+      "claude_flags": "--dangerously-skip-permissions",
+      "last_seen_alive": null,
+      "purpose": "ContentOS development"
+    }
+  },
+  "recovery": {
+    "last_crash_detected": null,
+    "sessions_recovered": 0,
+    "recovery_log": []
+  }
+}

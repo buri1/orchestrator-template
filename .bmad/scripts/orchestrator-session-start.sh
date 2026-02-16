@@ -28,6 +28,13 @@ else
     DETECTED_MODE="unknown"
 fi
 
+# === Check for tmux state ===
+TMUX_STATE="$PROJECT_DIR/_bmad/orchestrator-tmux-state.json"
+TMUX_MODE_AVAILABLE="false"
+if [ -f "$TMUX_STATE" ]; then
+    TMUX_MODE_AVAILABLE="true"
+fi
+
 # === Read current state ===
 if [ -n "$STATE_FILE" ] && [ -f "$STATE_FILE" ]; then
     PHASE=$(cat "$STATE_FILE" | jq -r '.phase // .current_session.phase // "idle"')
@@ -142,6 +149,57 @@ if [ -f "$TEAMS_BRIEFING" ]; then
     CONTEXT="$CONTEXT
 
 TEAMS BRIEFING AVAILABLE: Read _bmad/teams-fix-sprint-briefing.md for sprint context."
+fi
+
+# === Tmux session probing (always runs if tmux state exists) ===
+if [ "$TMUX_MODE_AVAILABLE" = "true" ]; then
+    TMUX_PROBE=""
+    for session in $(cat "$TMUX_STATE" | jq -r '.sessions | keys[]' 2>/dev/null); do
+        alive="false"
+        claude="false"
+        if tmux has-session -t "$session" 2>/dev/null; then
+            alive="true"
+            cmd=$(tmux list-panes -t "$session" -F '#{pane_current_command}' 2>/dev/null | head -1)
+            if [ "$cmd" = "claude" ]; then
+                claude="true"
+            fi
+        fi
+        TMUX_PROBE="$TMUX_PROBE
+  - $session: alive=$alive, claude=$claude"
+    done
+
+    # Update state file with probe results
+    TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+    for session in $(cat "$TMUX_STATE" | jq -r '.sessions | keys[]' 2>/dev/null); do
+        if tmux has-session -t "$session" 2>/dev/null; then
+            cmd=$(tmux list-panes -t "$session" -F '#{pane_current_command}' 2>/dev/null | head -1)
+            is_claude="false"
+            [ "$cmd" = "claude" ] && is_claude="true"
+
+            UPDATED=$(cat "$TMUX_STATE" | jq \
+                --arg s "$session" \
+                --arg ts "$TIMESTAMP" \
+                --argjson cr "$is_claude" \
+                '.sessions[$s].claude_running = $cr | .sessions[$s].last_seen_alive = $ts')
+            echo "$UPDATED" > "$TMUX_STATE"
+        else
+            UPDATED=$(cat "$TMUX_STATE" | jq \
+                --arg s "$session" \
+                '.sessions[$s].claude_running = false')
+            echo "$UPDATED" > "$TMUX_STATE"
+        fi
+    done
+
+    CONTEXT="$CONTEXT
+
+TMUX SESSIONS (live probe):$TMUX_PROBE
+
+To manage tmux sessions, use tmux commands:
+  tmux send-keys -t <session> '<command>' Enter
+  tmux has-session -t <session>
+  tmux new-session -d -s <name> -c <directory>
+  tmux list-panes -t <session> -F '#{pane_current_command}'
+  tmux capture-pane -t <session> -p -S -50"
 fi
 
 # === Output JSON for Claude Code hook system ===
