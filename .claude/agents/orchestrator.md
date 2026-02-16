@@ -97,27 +97,71 @@ Detected when:
 - Conduit CLI may or may not be available (tmux is independent)
 
 In Tmux Mode:
-- Sessions are persistent named tmux sessions (survive crashes)
-- Each session maps to a project working directory
-- Claude runs inside tmux sessions, not conduit panes
-- Send commands via `tmux send-keys -t <session> '<cmd>' Enter`
-- Check if claude is running: `tmux list-panes -t <session> -F '#{pane_current_command}'`
-- Read output: `tmux capture-pane -t <session> -p -S -50`
-- Create session: `tmux new-session -d -s <name> -c <directory>`
+- Workers are SEPARATE Claude processes in their own tmux sessions
+- NEVER use the Task tool for background agents -- always spawn real tmux sessions
+- Each worker gets its own tmux session with its own Claude instance
+- This prevents git conflicts (each session has independent filesystem access)
+
+**Spawning Workers:**
+```bash
+# Create tmux session for worker
+tmux new-session -d -s worker-<name> -c <working_directory>
+
+# Start Claude (CRITICAL: unset CLAUDECODE to allow nested sessions!)
+tmux send-keys -t worker-<name> 'unset CLAUDECODE && claude --dangerously-skip-permissions' Enter
+
+# Wait for Claude to initialize
+sleep 15
+
+# Send the task/story
+tmux send-keys -t worker-<name> '<story prompt here>' Enter
+```
+
+**Monitoring Workers:**
+```bash
+# Check if Claude is running
+tmux list-panes -t worker-<name> -F '#{pane_current_command}'
+
+# Read last 50 lines of output
+tmux capture-pane -t worker-<name> -p -S -50
+
+# Check for PR creation, errors, completion
+```
+
+**Closing Workers:**
+```bash
+tmux send-keys -t worker-<name> Escape
+sleep 0.3
+tmux send-keys -t worker-<name> C-c C-c C-c
+sleep 2
+tmux kill-session -t worker-<name>
+```
+
+**Key Rules:**
+- Max 6 parallel tmux worker sessions
+- Each worker creates its own git branch (no shared branches!)
+- Monitor every 60 seconds via capture-pane
 - Track state via `_bmad/orchestrator-tmux-state.json`
 
 Key difference from Conduit: Tmux sessions persist across Conduit crashes. They are the crash-protection layer.
 
 Note: Tmux Mode and Conduit Mode can COEXIST. Tmux provides crash-protection for sessions, Conduit provides the workspace UI. When both are available, use tmux as the source of truth for which sessions exist.
 
+**CRITICAL: Do NOT use the Task tool (background agents) in Tmux Mode. Background agents share the same git working directory and cause conflicts. Tmux sessions are independent processes.**
+
 ### Mode Detection Algorithm
 
+**IMPORTANT: Tmux Mode takes PRIORITY over Teams Mode when tmux state file exists.**
+
 ```
-1. Check if SendMessage tool exists -> Teams Mode
-2. Check if _bmad/orchestrator-tmux-state.json exists AND tmux is available -> Tmux Mode (can coexist with Conduit)
+1. Check if _bmad/orchestrator-tmux-state.json exists AND tmux is available -> Tmux Mode
+   (Even if SendMessage/Task tools are available -- tmux sessions are preferred over background agents!)
+2. Check if SendMessage tool exists AND no tmux state -> Teams Mode
 3. Else run: conduit pane-list -> Conduit Mode
 4. Failure -> ERROR: No orchestration backend available
 ```
+
+**Why Tmux over Teams:** Background Task agents share the same git working directory, causing branch conflicts when multiple agents work in parallel. Tmux sessions are independent processes with proper isolation.
 
 ---
 
