@@ -13,7 +13,7 @@ The L-Thread Orchestrator is an autonomous agent management system that can run 
 
 | Capability | Description |
 |-----------|-------------|
-| **Dual Mode** | Conduit CLI (sequential) or Claude Code Teams (parallel) |
+| **Triple Mode** | Conduit CLI (sequential), Claude Code Teams (parallel), or Tmux (crash-protected) |
 | **Autonomous Loop** | Picks up tasks, spawns agents, reviews, merges, continues |
 | **Roadblock Recovery** | Checks documented incidents, provides targeted fix instructions |
 | **E2E Gate** | Chrome DevTools MCP testing required before marking tasks done |
@@ -90,6 +90,7 @@ Common incident patterns (from production use):
 - **Claude Code** CLI installed (`claude`)
 - **GitHub CLI** authenticated (`gh`)
 - **jq** JSON processor
+- **tmux** (for Tmux Mode -- crash-protected sessions)
 - **Conduit** (for Conduit Mode) or **Claude Code Teams** (for Teams Mode)
 
 ## Installation
@@ -126,16 +127,21 @@ After global installation, set up each project:
 cd your-project
 
 # 1. Create runtime directories
-mkdir -p .bmad _bmad
+mkdir -p .bmad/scripts _bmad
 
 # 2. Copy hook scripts
-mkdir -p .bmad/scripts
 cp /path/to/orchestrator-template/.bmad/scripts/orchestrator-session-start.sh .bmad/scripts/
 cp /path/to/orchestrator-template/.bmad/scripts/orchestrator-handoff.sh .bmad/scripts/
+cp /path/to/orchestrator-template/.bmad/scripts/tmux-helpers.sh .bmad/scripts/
 chmod +x .bmad/scripts/*.sh
 
-# 3. Initialize state
+# 3. Initialize state (pick your mode)
+# Conduit mode:
 cp /path/to/orchestrator-template/_bmad/orchestrator-state.template.json _bmad/orchestrator-state.json
+# Tmux mode (crash-protected sessions):
+cp /path/to/orchestrator-template/_bmad/orchestrator-tmux-state.template.json _bmad/orchestrator-tmux-state.template.json
+cp /path/to/orchestrator-template/_bmad/orchestrator-tmux-state.template.json _bmad/orchestrator-tmux-state.json
+# Edit _bmad/orchestrator-tmux-state.json to match your tmux sessions
 
 # 4. Enable Auto-Mode (optional)
 echo "ENABLED" > .bmad/AUTO_MODE
@@ -143,13 +149,19 @@ echo "ENABLED" > .bmad/AUTO_MODE
 # 5. Create devlog
 echo -e "# Orchestrator Devlog\n\n## Session Start" > .bmad/devlog.md
 
-# 6. Configure hooks in .claude/settings.local.json
+# 6. Configure hooks in .claude/settings.local.json (see below)
 ```
 
 Add hooks to your project's `.claude/settings.local.json`:
 
 ```json
 {
+  "permissions": {
+    "allow": [
+      "Bash(tmux:*)",
+      "Bash(conduit:*)"
+    ]
+  },
   "hooks": {
     "SessionStart": [{
       "hooks": [{
@@ -213,6 +225,33 @@ The orchestrator will:
 4. Review, merge, E2E test in parallel
 5. Continue until all tasks complete
 
+### Tmux Mode (Crash-Protected)
+
+Tmux mode adds crash protection to your sessions. If Conduit crashes, all Claude Code sessions inside tmux survive.
+
+```bash
+# 1. Create tmux sessions for your projects
+tmux new-session -d -s myproject -c /path/to/project
+
+# 2. Start claude inside the tmux session
+tmux send-keys -t myproject 'unset CLAUDECODE && claude --dangerously-skip-permissions' Enter
+
+# 3. Attach from any terminal (Conduit, Ghostty, iTerm, etc.)
+tmux attach -t myproject
+
+# 4. If Conduit crashes: reopen, re-attach, everything is still running
+tmux attach -t myproject
+```
+
+Tmux mode coexists with Conduit -- use Conduit for the workspace UI (browser, editor, tabs) and tmux as the crash-protection layer underneath.
+
+Recovery after a crash or system restart:
+```bash
+/tmux-recovery
+```
+
+This probes all expected sessions, recreates dead ones, restarts Claude, and reports status.
+
 ### Roadblock Recovery
 
 When stuck:
@@ -234,11 +273,13 @@ Or the orchestrator invokes it automatically when it detects agent failures.
 |   |   +-- orchestrator.md              # Conduit Mode command
 |   |   +-- orchestrator-teams.md        # Teams Mode command
 |   |   +-- roadblock-recovery.md        # Roadblock Recovery command
+|   |   +-- tmux-recovery.md             # Tmux session recovery command
 |   +-- settings.local.json              # Permissions & hooks
 +-- .bmad/
 |   +-- scripts/
 |       +-- orchestrator-session-start.sh # SessionStart hook (mode-agnostic)
 |       +-- orchestrator-handoff.sh       # PreCompact hook (mode-agnostic)
+|       +-- tmux-helpers.sh              # Tmux helper functions
 +-- _bmad/
 |   +-- orchestrator-state.template.json  # State file template
 |   +-- extensions/                       # Extension docs and drafts
@@ -257,8 +298,9 @@ Or the orchestrator invokes it automatically when it detects agent failures.
 +-- devlog.md                    # Session log
 
 _bmad/
-+-- orchestrator-state.json      # Conduit mode state (persists across compaction)
++-- orchestrator-state.json       # Conduit mode state (persists across compaction)
 +-- orchestrator-teams-state.json # Teams mode state
++-- orchestrator-tmux-state.json  # Tmux mode state (session tracking)
 ```
 
 ## Customization
