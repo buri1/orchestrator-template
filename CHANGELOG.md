@@ -2,6 +2,14 @@
 
 All notable changes to the L-Thread Orchestrator Template are documented here.
 
+## [2.1.0] - 2026-02-17
+
+### Added
+- **UI Review Command** (`.claude/commands/ui-review.md`) for Playwright-based testing
+  - Runs P0 Story suite against deployed Lagerlink app
+  - Analyzes HTML reports and failure screenshots
+  - Integrates with Story Engine CLI (run-story, run-all, run-suite)
+
 ## [2.0.0] - 2026-02-07
 
 ### Breaking Changes
