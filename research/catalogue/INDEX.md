@@ -3,7 +3,7 @@
 > A categorized reference of all tools, frameworks, platforms, practitioners, articles, talks, and posts analyzed during research.
 
 **Last updated:** 2026-03-08
-**Total entries:** 192 (104 tools, 7 practitioners, 81 reference docs, 0 articles, 0 talks, 0 posts)
+**Total entries:** 202 (104 tools, 7 practitioners, 81 reference docs, 0 articles, 10 talks, 0 posts)
 **Templates:** [Tool](./_TEMPLATE.md) | [Practitioner](./_TEMPLATE-PRACTITIONER.md) | [Article](./_TEMPLATE-ARTICLE.md) | [Talk](./_TEMPLATE-TALK.md) | [Post](./_TEMPLATE-POST.md)
 
 ---
@@ -378,7 +378,24 @@ Internal syntheses, landscape overviews, strategy documents, and architecture bl
 
 | Title | Speaker | Date | Relevance | Key Insight |
 |-------|---------|------|-----------|-------------|
-| *No entries yet* | | | | |
+| [Fireside Chat: Claude Code, AI Development](./talks/2026-03/sid-anthropic-fireside-chat-claude-code.md) | Sid (Anthropic) | 2026-03 | 9/10 | Skills + MCP = everything; adversarial review agents; plan mode as highest-ROI practice; quick remediation > proactive prevention |
+| [Lightning Talk: Building Production Agents — Lessons from Cleric](./talks/2026-03/aaron-cleric-building-production-agents.md) | Aaron Ahmed (Cleric) | 2026-03-08 | 8/10 | Persist/compound/visible correction loop + ambient learning = the learning agent trifecta |
+| [Lightning Talk: Agent Infrastructure Challenges](./talks/2026-03/milan-simgrip-agent-infrastructure-challenges.md) | Milan Williams (Semgrep) | 2026-03-08 | 7/10 | Three practical agent security tips: downscope tokens, hook-based audit logging, deterministic code scanning |
+| [Lightning Talk: How to Productionize Sub-Agents for LM Post-Training](./talks/2026-03/fay-productionize-subagents-post-training.md) | Fay (Pinterest) | 2026-03-08 | 7/10 | Sub-agents beat swarms for ML post-training; "Tool Calling 2.0" cuts tokens 50-70%; hot celebrity problem validates coordination overhead concerns |
+| [SWEBench Pro — Evolving Coding Agent Benchmarks](./talks/2026-03/swebench-pro-evolving-coding-agent-benchmarks.md) | Jiannis Hood (Scale AI) | 2026-03-08 | 7/10 | Issue resolution is only 25% of SE work; new multi-stage benchmark for understanding, validation, and improvement of real codebases |
+
+| [Lightning Talk: Choosing the Right Model for Coding Agents](./talks/2026-03/ash-choosing-right-model-coding-agents.md) | Ash (Fino Labs) | 2026-03-08 | 5/10 | Deploy open-source models first, fine-tune from inference logs; partition usage across task-specific model instances |
+| [Agent Orchestration — Running Multiple Agents at Scale](./talks/2026-03/zach-lloyd-agent-orchestration-at-scale.md) | Zach Lloyd (Warp) | 2026-03-08 | 9/10 | Five cloud orchestration primitives (environments, hosting, tracking, handoff, programmability); Oz as "Vercel for cloud agents" |
+| [Evals for Coding Agents — What They Are, Why They Matter](./talks/2026-03/jess-braintrust-evals-for-coding-agents.md) | Jess (BrainTrust) | 2026-03-08 | 8/10 | Four-part eval framework (dataset/task/scorer/experiment); agentic search beats vector search for code bugs — more accurate and cheaper due to "connective tissue" advantage |
+| [The Orchestration Stack for Observable, Debuggable, and Durable Agents](./talks/2026-03/neils-orchestration-stack-observable-debuggable-durable-agents.md) | Neils Bentilan (Union / Flyte) | 2026-03-08 | 8/10 | Replay logs + global caching + infrastructure-as-context = self-healing agents; Dragonfly case study: 250K products, 2000+ concurrent runs |
+
+---
+
+| [AI-Driven Development Transformation at Kilo](./talks/2026-03/scott-kilo-ai-driven-dev-transformation.md) | Scott (Kilo) | 2026-03 | 8/10 | Trust Ladder (autocomplete->chat->agent->orchestration); anti-collaboration + N=1 ownership; 80% thinking / 20% coding shift; model routing by task type |
+| [Infrastructure for Coding Agents at Scale — MCPs and Beyond](./talks/2026-03/infrastructure-for-coding-agents-at-scale.md) | Ankit Mathur (Databricks) | 2026-03-08 | 8/10 | "Agent sprawl" solved via Coding Agent Gateway; MCP token governance; code review = #1 bottleneck at 2K+ engineers |
+| [General Purpose Agents — The Agent Harness and Tool Runtime](./talks/2026-03/general-purpose-agents-harness-tool-runtime.md) | Harrison Chase (LangChain) & Sam Partee (Arcade.dev) | 2026-03-08 | 9/10 | Harness + tool runtime = general purpose agent; delegated agent authorization (subset tokens per user/service/action); virtual FS for remote agents; agent identity as emerging paradigm |
+| [Community Unconference — Agent Tools, Workflows & Best Practices](./talks/2026-03/community-unconference-agent-tools-workflows.md) | Various (Rob, Raphael, Josh, Yari, Chad, Tevia, Jeremy, Kareem) | 2026-03-08 | 9/10 | Plan.md over plan mode; hooks as enforcement layer; screenshot-based visual QA via Playwright diffs; skills as latent-space priming; three-layer memory; critique-revise loops |
+| [RPI to CRISPY — Reliable Process for High-Complexity Brownfield Agent Tasks](./talks/2026-03/dex-rpi-crispy-brownfield-agents.md) | Dex / James (HumanLayer) | 2026-03-08 | 9/10 | RPI evolved to 7-phase CRISPY; instruction budget ceiling ~150-200; "don't read plans, read code"; vertical plans beat horizontal; design discussion = highest-leverage review point |
 
 ---
 

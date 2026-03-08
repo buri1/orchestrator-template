@@ -1,0 +1,424 @@
+# Talk: Lightning Talk: Addressing Data Representation Bias in AI Agents
+# Speaker: Fay
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 04:35:12 - 04:44:21
+# Lines: 417
+
+[04:35:12] here. Okay, perfect. Hi everyone. Good
+[04:35:12] here. Okay, perfect. Hi everyone. Good afternoon. Um, my name is Fay. Welcome
+[04:35:15] afternoon. Um, my name is Fay. Welcome
+[04:35:15] afternoon. Um, my name is Fay. Welcome to the lightning talk. How to
+[04:35:17] to the lightning talk. How to
+[04:35:17] to the lightning talk. How to productionize a sub agents for LM post
+[04:35:20] productionize a sub agents for LM post
+[04:35:20] productionize a sub agents for LM post training. Uh, I'm a tech lead at
+[04:35:22] training. Uh, I'm a tech lead at
+[04:35:22] training. Uh, I'm a tech lead at Pinterest growth AI applications. Uh,
+[04:35:24] Pinterest growth AI applications. Uh,
+[04:35:24] Pinterest growth AI applications. Uh, excited to be here with you all today.
+[04:35:26] excited to be here with you all today.
+[04:35:26] excited to be here with you all today. Um so as we know that the uh clock code
+[04:35:29] Um so as we know that the uh clock code
+[04:35:29] Um so as we know that the uh clock code or any code genen tool has accelerated
+[04:35:31] or any code genen tool has accelerated
+[04:35:32] or any code genen tool has accelerated the software development from zero to
+[04:35:34] the software development from zero to
+[04:35:34] the software development from zero to production ready in a matter of days.
+[04:35:37] production ready in a matter of days.
+[04:35:37] production ready in a matter of days. But how about machine learning and AI
+[04:35:38] But how about machine learning and AI
+[04:35:38] But how about machine learning and AI engineering? What does the model
+[04:35:40] engineering? What does the model
+[04:35:40] engineering? What does the model training now looks like? Because no
+[04:35:43] training now looks like? Because no
+[04:35:43] training now looks like? Because no matter what you're building is if it's a
+[04:35:45] matter what you're building is if it's a
+[04:35:45] matter what you're building is if it's a agentic CRM tool or threat hunting
+[04:35:48] agentic CRM tool or threat hunting
+[04:35:48] agentic CRM tool or threat hunting security products, you want your model
+[04:35:50] security products, you want your model
+[04:35:50] security products, you want your model to be a line of what's what we called
+[04:35:52] to be a line of what's what we called
+[04:35:52] to be a line of what's what we called good meaning the right reasoning, the
+[04:35:55] good meaning the right reasoning, the
+[04:35:55] good meaning the right reasoning, the right time for tool calling and the
+[04:35:57] right time for tool calling and the
+[04:35:57] right time for tool calling and the right persona to answer a customer's
+[04:35:59] right persona to answer a customer's
+[04:35:59] right persona to answer a customer's question. So before clock code, we call
+[04:36:02] question. So before clock code, we call
+[04:36:02] question. So before clock code, we call it BC, um our model training process
+[04:36:06] it BC, um our model training process
+[04:36:06] it BC, um our model training process looks like this. It's a giant linear
+[04:36:09] looks like this. It's a giant linear
+[04:36:09] looks like this. It's a giant linear process where you first define what's
+[04:36:11] process where you first define what's
+[04:36:11] process where you first define what's your data look like with cleaning JSON
+[04:36:14] your data look like with cleaning JSON
+[04:36:14] your data look like with cleaning JSON parquit and then download your hugging
+[04:36:16] parquit and then download your hugging
+[04:36:16] parquit and then download your hugging face models with hyperparameters
+[04:36:19] face models with hyperparameters
+[04:36:19] face models with hyperparameters choosing your Laura Qura full
+[04:36:21] choosing your Laura Qura full
+[04:36:21] choosing your Laura Qura full fine-tuning process and define your loss
+[04:36:23] fine-tuning process and define your loss
+[04:36:23] fine-tuning process and define your loss function and reward config and then you
+[04:36:26] function and reward config and then you
+[04:36:26] function and reward config and then you start the big eval development uh
+[04:36:29] start the big eval development uh
+[04:36:29] start the big eval development uh restart loop and once you have
+[04:36:32] restart loop and once you have
+[04:36:32] restart loop and once you have productionized your model oftent time
+[04:36:34] productionized your model oftent time
+[04:36:34] productionized your model oftent time you get user preference data and you use
+[04:36:37] you get user preference data and you use
+[04:36:37] you get user preference data and you use uh reinforcement learning for DPO PO
+[04:36:39] uh reinforcement learning for DPO PO
+[04:36:39] uh reinforcement learning for DPO PO type of training. So all of that is
+[04:36:41] type of training. So all of that is
+[04:36:42] type of training. So all of that is incredibly
+[04:36:43] incredibly
+[04:36:43] incredibly manual and takes four to six weeks.
+[04:36:47] manual and takes four to six weeks.
+[04:36:47] manual and takes four to six weeks. Now introducing our new workflow which
+[04:36:49] Now introducing our new workflow which
+[04:36:49] Now introducing our new workflow which just takes about a week uh using claw
+[04:36:52] just takes about a week uh using claw
+[04:36:52] just takes about a week uh using claw code. Uh we effectively break down the
+[04:36:55] code. Uh we effectively break down the
+[04:36:55] code. Uh we effectively break down the model generation of the training data
+[04:36:58] model generation of the training data
+[04:36:58] model generation of the training data using claw code SQL injection and also
+[04:37:01] using claw code SQL injection and also
+[04:37:01] using claw code SQL injection and also training parameters. um and all of that
+[04:37:05] training parameters. um and all of that
+[04:37:05] training parameters. um and all of that task has been paralyzed using sub agent
+[04:37:08] task has been paralyzed using sub agent
+[04:37:08] task has been paralyzed using sub agent structure. Now for full transparency we
+[04:37:11] structure. Now for full transparency we
+[04:37:11] structure. Now for full transparency we did explore other agent architect as
+[04:37:13] did explore other agent architect as
+[04:37:13] did explore other agent architect as well. So right now uh off the box claude
+[04:37:17] well. So right now uh off the box claude
+[04:37:17] well. So right now uh off the box claude does support sub aents and agent teams
+[04:37:20] does support sub aents and agent teams
+[04:37:20] does support sub aents and agent teams also known as agent swarms. Uh the
+[04:37:23] also known as agent swarms. Uh the
+[04:37:23] also known as agent swarms. Uh the biggest difference is for sub agents you
+[04:37:25] biggest difference is for sub agents you
+[04:37:25] biggest difference is for sub agents you essentially communicate with the sub
+[04:37:27] essentially communicate with the sub
+[04:37:27] essentially communicate with the sub agents only via your main agent and you
+[04:37:31] agents only via your main agent and you
+[04:37:31] agents only via your main agent and you report back once the task is done. But
+[04:37:33] report back once the task is done. But
+[04:37:33] report back once the task is done. But for the swarm mode uh the agents share a
+[04:37:36] for the swarm mode uh the agents share a
+[04:37:36] for the swarm mode uh the agents share a task list and then each teammate
+[04:37:39] task list and then each teammate
+[04:37:39] task list and then each teammate communicate with each other and uh check
+[04:37:41] communicate with each other and uh check
+[04:37:41] communicate with each other and uh check each other work until you move to the
+[04:37:43] each other work until you move to the
+[04:37:43] each other work until you move to the next stage. So one might say hey the
+[04:37:46] next stage. So one might say hey the
+[04:37:46] next stage. So one might say hey the second method works better right because
+[04:37:48] second method works better right because
+[04:37:48] second method works better right because it sounds way more advanced but not
+[04:37:50] it sounds way more advanced but not
+[04:37:50] it sounds way more advanced but not necessarily true for model p post
+[04:37:53] necessarily true for model p post
+[04:37:53] necessarily true for model p post training. This is because we quickly
+[04:37:55] training. This is because we quickly
+[04:37:55] training. This is because we quickly find out two bottlenecks. Number one is
+[04:37:57] find out two bottlenecks. Number one is
+[04:37:57] find out two bottlenecks. Number one is context limitation. As you imagine each
+[04:38:00] context limitation. As you imagine each
+[04:38:00] context limitation. As you imagine each model keep giving other models the
+[04:38:02] model keep giving other models the
+[04:38:02] model keep giving other models the results of its own task and the context
+[04:38:05] results of its own task and the context
+[04:38:05] results of its own task and the context window quickly expand exponentially. And
+[04:38:08] window quickly expand exponentially. And
+[04:38:08] window quickly expand exponentially. And number two is the rigidness of the
+[04:38:10] number two is the rigidness of the
+[04:38:10] number two is the rigidness of the orchestration. So right now claw code
+[04:38:13] orchestration. So right now claw code
+[04:38:13] orchestration. So right now claw code doesn't support a dynamic scaling
+[04:38:15] doesn't support a dynamic scaling
+[04:38:16] doesn't support a dynamic scaling meaning you will quickly run into what
+[04:38:17] meaning you will quickly run into what
+[04:38:18] meaning you will quickly run into what we call the hot celebrity problem in
+[04:38:19] we call the hot celebrity problem in
+[04:38:20] we call the hot celebrity problem in system design where one of the agents
+[04:38:22] system design where one of the agents
+[04:38:22] system design where one of the agents become incredibly busy and bottled down
+[04:38:24] become incredibly busy and bottled down
+[04:38:24] become incredibly busy and bottled down with a task and there's no way to easily
+[04:38:27] with a task and there's no way to easily
+[04:38:27] with a task and there's no way to easily scale sub agents among that. Um, so we
+[04:38:31] scale sub agents among that. Um, so we
+[04:38:31] scale sub agents among that. Um, so we started our journey with a sub aent
+[04:38:32] started our journey with a sub aent
+[04:38:32] started our journey with a sub aent structure. And for a side note, if Opus
+[04:38:36] structure. And for a side note, if Opus
+[04:38:36] structure. And for a side note, if Opus is way too expensive, I would highly
+[04:38:38] is way too expensive, I would highly
+[04:38:38] is way too expensive, I would highly recommend Mini Max 2.5. It's a fraction
+[04:38:40] recommend Mini Max 2.5. It's a fraction
+[04:38:40] recommend Mini Max 2.5. It's a fraction of the cost of 27 uh cents on the dollar
+[04:38:45] of the cost of 27 uh cents on the dollar
+[04:38:45] of the cost of 27 uh cents on the dollar here. And also it's trained on PRL
+[04:38:49] here. And also it's trained on PRL
+[04:38:49] here. And also it's trained on PRL uh preferency alignment reinforcement
+[04:38:51] uh preferency alignment reinforcement
+[04:38:51] uh preferency alignment reinforcement learning. It essentially kind of solved
+[04:38:53] learning. It essentially kind of solved
+[04:38:53] learning. It essentially kind of solved the second problem of the swarm agent
+[04:38:55] the second problem of the swarm agent
+[04:38:55] the second problem of the swarm agent from Claude. it knows when to
+[04:38:57] from Claude. it knows when to
+[04:38:57] from Claude. it knows when to dynamically scale your sub agent when it
+[04:39:00] dynamically scale your sub agent when it
+[04:39:00] dynamically scale your sub agent when it needs to.
+[04:39:02] needs to.
+[04:39:02] needs to. Um so in production we also quickly
+[04:39:05] Um so in production we also quickly
+[04:39:05] Um so in production we also quickly realized there are a few patterns that
+[04:39:07] realized there are a few patterns that
+[04:39:07] realized there are a few patterns that uh coding agent for post training often
+[04:39:09] uh coding agent for post training often
+[04:39:09] uh coding agent for post training often fail. Um number one it's spec drift
+[04:39:12] fail. Um number one it's spec drift
+[04:39:12] fail. Um number one it's spec drift meaning throughout the iteration of
+[04:39:14] meaning throughout the iteration of
+[04:39:14] meaning throughout the iteration of training eval redo the model main
+[04:39:17] training eval redo the model main
+[04:39:17] training eval redo the model main framework often forget what the success
+[04:39:19] framework often forget what the success
+[04:39:20] framework often forget what the success metrics looks like and the second is
+[04:39:22] metrics looks like and the second is
+[04:39:22] metrics looks like and the second is data distribution. Arguably this is the
+[04:39:25] data distribution. Arguably this is the
+[04:39:25] data distribution. Arguably this is the biggest bottleneck to the success
+[04:39:27] biggest bottleneck to the success
+[04:39:27] biggest bottleneck to the success training of the model where you have
+[04:39:29] training of the model where you have
+[04:39:30] training of the model where you have very une data representation bias and
+[04:39:33] very une data representation bias and
+[04:39:33] very une data representation bias and that's what leads to a training training
+[04:39:36] that's what leads to a training training
+[04:39:36] that's what leads to a training training and loss uh graph over here. Um and the
+[04:39:40] and loss uh graph over here. Um and the
+[04:39:40] and loss uh graph over here. Um and the third is memory collapse. uh once you
+[04:39:42] third is memory collapse. uh once you
+[04:39:42] third is memory collapse. uh once you started to train your models after 20 30
+[04:39:45] started to train your models after 20 30
+[04:39:45] started to train your models after 20 30 to 100 epochs u the model essentially
+[04:39:48] to 100 epochs u the model essentially
+[04:39:48] to 100 epochs u the model essentially forgot how to get the right memory
+[04:39:51] forgot how to get the right memory
+[04:39:51] forgot how to get the right memory config from previous time and they
+[04:39:53] config from previous time and they
+[04:39:53] config from previous time and they started to hallucinate um and lastly
+[04:39:56] started to hallucinate um and lastly
+[04:39:56] started to hallucinate um and lastly tool misuse uh this has become less a
+[04:39:59] tool misuse uh this has become less a
+[04:39:59] tool misuse uh this has become less a problem I think this year just because
+[04:40:01] problem I think this year just because
+[04:40:01] problem I think this year just because as industries ourselves we learn how to
+[04:40:04] as industries ourselves we learn how to
+[04:40:04] as industries ourselves we learn how to better define tool use for agents but
+[04:40:06] better define tool use for agents but
+[04:40:06] better define tool use for agents but it's still something to watch out for
+[04:40:10] it's still something to watch out for
+[04:40:10] it's still something to watch out for um I wanted to provide some fixes that
+[04:40:12] um I wanted to provide some fixes that
+[04:40:12] um I wanted to provide some fixes that have improved the post training
+[04:40:14] have improved the post training
+[04:40:14] have improved the post training mechanism. Uh number one is reinforced
+[04:40:17] mechanism. Uh number one is reinforced
+[04:40:17] mechanism. Uh number one is reinforced the agent orchestration with agent SDK.
+[04:40:20] the agent orchestration with agent SDK.
+[04:40:20] the agent orchestration with agent SDK. Uh the agent SDK from is open-source
+[04:40:23] Uh the agent SDK from is open-source
+[04:40:23] Uh the agent SDK from is open-source agent orchestration tool. You're
+[04:40:25] agent orchestration tool. You're
+[04:40:25] agent orchestration tool. You're essentially can define your full loop uh
+[04:40:28] essentially can define your full loop uh
+[04:40:28] essentially can define your full loop uh beyond just the graph that chains. It
+[04:40:30] beyond just the graph that chains. It
+[04:40:30] beyond just the graph that chains. It also have the nice hook mechanism where
+[04:40:33] also have the nice hook mechanism where
+[04:40:33] also have the nice hook mechanism where you can gate each model output from your
+[04:40:36] you can gate each model output from your
+[04:40:36] you can gate each model output from your agents as a machine readable artifact.
+[04:40:39] agents as a machine readable artifact.
+[04:40:39] agents as a machine readable artifact. For example, for our data processing, we
+[04:40:41] For example, for our data processing, we
+[04:40:41] For example, for our data processing, we will have agents write their own data
+[04:40:43] will have agents write their own data
+[04:40:43] will have agents write their own data set report the representation of each
+[04:40:46] set report the representation of each
+[04:40:46] set report the representation of each country, each user and etc. Um and uh in
+[04:40:51] country, each user and etc. Um and uh in
+[04:40:51] country, each user and etc. Um and uh in the end we also have gated decision to
+[04:40:53] the end we also have gated decision to
+[04:40:53] the end we also have gated decision to reject or ship instead of doing the
+[04:40:55] reject or ship instead of doing the
+[04:40:55] reject or ship instead of doing the linear process that we previous have. Um
+[04:40:58] linear process that we previous have. Um
+[04:40:58] linear process that we previous have. Um the two tip I want to quickly share here
+[04:41:01] the two tip I want to quickly share here
+[04:41:01] the two tip I want to quickly share here number one is the structured skills.md.
+[04:41:05] number one is the structured skills.md.
+[04:41:05] number one is the structured skills.md. Now we moved from a natural language
+[04:41:08] Now we moved from a natural language
+[04:41:08] Now we moved from a natural language style MD to more structured uh
+[04:41:11] style MD to more structured uh
+[04:41:11] style MD to more structured uh perspective. This is because we quickly
+[04:41:13] perspective. This is because we quickly
+[04:41:13] perspective. This is because we quickly realized the better instruction you give
+[04:41:15] realized the better instruction you give
+[04:41:15] realized the better instruction you give the agent itself. For example, you want
+[04:41:17] the agent itself. For example, you want
+[04:41:17] the agent itself. For example, you want to kick start on the hyperparameter that
+[04:41:19] to kick start on the hyperparameter that
+[04:41:19] to kick start on the hyperparameter that you want to choose uh the better the
+[04:41:21] you want to choose uh the better the
+[04:41:21] you want to choose uh the better the agent align with the process. Um and if
+[04:41:24] agent align with the process. Um and if
+[04:41:24] agent align with the process. Um and if you don't know where to start, I highly
+[04:41:26] you don't know where to start, I highly
+[04:41:26] you don't know where to start, I highly recommend the MS model that is open
+[04:41:29] recommend the MS model that is open
+[04:41:29] recommend the MS model that is open source to teach agents how to train your
+[04:41:31] source to teach agents how to train your
+[04:41:31] source to teach agents how to train your LMS. Um and the second big get unlock we
+[04:41:35] LMS. Um and the second big get unlock we
+[04:41:36] LMS. Um and the second big get unlock we see is actually implementing what we
+[04:41:38] see is actually implementing what we
+[04:41:38] see is actually implementing what we call the uh two calling 2.0 two calling
+[04:41:41] call the uh two calling 2.0 two calling
+[04:41:41] call the uh two calling 2.0 two calling 2.0 uh essentially instead of giving
+[04:41:44] 2.0 uh essentially instead of giving
+[04:41:44] 2.0 uh essentially instead of giving agent just back and forth information.
+[04:41:46] agent just back and forth information.
+[04:41:46] agent just back and forth information. How is the data looking? Is it not good
+[04:41:48] How is the data looking? Is it not good
+[04:41:48] How is the data looking? Is it not good enough? Let me redo it. We essentially
+[04:41:51] enough? Let me redo it. We essentially
+[04:41:51] enough? Let me redo it. We essentially giving the agent capability to write its
+[04:41:53] giving the agent capability to write its
+[04:41:53] giving the agent capability to write its own code to solve its question. So the
+[04:41:55] own code to solve its question. So the
+[04:41:56] own code to solve its question. So the traditional path looks like this. You
+[04:41:58] traditional path looks like this. You
+[04:41:58] traditional path looks like this. You have five requests, five response, but
+[04:42:00] have five requests, five response, but
+[04:42:00] have five requests, five response, but just letting agent handle you one
+[04:42:02] just letting agent handle you one
+[04:42:02] just letting agent handle you one response with the script and then have
+[04:42:04] response with the script and then have
+[04:42:04] response with the script and then have the loop until it checks its own work
+[04:42:07] the loop until it checks its own work
+[04:42:07] the loop until it checks its own work drastically reduce 70 to 50% of the
+[04:42:10] drastically reduce 70 to 50% of the
+[04:42:10] drastically reduce 70 to 50% of the token consumption.
+[04:42:15] Now tips number two is customize your
+[04:42:17] Now tips number two is customize your agent memory. uh we all know how the
+[04:42:19] agent memory. uh we all know how the
+[04:42:20] agent memory. uh we all know how the clock code SDK agent memory work where
+[04:42:22] clock code SDK agent memory work where
+[04:42:22] clock code SDK agent memory work where you have the procedural memory and your
+[04:42:24] you have the procedural memory and your
+[04:42:24] you have the procedural memory and your MD and also the episodic memory for each
+[04:42:27] MD and also the episodic memory for each
+[04:42:27] MD and also the episodic memory for each training episode. So what we did
+[04:42:29] training episode. So what we did
+[04:42:29] training episode. So what we did differently is because not all the
+[04:42:31] differently is because not all the
+[04:42:31] differently is because not all the training log is helpful for us. We
+[04:42:34] training log is helpful for us. We
+[04:42:34] training log is helpful for us. We developed our own memory API tool
+[04:42:36] developed our own memory API tool
+[04:42:36] developed our own memory API tool meaning we add our own pruning and
+[04:42:39] meaning we add our own pruning and
+[04:42:39] meaning we add our own pruning and compression logic on the server side to
+[04:42:41] compression logic on the server side to
+[04:42:41] compression logic on the server side to decide what is useful to store and then
+[04:42:44] decide what is useful to store and then
+[04:42:44] decide what is useful to store and then we also put a very lightweight reward
+[04:42:46] we also put a very lightweight reward
+[04:42:46] we also put a very lightweight reward model for the agents of what kind of
+[04:42:48] model for the agents of what kind of
+[04:42:48] model for the agents of what kind of memory gets written here. Now I do want
+[04:42:51] memory gets written here. Now I do want
+[04:42:51] memory gets written here. Now I do want to claim that it is working in our
+[04:42:53] to claim that it is working in our
+[04:42:53] to claim that it is working in our production now but very likely in the
+[04:42:56] production now but very likely in the
+[04:42:56] production now but very likely in the next three to six months this is going
+[04:42:58] next three to six months this is going
+[04:42:58] next three to six months this is going to become tech debt. It depends on how
+[04:43:00] to become tech debt. It depends on how
+[04:43:00] to become tech debt. It depends on how fast our agent evolves.
+[04:43:03] fast our agent evolves.
+[04:43:03] fast our agent evolves. Um and in the end I want to leave you
+[04:43:05] Um and in the end I want to leave you
+[04:43:05] Um and in the end I want to leave you all like kind of an open question
+[04:43:06] all like kind of an open question
+[04:43:06] all like kind of an open question thought what happens for long horizon
+[04:43:09] thought what happens for long horizon
+[04:43:09] thought what happens for long horizon development memory. Um without long
+[04:43:13] development memory. Um without long
+[04:43:13] development memory. Um without long horizon memory uh model often collapse
+[04:43:16] horizon memory uh model often collapse
+[04:43:16] horizon memory uh model often collapse and then we see beyond clock code what
+[04:43:18] and then we see beyond clock code what
+[04:43:18] and then we see beyond clock code what cursor is doing right now it's
+[04:43:20] cursor is doing right now it's
+[04:43:20] cursor is doing right now it's essentially using a hybrid retrieval
+[04:43:22] essentially using a hybrid retrieval
+[04:43:22] essentially using a hybrid retrieval semantic search uh and also compile its
+[04:43:26] semantic search uh and also compile its
+[04:43:26] semantic search uh and also compile its uh constant constant reinct memory via
+[04:43:29] uh constant constant reinct memory via
+[04:43:29] uh constant constant reinct memory via Merkel tree uh which is the backbone of
+[04:43:31] Merkel tree uh which is the backbone of
+[04:43:31] Merkel tree uh which is the backbone of how cryptocurrency for example Ethereum
+[04:43:34] how cryptocurrency for example Ethereum
+[04:43:34] how cryptocurrency for example Ethereum is is created um and also for open
+[04:43:37] is is created um and also for open
+[04:43:37] is is created um and also for open source tool leta uh it's essentially
+[04:43:39] source tool leta uh it's essentially
+[04:43:39] source tool leta uh it's essentially using the agent a blocked memory from
+[04:43:42] using the agent a blocked memory from
+[04:43:42] using the agent a blocked memory from archive retrieval and also on top of
+[04:43:44] archive retrieval and also on top of
+[04:43:44] archive retrieval and also on top of vector database. So the two papers I
+[04:43:47] vector database. So the two papers I
+[04:43:47] vector database. So the two papers I read this month I thought it was quite
+[04:43:48] read this month I thought it was quite
+[04:43:48] read this month I thought it was quite interesting is number one essentially
+[04:43:51] interesting is number one essentially
+[04:43:51] interesting is number one essentially treat memory as a learned memory uh with
+[04:43:53] treat memory as a learned memory uh with
+[04:43:53] treat memory as a learned memory uh with the agent and answer using PO and how to
+[04:43:57] the agent and answer using PO and how to
+[04:43:57] the agent and answer using PO and how to answer using gRPO. Uh and then very
+[04:44:00] answer using gRPO. Uh and then very
+[04:44:00] answer using gRPO. Uh and then very lastly a very interesting deep dive on
+[04:44:02] lastly a very interesting deep dive on
+[04:44:02] lastly a very interesting deep dive on infraite where this paper uh condensed
+[04:44:05] infraite where this paper uh condensed
+[04:44:05] infraite where this paper uh condensed the memory into hot domain and cold
+[04:44:08] the memory into hot domain and cold
+[04:44:08] the memory into hot domain and cold storage via MCP. So thank you for the
+[04:44:12] storage via MCP. So thank you for the
+[04:44:12] storage via MCP. So thank you for the time and I'll be down there if anyone
+[04:44:14] time and I'll be down there if anyone
+[04:44:14] time and I'll be down there if anyone has any question.
+[04:44:21] Thank you so much Fay. Next we have

@@ -1,0 +1,286 @@
+# Talk: Lightning Talk: Choosing the Right Model for Coding Agents
+# Speaker: Ash
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 05:07:22 - 05:12:21
+# Lines: 279
+
+[05:07:22] &gt;&gt; Hey everyone. Um
+[05:07:22] &gt;&gt; Hey everyone. Um uh so yeah, what I'm going to talk today
+[05:07:25] uh so yeah, what I'm going to talk today
+[05:07:25] uh so yeah, what I'm going to talk today um about is choosing the right model.
+[05:07:27] um about is choosing the right model.
+[05:07:27] um about is choosing the right model. It's a really hard thing to do. Um and
+[05:07:30] It's a really hard thing to do. Um and
+[05:07:30] It's a really hard thing to do. Um and then once it's in production,
+[05:07:31] then once it's in production,
+[05:07:31] then once it's in production, maintaining the model accuracy is even
+[05:07:33] maintaining the model accuracy is even
+[05:07:33] maintaining the model accuracy is even harder. Um so I'm the founder and CEO of
+[05:07:36] harder. Um so I'm the founder and CEO of
+[05:07:36] harder. Um so I'm the founder and CEO of Fino Labs. We work on a product called
+[05:07:37] Fino Labs. We work on a product called
+[05:07:37] Fino Labs. We work on a product called Pioneer. Um and my company before this
+[05:07:40] Pioneer. Um and my company before this
+[05:07:40] Pioneer. Um and my company before this was a company called Dev GPT, which um
+[05:07:43] was a company called Dev GPT, which um
+[05:07:43] was a company called Dev GPT, which um which we were using GPT3 for that for
+[05:07:46] which we were using GPT3 for that for
+[05:07:46] which we were using GPT3 for that for that dev agent. Um it went viral which
+[05:07:49] that dev agent. Um it went viral which
+[05:07:49] that dev agent. Um it went viral which was great but then we spent $2 million
+[05:07:51] was great but then we spent $2 million
+[05:07:51] was great but then we spent $2 million on OpenAI's system which wasn't so
+[05:07:53] on OpenAI's system which wasn't so
+[05:07:53] on OpenAI's system which wasn't so great. Um but we learned a lot of
+[05:07:55] great. Um but we learned a lot of
+[05:07:55] great. Um but we learned a lot of lessons about building agents. So we put
+[05:07:57] lessons about building agents. So we put
+[05:07:57] lessons about building agents. So we put this company together. We're based just
+[05:07:58] this company together. We're based just
+[05:07:58] this company together. We're based just down the road in Palo Alto. Most of us
+[05:08:01] down the road in Palo Alto. Most of us
+[05:08:01] down the road in Palo Alto. Most of us are exh Stanford, Google Deep Mind and
+[05:08:03] are exh Stanford, Google Deep Mind and
+[05:08:03] are exh Stanford, Google Deep Mind and Apple. And yeah, we're fixing this
+[05:08:04] Apple. And yeah, we're fixing this
+[05:08:04] Apple. And yeah, we're fixing this problem of how do you actually put small
+[05:08:06] problem of how do you actually put small
+[05:08:06] problem of how do you actually put small models into agents. Um so first of all
+[05:08:09] models into agents. Um so first of all
+[05:08:09] models into agents. Um so first of all the reason why this is a difficult
+[05:08:11] the reason why this is a difficult
+[05:08:11] the reason why this is a difficult problem is you know there's lots of new
+[05:08:12] problem is you know there's lots of new
+[05:08:12] problem is you know there's lots of new models that gets released. we don't
+[05:08:14] models that gets released. we don't
+[05:08:14] models that gets released. we don't really know which which model is best
+[05:08:15] really know which which model is best
+[05:08:15] really know which which model is best for which thing and actually that
+[05:08:17] for which thing and actually that
+[05:08:17] for which thing and actually that changes really often as well. So we
+[05:08:20] changes really often as well. So we
+[05:08:20] changes really often as well. So we don't really know you know next week
+[05:08:22] don't really know you know next week
+[05:08:22] don't really know you know next week which which model will be
+[05:08:23] which which model will be
+[05:08:23] which which model will be state-of-the-art for a specific task and
+[05:08:25] state-of-the-art for a specific task and
+[05:08:25] state-of-the-art for a specific task and because of the way benchmarking works
+[05:08:26] because of the way benchmarking works
+[05:08:26] because of the way benchmarking works actually something that's for example
+[05:08:28] actually something that's for example
+[05:08:28] actually something that's for example good at coding might not be good at your
+[05:08:30] good at coding might not be good at your
+[05:08:30] good at coding might not be good at your very specific type of coding. Um so
+[05:08:34] very specific type of coding. Um so
+[05:08:34] very specific type of coding. Um so other than that it's really hard to
+[05:08:35] other than that it's really hard to
+[05:08:35] other than that it's really hard to actually fine-tune these models not
+[05:08:37] actually fine-tune these models not
+[05:08:37] actually fine-tune these models not because it's necessarily difficult to do
+[05:08:38] because it's necessarily difficult to do
+[05:08:38] because it's necessarily difficult to do but because it's time consuming. um it's
+[05:08:41] but because it's time consuming. um it's
+[05:08:41] but because it's time consuming. um it's very difficult to get the data to
+[05:08:42] very difficult to get the data to
+[05:08:42] very difficult to get the data to fine-tune the models um which it turns
+[05:08:45] fine-tune the models um which it turns
+[05:08:45] fine-tune the models um which it turns out you have that data it's in your
+[05:08:46] out you have that data it's in your
+[05:08:46] out you have that data it's in your inference logs but we just don't get it
+[05:08:48] inference logs but we just don't get it
+[05:08:48] inference logs but we just don't get it from the LLM providers and then what's
+[05:08:50] from the LLM providers and then what's
+[05:08:50] from the LLM providers and then what's even harder which again we have through
+[05:08:52] even harder which again we have through
+[05:08:52] even harder which again we have through inference is uh is to evaluate the model
+[05:08:54] inference is uh is to evaluate the model
+[05:08:54] inference is uh is to evaluate the model you know actually how how good is the
+[05:08:56] you know actually how how good is the
+[05:08:56] you know actually how how good is the small model at your task um so uh we've
+[05:09:00] small model at your task um so uh we've
+[05:09:00] small model at your task um so uh we've we're kind of we've put together a
+[05:09:01] we're kind of we've put together a
+[05:09:01] we're kind of we've put together a solution for this called pioneer which
+[05:09:03] solution for this called pioneer which
+[05:09:03] solution for this called pioneer which is coming out in a few weeks time it's
+[05:09:04] is coming out in a few weeks time it's
+[05:09:04] is coming out in a few weeks time it's actually on a wait list right now um and
+[05:09:08] actually on a wait list right now um and
+[05:09:08] actually on a wait list right now um and the idea of pioneer is we think that
+[05:09:10] the idea of pioneer is we think that
+[05:09:10] the idea of pioneer is we think that deploying an open source language model
+[05:09:11] deploying an open source language model
+[05:09:11] deploying an open source language model is actually the first step as opposed to
+[05:09:13] is actually the first step as opposed to
+[05:09:14] is actually the first step as opposed to that being kind of the the final thing
+[05:09:15] that being kind of the the final thing
+[05:09:15] that being kind of the the final thing you do after fine-tuning. Um so what I
+[05:09:18] you do after fine-tuning. Um so what I
+[05:09:18] you do after fine-tuning. Um so what I mean by that is we deploy a model be it
+[05:09:20] mean by that is we deploy a model be it
+[05:09:20] mean by that is we deploy a model be it be it llama quen deep sea kim K2 and
+[05:09:24] be it llama quen deep sea kim K2 and
+[05:09:24] be it llama quen deep sea kim K2 and then we monitor the inference um from
+[05:09:26] then we monitor the inference um from
+[05:09:26] then we monitor the inference um from from that model we collect and we label
+[05:09:29] from that model we collect and we label
+[05:09:29] from that model we collect and we label that with with synthetic data we refine
+[05:09:31] that with with synthetic data we refine
+[05:09:31] that with with synthetic data we refine tune and we re reevaluate the model
+[05:09:33] tune and we re reevaluate the model
+[05:09:33] tune and we re reevaluate the model before redeploying the model. So the
+[05:09:35] before redeploying the model. So the
+[05:09:35] before redeploying the model. So the idea is is that let's say that you've
+[05:09:37] idea is is that let's say that you've
+[05:09:37] idea is is that let's say that you've put a model in place for um model
+[05:09:40] put a model in place for um model
+[05:09:40] put a model in place for um model routing or or code generation. We're
+[05:09:43] routing or or code generation. We're
+[05:09:43] routing or or code generation. We're actually going to be repeatedly doing
+[05:09:45] actually going to be repeatedly doing
+[05:09:45] actually going to be repeatedly doing experiments on the background with an
+[05:09:47] experiments on the background with an
+[05:09:47] experiments on the background with an agent that's checking can we actually
+[05:09:49] agent that's checking can we actually
+[05:09:49] agent that's checking can we actually improve what is in in in situation
+[05:09:51] improve what is in in in situation
+[05:09:51] improve what is in in in situation today. Um, and what that looks in
+[05:09:53] today. Um, and what that looks in
+[05:09:53] today. Um, and what that looks in reality is that you end up with this
+[05:09:55] reality is that you end up with this
+[05:09:55] reality is that you end up with this situation in which you've deployed llama
+[05:09:57] situation in which you've deployed llama
+[05:09:57] situation in which you've deployed llama and it's actually getting more accurate
+[05:09:58] and it's actually getting more accurate
+[05:09:58] and it's actually getting more accurate over time as opposed to the alternative
+[05:10:01] over time as opposed to the alternative
+[05:10:01] over time as opposed to the alternative which would be that because of model
+[05:10:02] which would be that because of model
+[05:10:02] which would be that because of model drift it's actually getting less
+[05:10:03] drift it's actually getting less
+[05:10:03] drift it's actually getting less accurate over time. Um, and and so so
+[05:10:07] accurate over time. Um, and and so so
+[05:10:07] accurate over time. Um, and and so so there's a couple ways best practices to
+[05:10:09] there's a couple ways best practices to
+[05:10:09] there's a couple ways best practices to make this work. And the first one is you
+[05:10:10] make this work. And the first one is you
+[05:10:10] make this work. And the first one is you need to partition your usage. So instead
+[05:10:13] need to partition your usage. So instead
+[05:10:13] need to partition your usage. So instead of you using you know clawus 4.6 six for
+[05:10:15] of you using you know clawus 4.6 six for
+[05:10:15] of you using you know clawus 4.6 six for everything. We actually say, "Okay,
+[05:10:17] everything. We actually say, "Okay,
+[05:10:17] everything. We actually say, "Okay, let's use lots of different instances of
+[05:10:19] let's use lots of different instances of
+[05:10:19] let's use lots of different instances of whichever model for lots of different
+[05:10:21] whichever model for lots of different
+[05:10:21] whichever model for lots of different things." And then we can actually
+[05:10:22] things." And then we can actually
+[05:10:22] things." And then we can actually improve all of those models um
+[05:10:24] improve all of those models um
+[05:10:24] improve all of those models um independently.
+[05:10:25] independently.
+[05:10:26] independently. Um so, so no longer do we actually
+[05:10:28] Um so, so no longer do we actually
+[05:10:28] Um so, so no longer do we actually necessarily mind which model we're
+[05:10:30] necessarily mind which model we're
+[05:10:30] necessarily mind which model we're selecting. It could be Kimmy K2, it can
+[05:10:32] selecting. It could be Kimmy K2, it can
+[05:10:32] selecting. It could be Kimmy K2, it can be llama, it can be Quen. Um it actually
+[05:10:34] be llama, it can be Quen. Um it actually
+[05:10:34] be llama, it can be Quen. Um it actually just it's just a description of the task
+[05:10:36] just it's just a description of the task
+[05:10:36] just it's just a description of the task and then you know our agent will go
+[05:10:37] and then you know our agent will go
+[05:10:38] and then you know our agent will go ahead and figure out while we're
+[05:10:39] ahead and figure out while we're
+[05:10:39] ahead and figure out while we're inferencing what what's what's actually
+[05:10:40] inferencing what what's what's actually
+[05:10:40] inferencing what what's what's actually best for the task. Um so a quick kind of
+[05:10:44] best for the task. Um so a quick kind of
+[05:10:44] best for the task. Um so a quick kind of demonstration of how this works. Um so
+[05:10:47] demonstration of how this works. Um so
+[05:10:47] demonstration of how this works. Um so you know if I was to go and ask for this
+[05:10:49] you know if I was to go and ask for this
+[05:10:49] you know if I was to go and ask for this um model that turns weather information
+[05:10:51] um model that turns weather information
+[05:10:51] um model that turns weather information into JSON blobs. Um again as a developer
+[05:10:54] into JSON blobs. Um again as a developer
+[05:10:54] into JSON blobs. Um again as a developer I have no idea which model is best for
+[05:10:56] I have no idea which model is best for
+[05:10:56] I have no idea which model is best for this. I definitely don't have time to
+[05:10:57] this. I definitely don't have time to
+[05:10:57] this. I definitely don't have time to fine-tune a bunch of models and I don't
+[05:10:59] fine-tune a bunch of models and I don't
+[05:10:59] fine-tune a bunch of models and I don't really have a benchmark for this. Um so
+[05:11:02] really have a benchmark for this. Um so
+[05:11:02] really have a benchmark for this. Um so what's going to happen is our agent's
+[05:11:03] what's going to happen is our agent's
+[05:11:03] what's going to happen is our agent's basically going to go ahead and figure
+[05:11:05] basically going to go ahead and figure
+[05:11:05] basically going to go ahead and figure out the answer to the question of which
+[05:11:06] out the answer to the question of which
+[05:11:06] out the answer to the question of which model we should be using. So in this
+[05:11:08] model we should be using. So in this
+[05:11:08] model we should be using. So in this case, as you can see at the bottom here,
+[05:11:10] case, as you can see at the bottom here,
+[05:11:10] case, as you can see at the bottom here, uh it's done experiments with Llama,
+[05:11:11] uh it's done experiments with Llama,
+[05:11:11] uh it's done experiments with Llama, Gliner, uh DeepSeek, and it's giving you
+[05:11:14] Gliner, uh DeepSeek, and it's giving you
+[05:11:14] Gliner, uh DeepSeek, and it's giving you accuracy reports for each one of those.
+[05:11:16] accuracy reports for each one of those.
+[05:11:16] accuracy reports for each one of those. Um and more importantly, what's going to
+[05:11:18] Um and more importantly, what's going to
+[05:11:18] Um and more importantly, what's going to happen is as we're inferencing, we can
+[05:11:20] happen is as we're inferencing, we can
+[05:11:20] happen is as we're inferencing, we can use all that great inference data
+[05:11:21] use all that great inference data
+[05:11:21] use all that great inference data because we know what your users are
+[05:11:22] because we know what your users are
+[05:11:22] because we know what your users are actually using the model for to improve
+[05:11:24] actually using the model for to improve
+[05:11:24] actually using the model for to improve the model's performance over time. Um
+[05:11:27] the model's performance over time. Um
+[05:11:27] the model's performance over time. Um which has an added benefit of we can
+[05:11:29] which has an added benefit of we can
+[05:11:29] which has an added benefit of we can actually reduce the cost and latency
+[05:11:30] actually reduce the cost and latency
+[05:11:30] actually reduce the cost and latency over time as well because we might be
+[05:11:32] over time as well because we might be
+[05:11:32] over time as well because we might be able to use a smaller model for the same
+[05:11:33] able to use a smaller model for the same
+[05:11:33] able to use a smaller model for the same use case. Um so here we are digging into
+[05:11:36] use case. Um so here we are digging into
+[05:11:36] use case. Um so here we are digging into the inference logs here um to actually
+[05:11:39] the inference logs here um to actually
+[05:11:39] the inference logs here um to actually see uh to see what experiments the agent
+[05:11:42] see uh to see what experiments the agent
+[05:11:42] see uh to see what experiments the agent has has ran on our behalf. Um you can
+[05:11:44] has has ran on our behalf. Um you can
+[05:11:44] has has ran on our behalf. Um you can also fine-tune models on this platform.
+[05:11:46] also fine-tune models on this platform.
+[05:11:46] also fine-tune models on this platform. On the left here we have like a caster
+[05:11:47] On the left here we have like a caster
+[05:11:48] On the left here we have like a caster style agent where you can you can
+[05:11:49] style agent where you can you can
+[05:11:49] style agent where you can you can fine-tune models for those use cases as
+[05:11:50] fine-tune models for those use cases as
+[05:11:50] fine-tune models for those use cases as well. Um yeah this this model is in uh
+[05:11:54] well. Um yeah this this model is in uh
+[05:11:54] well. Um yeah this this model is in uh sorry this this product is in private
+[05:11:56] sorry this this product is in private
+[05:11:56] sorry this this product is in private alpha right now and we're launching it
+[05:11:57] alpha right now and we're launching it
+[05:11:57] alpha right now and we're launching it in a few weeks time. So we'd uh we'd
+[05:11:59] in a few weeks time. So we'd uh we'd
+[05:11:59] in a few weeks time. So we'd uh we'd love folks to to join the wait list. Um,
+[05:12:04] love folks to to join the wait list. Um,
+[05:12:04] love folks to to join the wait list. Um, yeah, and that's about it. Got a couple
+[05:12:06] yeah, and that's about it. Got a couple
+[05:12:06] yeah, and that's about it. Got a couple minutes left for for questions.
+[05:12:10] &gt;&gt; Yeah, sorry, a little bit fast.
+[05:12:19] &gt;&gt; No questions.
+[05:12:21] &gt;&gt; No questions. &gt;&gt; Great. Thank you so much, Ash.

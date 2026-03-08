@@ -1,0 +1,1403 @@
+# Talk: The Orchestration Stack for Observable, Debuggable, and Durable Agents
+# Speaker: Neils Bentilan (Union / Flyte)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 01:40:45 - 02:10:12
+# Lines: 1396
+
+[01:40:45] going to invite up from Union, Mr.
+[01:40:45] going to invite up from Union, Mr. Nails. Where you at, dude? Here we go.
+[01:40:48] Nails. Where you at, dude? Here we go.
+[01:40:48] Nails. Where you at, dude? Here we go. Put your
+[01:40:51] Put your
+[01:40:51] Put your This is yours.
+[01:40:51] This is yours.
+[01:40:52] This is yours. &gt;&gt; I got a I got a mic here. Okay, cool.
+[01:40:56] &gt;&gt; I got a I got a mic here. Okay, cool.
+[01:40:56] &gt;&gt; I got a I got a mic here. Okay, cool. Hey, everyone.
+[01:40:58] Hey, everyone.
+[01:40:58] Hey, everyone. All right.
+[01:41:00] All right.
+[01:41:00] All right. So, I'm Neils Bentilan. I'm the chief ML
+[01:41:03] So, I'm Neils Bentilan. I'm the chief ML
+[01:41:03] So, I'm Neils Bentilan. I'm the chief ML engineer at Union. And um I've been
+[01:41:08] engineer at Union. And um I've been
+[01:41:08] engineer at Union. And um I've been building and maintaining a open- source
+[01:41:10] building and maintaining a open- source
+[01:41:10] building and maintaining a open- source ML orchestration product called Flight
+[01:41:13] ML orchestration product called Flight
+[01:41:13] ML orchestration product called Flight for the past 5 years. Um and through
+[01:41:16] for the past 5 years. Um and through
+[01:41:16] for the past 5 years. Um and through this product I've been helping uh
+[01:41:18] this product I've been helping uh
+[01:41:18] this product I've been helping uh companies like LinkedIn, Stripe, Spotify
+[01:41:21] companies like LinkedIn, Stripe, Spotify
+[01:41:21] companies like LinkedIn, Stripe, Spotify and more recently uh Mistl help and
+[01:41:24] and more recently uh Mistl help and
+[01:41:24] and more recently uh Mistl help and build and deploy production grade ML and
+[01:41:27] build and deploy production grade ML and
+[01:41:27] build and deploy production grade ML and AI systems you know from fraud detection
+[01:41:30] AI systems you know from fraud detection
+[01:41:30] AI systems you know from fraud detection to uh oh let's see oh here I am fraud
+[01:41:35] to uh oh let's see oh here I am fraud
+[01:41:35] to uh oh let's see oh here I am fraud detection to recommendation systems to
+[01:41:38] detection to recommendation systems to
+[01:41:38] detection to recommendation systems to uh LLM foundation model training systems
+[01:41:41] uh LLM foundation model training systems
+[01:41:41] uh LLM foundation model training systems I don't do the hard work I build the
+[01:41:43] I don't do the hard work I build the
+[01:41:43] I don't do the hard work I build the tools the our customers and our open
+[01:41:45] tools the our customers and our open
+[01:41:45] tools the our customers and our open source users do all the hard work to do
+[01:41:47] source users do all the hard work to do
+[01:41:47] source users do all the hard work to do all that. Um but today I want to share
+[01:41:49] all that. Um but today I want to share
+[01:41:49] all that. Um but today I want to share with you some of the lessons that I and
+[01:41:51] with you some of the lessons that I and
+[01:41:51] with you some of the lessons that I and we at Union have learned
+[01:41:54] we at Union have learned
+[01:41:54] we at Union have learned uh productionizing agentic systems um
+[01:41:59] uh productionizing agentic systems um
+[01:41:59] uh productionizing agentic systems um with with our orchestrator and in
+[01:42:01] with with our orchestrator and in
+[01:42:01] with with our orchestrator and in particular I want to tackle the question
+[01:42:03] particular I want to tackle the question
+[01:42:03] particular I want to tackle the question of what is the orchestration stack for
+[01:42:06] of what is the orchestration stack for
+[01:42:06] of what is the orchestration stack for observable debugable and durable agents
+[01:42:11] observable debugable and durable agents
+[01:42:11] observable debugable and durable agents and to tackle this story I want to take
+[01:42:13] and to tackle this story I want to take
+[01:42:13] and to tackle this story I want to take you through my agent adoption timeline.
+[01:42:16] you through my agent adoption timeline.
+[01:42:16] you through my agent adoption timeline. Uh, I guess just out of curiosity, who
+[01:42:18] Uh, I guess just out of curiosity, who
+[01:42:18] Uh, I guess just out of curiosity, who here has installed Open Claw? I I
+[01:42:20] here has installed Open Claw? I I
+[01:42:20] here has installed Open Claw? I I haven't, so I can't. Cool. Who is
+[01:42:22] haven't, so I can't. Cool. Who is
+[01:42:22] haven't, so I can't. Cool. Who is willing to install it on their company
+[01:42:24] willing to install it on their company
+[01:42:24] willing to install it on their company infrastructure?
+[01:42:27] Okay, no one. Cool. There there are the
+[01:42:29] Okay, no one. Cool. There there are the more secure versions and I know I know
+[01:42:31] more secure versions and I know I know
+[01:42:31] more secure versions and I know I know now like ZeroClaw, a few of them out
+[01:42:33] now like ZeroClaw, a few of them out
+[01:42:33] now like ZeroClaw, a few of them out there. I haven't checked them out
+[01:42:34] there. I haven't checked them out
+[01:42:34] there. I haven't checked them out personally, but basically in 2022, I
+[01:42:38] personally, but basically in 2022, I
+[01:42:38] personally, but basically in 2022, I like probably many of you made first
+[01:42:40] like probably many of you made first
+[01:42:40] like probably many of you made first contact with LLMs that have coherent
+[01:42:44] contact with LLMs that have coherent
+[01:42:44] contact with LLMs that have coherent long range text generation. And we were
+[01:42:46] long range text generation. And we were
+[01:42:46] long range text generation. And we were all like, "Oh, wow. It kind of working
+[01:42:48] all like, "Oh, wow. It kind of working
+[01:42:48] all like, "Oh, wow. It kind of working now, right?" In 2023,
+[01:42:51] now, right?" In 2023,
+[01:42:51] now, right?" In 2023, I went about sort of fine-tuning LLMs.
+[01:42:54] I went about sort of fine-tuning LLMs.
+[01:42:54] I went about sort of fine-tuning LLMs. That was a big story back then. Open
+[01:42:56] That was a big story back then. Open
+[01:42:56] That was a big story back then. Open weights models, fine-tune it on flight
+[01:42:58] weights models, fine-tune it on flight
+[01:42:58] weights models, fine-tune it on flight code, see if it can generate flight code
+[01:43:00] code, see if it can generate flight code
+[01:43:00] code, see if it can generate flight code well or any other type of DSL or subset
+[01:43:03] well or any other type of DSL or subset
+[01:43:03] well or any other type of DSL or subset of a programming language. Also started
+[01:43:05] of a programming language. Also started
+[01:43:05] of a programming language. Also started looking at rag as a system to overcome
+[01:43:09] looking at rag as a system to overcome
+[01:43:09] looking at rag as a system to overcome uh the context window problem which I
+[01:43:11] uh the context window problem which I
+[01:43:11] uh the context window problem which I guess is still a problem but you know
+[01:43:13] guess is still a problem but you know
+[01:43:13] guess is still a problem but you know now we have 1 million to token context
+[01:43:15] now we have 1 million to token context
+[01:43:15] now we have 1 million to token context window models. Um oops. Then in 2024 I
+[01:43:21] window models. Um oops. Then in 2024 I
+[01:43:21] window models. Um oops. Then in 2024 I you know just I'm not an early adopter
+[01:43:23] you know just I'm not an early adopter
+[01:43:23] you know just I'm not an early adopter in these things. I continued learning
+[01:43:25] in these things. I continued learning
+[01:43:25] in these things. I continued learning and prototyping. So lang chain had come
+[01:43:27] and prototyping. So lang chain had come
+[01:43:27] and prototyping. So lang chain had come out already. So I I tried building some
+[01:43:30] out already. So I I tried building some
+[01:43:30] out already. So I I tried building some lang chain apps for internal use cases.
+[01:43:32] lang chain apps for internal use cases.
+[01:43:32] lang chain apps for internal use cases. I started using cursor and at the time
+[01:43:36] I started using cursor and at the time
+[01:43:36] I started using cursor and at the time long range or or endto-end tasks weren't
+[01:43:39] long range or or endto-end tasks weren't
+[01:43:39] long range or or endto-end tasks weren't really working then. So it was mostly
+[01:43:41] really working then. So it was mostly
+[01:43:42] really working then. So it was mostly like tab complete vibe coding with like
+[01:43:44] like tab complete vibe coding with like
+[01:43:44] like tab complete vibe coding with like editing in the loop, right?
+[01:43:46] editing in the loop, right?
+[01:43:46] editing in the loop, right? um also started using tools like
+[01:43:48] um also started using tools like
+[01:43:48] um also started using tools like Perplexity and Claude Desktop and things
+[01:43:51] Perplexity and Claude Desktop and things
+[01:43:51] Perplexity and Claude Desktop and things like that and that was starting to give
+[01:43:53] like that and that was starting to give
+[01:43:53] like that and that was starting to give us an inkling of of agents that can do
+[01:43:55] us an inkling of of agents that can do
+[01:43:55] us an inkling of of agents that can do more than just like turnbyturn chats.
+[01:43:59] more than just like turnbyturn chats.
+[01:43:59] more than just like turnbyturn chats. Then last year we made the critical
+[01:44:02] Then last year we made the critical
+[01:44:02] Then last year we made the critical decision to modernize flight and so we
+[01:44:05] decision to modernize flight and so we
+[01:44:05] decision to modernize flight and so we set out to build flight 2.0 and this was
+[01:44:08] set out to build flight 2.0 and this was
+[01:44:08] set out to build flight 2.0 and this was our answer to some of the things that I
+[01:44:10] our answer to some of the things that I
+[01:44:10] our answer to some of the things that I and we as a as a company had learned
+[01:44:12] and we as a as a company had learned
+[01:44:12] and we as a as a company had learned building these things internally. So we
+[01:44:14] building these things internally. So we
+[01:44:14] building these things internally. So we internalized all the feedback we were
+[01:44:16] internalized all the feedback we were
+[01:44:16] internalized all the feedback we were getting from users, our own internal
+[01:44:18] getting from users, our own internal
+[01:44:18] getting from users, our own internal tastes of how we liked building agents.
+[01:44:21] tastes of how we liked building agents.
+[01:44:21] tastes of how we liked building agents. And so flight 2 was our move to answer
+[01:44:24] And so flight 2 was our move to answer
+[01:44:24] And so flight 2 was our move to answer the answer the question of durable,
+[01:44:27] the answer the question of durable,
+[01:44:27] the answer the question of durable, fully dynamic, crash proof with some
+[01:44:30] fully dynamic, crash proof with some
+[01:44:30] fully dynamic, crash proof with some caveats uh infrastructure aware uh
+[01:44:34] caveats uh infrastructure aware uh
+[01:44:34] caveats uh infrastructure aware uh orchestration not only for agents but
+[01:44:36] orchestration not only for agents but
+[01:44:36] orchestration not only for agents but also good old classical ML and data
+[01:44:38] also good old classical ML and data
+[01:44:38] also good old classical ML and data science and ETL.
+[01:44:40] science and ETL.
+[01:44:40] science and ETL. So this is where we built nodi. This is
+[01:44:42] So this is where we built nodi. This is
+[01:44:42] So this is where we built nodi. This is an internal uh agent ambient agent that
+[01:44:46] an internal uh agent ambient agent that
+[01:44:46] an internal uh agent ambient agent that sort of um uh reconfi configured uh
+[01:44:50] sort of um uh reconfi configured uh
+[01:44:50] sort of um uh reconfi configured uh Kubernetes node poolool configurations
+[01:44:52] Kubernetes node poolool configurations
+[01:44:52] Kubernetes node poolool configurations for our customers. So customer on Slack
+[01:44:54] for our customers. So customer on Slack
+[01:44:54] for our customers. So customer on Slack would say hey I want this kind of node
+[01:44:57] would say hey I want this kind of node
+[01:44:57] would say hey I want this kind of node pool and then nod would go and you know
+[01:44:59] pool and then nod would go and you know
+[01:44:59] pool and then nod would go and you know it's kind of like the Rick and Morty
+[01:45:00] it's kind of like the Rick and Morty
+[01:45:00] it's kind of like the Rick and Morty butter robot. All it does is change node
+[01:45:02] butter robot. All it does is change node
+[01:45:02] butter robot. All it does is change node pool configs. Build a few more of these
+[01:45:04] pool configs. Build a few more of these
+[01:45:04] pool configs. Build a few more of these internal tools. Started using cursor
+[01:45:08] internal tools. Started using cursor
+[01:45:08] internal tools. Started using cursor agents and cloud code uh kind of at the
+[01:45:11] agents and cloud code uh kind of at the
+[01:45:11] agents and cloud code uh kind of at the tail end of that year. So I was like
+[01:45:13] tail end of that year. So I was like
+[01:45:13] tail end of that year. So I was like pretty much agent pilled at that point
+[01:45:14] pretty much agent pilled at that point
+[01:45:14] pretty much agent pilled at that point where you can mostly do endto-end tasks
+[01:45:17] where you can mostly do endto-end tasks
+[01:45:17] where you can mostly do endto-end tasks and then obviously you have to review
+[01:45:18] and then obviously you have to review
+[01:45:18] and then obviously you have to review the code and fix all the crazy bugs and
+[01:45:21] the code and fix all the crazy bugs and
+[01:45:21] the code and fix all the crazy bugs and things that it would introduce.
+[01:45:24] things that it would introduce.
+[01:45:24] things that it would introduce. Um and now it's 2026 and it arguably is
+[01:45:27] Um and now it's 2026 and it arguably is
+[01:45:27] Um and now it's 2026 and it arguably is the year of agents. And so what we're
+[01:45:29] the year of agents. And so what we're
+[01:45:29] the year of agents. And so what we're doing now and what I want to share with
+[01:45:31] doing now and what I want to share with
+[01:45:31] doing now and what I want to share with you is how we are thinking about
+[01:45:33] you is how we are thinking about
+[01:45:33] you is how we are thinking about productizing all of our learnings. And
+[01:45:35] productizing all of our learnings. And
+[01:45:35] productizing all of our learnings. And in particular, I am uh leading a team to
+[01:45:38] in particular, I am uh leading a team to
+[01:45:38] in particular, I am uh leading a team to help build agents for the thing we know
+[01:45:42] help build agents for the thing we know
+[01:45:42] help build agents for the thing we know and love uh the best, which is data
+[01:45:45] and love uh the best, which is data
+[01:45:45] and love uh the best, which is data science, machine learning, AI
+[01:45:47] science, machine learning, AI
+[01:45:47] science, machine learning, AI engineering, MLOps.
+[01:45:50] Okay. So the crux of the problem here
+[01:45:53] Okay. So the crux of the problem here that I want to highlight today is the
+[01:45:56] that I want to highlight today is the
+[01:45:56] that I want to highlight today is the agent infrastructure problem. So you
+[01:45:58] agent infrastructure problem. So you
+[01:45:58] agent infrastructure problem. So you built an agent. Great. That's the first
+[01:46:00] built an agent. Great. That's the first
+[01:46:00] built an agent. Great. That's the first step. You optimized its prompts. You
+[01:46:02] step. You optimized its prompts. You
+[01:46:02] step. You optimized its prompts. You engineered its context. build an eval
+[01:46:04] engineered its context. build an eval
+[01:46:04] engineered its context. build an eval harness and it works beautifully in
+[01:46:06] harness and it works beautifully in
+[01:46:06] harness and it works beautifully in production. But what we found uh in
+[01:46:08] production. But what we found uh in
+[01:46:08] production. But what we found uh in development, sorry, but what we found in
+[01:46:10] development, sorry, but what we found in
+[01:46:10] development, sorry, but what we found in production is actually often times the
+[01:46:13] production is actually often times the
+[01:46:13] production is actually often times the infrastructure gets in the way. Tools uh
+[01:46:17] infrastructure gets in the way. Tools uh
+[01:46:18] infrastructure gets in the way. Tools uh oops this is not the latest version of
+[01:46:19] oops this is not the latest version of
+[01:46:19] oops this is not the latest version of the slide, but it's okay. I'll make do
+[01:46:20] the slide, but it's okay. I'll make do
+[01:46:20] the slide, but it's okay. I'll make do with it. So tools need secure and least
+[01:46:24] with it. So tools need secure and least
+[01:46:24] with it. So tools need secure and least privilege access to your and I'm talking
+[01:46:27] privilege access to your and I'm talking
+[01:46:27] privilege access to your and I'm talking not personal use on your laptop, right?
+[01:46:29] not personal use on your laptop, right?
+[01:46:29] not personal use on your laptop, right? is like you're building stuff agents
+[01:46:32] is like you're building stuff agents
+[01:46:32] is like you're building stuff agents that have access to your organizational
+[01:46:34] that have access to your organizational
+[01:46:34] that have access to your organizational data assets and databases and data links
+[01:46:37] data assets and databases and data links
+[01:46:37] data assets and databases and data links and whatnot.
+[01:46:39] and whatnot.
+[01:46:39] and whatnot. Oh wow, it fixed itself. Great. Uh wow,
+[01:46:42] Oh wow, it fixed itself. Great. Uh wow,
+[01:46:42] Oh wow, it fixed itself. Great. Uh wow, what was that? There's an agent loop in
+[01:46:44] what was that? There's an agent loop in
+[01:46:44] what was that? There's an agent loop in there. Uh tools and agents that require
+[01:46:46] there. Uh tools and agents that require
+[01:46:46] there. Uh tools and agents that require variable compute resources. So if you're
+[01:46:48] variable compute resources. So if you're
+[01:46:48] variable compute resources. So if you're building a machine learning agent, you a
+[01:46:51] building a machine learning agent, you a
+[01:46:51] building a machine learning agent, you a single node runtime is not going to cut
+[01:46:53] single node runtime is not going to cut
+[01:46:53] single node runtime is not going to cut it. You know, the agent may run on a
+[01:46:54] it. You know, the agent may run on a
+[01:46:54] it. You know, the agent may run on a small CPU box, but it's going to train a
+[01:46:56] small CPU box, but it's going to train a
+[01:46:56] small CPU box, but it's going to train a model that's loading a several gigabyte
+[01:47:00] model that's loading a several gigabyte
+[01:47:00] model that's loading a several gigabyte data set, right? So, the agent needs
+[01:47:02] data set, right? So, the agent needs
+[01:47:02] data set, right? So, the agent needs some way to provision its own compute
+[01:47:06] some way to provision its own compute
+[01:47:06] some way to provision its own compute like in its inner loop, right?
+[01:47:09] like in its inner loop, right?
+[01:47:09] like in its inner loop, right? Same thing with paralyzed sub aents and
+[01:47:11] Same thing with paralyzed sub aents and
+[01:47:11] Same thing with paralyzed sub aents and tool calls. Uh, if you have a single
+[01:47:13] tool calls. Uh, if you have a single
+[01:47:13] tool calls. Uh, if you have a single node or some like fixed set of nodes,
+[01:47:15] node or some like fixed set of nodes,
+[01:47:15] node or some like fixed set of nodes, you're going to get resource contention,
+[01:47:17] you're going to get resource contention,
+[01:47:17] you're going to get resource contention, going to get degraded performance.
+[01:47:20] going to get degraded performance.
+[01:47:20] going to get degraded performance. Containers go oom. Anyone here who's
+[01:47:22] Containers go oom. Anyone here who's
+[01:47:22] Containers go oom. Anyone here who's trained a model or done anything with
+[01:47:24] trained a model or done anything with
+[01:47:24] trained a model or done anything with data has seen this type of thing. Uh the
+[01:47:27] data has seen this type of thing. Uh the
+[01:47:27] data has seen this type of thing. Uh the your nodes are killed by theuler. Spot
+[01:47:29] your nodes are killed by theuler. Spot
+[01:47:29] your nodes are killed by theuler. Spot instance are preempted.
+[01:47:31] instance are preempted.
+[01:47:32] instance are preempted. Then ultimately these kinds of infra
+[01:47:33] Then ultimately these kinds of infra
+[01:47:33] Then ultimately these kinds of infra failures lead to agent memory loss or
+[01:47:35] failures lead to agent memory loss or
+[01:47:35] failures lead to agent memory loss or corruption and this wipes out precious
+[01:47:38] corruption and this wipes out precious
+[01:47:38] corruption and this wipes out precious context.
+[01:47:41] So agents fail at multiple layers of the
+[01:47:43] So agents fail at multiple layers of the orchestration stack. And the problem
+[01:47:45] orchestration stack. And the problem
+[01:47:45] orchestration stack. And the problem isn't that agents fail. It's that
+[01:47:47] isn't that agents fail. It's that
+[01:47:47] isn't that agents fail. It's that recovering from failure is challenging
+[01:47:49] recovering from failure is challenging
+[01:47:49] recovering from failure is challenging without the full context of how infra
+[01:47:52] without the full context of how infra
+[01:47:52] without the full context of how infra networking, logical, semantic layers,
+[01:47:54] networking, logical, semantic layers,
+[01:47:54] networking, logical, semantic layers, all of these interact so that the agent
+[01:47:56] all of these interact so that the agent
+[01:47:56] all of these interact so that the agent can figure out how to dig itself out of
+[01:47:58] can figure out how to dig itself out of
+[01:47:58] can figure out how to dig itself out of the hole it's found itself in.
+[01:48:03] And so what agents are saying, agents
+[01:48:06] And so what agents are saying, agents are telling us, help me, help you.
+[01:48:09] are telling us, help me, help you.
+[01:48:09] are telling us, help me, help you. agents now are very capable of helping
+[01:48:11] agents now are very capable of helping
+[01:48:11] agents now are very capable of helping themselves if they have the right
+[01:48:13] themselves if they have the right
+[01:48:13] themselves if they have the right context even info infle failures if you
+[01:48:16] context even info infle failures if you
+[01:48:16] context even info infle failures if you give them the right context and
+[01:48:17] give them the right context and
+[01:48:17] give them the right context and capabilities
+[01:48:19] capabilities
+[01:48:19] capabilities and so for the rest of this talk I'll be
+[01:48:21] and so for the rest of this talk I'll be
+[01:48:21] and so for the rest of this talk I'll be sharing not like things that are written
+[01:48:23] sharing not like things that are written
+[01:48:23] sharing not like things that are written in stone these are just kind of design
+[01:48:25] in stone these are just kind of design
+[01:48:25] in stone these are just kind of design principles we've distilled down into six
+[01:48:28] principles we've distilled down into six
+[01:48:28] principles we've distilled down into six of them uh I'd like three or four but
+[01:48:30] of them uh I'd like three or four but
+[01:48:30] of them uh I'd like three or four but you know got got six um and these are
+[01:48:33] you know got got six um and these are
+[01:48:33] you know got got six um and these are more like rules of thumb things that you
+[01:48:35] more like rules of thumb things that you
+[01:48:35] more like rules of thumb things that you should think about when you're building
+[01:48:36] should think about when you're building
+[01:48:36] should think about when you're building agents and so I'll dig into these more
+[01:48:38] agents and so I'll dig into these more
+[01:48:38] agents and so I'll dig into these more but
+[01:48:41] but use plain Python, TypeScript, JavaScript
+[01:48:43] use plain Python, TypeScript, JavaScript
+[01:48:43] use plain Python, TypeScript, JavaScript or whatever like general purpose
+[01:48:44] or whatever like general purpose
+[01:48:44] or whatever like general purpose programming language that an LLM knows.
+[01:48:47] programming language that an LLM knows.
+[01:48:47] programming language that an LLM knows. So pick that and those languages will
+[01:48:50] So pick that and those languages will
+[01:48:50] So pick that and those languages will have frameworks that you can you know
+[01:48:52] have frameworks that you can you know
+[01:48:52] have frameworks that you can you know quickly build agents on. But what we've
+[01:48:54] quickly build agents on. But what we've
+[01:48:54] quickly build agents on. But what we've found is for us for example flight 2
+[01:48:57] found is for us for example flight 2
+[01:48:57] found is for us for example flight 2 works with plate and python that's just
+[01:49:00] works with plate and python that's just
+[01:49:00] works with plate and python that's just really easy to to access all the
+[01:49:02] really easy to to access all the
+[01:49:02] really easy to to access all the constructs programming constructs for
+[01:49:04] constructs programming constructs for
+[01:49:04] constructs programming constructs for the human and the agent to use in
+[01:49:06] the human and the agent to use in
+[01:49:06] the human and the agent to use in building.
+[01:49:08] building.
+[01:49:08] building. Uh the second design principle is
+[01:49:10] Uh the second design principle is
+[01:49:10] Uh the second design principle is providing durability and observability
+[01:49:11] providing durability and observability
+[01:49:12] providing durability and observability hooks. Then make failures cheap so that
+[01:49:16] hooks. Then make failures cheap so that
+[01:49:16] hooks. Then make failures cheap so that when you do fail that your run your
+[01:49:18] when you do fail that your run your
+[01:49:18] when you do fail that your run your agent roll out can recover really
+[01:49:19] agent roll out can recover really
+[01:49:19] agent roll out can recover really quickly and and continue where it left
+[01:49:22] quickly and and continue where it left
+[01:49:22] quickly and and continue where it left off without having to recomputee all the
+[01:49:23] off without having to recomputee all the
+[01:49:23] off without having to recomputee all the other stuff. Um provide infrastructure
+[01:49:26] other stuff. Um provide infrastructure
+[01:49:26] other stuff. Um provide infrastructure as context. This is a a key thing that
+[01:49:29] as context. This is a a key thing that
+[01:49:29] as context. This is a a key thing that um that we found that's quite quite
+[01:49:33] um that we found that's quite quite
+[01:49:33] um that we found that's quite quite important when you're building sort of
+[01:49:35] important when you're building sort of
+[01:49:35] important when you're building sort of variable compute uh agents that require
+[01:49:38] variable compute uh agents that require
+[01:49:38] variable compute uh agents that require variable compute in the inner loop. uh
+[01:49:41] variable compute in the inner loop. uh
+[01:49:41] variable compute in the inner loop. uh providing agent self-healing utilities.
+[01:49:44] providing agent self-healing utilities.
+[01:49:44] providing agent self-healing utilities. Um so these are things that where the
+[01:49:46] Um so these are things that where the
+[01:49:46] Um so these are things that where the agent can fix its inner loop which I'll
+[01:49:49] agent can fix its inner loop which I'll
+[01:49:50] agent can fix its inner loop which I'll show you what what I mean exactly later.
+[01:49:51] show you what what I mean exactly later.
+[01:49:51] show you what what I mean exactly later. Self-healing is a little buzzwordy but
+[01:49:53] Self-healing is a little buzzwordy but
+[01:49:53] Self-healing is a little buzzwordy but it it's what basically how do you
+[01:49:56] it it's what basically how do you
+[01:49:56] it it's what basically how do you recover from failure in the inner loop
+[01:49:59] recover from failure in the inner loop
+[01:49:59] recover from failure in the inner loop and uh a utility in this case would be
+[01:50:01] and uh a utility in this case would be
+[01:50:01] and uh a utility in this case would be sandboxes so that they can uh inject a
+[01:50:04] sandboxes so that they can uh inject a
+[01:50:04] sandboxes so that they can uh inject a little bit more creativity in how they
+[01:50:05] little bit more creativity in how they
+[01:50:06] little bit more creativity in how they solve the particular problem that the
+[01:50:08] solve the particular problem that the
+[01:50:08] solve the particular problem that the user's given them. And then finally
+[01:50:10] user's given them. And then finally
+[01:50:10] user's given them. And then finally human in the loop as the final recourse.
+[01:50:16] So agents break at as I mentioned
+[01:50:18] So agents break at as I mentioned earlier multiple layers right. So from
+[01:50:20] earlier multiple layers right. So from
+[01:50:20] earlier multiple layers right. So from infrastructure to network to logical to
+[01:50:22] infrastructure to network to logical to
+[01:50:22] infrastructure to network to logical to semantic to tool execution and context.
+[01:50:25] semantic to tool execution and context.
+[01:50:25] semantic to tool execution and context. Um and actually what we found is there
+[01:50:27] Um and actually what we found is there
+[01:50:27] Um and actually what we found is there there are a lot of techniques and a lot
+[01:50:29] there are a lot of techniques and a lot
+[01:50:29] there are a lot of techniques and a lot has been written about
+[01:50:31] has been written about
+[01:50:31] has been written about how to handle network to context. Those
+[01:50:35] how to handle network to context. Those
+[01:50:35] how to handle network to context. Those are those five levels. And it's it's not
+[01:50:38] are those five levels. And it's it's not
+[01:50:38] are those five levels. And it's it's not no by no means a solved problem, but
+[01:50:40] no by no means a solved problem, but
+[01:50:40] no by no means a solved problem, but there's I think we've found that there's
+[01:50:42] there's I think we've found that there's
+[01:50:42] there's I think we've found that there's still a lot of pain in the
+[01:50:43] still a lot of pain in the
+[01:50:43] still a lot of pain in the infrastructure layer of this. And I'll
+[01:50:45] infrastructure layer of this. And I'll
+[01:50:45] infrastructure layer of this. And I'll show you an example in a little bit.
+[01:50:50] And I think one of the problems is that
+[01:50:52] And I think one of the problems is that there's a context and evaluation gap. So
+[01:50:55] there's a context and evaluation gap. So
+[01:50:55] there's a context and evaluation gap. So your evals typically test semantic
+[01:50:57] your evals typically test semantic
+[01:50:57] your evals typically test semantic correctness.
+[01:50:59] correctness.
+[01:50:59] correctness. Does it answer correctly? Is it
+[01:51:02] Does it answer correctly? Is it
+[01:51:02] Does it answer correctly? Is it hallucinating? Are I am I is the tool
+[01:51:05] hallucinating? Are I am I is the tool
+[01:51:05] hallucinating? Are I am I is the tool call arguments formatted correctly? That
+[01:51:07] call arguments formatted correctly? That
+[01:51:07] call arguments formatted correctly? That kind of stuff.
+[01:51:09] kind of stuff.
+[01:51:09] kind of stuff. And likewise, agents typically focus on
+[01:51:11] And likewise, agents typically focus on
+[01:51:11] And likewise, agents typically focus on recover recovering from these kinds of
+[01:51:13] recover recovering from these kinds of
+[01:51:13] recover recovering from these kinds of logical and semantic failures.
+[01:51:16] logical and semantic failures.
+[01:51:16] logical and semantic failures. But agents don't often directly handle
+[01:51:18] But agents don't often directly handle
+[01:51:18] But agents don't often directly handle or reason about surviving a network
+[01:51:20] or reason about surviving a network
+[01:51:20] or reason about surviving a network outage or a timeout or recovering from
+[01:51:22] outage or a timeout or recovering from
+[01:51:22] outage or a timeout or recovering from system level errors or recalling state
+[01:51:24] system level errors or recalling state
+[01:51:24] system level errors or recalling state across retries. And so the one insight I
+[01:51:27] across retries. And so the one insight I
+[01:51:27] across retries. And so the one insight I want to give you today is that agents
+[01:51:29] want to give you today is that agents
+[01:51:29] want to give you today is that agents can actually recover reliably from all
+[01:51:32] can actually recover reliably from all
+[01:51:32] can actually recover reliably from all the errors in this this stack that I
+[01:51:34] the errors in this this stack that I
+[01:51:34] the errors in this this stack that I mentioned earlier, even infrastructure
+[01:51:36] mentioned earlier, even infrastructure
+[01:51:36] mentioned earlier, even infrastructure level ones, but only if you give them
+[01:51:38] level ones, but only if you give them
+[01:51:38] level ones, but only if you give them the right context and the right
+[01:51:40] the right context and the right
+[01:51:40] the right context and the right capabilities to dig themselves out of
+[01:51:41] capabilities to dig themselves out of
+[01:51:41] capabilities to dig themselves out of that hole.
+[01:51:46] So context engineering is not just not
+[01:51:49] So context engineering is not just not just you know shuffling tokens and
+[01:51:51] just you know shuffling tokens and
+[01:51:52] just you know shuffling tokens and getting more data sources and and those
+[01:51:53] getting more data sources and and those
+[01:51:53] getting more data sources and and those are important activities. These are like
+[01:51:55] are important activities. These are like
+[01:51:55] are important activities. These are like the the key ones that you need when
+[01:51:57] the the key ones that you need when
+[01:51:57] the the key ones that you need when you're initially building your agent.
+[01:51:59] you're initially building your agent.
+[01:51:59] you're initially building your agent. But context engineering is also an infra
+[01:52:01] But context engineering is also an infra
+[01:52:01] But context engineering is also an infra problem. If a failure wipes the agent
+[01:52:04] problem. If a failure wipes the agent
+[01:52:04] problem. If a failure wipes the agent state, then all the hardearned contexts
+[01:52:06] state, then all the hardearned contexts
+[01:52:06] state, then all the hardearned contexts that you've implemented in your agent
+[01:52:07] that you've implemented in your agent
+[01:52:07] that you've implemented in your agent loop is is worthless.
+[01:52:11] loop is is worthless.
+[01:52:11] loop is is worthless. And so we think about durability
+[01:52:13] And so we think about durability
+[01:52:14] And so we think about durability as making it super easy to do the
+[01:52:16] as making it super easy to do the
+[01:52:16] as making it super easy to do the following.
+[01:52:17] following.
+[01:52:17] following. To immediately resume an agent roll out
+[01:52:19] To immediately resume an agent roll out
+[01:52:19] To immediately resume an agent roll out where it left off.
+[01:52:22] where it left off.
+[01:52:22] where it left off. to share to not re-execute sharable
+[01:52:25] to share to not re-execute sharable
+[01:52:25] to share to not re-execute sharable compute and IObound workloads and to
+[01:52:28] compute and IObound workloads and to
+[01:52:28] compute and IObound workloads and to save and restore
+[01:52:30] save and restore
+[01:52:30] save and restore uh state and memory between tasks
+[01:52:32] uh state and memory between tasks
+[01:52:32] uh state and memory between tasks through intermediate state persistence.
+[01:52:34] through intermediate state persistence.
+[01:52:34] through intermediate state persistence. So these are just basic building blocks
+[01:52:36] So these are just basic building blocks
+[01:52:36] So these are just basic building blocks that benefit not only agent builders but
+[01:52:38] that benefit not only agent builders but
+[01:52:38] that benefit not only agent builders but MLEs and data scientists uh alike.
+[01:52:42] MLEs and data scientists uh alike.
+[01:52:42] MLEs and data scientists uh alike. And so these three elements I want to
+[01:52:45] And so these three elements I want to
+[01:52:45] And so these three elements I want to dive into before going into the design
+[01:52:47] dive into before going into the design
+[01:52:47] dive into before going into the design principles just because I think they're
+[01:52:48] principles just because I think they're
+[01:52:48] principles just because I think they're important. Um and they're the core
+[01:52:50] important. Um and they're the core
+[01:52:50] important. Um and they're the core building blocks of flight and any other
+[01:52:51] building blocks of flight and any other
+[01:52:51] building blocks of flight and any other system you may want to implement. Uh I
+[01:52:53] system you may want to implement. Uh I
+[01:52:54] system you may want to implement. Uh I think
+[01:52:56] think
+[01:52:56] think so what is a replay log? This these
+[01:52:58] so what is a replay log? This these
+[01:52:58] so what is a replay log? This these aren't like official terms. This is like
+[01:53:01] aren't like official terms. This is like
+[01:53:01] aren't like official terms. This is like what we call them. Um
+[01:53:03] what we call them. Um
+[01:53:03] what we call them. Um but a replay log is essentially a
+[01:53:05] but a replay log is essentially a
+[01:53:05] but a replay log is essentially a service that records the state of an
+[01:53:06] service that records the state of an
+[01:53:06] service that records the state of an agent and its subtasks at a super
+[01:53:09] agent and its subtasks at a super
+[01:53:09] agent and its subtasks at a super granular level at each step.
+[01:53:11] granular level at each step.
+[01:53:11] granular level at each step. And the benefit of this is you can avoid
+[01:53:14] And the benefit of this is you can avoid
+[01:53:14] And the benefit of this is you can avoid re-executing tasks, prevents memory and
+[01:53:17] re-executing tasks, prevents memory and
+[01:53:17] re-executing tasks, prevents memory and context loss, even recovers from crashes
+[01:53:20] context loss, even recovers from crashes
+[01:53:20] context loss, even recovers from crashes in the root agent process. So in this
+[01:53:22] in the root agent process. So in this
+[01:53:22] in the root agent process. So in this case, you have an agent. Does that have
+[01:53:23] case, you have an agent. Does that have
+[01:53:23] case, you have an agent. Does that have a pointer? That's fine. Agent that does
+[01:53:27] a pointer? That's fine. Agent that does
+[01:53:27] a pointer? That's fine. Agent that does tool call one, sub aent call one, tool
+[01:53:29] tool call one, sub aent call one, tool
+[01:53:29] tool call one, sub aent call one, tool call two, and it succeeds at the first
+[01:53:31] call two, and it succeeds at the first
+[01:53:31] call two, and it succeeds at the first two steps and fails in the third one for
+[01:53:33] two steps and fails in the third one for
+[01:53:33] two steps and fails in the third one for whatever reason, right? A replay log
+[01:53:35] whatever reason, right? A replay log
+[01:53:35] whatever reason, right? A replay log will keep a log of all those steps and
+[01:53:38] will keep a log of all those steps and
+[01:53:38] will keep a log of all those steps and all the intermediary outputs. So in the
+[01:53:40] all the intermediary outputs. So in the
+[01:53:40] all the intermediary outputs. So in the case of a crash it recovers
+[01:53:43] case of a crash it recovers
+[01:53:43] case of a crash it recovers tool call one's done already doesn't
+[01:53:44] tool call one's done already doesn't
+[01:53:44] tool call one's done already doesn't have to do that uh recomput it sub agent
+[01:53:47] have to do that uh recomput it sub agent
+[01:53:47] have to do that uh recomput it sub agent one tool call sub agent call one is done
+[01:53:50] one tool call sub agent call one is done
+[01:53:50] one tool call sub agent call one is done don't need to recomputee now then it
+[01:53:53] don't need to recomputee now then it
+[01:53:53] don't need to recomputee now then it just can pick up from tool call two um
+[01:53:56] just can pick up from tool call two um
+[01:53:56] just can pick up from tool call two um and so imagine this is like a thousand
+[01:53:58] and so imagine this is like a thousand
+[01:53:58] and so imagine this is like a thousand steps and uh I'll I'll tell you about a
+[01:54:01] steps and uh I'll I'll tell you about a
+[01:54:01] steps and uh I'll I'll tell you about a case study of a customer who had you
+[01:54:03] case study of a customer who had you
+[01:54:03] case study of a customer who had you know this type of very long running
+[01:54:06] know this type of very long running
+[01:54:06] know this type of very long running agent with many many steps
+[01:54:11] So this is super important because at
+[01:54:13] So this is super important because at this gives you this like fine grained
+[01:54:16] this gives you this like fine grained
+[01:54:16] this gives you this like fine grained micro cache per run that if there are
+[01:54:19] micro cache per run that if there are
+[01:54:19] micro cache per run that if there are any network or system outages that you
+[01:54:21] any network or system outages that you
+[01:54:21] any network or system outages that you can just take for granted that your
+[01:54:23] can just take for granted that your
+[01:54:23] can just take for granted that your agent is going to just going to pick up
+[01:54:24] agent is going to just going to pick up
+[01:54:24] agent is going to just going to pick up from where it left off.
+[01:54:27] from where it left off.
+[01:54:27] from where it left off. And this is similar to go global caching
+[01:54:28] And this is similar to go global caching
+[01:54:28] And this is similar to go global caching but as opposed to this run uh runle
+[01:54:32] but as opposed to this run uh runle
+[01:54:32] but as opposed to this run uh runle replay log global caching is as the name
+[01:54:35] replay log global caching is as the name
+[01:54:35] replay log global caching is as the name suggests is work shared across all
+[01:54:37] suggests is work shared across all
+[01:54:37] suggests is work shared across all agents and all agent runs. So in this
+[01:54:40] agents and all agent runs. So in this
+[01:54:40] agents and all agent runs. So in this case you see an agent where I'm calling
+[01:54:41] case you see an agent where I'm calling
+[01:54:41] case you see an agent where I'm calling it with the same prompt write a report
+[01:54:43] it with the same prompt write a report
+[01:54:43] it with the same prompt write a report about lms. It does a web search that in
+[01:54:46] about lms. It does a web search that in
+[01:54:46] about lms. It does a web search that in flight you can say I want to cache that
+[01:54:48] flight you can say I want to cache that
+[01:54:48] flight you can say I want to cache that step.
+[01:54:49] step.
+[01:54:49] step. uh does a DB read tool. I want to cache
+[01:54:51] uh does a DB read tool. I want to cache
+[01:54:51] uh does a DB read tool. I want to cache that step, but then I want to disable it
+[01:54:53] that step, but then I want to disable it
+[01:54:53] that step, but then I want to disable it for the composer sub aent, which then
+[01:54:55] for the composer sub aent, which then
+[01:54:55] for the composer sub aent, which then synthesizes the outputs of the two
+[01:54:56] synthesizes the outputs of the two
+[01:54:56] synthesizes the outputs of the two previous tool calls. Um and so, you
+[01:55:00] previous tool calls. Um and so, you
+[01:55:00] previous tool calls. Um and so, you know, maybe the the AI builder says, I
+[01:55:02] know, maybe the the AI builder says, I
+[01:55:02] know, maybe the the AI builder says, I want to inject a little bit more
+[01:55:03] want to inject a little bit more
+[01:55:03] want to inject a little bit more creativity or entropy to that last step.
+[01:55:05] creativity or entropy to that last step.
+[01:55:05] creativity or entropy to that last step. And so each time I call it, I wanted to
+[01:55:07] And so each time I call it, I wanted to
+[01:55:07] And so each time I call it, I wanted to reuse the the research kind of
+[01:55:10] reuse the the research kind of
+[01:55:10] reuse the the research kind of deterministic tool calls, but then
+[01:55:12] deterministic tool calls, but then
+[01:55:12] deterministic tool calls, but then regenerate a new report each time.
+[01:55:16] regenerate a new report each time.
+[01:55:16] regenerate a new report each time. And finally, you have intermediate state
+[01:55:17] And finally, you have intermediate state
+[01:55:17] And finally, you have intermediate state persistence, which is the idea that you
+[01:55:21] persistence, which is the idea that you
+[01:55:21] persistence, which is the idea that you can just take for granted that once you
+[01:55:25] can just take for granted that once you
+[01:55:25] can just take for granted that once you use what I'm calling, we'll describe
+[01:55:26] use what I'm calling, we'll describe
+[01:55:26] use what I'm calling, we'll describe later as these functional uh durability
+[01:55:29] later as these functional uh durability
+[01:55:29] later as these functional uh durability hooks, these decorators you see on these
+[01:55:31] hooks, these decorators you see on these
+[01:55:31] hooks, these decorators you see on these functions that you know when you call
+[01:55:34] functions that you know when you call
+[01:55:34] functions that you know when you call the LLM the first time, the output of
+[01:55:36] the LLM the first time, the output of
+[01:55:36] the LLM the first time, the output of that agent state is stored just to
+[01:55:39] that agent state is stored just to
+[01:55:39] that agent state is stored just to object store in S3 or something uh
+[01:55:41] object store in S3 or something uh
+[01:55:41] object store in S3 or something uh somewhere, right? So, you just take that
+[01:55:42] somewhere, right? So, you just take that
+[01:55:42] somewhere, right? So, you just take that for granted. You don't need to write any
+[01:55:44] for granted. You don't need to write any
+[01:55:44] for granted. You don't need to write any of your serialization des serialization
+[01:55:46] of your serialization des serialization
+[01:55:46] of your serialization des serialization code. It's just there. You get data
+[01:55:48] code. It's just there. You get data
+[01:55:48] code. It's just there. You get data lineage just out of the box. Same with
+[01:55:50] lineage just out of the box. Same with
+[01:55:50] lineage just out of the box. Same with your first tool call. Same with your
+[01:55:53] your first tool call. Same with your
+[01:55:54] your first tool call. Same with your second LLM call. So all of these under
+[01:55:56] second LLM call. So all of these under
+[01:55:56] second LLM call. So all of these under the hood in flight will be stored to uh
+[01:56:00] the hood in flight will be stored to uh
+[01:56:00] the hood in flight will be stored to uh uh your object store.
+[01:56:04] So then those are the three building
+[01:56:07] So then those are the three building blocks that sort of unlock the
+[01:56:09] blocks that sort of unlock the
+[01:56:09] blocks that sort of unlock the implementation for these six design
+[01:56:12] implementation for these six design
+[01:56:12] implementation for these six design principles. And so I won't go through
+[01:56:13] principles. And so I won't go through
+[01:56:13] principles. And so I won't go through these line by line. I'll show you a
+[01:56:15] these line by line. I'll show you a
+[01:56:15] these line by line. I'll show you a little bit of code. I'm not sure if you
+[01:56:17] little bit of code. I'm not sure if you
+[01:56:17] little bit of code. I'm not sure if you can read it too clearly, but the first
+[01:56:19] can read it too clearly, but the first
+[01:56:19] can read it too clearly, but the first one is to use plain Python. And the
+[01:56:22] one is to use plain Python. And the
+[01:56:22] one is to use plain Python. And the benefits of this I think are fairly
+[01:56:24] benefits of this I think are fairly
+[01:56:24] benefits of this I think are fairly obvious. You get loops, fan out,
+[01:56:26] obvious. You get loops, fan out,
+[01:56:26] obvious. You get loops, fan out, conditionals, try except uh async
+[01:56:30] conditionals, try except uh async
+[01:56:30] conditionals, try except uh async synchronous programming in Python and
+[01:56:32] synchronous programming in Python and
+[01:56:32] synchronous programming in Python and whatever the equivalents are in whatever
+[01:56:34] whatever the equivalents are in whatever
+[01:56:34] whatever the equivalents are in whatever language you choose. There are no DSL
+[01:56:36] language you choose. There are no DSL
+[01:56:36] language you choose. There are no DSL surprises. There's nothing new to learn.
+[01:56:38] surprises. There's nothing new to learn.
+[01:56:38] surprises. There's nothing new to learn. But if you do choose to use a framework,
+[01:56:40] But if you do choose to use a framework,
+[01:56:40] But if you do choose to use a framework, you can use it, right? It's it's pretty
+[01:56:42] you can use it, right? It's it's pretty
+[01:56:42] you can use it, right? It's it's pretty straightforward.
+[01:56:45] And this is a point I'll I'll hammer
+[01:56:47] And this is a point I'll I'll hammer through the rest of this is that
+[01:56:48] through the rest of this is that
+[01:56:48] through the rest of this is that exceptions are actually a perfect
+[01:56:50] exceptions are actually a perfect
+[01:56:50] exceptions are actually a perfect delivery mechanism for critical context
+[01:56:52] delivery mechanism for critical context
+[01:56:52] delivery mechanism for critical context about failures at all layers of of the
+[01:56:54] about failures at all layers of of the
+[01:56:54] about failures at all layers of of the stack.
+[01:56:56] stack.
+[01:56:56] stack. So this you can squint and you can start
+[01:56:58] So this you can squint and you can start
+[01:56:58] So this you can squint and you can start to see, oh, what if I can catch an out
+[01:57:01] to see, oh, what if I can catch an out
+[01:57:01] to see, oh, what if I can catch an out of memory error here at the that the
+[01:57:03] of memory error here at the that the
+[01:57:03] of memory error here at the that the system actually bubbles up into my into
+[01:57:06] system actually bubbles up into my into
+[01:57:06] system actually bubbles up into my into flight, right?
+[01:57:11] And leading to my next point, providing
+[01:57:13] And leading to my next point, providing functional hooks make it really easy
+[01:57:15] functional hooks make it really easy
+[01:57:15] functional hooks make it really easy easy to add durability to your system,
+[01:57:17] easy to add durability to your system,
+[01:57:18] easy to add durability to your system, whatever implementation that you choose,
+[01:57:20] whatever implementation that you choose,
+[01:57:20] whatever implementation that you choose, right? So assuming that you're using
+[01:57:22] right? So assuming that you're using
+[01:57:22] right? So assuming that you're using functions or whatever class methods that
+[01:57:25] functions or whatever class methods that
+[01:57:25] functions or whatever class methods that these hooks give you the ability to
+[01:57:29] these hooks give you the ability to
+[01:57:29] these hooks give you the ability to trace checkpoint and do the persistent
+[01:57:31] trace checkpoint and do the persistent
+[01:57:31] trace checkpoint and do the persistent intermediate uh state serialization
+[01:57:34] intermediate uh state serialization
+[01:57:34] intermediate uh state serialization deserialization I mentioned earlier
+[01:57:37] deserialization I mentioned earlier
+[01:57:37] deserialization I mentioned earlier and so in flight the first thing you do
+[01:57:39] and so in flight the first thing you do
+[01:57:39] and so in flight the first thing you do is you define your task environment I'm
+[01:57:41] is you define your task environment I'm
+[01:57:41] is you define your task environment I'm mentioning this partly to show off
+[01:57:44] mentioning this partly to show off
+[01:57:44] mentioning this partly to show off flight but partly to just show you how
+[01:57:46] flight but partly to just show you how
+[01:57:46] flight but partly to just show you how we're thinking about this type of
+[01:57:48] we're thinking about this type of
+[01:57:48] we're thinking about this type of problem right so this allows you a task
+[01:57:50] problem right so this allows you a task
+[01:57:50] problem right so this allows you a task environment allows you to specify your
+[01:57:53] environment allows you to specify your
+[01:57:53] environment allows you to specify your container, your image, your
+[01:57:55] container, your image, your
+[01:57:55] container, your image, your dependencies, your resource requests
+[01:57:58] dependencies, your resource requests
+[01:57:58] dependencies, your resource requests and tasks you can think of as these
+[01:58:00] and tasks you can think of as these
+[01:58:00] and tasks you can think of as these containerized functions. These run on a
+[01:58:02] containerized functions. These run on a
+[01:58:02] containerized functions. These run on a Kubernetes pod. These run on their own
+[01:58:05] Kubernetes pod. These run on their own
+[01:58:05] Kubernetes pod. These run on their own container. So agents running multiple of
+[01:58:07] container. So agents running multiple of
+[01:58:07] container. So agents running multiple of these tasks have container isolation.
+[01:58:09] these tasks have container isolation.
+[01:58:09] these tasks have container isolation. You get a lot of security benefits out
+[01:58:11] You get a lot of security benefits out
+[01:58:11] You get a lot of security benefits out of this as well. You give its own a IM
+[01:58:13] of this as well. You give its own a IM
+[01:58:13] of this as well. You give its own a IM role. You get a lot of nice downstream
+[01:58:16] role. You get a lot of nice downstream
+[01:58:16] role. You get a lot of nice downstream benefits of this. And fly trace you can
+[01:58:19] benefits of this. And fly trace you can
+[01:58:19] benefits of this. And fly trace you can think of as a helper function so that
+[01:58:21] think of as a helper function so that
+[01:58:21] think of as a helper function so that you don't have to pay the cost of
+[01:58:23] you don't have to pay the cost of
+[01:58:23] you don't have to pay the cost of spinning up a new container. This is
+[01:58:25] spinning up a new container. This is
+[01:58:25] spinning up a new container. This is just a helper function that gets you all
+[01:58:26] just a helper function that gets you all
+[01:58:26] just a helper function that gets you all of those persistence and crash proof
+[01:58:29] of those persistence and crash proof
+[01:58:29] of those persistence and crash proof guarantees uh that I mentioned earlier.
+[01:58:32] guarantees uh that I mentioned earlier.
+[01:58:32] guarantees uh that I mentioned earlier. And this makes failures really cheap. So
+[01:58:34] And this makes failures really cheap. So
+[01:58:34] And this makes failures really cheap. So if you have an agent that writes code
+[01:58:38] if you have an agent that writes code
+[01:58:38] if you have an agent that writes code that runs the code
+[01:58:40] that runs the code
+[01:58:40] that runs the code and then finalizes the answer. And so
+[01:58:42] and then finalizes the answer. And so
+[01:58:42] and then finalizes the answer. And so this is our first iteration of an MLE
+[01:58:44] this is our first iteration of an MLE
+[01:58:44] this is our first iteration of an MLE agent. you have all the tracing and
+[01:58:46] agent. you have all the tracing and
+[01:58:46] agent. you have all the tracing and caching enabled to be able to have build
+[01:58:49] caching enabled to be able to have build
+[01:58:49] caching enabled to be able to have build an ML agent MLE agent that just has all
+[01:58:53] an ML agent MLE agent that just has all
+[01:58:53] an ML agent MLE agent that just has all of these crash proof uh guarantees built
+[01:58:55] of these crash proof uh guarantees built
+[01:58:55] of these crash proof uh guarantees built into it.
+[01:58:58] And as an added bonus, failed runs
+[01:59:01] And as an added bonus, failed runs become training data or additional
+[01:59:02] become training data or additional
+[01:59:02] become training data or additional context from the agent to learn from.
+[01:59:05] context from the agent to learn from.
+[01:59:05] context from the agent to learn from. And not only is this an outofband
+[01:59:07] And not only is this an outofband
+[01:59:07] And not only is this an outofband process where you can, you know, query
+[01:59:10] process where you can, you know, query
+[01:59:10] process where you can, you know, query the flight database to grab all the
+[01:59:11] the flight database to grab all the
+[01:59:11] the flight database to grab all the failures and create a training data set,
+[01:59:13] failures and create a training data set,
+[01:59:13] failures and create a training data set, you can actually react to them in line
+[01:59:15] you can actually react to them in line
+[01:59:15] you can actually react to them in line in your agent loop. And so this unlocks
+[01:59:18] in your agent loop. And so this unlocks
+[01:59:18] in your agent loop. And so this unlocks infrastructure as context.
+[01:59:21] infrastructure as context.
+[01:59:21] infrastructure as context. So this is where the agent can see
+[01:59:23] So this is where the agent can see
+[01:59:23] So this is where the agent can see things like out of memory errors, uh,
+[01:59:26] things like out of memory errors, uh,
+[01:59:26] things like out of memory errors, uh, system level ephemeral outages and retry
+[01:59:29] system level ephemeral outages and retry
+[01:59:30] system level ephemeral outages and retry based on those without, you know,
+[01:59:31] based on those without, you know,
+[01:59:31] based on those without, you know, totally crashing.
+[01:59:34] totally crashing.
+[01:59:34] totally crashing. And so here you can catch an out of
+[01:59:36] And so here you can catch an out of
+[01:59:36] And so here you can catch an out of memory error. You can have the agent
+[01:59:39] memory error. You can have the agent
+[01:59:39] memory error. You can have the agent respond to that and provision more
+[01:59:41] respond to that and provision more
+[01:59:41] respond to that and provision more resources based on the error in the code
+[01:59:44] resources based on the error in the code
+[01:59:44] resources based on the error in the code that it wrote and make adjustments that
+[01:59:47] that it wrote and make adjustments that
+[01:59:47] that it wrote and make adjustments that are sent back from in the for loop such
+[01:59:50] are sent back from in the for loop such
+[01:59:50] are sent back from in the for loop such that the the platform can provision more
+[01:59:52] that the the platform can provision more
+[01:59:52] that the the platform can provision more resources for for example in this case a
+[01:59:55] resources for for example in this case a
+[01:59:55] resources for for example in this case a training job.
+[01:59:59] But not all failures can be done in such
+[02:00:01] But not all failures can be done in such a structured guardrail format. Right? So
+[02:00:04] a structured guardrail format. Right? So
+[02:00:04] a structured guardrail format. Right? So in this resource example, you're just
+[02:00:06] in this resource example, you're just
+[02:00:06] in this resource example, you're just outputting a dictionary of some
+[02:00:08] outputting a dictionary of some
+[02:00:08] outputting a dictionary of some predefined outputs and and values.
+[02:00:13] predefined outputs and and values.
+[02:00:13] predefined outputs and and values. What if you want the agent to
+[02:00:15] What if you want the agent to
+[02:00:15] What if you want the agent to orchestrate the actual tools in its tool
+[02:00:17] orchestrate the actual tools in its tool
+[02:00:17] orchestrate the actual tools in its tool belt? So this is there are two types of
+[02:00:19] belt? So this is there are two types of
+[02:00:19] belt? So this is there are two types of sandboxes I'll talk about. There's a
+[02:00:21] sandboxes I'll talk about. There's a
+[02:00:21] sandboxes I'll talk about. There's a third one that we don't quite quite
+[02:00:23] third one that we don't quite quite
+[02:00:23] third one that we don't quite quite support yet, but code mode is something
+[02:00:25] support yet, but code mode is something
+[02:00:25] support yet, but code mode is something that I think anthropic the anthropic
+[02:00:27] that I think anthropic the anthropic
+[02:00:27] that I think anthropic the anthropic team coined. This is where you replace
+[02:00:31] team coined. This is where you replace
+[02:00:31] team coined. This is where you replace all the context bloat associated with
+[02:00:34] all the context bloat associated with
+[02:00:34] all the context bloat associated with tools and formatting tool arguments and
+[02:00:37] tools and formatting tool arguments and
+[02:00:37] tools and formatting tool arguments and getting the results out of that. And you
+[02:00:39] getting the results out of that. And you
+[02:00:39] getting the results out of that. And you have the agent, you give it a toolbox
+[02:00:42] have the agent, you give it a toolbox
+[02:00:42] have the agent, you give it a toolbox and say write Python code that's
+[02:00:45] and say write Python code that's
+[02:00:45] and say write Python code that's sandboxed. So you can't do IO, you can't
+[02:00:47] sandboxed. So you can't do IO, you can't
+[02:00:47] sandboxed. So you can't do IO, you can't do network calls, you can't do extra
+[02:00:49] do network calls, you can't do extra
+[02:00:49] do network calls, you can't do extra imports. You're writing pure function
+[02:00:52] imports. You're writing pure function
+[02:00:52] imports. You're writing pure function calls and conditionals in your code mode
+[02:00:55] calls and conditionals in your code mode
+[02:00:55] calls and conditionals in your code mode mode loop, right? So the agent writes
+[02:00:58] mode loop, right? So the agent writes
+[02:00:58] mode loop, right? So the agent writes this pipeline.
+[02:01:00] this pipeline.
+[02:01:00] this pipeline. The orchestrator can run this code
+[02:01:03] The orchestrator can run this code
+[02:01:03] The orchestrator can run this code generated by the agent securely in this
+[02:01:06] generated by the agent securely in this
+[02:01:06] generated by the agent securely in this limited subset of Python. Shout out to
+[02:01:08] limited subset of Python. Shout out to
+[02:01:08] limited subset of Python. Shout out to Pantic Monty, by the way. I forgot to
+[02:01:11] Pantic Monty, by the way. I forgot to
+[02:01:11] Pantic Monty, by the way. I forgot to put in my slide, but we're using that
+[02:01:12] put in my slide, but we're using that
+[02:01:12] put in my slide, but we're using that here. Um it's a a cool project. Um check
+[02:01:17] here. Um it's a a cool project. Um check
+[02:01:17] here. Um it's a a cool project. Um check it out.
+[02:01:19] it out.
+[02:01:19] it out. And then you have this really tight
+[02:01:21] And then you have this really tight
+[02:01:21] And then you have this really tight error iteration loop to fix the
+[02:01:22] error iteration loop to fix the
+[02:01:22] error iteration loop to fix the orchestration code bugs.
+[02:01:25] orchestration code bugs.
+[02:01:25] orchestration code bugs. So you're you're you know you're no
+[02:01:27] So you're you're you know you're no
+[02:01:27] So you're you're you know you're no longer having to do an eval kind of out
+[02:01:29] longer having to do an eval kind of out
+[02:01:29] longer having to do an eval kind of out of band, right? You could do that of
+[02:01:31] of band, right? You could do that of
+[02:01:31] of band, right? You could do that of course definitely, but you have the
+[02:01:33] course definitely, but you have the
+[02:01:33] course definitely, but you have the agent just fix its own errors.
+[02:01:38] But sometimes you don't want just
+[02:01:39] But sometimes you don't want just orchestration, right? So what if a user
+[02:01:41] orchestration, right? So what if a user
+[02:01:41] orchestration, right? So what if a user asks the agent something that for which
+[02:01:44] asks the agent something that for which
+[02:01:44] asks the agent something that for which a tool does just not just doesn't do the
+[02:01:46] a tool does just not just doesn't do the
+[02:01:46] a tool does just not just doesn't do the job. So that's where a stateless code
+[02:01:49] job. So that's where a stateless code
+[02:01:49] job. So that's where a stateless code sandbox is super useful. And so this is
+[02:01:51] sandbox is super useful. And so this is
+[02:01:51] sandbox is super useful. And so this is where you can introduce additional
+[02:01:53] where you can introduce additional
+[02:01:53] where you can introduce additional thirdparty libraries. You can do
+[02:01:55] thirdparty libraries. You can do
+[02:01:55] thirdparty libraries. You can do imports. You could do limited network
+[02:01:58] imports. You could do limited network
+[02:01:58] imports. You could do limited network IO. You could do limited readrs on the
+[02:02:00] IO. You could do limited readrs on the
+[02:02:00] IO. You could do limited readrs on the file system. Um but so this stateless
+[02:02:04] file system. Um but so this stateless
+[02:02:04] file system. Um but so this stateless code sandbox is not that. So this is
+[02:02:06] code sandbox is not that. So this is
+[02:02:06] code sandbox is not that. So this is just a oneshot. The agent writes the
+[02:02:08] just a oneshot. The agent writes the
+[02:02:08] just a oneshot. The agent writes the code. It runs end to end uh and then
+[02:02:11] code. It runs end to end uh and then
+[02:02:11] code. It runs end to end uh and then produces some output. So it's it's kind
+[02:02:12] produces some output. So it's it's kind
+[02:02:12] produces some output. So it's it's kind of like a pure function.
+[02:02:16] of like a pure function.
+[02:02:16] of like a pure function. Um, so this is what I just said
+[02:02:22] and you can even do cool things like
+[02:02:24] and you can even do cool things like have it write its own unit tests, right?
+[02:02:25] have it write its own unit tests, right?
+[02:02:26] have it write its own unit tests, right? So,
+[02:02:28] So,
+[02:02:28] So, and then finally, there are a class of
+[02:02:31] and then finally, there are a class of
+[02:02:31] and then finally, there are a class of errors for which maybe the prompt is
+[02:02:33] errors for which maybe the prompt is
+[02:02:33] errors for which maybe the prompt is purely poorly formatted or the system
+[02:02:35] purely poorly formatted or the system
+[02:02:35] purely poorly formatted or the system prompt just uh doesn't work or there's
+[02:02:38] prompt just uh doesn't work or there's
+[02:02:38] prompt just uh doesn't work or there's just the agent just does not have the
+[02:02:39] just the agent just does not have the
+[02:02:40] just the agent just does not have the context it needs to solve the task. So
+[02:02:42] context it needs to solve the task. So
+[02:02:42] context it needs to solve the task. So human in the loop recourse is uh
+[02:02:46] human in the loop recourse is uh
+[02:02:46] human in the loop recourse is uh ultimate recourse to course correct an
+[02:02:48] ultimate recourse to course correct an
+[02:02:48] ultimate recourse to course correct an agent when it's kind of gone off the
+[02:02:50] agent when it's kind of gone off the
+[02:02:50] agent when it's kind of gone off the rails.
+[02:02:53] So in this case when the agent has
+[02:02:56] So in this case when the agent has exhausted its max itter budget you can
+[02:02:58] exhausted its max itter budget you can
+[02:02:58] exhausted its max itter budget you can just have a very pythonic way to say hey
+[02:03:01] just have a very pythonic way to say hey
+[02:03:01] just have a very pythonic way to say hey I need more context. Uh and then in the
+[02:03:04] I need more context. Uh and then in the
+[02:03:04] I need more context. Uh and then in the UI you can type in whatever additional
+[02:03:06] UI you can type in whatever additional
+[02:03:06] UI you can type in whatever additional context you can upload a new file. You
+[02:03:08] context you can upload a new file. You
+[02:03:08] context you can upload a new file. You can give it a a zip file of a directory
+[02:03:11] can give it a a zip file of a directory
+[02:03:11] can give it a a zip file of a directory with uh more markdown files which is
+[02:03:14] with uh more markdown files which is
+[02:03:14] with uh more markdown files which is apparently how we do things now.
+[02:03:18] And then you recursively call the agent.
+[02:03:20] And then you recursively call the agent. So the flight supports recursion. Uh
+[02:03:22] So the flight supports recursion. Uh
+[02:03:22] So the flight supports recursion. Uh there's a cleaner non-recursion way of
+[02:03:24] there's a cleaner non-recursion way of
+[02:03:24] there's a cleaner non-recursion way of doing this, but I thought this was cool.
+[02:03:25] doing this, but I thought this was cool.
+[02:03:25] doing this, but I thought this was cool. So you basically call the agent function
+[02:03:28] So you basically call the agent function
+[02:03:28] So you basically call the agent function itself with the additional context,
+[02:03:31] itself with the additional context,
+[02:03:31] itself with the additional context, right?
+[02:03:33] right?
+[02:03:33] right? And this is the coolest slide because it
+[02:03:34] And this is the coolest slide because it
+[02:03:34] And this is the coolest slide because it has Wolverine on it. What you get out of
+[02:03:37] has Wolverine on it. What you get out of
+[02:03:37] has Wolverine on it. What you get out of all of these building blocks is an agent
+[02:03:38] all of these building blocks is an agent
+[02:03:38] all of these building blocks is an agent with a healing factor, right? It's not
+[02:03:40] with a healing factor, right? It's not
+[02:03:40] with a healing factor, right? It's not perfect. It's still going to fail. It's
+[02:03:42] perfect. It's still going to fail. It's
+[02:03:42] perfect. It's still going to fail. It's still going to fall over. But in this
+[02:03:44] still going to fall over. But in this
+[02:03:44] still going to fall over. But in this case, I don't expect you to read this,
+[02:03:45] case, I don't expect you to read this,
+[02:03:45] case, I don't expect you to read this, but this first error was an out of
+[02:03:47] but this first error was an out of
+[02:03:47] but this first error was an out of memory error. And then the red box
+[02:03:49] memory error. And then the red box
+[02:03:49] memory error. And then the red box there, it adjusted the sandbox
+[02:03:51] there, it adjusted the sandbox
+[02:03:51] there, it adjusted the sandbox resources. It gave itself more memory.
+[02:03:54] resources. It gave itself more memory.
+[02:03:54] resources. It gave itself more memory. In this error, uh it had an import for
+[02:03:58] In this error, uh it had an import for
+[02:03:58] In this error, uh it had an import for pandas that was not specified that it
+[02:04:01] pandas that was not specified that it
+[02:04:01] pandas that was not specified that it did not specify in its dependencies. Um,
+[02:04:04] did not specify in its dependencies. Um,
+[02:04:04] did not specify in its dependencies. Um, so then it writes more code. It updates
+[02:04:07] so then it writes more code. It updates
+[02:04:07] so then it writes more code. It updates its dependency structure and adds
+[02:04:09] its dependency structure and adds
+[02:04:09] its dependency structure and adds pandas.
+[02:04:11] pandas.
+[02:04:11] pandas. Then finally for all those logical
+[02:04:13] Then finally for all those logical
+[02:04:13] Then finally for all those logical semantic tool execution failures, uh,
+[02:04:16] semantic tool execution failures, uh,
+[02:04:16] semantic tool execution failures, uh, here's just a a simple division by zero
+[02:04:18] here's just a a simple division by zero
+[02:04:18] here's just a a simple division by zero error. So that's error. It just you give
+[02:04:21] error. So that's error. It just you give
+[02:04:21] error. So that's error. It just you give it the error and it fixes the the code.
+[02:04:26] And so I don't have much time left, but
+[02:04:28] And so I don't have much time left, but what does this look like in practice?
+[02:04:31] what does this look like in practice?
+[02:04:31] what does this look like in practice? We worked with a customer called
+[02:04:32] We worked with a customer called
+[02:04:32] We worked with a customer called Dragonfly who provides a basically a
+[02:04:36] Dragonfly who provides a basically a
+[02:04:36] Dragonfly who provides a basically a deep research SAS product. So you go to
+[02:04:38] deep research SAS product. So you go to
+[02:04:38] deep research SAS product. So you go to them, you say, "Hey, I want a Jira like
+[02:04:42] them, you say, "Hey, I want a Jira like
+[02:04:42] them, you say, "Hey, I want a Jira like thing but not Jira." And then it'll do
+[02:04:45] thing but not Jira." And then it'll do
+[02:04:45] thing but not Jira." And then it'll do research to figure out what stack you
+[02:04:47] research to figure out what stack you
+[02:04:47] research to figure out what stack you want to use for your company, right? So
+[02:04:49] want to use for your company, right? So
+[02:04:49] want to use for your company, right? So their challenge was to build an
+[02:04:50] their challenge was to build an
+[02:04:50] their challenge was to build an automated solutions architect, an agent
+[02:04:53] automated solutions architect, an agent
+[02:04:53] automated solutions architect, an agent that creates a living knowledge graph of
+[02:04:55] that creates a living knowledge graph of
+[02:04:55] that creates a living knowledge graph of SAS products. And so these were 250k or
+[02:04:59] SAS products. And so these were 250k or
+[02:04:59] SAS products. And so these were 250k or so software products. Each agent call
+[02:05:02] so software products. Each agent call
+[02:05:02] so software products. Each agent call had about 200 steps. Each product call
+[02:05:07] had about 200 steps. Each product call
+[02:05:07] had about 200 steps. Each product call each product had about 100 LLM calls
+[02:05:10] each product had about 100 LLM calls
+[02:05:10] each product had about 100 LLM calls associated with it. Um
+[02:05:13] associated with it. Um
+[02:05:13] associated with it. Um and so we help them with a kind of a
+[02:05:15] and so we help them with a kind of a
+[02:05:15] and so we help them with a kind of a tiered architecture. And so this is this
+[02:05:17] tiered architecture. And so this is this
+[02:05:17] tiered architecture. And so this is this is like scaling agents, right? These are
+[02:05:19] is like scaling agents, right? These are
+[02:05:19] is like scaling agents, right? These are not the the agents you may be used to in
+[02:05:22] not the the agents you may be used to in
+[02:05:22] not the the agents you may be used to in very tight uh chat interfaces. These are
+[02:05:25] very tight uh chat interfaces. These are
+[02:05:25] very tight uh chat interfaces. These are agents that just run ambiently that just
+[02:05:27] agents that just run ambiently that just
+[02:05:28] agents that just run ambiently that just power their database, right? So this
+[02:05:29] power their database, right? So this
+[02:05:29] power their database, right? So this thing will just run at some cadence and
+[02:05:32] thing will just run at some cadence and
+[02:05:32] thing will just run at some cadence and populate their database that powers
+[02:05:33] populate their database that powers
+[02:05:33] populate their database that powers their their um their SAS product. And so
+[02:05:37] their their um their SAS product. And so
+[02:05:37] their their um their SAS product. And so at the top you have the agent driver. So
+[02:05:39] at the top you have the agent driver. So
+[02:05:39] at the top you have the agent driver. So you have four replicas. You have
+[02:05:41] you have four replicas. You have
+[02:05:41] you have four replicas. You have research coordinators that have eight
+[02:05:43] research coordinators that have eight
+[02:05:43] research coordinators that have eight replicas. You have underneath that 12
+[02:05:46] replicas. You have underneath that 12
+[02:05:46] replicas. You have underneath that 12 researchers. And yet underneath that are
+[02:05:48] researchers. And yet underneath that are
+[02:05:48] researchers. And yet underneath that are tool 12 replicas of a tool layer that
+[02:05:51] tool 12 replicas of a tool layer that
+[02:05:51] tool 12 replicas of a tool layer that each researcher has access to.
+[02:05:54] each researcher has access to.
+[02:05:54] each researcher has access to. And so we help them do crossr run
+[02:05:56] And so we help them do crossr run
+[02:05:56] And so we help them do crossr run caching. Right? So this is a global
+[02:05:58] caching. Right? So this is a global
+[02:05:58] caching. Right? So this is a global cache I mentioned earlier. So they don't
+[02:06:00] cache I mentioned earlier. So they don't
+[02:06:00] cache I mentioned earlier. So they don't have to re double pay for LLM API calls
+[02:06:03] have to re double pay for LLM API calls
+[02:06:03] have to re double pay for LLM API calls given the same research prompt.
+[02:06:06] given the same research prompt.
+[02:06:06] given the same research prompt. They did this really cool thing that I
+[02:06:08] They did this really cool thing that I
+[02:06:08] They did this really cool thing that I need to learn more about, but it's
+[02:06:09] need to learn more about, but it's
+[02:06:09] need to learn more about, but it's basically semantic conversion detection.
+[02:06:12] basically semantic conversion detection.
+[02:06:12] basically semantic conversion detection. So every once in a while, the
+[02:06:14] So every once in a while, the
+[02:06:14] So every once in a while, the coordinator layer would look at all the
+[02:06:16] coordinator layer would look at all the
+[02:06:16] coordinator layer would look at all the research threads they were spinning up
+[02:06:18] research threads they were spinning up
+[02:06:18] research threads they were spinning up and based on some similarity, semantic
+[02:06:20] and based on some similarity, semantic
+[02:06:20] and based on some similarity, semantic similarity, they would group and
+[02:06:22] similarity, they would group and
+[02:06:22] similarity, they would group and consolidate them. so as to avoid
+[02:06:25] consolidate them. so as to avoid
+[02:06:25] consolidate them. so as to avoid duplicate work for their researchers.
+[02:06:29] duplicate work for their researchers.
+[02:06:29] duplicate work for their researchers. Checkpoint based recovery. This is what
+[02:06:30] Checkpoint based recovery. This is what
+[02:06:30] Checkpoint based recovery. This is what I talked about with the durability
+[02:06:32] I talked about with the durability
+[02:06:32] I talked about with the durability piece. Uh they use spot instances
+[02:06:34] piece. Uh they use spot instances
+[02:06:34] piece. Uh they use spot instances heavily to reduce costs and it became
+[02:06:36] heavily to reduce costs and it became
+[02:06:36] heavily to reduce costs and it became basically a non-issue. Spot instances
+[02:06:38] basically a non-issue. Spot instances
+[02:06:38] basically a non-issue. Spot instances would go away. They would come back a
+[02:06:40] would go away. They would come back a
+[02:06:40] would go away. They would come back a few seconds later and you wouldn't lose
+[02:06:42] few seconds later and you wouldn't lose
+[02:06:42] few seconds later and you wouldn't lose any progress.
+[02:06:44] any progress.
+[02:06:44] any progress. And you have full auditability. Every
+[02:06:46] And you have full auditability. Every
+[02:06:46] And you have full auditability. Every single LLM call or every single tool
+[02:06:49] single LLM call or every single tool
+[02:06:49] single LLM call or every single tool crawl is traced.
+[02:06:52] crawl is traced.
+[02:06:52] crawl is traced. And so the result is I actually
+[02:06:54] And so the result is I actually
+[02:06:54] And so the result is I actually onboarded them. So I helped them and
+[02:06:56] onboarded them. So I helped them and
+[02:06:56] onboarded them. So I helped them and within an hour they onboarded their
+[02:06:58] within an hour they onboarded their
+[02:06:58] within an hour they onboarded their local BAML agent prototype into
+[02:07:01] local BAML agent prototype into
+[02:07:01] local BAML agent prototype into production in about an hour. And this
+[02:07:03] production in about an hour. And this
+[02:07:03] production in about an hour. And this got them two 2,000 plus concurrent runs.
+[02:07:06] got them two 2,000 plus concurrent runs.
+[02:07:06] got them two 2,000 plus concurrent runs. And the onboarding was really because it
+[02:07:08] And the onboarding was really because it
+[02:07:08] And the onboarding was really because it was just Python just like here's the
+[02:07:09] was just Python just like here's the
+[02:07:09] was just Python just like here's the task config here's the decorators just
+[02:07:12] task config here's the decorators just
+[02:07:12] task config here's the decorators just go do your thing.
+[02:07:15] go do your thing.
+[02:07:15] go do your thing. Reduce their recovery failure recovery
+[02:07:17] Reduce their recovery failure recovery
+[02:07:17] Reduce their recovery failure recovery time by 50%. Increase their development
+[02:07:19] time by 50%. Increase their development
+[02:07:19] time by 50%. Increase their development velocity by 30%. and uh they save 12
+[02:07:23] velocity by 30%. and uh they save 12
+[02:07:23] velocity by 30%. and uh they save 12 hours a week on infrastructure
+[02:07:24] hours a week on infrastructure
+[02:07:24] hours a week on infrastructure maintenance because of this. So in
+[02:07:27] maintenance because of this. So in
+[02:07:27] maintenance because of this. So in conclusion,
+[02:07:29] conclusion,
+[02:07:29] conclusion, if you're an agent builder or starting
+[02:07:30] if you're an agent builder or starting
+[02:07:30] if you're an agent builder or starting to build agents, do yourself a favor and
+[02:07:32] to build agents, do yourself a favor and
+[02:07:32] to build agents, do yourself a favor and your agents a favor. Um consider that
+[02:07:35] your agents a favor. Um consider that
+[02:07:36] your agents a favor. Um consider that observability is necessary but not
+[02:07:37] observability is necessary but not
+[02:07:37] observability is necessary but not sufficient. Durability helps rec agents
+[02:07:41] sufficient. Durability helps rec agents
+[02:07:41] sufficient. Durability helps rec agents recover quickly. Don't aim for failure
+[02:07:44] recover quickly. Don't aim for failure
+[02:07:44] recover quickly. Don't aim for failure proof. Aim for cheap failures, fast
+[02:07:47] proof. Aim for cheap failures, fast
+[02:07:47] proof. Aim for cheap failures, fast recovery, and a very tight quick agent
+[02:07:49] recovery, and a very tight quick agent
+[02:07:50] recovery, and a very tight quick agent loop feedback.
+[02:07:52] loop feedback.
+[02:07:52] loop feedback. Think about infrastructure as context.
+[02:07:54] Think about infrastructure as context.
+[02:07:54] Think about infrastructure as context. So when you begin, you're starting
+[02:07:56] So when you begin, you're starting
+[02:07:56] So when you begin, you're starting probably with a single node, but when
+[02:07:57] probably with a single node, but when
+[02:07:57] probably with a single node, but when you start scaling out this, you're going
+[02:07:59] you start scaling out this, you're going
+[02:07:59] you start scaling out this, you're going to start feeling this pain. And secure
+[02:08:01] to start feeling this pain. And secure
+[02:08:02] to start feeling this pain. And secure sandboxes facilitate self-healing in
+[02:08:04] sandboxes facilitate self-healing in
+[02:08:04] sandboxes facilitate self-healing in that in the inner loop, the agent can
+[02:08:06] that in the inner loop, the agent can
+[02:08:06] that in the inner loop, the agent can fix bugs and build itself new tools as
+[02:08:09] fix bugs and build itself new tools as
+[02:08:09] fix bugs and build itself new tools as needed. Help your agents help
+[02:08:11] needed. Help your agents help
+[02:08:12] needed. Help your agents help themselves.
+[02:08:13] themselves.
+[02:08:13] themselves. Thank you.
+[02:08:17] We got time for a question. Who's got a
+[02:08:19] We got time for a question. Who's got a question around here? Anybody? Let's
+[02:08:22] question around here? Anybody? Let's
+[02:08:22] question around here? Anybody? Let's see. Let's see.
+[02:08:26] I
+[02:08:26] I &gt;&gt; think people are hungry.
+[02:08:29] &gt;&gt; think people are hungry.
+[02:08:29] &gt;&gt; think people are hungry. &gt;&gt; We got one over here.
+[02:08:35] &gt;&gt; Wondering if you've uh got got an
+[02:08:38] &gt;&gt; Wondering if you've uh got got an opinion on what the right size and
+[02:08:40] opinion on what the right size and
+[02:08:40] opinion on what the right size and number of agent tiers are. You you
+[02:08:42] number of agent tiers are. You you
+[02:08:42] number of agent tiers are. You you showed an example of four tiers. Is that
+[02:08:44] showed an example of four tiers. Is that
+[02:08:44] showed an example of four tiers. Is that typical or
+[02:08:48] that was special just because they they
+[02:08:52] that was special just because they they had a pretty scaled out use case like um
+[02:08:56] had a pretty scaled out use case like um
+[02:08:56] had a pretty scaled out use case like um as so as you saw it was like 200 steps
+[02:08:59] as so as you saw it was like 200 steps
+[02:08:59] as so as you saw it was like 200 steps 100 100 LLM calls per software product
+[02:09:02] 100 100 LLM calls per software product
+[02:09:02] 100 100 LLM calls per software product and that's non-deterministic too like
+[02:09:04] and that's non-deterministic too like
+[02:09:04] and that's non-deterministic too like for any given prompt highle prompt to
+[02:09:07] for any given prompt highle prompt to
+[02:09:08] for any given prompt highle prompt to populate a particular SAS product you
+[02:09:10] populate a particular SAS product you
+[02:09:10] populate a particular SAS product you don't know how many research threads are
+[02:09:12] don't know how many research threads are
+[02:09:12] don't know how many research threads are going to happen right so I think that to
+[02:09:15] going to happen right so I think that to
+[02:09:15] going to happen right so I think that to from my experience at least At least
+[02:09:17] from my experience at least At least
+[02:09:17] from my experience at least At least that's kind of like the upper limit of
+[02:09:18] that's kind of like the upper limit of
+[02:09:18] that's kind of like the upper limit of scale that I've seen so far. Um,
+[02:09:20] scale that I've seen so far. Um,
+[02:09:20] scale that I've seen so far. Um, generally it's just an agent and a sub
+[02:09:23] generally it's just an agent and a sub
+[02:09:23] generally it's just an agent and a sub agent. Like I wouldn't go generally
+[02:09:25] agent. Like I wouldn't go generally
+[02:09:25] agent. Like I wouldn't go generally deeper than that. And even then just one
+[02:09:27] deeper than that. And even then just one
+[02:09:27] deeper than that. And even then just one agent with a bunch of tools. Like I feel
+[02:09:29] agent with a bunch of tools. Like I feel
+[02:09:29] agent with a bunch of tools. Like I feel like that's for for at least the
+[02:09:31] like that's for for at least the
+[02:09:31] like that's for for at least the internal use cases we've built that
+[02:09:34] internal use cases we've built that
+[02:09:34] internal use cases we've built that works really well. Um, especially if
+[02:09:36] works really well. Um, especially if
+[02:09:36] works really well. Um, especially if there are uh like the butter robot. They
+[02:09:39] there are uh like the butter robot. They
+[02:09:39] there are uh like the butter robot. They just do one the one thing and they just
+[02:09:41] just do one the one thing and they just
+[02:09:41] just do one the one thing and they just do that one thing, right? But if you're
+[02:09:43] do that one thing, right? But if you're
+[02:09:44] do that one thing, right? But if you're doing deep research and you're you have
+[02:09:46] doing deep research and you're you have
+[02:09:46] doing deep research and you're you have like this coordinator layer and and I
+[02:09:48] like this coordinator layer and and I
+[02:09:48] like this coordinator layer and and I think they arrived at that solution
+[02:09:49] think they arrived at that solution
+[02:09:49] think they arrived at that solution because they were finding a lot of
+[02:09:51] because they were finding a lot of
+[02:09:51] because they were finding a lot of duplicate research threads and so that
+[02:09:54] duplicate research threads and so that
+[02:09:54] duplicate research threads and so that you know they implemented that semantic
+[02:09:55] you know they implemented that semantic
+[02:09:55] you know they implemented that semantic convergence um algorithm. Yeah. But
+[02:09:59] convergence um algorithm. Yeah. But
+[02:09:59] convergence um algorithm. Yeah. But generally I just start with one um and
+[02:10:02] generally I just start with one um and
+[02:10:02] generally I just start with one um and then one sub aent
+[02:10:04] then one sub aent
+[02:10:04] then one sub aent layer of sub aent so the sub agents can
+[02:10:06] layer of sub aent so the sub agents can
+[02:10:06] layer of sub aent so the sub agents can do different things right.
+[02:10:08] do different things right.
+[02:10:08] do different things right. &gt;&gt; Yeah.
+[02:10:09] &gt;&gt; Yeah. &gt;&gt; Excellent. Let's give one more round of
+[02:10:12] &gt;&gt; Excellent. Let's give one more round of
+[02:10:12] &gt;&gt; Excellent. Let's give one more round of applause for news.

@@ -1,0 +1,1987 @@
+# Talk: General Purpose Agents - The Agent Harness and Tool Runtime
+# Speaker: Harrison Chase (LangChain) & Sam (Arcade.dev)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 06:07:22 - 06:43:39
+# Lines: 1980
+
+[06:07:22] get on up to this stage and let's give
+[06:07:22] get on up to this stage and let's give them a big round of applause.
+[06:07:25] them a big round of applause.
+[06:07:25] them a big round of applause. &gt;&gt; These guys need no introduction.
+[06:07:28] &gt;&gt; These guys need no introduction.
+[06:07:28] &gt;&gt; These guys need no introduction. &gt;&gt; Welcome, dude.
+[06:07:29] &gt;&gt; Welcome, dude.
+[06:07:29] &gt;&gt; Welcome, dude. &gt;&gt; Here's this for you.
+[06:07:31] &gt;&gt; Here's this for you.
+[06:07:31] &gt;&gt; Here's this for you. &gt;&gt; Oh, I get the mic.
+[06:07:33] &gt;&gt; Oh, I get the mic.
+[06:07:33] &gt;&gt; Oh, I get the mic. &gt;&gt; Way too nice of an introduction. Do I
+[06:07:35] &gt;&gt; Way too nice of an introduction. Do I
+[06:07:35] &gt;&gt; Way too nice of an introduction. Do I need this?
+[06:07:36] need this?
+[06:07:36] need this? &gt;&gt; Do I get a mic?
+[06:07:37] &gt;&gt; Do I get a mic?
+[06:07:37] &gt;&gt; Do I get a mic? &gt;&gt; I think we both have mics.
+[06:07:38] &gt;&gt; I think we both have mics.
+[06:07:38] &gt;&gt; I think we both have mics. &gt;&gt; Oh, I don't think I need this.
+[06:07:41] &gt;&gt; Oh, I don't think I need this.
+[06:07:41] &gt;&gt; Oh, I don't think I need this. &gt;&gt; I don't need it. All right, we're
+[06:07:44] &gt;&gt; I don't need it. All right, we're
+[06:07:44] &gt;&gt; I don't need it. All right, we're figuring this out live. Um, hello. My
+[06:07:47] figuring this out live. Um, hello. My
+[06:07:47] figuring this out live. Um, hello. My name's uh Harrison Chase. I'm the
+[06:07:49] name's uh Harrison Chase. I'm the
+[06:07:49] name's uh Harrison Chase. I'm the co-founder and CEO of Langchain and I
+[06:07:52] co-founder and CEO of Langchain and I
+[06:07:52] co-founder and CEO of Langchain and I have the clicker here which I'm giving
+[06:07:53] have the clicker here which I'm giving
+[06:07:53] have the clicker here which I'm giving to my friend Sam.
+[06:07:55] to my friend Sam.
+[06:07:55] to my friend Sam. &gt;&gt; Thank you for announcing that. Hi, I'm
+[06:07:57] &gt;&gt; Thank you for announcing that. Hi, I'm
+[06:07:57] &gt;&gt; Thank you for announcing that. Hi, I'm Sam Party. I'm CTO and co-founder of
+[06:07:58] Sam Party. I'm CTO and co-founder of
+[06:07:58] Sam Party. I'm CTO and co-founder of arcade.dev. Uh, and today we're going to
+[06:08:01] arcade.dev. Uh, and today we're going to
+[06:08:01] arcade.dev. Uh, and today we're going to talk about general purpose agents and
+[06:08:04] talk about general purpose agents and
+[06:08:04] talk about general purpose agents and something that Harris and I have talked
+[06:08:05] something that Harris and I have talked
+[06:08:05] something that Harris and I have talked about for a long time, which is why
+[06:08:07] about for a long time, which is why
+[06:08:07] about for a long time, which is why coding agents
+[06:08:09] coding agents
+[06:08:09] coding agents are actually the foundation for general
+[06:08:12] are actually the foundation for general
+[06:08:12] are actually the foundation for general purpose agents. This might not
+[06:08:14] purpose agents. This might not
+[06:08:14] purpose agents. This might not immediately make sense, but hopefully
+[06:08:15] immediately make sense, but hopefully
+[06:08:15] immediately make sense, but hopefully over the course of the talk it does make
+[06:08:17] over the course of the talk it does make
+[06:08:17] over the course of the talk it does make more sense.
+[06:08:19] more sense.
+[06:08:19] more sense. So what is a coding agent? What does it
+[06:08:21] So what is a coding agent? What does it
+[06:08:21] So what is a coding agent? What does it help you do? Things that we use every
+[06:08:23] help you do? Things that we use every
+[06:08:23] help you do? Things that we use every single day, right? Cloud code, yada
+[06:08:25] single day, right? Cloud code, yada
+[06:08:25] single day, right? Cloud code, yada yada. What does it have access to? A
+[06:08:26] yada. What does it have access to? A
+[06:08:26] yada. What does it have access to? A file system. It reads and writes files.
+[06:08:29] file system. It reads and writes files.
+[06:08:29] file system. It reads and writes files. It is able to over time over its
+[06:08:32] It is able to over time over its
+[06:08:32] It is able to over time over its iterations keep and store not only
+[06:08:35] iterations keep and store not only
+[06:08:35] iterations keep and store not only things like memory, but just task
+[06:08:38] things like memory, but just task
+[06:08:38] things like memory, but just task execution data in a workspace local to
+[06:08:42] execution data in a workspace local to
+[06:08:42] execution data in a workspace local to itself. And so in doing so, it's able to
+[06:08:47] itself. And so in doing so, it's able to
+[06:08:47] itself. And so in doing so, it's able to keep and store things that as it's
+[06:08:49] keep and store things that as it's
+[06:08:49] keep and store things that as it's working on, it can go back and reference
+[06:08:51] working on, it can go back and reference
+[06:08:52] working on, it can go back and reference and keep not in its context window, but
+[06:08:54] and keep not in its context window, but
+[06:08:54] and keep not in its context window, but in something that is a retrievable
+[06:08:56] in something that is a retrievable
+[06:08:56] in something that is a retrievable object. And so this is a a paradigm that
+[06:08:59] object. And so this is a a paradigm that
+[06:08:59] object. And so this is a a paradigm that you can extend not only through just
+[06:09:01] you can extend not only through just
+[06:09:01] you can extend not only through just simple search like rag, but all the way
+[06:09:04] simple search like rag, but all the way
+[06:09:04] simple search like rag, but all the way through tool calling. And we'll show
+[06:09:06] through tool calling. And we'll show
+[06:09:06] through tool calling. And we'll show over the course of the talk how it
+[06:09:08] over the course of the talk how it
+[06:09:08] over the course of the talk how it extends through a bunch of different
+[06:09:09] extends through a bunch of different
+[06:09:09] extends through a bunch of different paradigms as well. Now, the point of the
+[06:09:11] paradigms as well. Now, the point of the
+[06:09:12] paradigms as well. Now, the point of the talk is actually also to get you to a
+[06:09:14] talk is actually also to get you to a
+[06:09:14] talk is actually also to get you to a general purpose agent. Not just
+[06:09:15] general purpose agent. Not just
+[06:09:15] general purpose agent. Not just something that works on your laptop for
+[06:09:17] something that works on your laptop for
+[06:09:17] something that works on your laptop for one user, but something that works for
+[06:09:19] one user, but something that works for
+[06:09:19] one user, but something that works for an entire organization for all of your
+[06:09:21] an entire organization for all of your
+[06:09:21] an entire organization for all of your users. And so, how do you do that? Well,
+[06:09:24] users. And so, how do you do that? Well,
+[06:09:24] users. And so, how do you do that? Well, you start with a coding agent. And
+[06:09:26] you start with a coding agent. And
+[06:09:26] you start with a coding agent. And that's the primary object of what
+[06:09:27] that's the primary object of what
+[06:09:27] that's the primary object of what Harrison's going to talk about today.
+[06:09:30] Harrison's going to talk about today.
+[06:09:30] Harrison's going to talk about today. So, what are we going to talk about?
+[06:09:32] So, what are we going to talk about?
+[06:09:32] So, what are we going to talk about? We're going to talk about two things.
+[06:09:33] We're going to talk about two things.
+[06:09:33] We're going to talk about two things. First, Harrison's going to talk about
+[06:09:34] First, Harrison's going to talk about
+[06:09:34] First, Harrison's going to talk about the agent harness and why it's important
+[06:09:35] the agent harness and why it's important
+[06:09:36] the agent harness and why it's important and why this gives you the coding agent
+[06:09:37] and why this gives you the coding agent
+[06:09:37] and why this gives you the coding agent paradigm. why this gives you a basis for
+[06:09:40] paradigm. why this gives you a basis for
+[06:09:40] paradigm. why this gives you a basis for what you need for that cloud code like
+[06:09:42] what you need for that cloud code like
+[06:09:42] what you need for that cloud code like experience and then I will talk about
+[06:09:45] experience and then I will talk about
+[06:09:45] experience and then I will talk about the tool runtime and what's necessary
+[06:09:46] the tool runtime and what's necessary
+[06:09:46] the tool runtime and what's necessary there to make these two things combine
+[06:09:49] there to make these two things combine
+[06:09:49] there to make these two things combine into what is necessary in our view for a
+[06:09:52] into what is necessary in our view for a
+[06:09:52] into what is necessary in our view for a general purpose agent for your company
+[06:09:55] general purpose agent for your company
+[06:09:55] general purpose agent for your company not only for yourself but for your
+[06:09:57] not only for yourself but for your
+[06:09:57] not only for yourself but for your company for your friends for your users
+[06:09:58] company for your friends for your users
+[06:09:58] company for your friends for your users what have you
+[06:10:01] what have you
+[06:10:01] what have you these two things that we can say when we
+[06:10:03] these two things that we can say when we
+[06:10:03] these two things that we can say when we put together make a general purpose
+[06:10:05] put together make a general purpose
+[06:10:05] put together make a general purpose agent uh have different responsibilities
+[06:10:09] agent uh have different responsibilities
+[06:10:09] agent uh have different responsibilities and they might seem like they're really
+[06:10:10] and they might seem like they're really
+[06:10:10] and they might seem like they're really similar. It might seem like cloud code
+[06:10:12] similar. It might seem like cloud code
+[06:10:12] similar. It might seem like cloud code calls tools and reads and writes files
+[06:10:15] calls tools and reads and writes files
+[06:10:15] calls tools and reads and writes files through tools or that it extends its
+[06:10:16] through tools or that it extends its
+[06:10:16] through tools or that it extends its memory through some interface through
+[06:10:19] memory through some interface through
+[06:10:19] memory through some interface through the tool runtime when actually these two
+[06:10:22] the tool runtime when actually these two
+[06:10:22] the tool runtime when actually these two things actually have very different
+[06:10:23] things actually have very different
+[06:10:23] things actually have very different responsibilities and have an incredible
+[06:10:26] responsibilities and have an incredible
+[06:10:26] responsibilities and have an incredible responsibility in the foundation of a
+[06:10:29] responsibility in the foundation of a
+[06:10:29] responsibility in the foundation of a general agent. So first Harrison's going
+[06:10:32] general agent. So first Harrison's going
+[06:10:32] general agent. So first Harrison's going to talk about that agent harness piece
+[06:10:34] to talk about that agent harness piece
+[06:10:34] to talk about that agent harness piece and that is the foundation that gives
+[06:10:35] and that is the foundation that gives
+[06:10:36] and that is the foundation that gives you that cloud code like experience and
+[06:10:37] you that cloud code like experience and
+[06:10:37] you that cloud code like experience and then I will talk about the next piece
+[06:10:39] then I will talk about the next piece
+[06:10:39] then I will talk about the next piece that brings it out uh the general
+[06:10:41] that brings it out uh the general
+[06:10:42] that brings it out uh the general purpose agent as well.
+[06:10:44] purpose agent as well.
+[06:10:44] purpose agent as well. Cool. So agent harness is a fun term to
+[06:10:47] Cool. So agent harness is a fun term to
+[06:10:47] Cool. So agent harness is a fun term to describe the scaffolding around the
+[06:10:49] describe the scaffolding around the
+[06:10:49] describe the scaffolding around the model that lets it interact with the
+[06:10:51] model that lets it interact with the
+[06:10:51] model that lets it interact with the environment and do things. And so I want
+[06:10:53] environment and do things. And so I want
+[06:10:53] environment and do things. And so I want to talk a little bit about how we think
+[06:10:54] to talk a little bit about how we think
+[06:10:54] to talk a little bit about how we think about agent harnesses at Langchain. How
+[06:10:57] about agent harnesses at Langchain. How
+[06:10:57] about agent harnesses at Langchain. How we've thought about building our own
+[06:10:59] we've thought about building our own
+[06:11:00] we've thought about building our own agent harness called deep agents. Um and
+[06:11:02] agent harness called deep agents. Um and
+[06:11:02] agent harness called deep agents. Um and then some of the things that we've added
+[06:11:03] then some of the things that we've added
+[06:11:03] then some of the things that we've added into it which are very similar to things
+[06:11:05] into it which are very similar to things
+[06:11:05] into it which are very similar to things that are in other agent harnesses like
+[06:11:06] that are in other agent harnesses like
+[06:11:06] that are in other agent harnesses like cloud code or codecs or things like
+[06:11:08] cloud code or codecs or things like
+[06:11:08] cloud code or codecs or things like that. So uh what is an agent? Most
+[06:11:13] that. So uh what is an agent? Most
+[06:11:13] that. So uh what is an agent? Most people would probably technically define
+[06:11:14] people would probably technically define
+[06:11:14] people would probably technically define an agent as an LLM running in a loop
+[06:11:16] an agent as an LLM running in a loop
+[06:11:16] an agent as an LLM running in a loop calling tools. Uh so so what is the
+[06:11:19] calling tools. Uh so so what is the
+[06:11:19] calling tools. Uh so so what is the difference between that and an agent
+[06:11:21] difference between that and an agent
+[06:11:21] difference between that and an agent harness? Basically an agent harness adds
+[06:11:24] harness? Basically an agent harness adds
+[06:11:24] harness? Basically an agent harness adds more things in. Um so you can think of
+[06:11:26] more things in. Um so you can think of
+[06:11:26] more things in. Um so you can think of it as having more batteries included.
+[06:11:28] it as having more batteries included.
+[06:11:28] it as having more batteries included. And so what are some of the things that
+[06:11:29] And so what are some of the things that
+[06:11:29] And so what are some of the things that it adds in? One of them very commonly is
+[06:11:31] it adds in? One of them very commonly is
+[06:11:31] it adds in? One of them very commonly is a planning tool or instructions for
+[06:11:33] a planning tool or instructions for
+[06:11:33] a planning tool or instructions for doing planning. Um
+[06:11:36] doing planning. Um
+[06:11:36] doing planning. Um another uh very common component is file
+[06:11:39] another uh very common component is file
+[06:11:39] another uh very common component is file system tools. Uh so these are for
+[06:11:41] system tools. Uh so these are for
+[06:11:41] system tools. Uh so these are for interacting with the file systems. These
+[06:11:42] interacting with the file systems. These
+[06:11:42] interacting with the file systems. These can be to read and write um uh search
+[06:11:46] can be to read and write um uh search
+[06:11:46] can be to read and write um uh search files, glob GP files, depending on the
+[06:11:49] files, glob GP files, depending on the
+[06:11:49] files, glob GP files, depending on the hardness that you're using. It may have
+[06:11:51] hardness that you're using. It may have
+[06:11:51] hardness that you're using. It may have a few of these. It may have a lot of
+[06:11:53] a few of these. It may have a lot of
+[06:11:53] a few of these. It may have a lot of these. That kind of depends um on on
+[06:11:55] these. That kind of depends um on on
+[06:11:55] these. That kind of depends um on on what else it has uh in terms of kind of
+[06:11:57] what else it has uh in terms of kind of
+[06:11:57] what else it has uh in terms of kind of like code execution tools because
+[06:11:59] like code execution tools because
+[06:11:59] like code execution tools because sometimes you can just execute code to
+[06:12:01] sometimes you can just execute code to
+[06:12:01] sometimes you can just execute code to do the same thing. Um and and and the
+[06:12:03] do the same thing. Um and and and the
+[06:12:03] do the same thing. Um and and and the file system is often times where the
+[06:12:04] file system is often times where the
+[06:12:04] file system is often times where the agent definition is actually stored. So
+[06:12:06] agent definition is actually stored. So
+[06:12:06] agent definition is actually stored. So you can represent an agent as basically
+[06:12:09] you can represent an agent as basically
+[06:12:09] you can represent an agent as basically an agent.mmd and skills and an mcp.json.
+[06:12:13] an agent.mmd and skills and an mcp.json.
+[06:12:13] an agent.mmd and skills and an mcp.json. And if you think about all these things
+[06:12:14] And if you think about all these things
+[06:12:14] And if you think about all these things that you use in coding agents to define
+[06:12:17] that you use in coding agents to define
+[06:12:17] that you use in coding agents to define the code to to kind of like guide the
+[06:12:19] the code to to kind of like guide the
+[06:12:19] the code to to kind of like guide the coding agents to do things, I would
+[06:12:21] coding agents to do things, I would
+[06:12:21] coding agents to do things, I would argue that's basically how you can
+[06:12:22] argue that's basically how you can
+[06:12:22] argue that's basically how you can define a custom agent. You can kind of
+[06:12:23] define a custom agent. You can kind of
+[06:12:23] define a custom agent. You can kind of think as your of your coding agents as
+[06:12:26] think as your of your coding agents as
+[06:12:26] think as your of your coding agents as custom agents in some way.
+[06:12:28] custom agents in some way.
+[06:12:28] custom agents in some way. Um, sub aents are another aspect of this
+[06:12:31] Um, sub aents are another aspect of this
+[06:12:31] Um, sub aents are another aspect of this that can also kind of like be defined by
+[06:12:33] that can also kind of like be defined by
+[06:12:33] that can also kind of like be defined by by files on disk or or or through some
+[06:12:35] by files on disk or or or through some
+[06:12:35] by files on disk or or or through some other method.
+[06:12:37] other method.
+[06:12:37] other method. Um, we build a bunch of open source
+[06:12:40] Um, we build a bunch of open source
+[06:12:40] Um, we build a bunch of open source things at Langchain and that's kind of
+[06:12:41] things at Langchain and that's kind of
+[06:12:41] things at Langchain and that's kind of evolved over the years as the whole
+[06:12:43] evolved over the years as the whole
+[06:12:43] evolved over the years as the whole space has evolved. Um, we started off
+[06:12:45] space has evolved. Um, we started off
+[06:12:45] space has evolved. Um, we started off with Langchain in the middle actually as
+[06:12:46] with Langchain in the middle actually as
+[06:12:46] with Langchain in the middle actually as kind of like an agent framework and then
+[06:12:48] kind of like an agent framework and then
+[06:12:48] kind of like an agent framework and then we actually built Langraph as a lower
+[06:12:50] we actually built Langraph as a lower
+[06:12:50] we actually built Langraph as a lower level kind of like agent runtime. So we
+[06:12:53] level kind of like agent runtime. So we
+[06:12:53] level kind of like agent runtime. So we think of a framework mostly concerned
+[06:12:54] think of a framework mostly concerned
+[06:12:54] think of a framework mostly concerned with abstractions and integrations. Um
+[06:12:57] with abstractions and integrations. Um
+[06:12:57] with abstractions and integrations. Um we we think of uh langraph our runtime
+[06:13:00] we we think of uh langraph our runtime
+[06:13:00] we we think of uh langraph our runtime as more infrastructure almost. It has
+[06:13:02] as more infrastructure almost. It has
+[06:13:02] as more infrastructure almost. It has durable execution. It has streaming. It
+[06:13:03] durable execution. It has streaming. It
+[06:13:03] durable execution. It has streaming. It has human in the loop. It has
+[06:13:04] has human in the loop. It has
+[06:13:04] has human in the loop. It has persistence. And then recently we
+[06:13:06] persistence. And then recently we
+[06:13:06] persistence. And then recently we started on deep agents which we think as
+[06:13:08] started on deep agents which we think as
+[06:13:08] started on deep agents which we think as as as this agent harness. And it really
+[06:13:10] as as this agent harness. And it really
+[06:13:10] as as this agent harness. And it really has more of of these batteries uh
+[06:13:13] has more of of these batteries uh
+[06:13:13] has more of of these batteries uh included things.
+[06:13:17] So what's actually in a harness? And I
+[06:13:19] So what's actually in a harness? And I want to talk about this in a little bit
+[06:13:20] want to talk about this in a little bit
+[06:13:20] want to talk about this in a little bit more detail. Um so we talked about file
+[06:13:23] more detail. Um so we talked about file
+[06:13:23] more detail. Um so we talked about file system. So these are the six that we
+[06:13:25] system. So these are the six that we
+[06:13:25] system. So these are the six that we have in deep agents. We have uh list,
+[06:13:27] have in deep agents. We have uh list,
+[06:13:27] have in deep agents. We have uh list, read, write, edit, glob, and gp other
+[06:13:29] read, write, edit, glob, and gp other
+[06:13:29] read, write, edit, glob, and gp other agent harnesses. So this is pretty
+[06:13:31] agent harnesses. So this is pretty
+[06:13:31] agent harnesses. So this is pretty heavily based off of cloud code. So it
+[06:13:33] heavily based off of cloud code. So it
+[06:13:33] heavily based off of cloud code. So it actually has all of those. Codeex has a
+[06:13:35] actually has all of those. Codeex has a
+[06:13:35] actually has all of those. Codeex has a smaller subset. So it I think just has I
+[06:13:38] smaller subset. So it I think just has I
+[06:13:38] smaller subset. So it I think just has I think it just has read and write and
+[06:13:39] think it just has read and write and
+[06:13:39] think it just has read and write and then it relies on uh using the bash tool
+[06:13:42] then it relies on uh using the bash tool
+[06:13:42] then it relies on uh using the bash tool for for other options. So you can pick
+[06:13:45] for for other options. So you can pick
+[06:13:45] for for other options. So you can pick and choose which ones uh you want here.
+[06:13:48] and choose which ones uh you want here.
+[06:13:48] and choose which ones uh you want here. Um one of the really cool things that we
+[06:13:50] Um one of the really cool things that we
+[06:13:50] Um one of the really cool things that we added in deep agents that is pretty
+[06:13:51] added in deep agents that is pretty
+[06:13:51] added in deep agents that is pretty unique is that we have this concept of
+[06:13:53] unique is that we have this concept of
+[06:13:53] unique is that we have this concept of what we call kind of like a pluggable
+[06:13:54] what we call kind of like a pluggable
+[06:13:54] what we call kind of like a pluggable backend. So when you run cloud code, it
+[06:13:57] backend. So when you run cloud code, it
+[06:13:57] backend. So when you run cloud code, it runs locally against your file system
+[06:13:59] runs locally against your file system
+[06:13:59] runs locally against your file system like your real file system that you
+[06:14:01] like your real file system that you
+[06:14:01] like your real file system that you have. What we have in uh deep agents is
+[06:14:04] have. What we have in uh deep agents is
+[06:14:04] have. What we have in uh deep agents is is that file system. It it can be your
+[06:14:06] is that file system. It it can be your
+[06:14:06] is that file system. It it can be your real file system or it can be a virtual
+[06:14:09] real file system or it can be a virtual
+[06:14:09] real file system or it can be a virtual file system. So we can use a database to
+[06:14:11] file system. So we can use a database to
+[06:14:12] file system. So we can use a database to store uh quote unquote files. So you
+[06:14:14] store uh quote unquote files. So you
+[06:14:14] store uh quote unquote files. So you store it in a database but you represent
+[06:14:16] store it in a database but you represent
+[06:14:16] store it in a database but you represent it as a file system to the agent because
+[06:14:18] it as a file system to the agent because
+[06:14:18] it as a file system to the agent because that's what it knows and that's what it
+[06:14:19] that's what it knows and that's what it
+[06:14:19] that's what it knows and that's what it interacts with. This also makes it easy
+[06:14:21] interacts with. This also makes it easy
+[06:14:21] interacts with. This also makes it easy to run uh deep agents remotely because
+[06:14:24] to run uh deep agents remotely because
+[06:14:24] to run uh deep agents remotely because you can just plug it into a sandbox or
+[06:14:26] you can just plug it into a sandbox or
+[06:14:26] you can just plug it into a sandbox or something where the files are stored um
+[06:14:29] something where the files are stored um
+[06:14:29] something where the files are stored um uh elsewhere.
+[06:14:31] uh elsewhere.
+[06:14:32] uh elsewhere. Um we we have a planning tool in deep
+[06:14:33] Um we we have a planning tool in deep
+[06:14:33] Um we we have a planning tool in deep agents. This is a really simple tool.
+[06:14:35] agents. This is a really simple tool.
+[06:14:35] agents. This is a really simple tool. All it does is it asks the LLM to
+[06:14:37] All it does is it asks the LLM to
+[06:14:37] All it does is it asks the LLM to generate a plan. It doesn't even save
+[06:14:39] generate a plan. It doesn't even save
+[06:14:39] generate a plan. It doesn't even save the plan. It just puts that plan in the
+[06:14:41] the plan. It just puts that plan in the
+[06:14:41] the plan. It just puts that plan in the in the LLM's context window. It kind of
+[06:14:43] in the LLM's context window. It kind of
+[06:14:43] in the LLM's context window. It kind of it's like it's taking notes to itself as
+[06:14:45] it's like it's taking notes to itself as
+[06:14:45] it's like it's taking notes to itself as it goes along. Um, this is pretty
+[06:14:47] it goes along. Um, this is pretty
+[06:14:48] it goes along. Um, this is pretty heavily based off of Cloud Code's
+[06:14:49] heavily based off of Cloud Code's
+[06:14:49] heavily based off of Cloud Code's planning tool as well. Other agents uh
+[06:14:51] planning tool as well. Other agents uh
+[06:14:52] planning tool as well. Other agents uh do things where they actually write the
+[06:14:53] do things where they actually write the
+[06:14:53] do things where they actually write the plan down to a markdown file. That's
+[06:14:55] plan down to a markdown file. That's
+[06:14:55] plan down to a markdown file. That's obviously a much more persistent way of
+[06:14:57] obviously a much more persistent way of
+[06:14:57] obviously a much more persistent way of of keeping it. Um, and uh but but a lot
+[06:15:01] of keeping it. Um, and uh but but a lot
+[06:15:01] of keeping it. Um, and uh but but a lot of the planning tool is really just to
+[06:15:03] of the planning tool is really just to
+[06:15:03] of the planning tool is really just to have the agent think about the plan and
+[06:15:04] have the agent think about the plan and
+[06:15:04] have the agent think about the plan and put it in the context window so that it
+[06:15:06] put it in the context window so that it
+[06:15:06] put it in the context window so that it informs future generations.
+[06:15:09] informs future generations.
+[06:15:09] informs future generations. We have sub agents in uh in deep agents.
+[06:15:12] We have sub agents in uh in deep agents.
+[06:15:12] We have sub agents in uh in deep agents. They work pretty similar to sub aents in
+[06:15:14] They work pretty similar to sub aents in
+[06:15:14] They work pretty similar to sub aents in other agent harnesses. The um the really
+[06:15:17] other agent harnesses. The um the really
+[06:15:17] other agent harnesses. The um the really useful thing that sub agents do is they
+[06:15:20] useful thing that sub agents do is they
+[06:15:20] useful thing that sub agents do is they have this context isolation where you
+[06:15:22] have this context isolation where you
+[06:15:22] have this context isolation where you give a sub agent a task and it just sees
+[06:15:25] give a sub agent a task and it just sees
+[06:15:25] give a sub agent a task and it just sees that task. It doesn't see anything
+[06:15:26] that task. It doesn't see anything
+[06:15:26] that task. It doesn't see anything previously and all the work it does. The
+[06:15:29] previously and all the work it does. The
+[06:15:29] previously and all the work it does. The main agent doesn't see any of that. It
+[06:15:30] main agent doesn't see any of that. It
+[06:15:30] main agent doesn't see any of that. It just sees the final result. And so
+[06:15:32] just sees the final result. And so
+[06:15:32] just sees the final result. And so that's really good for spinning up a
+[06:15:33] that's really good for spinning up a
+[06:15:33] that's really good for spinning up a bunch of these in parallel and having
+[06:15:34] bunch of these in parallel and having
+[06:15:34] bunch of these in parallel and having them just work on things in a very
+[06:15:36] them just work on things in a very
+[06:15:36] them just work on things in a very focused way and then they come back and
+[06:15:37] focused way and then they come back and
+[06:15:37] focused way and then they come back and report the main result. Um fun kind of
+[06:15:40] report the main result. Um fun kind of
+[06:15:40] report the main result. Um fun kind of like side note there there can
+[06:15:42] like side note there there can
+[06:15:42] like side note there there can absolutely be communication issues here.
+[06:15:44] absolutely be communication issues here.
+[06:15:44] absolutely be communication issues here. So, you need the main agent to be
+[06:15:45] So, you need the main agent to be
+[06:15:45] So, you need the main agent to be specific about what the sub aent should
+[06:15:47] specific about what the sub aent should
+[06:15:47] specific about what the sub aent should do. And the sub agent needs to respond
+[06:15:49] do. And the sub agent needs to respond
+[06:15:49] do. And the sub agent needs to respond with the right info. Um, if there's
+[06:15:51] with the right info. Um, if there's
+[06:15:51] with the right info. Um, if there's breakdowns in either of those, then this
+[06:15:52] breakdowns in either of those, then this
+[06:15:52] breakdowns in either of those, then this doesn't work as intended. Skills. Uh, so
+[06:15:55] doesn't work as intended. Skills. Uh, so
+[06:15:55] doesn't work as intended. Skills. Uh, so we support skills. Most coding agents
+[06:15:57] we support skills. Most coding agents
+[06:15:57] we support skills. Most coding agents support skills. They're pretty cool and
+[06:15:59] support skills. They're pretty cool and
+[06:16:00] support skills. They're pretty cool and a nice way to package up instructions
+[06:16:01] a nice way to package up instructions
+[06:16:01] a nice way to package up instructions and tools in a way where you can kind of
+[06:16:03] and tools in a way where you can kind of
+[06:16:03] and tools in a way where you can kind of like discover um them as you go along.
+[06:16:07] like discover um them as you go along.
+[06:16:07] like discover um them as you go along. Um,
+[06:16:09] Um, some of the things that we do around
+[06:16:11] some of the things that we do around
+[06:16:11] some of the things that we do around kind of like context engineering that
+[06:16:12] kind of like context engineering that
+[06:16:12] kind of like context engineering that are built into a harness. And again,
+[06:16:14] are built into a harness. And again,
+[06:16:14] are built into a harness. And again, this is what I mean by harnesses comes
+[06:16:15] this is what I mean by harnesses comes
+[06:16:15] this is what I mean by harnesses comes with more batteries included. This is
+[06:16:17] with more batteries included. This is
+[06:16:17] with more batteries included. This is this is kind of beyond the LLM just
+[06:16:19] this is kind of beyond the LLM just
+[06:16:19] this is kind of beyond the LLM just running in a loop calling tools. One of
+[06:16:21] running in a loop calling tools. One of
+[06:16:21] running in a loop calling tools. One of the things we do is that I think other
+[06:16:22] the things we do is that I think other
+[06:16:22] the things we do is that I think other harnesses do as well is offload large
+[06:16:24] harnesses do as well is offload large
+[06:16:24] harnesses do as well is offload large tool results to files. So rather than
+[06:16:26] tool results to files. So rather than
+[06:16:26] tool results to files. So rather than see like a massive JSON file that's
+[06:16:29] see like a massive JSON file that's
+[06:16:29] see like a massive JSON file that's returned from a tool, we'll actually
+[06:16:30] returned from a tool, we'll actually
+[06:16:30] returned from a tool, we'll actually just put that in a file, show you the
+[06:16:31] just put that in a file, show you the
+[06:16:31] just put that in a file, show you the first 100 lines, say here you go. If you
+[06:16:34] first 100 lines, say here you go. If you
+[06:16:34] first 100 lines, say here you go. If you want to see more, you can read the file
+[06:16:35] want to see more, you can read the file
+[06:16:35] want to see more, you can read the file and then and then it can explore it that
+[06:16:37] and then and then it can explore it that
+[06:16:37] and then and then it can explore it that way. So this prevents you from kind of
+[06:16:39] way. So this prevents you from kind of
+[06:16:39] way. So this prevents you from kind of like blowing up your context window
+[06:16:40] like blowing up your context window
+[06:16:40] like blowing up your context window quickly and and lets the LLM a lot of
+[06:16:42] quickly and and lets the LLM a lot of
+[06:16:42] quickly and and lets the LLM a lot of this is in spirit of giving the LLM more
+[06:16:45] this is in spirit of giving the LLM more
+[06:16:45] this is in spirit of giving the LLM more control over managing its own context
+[06:16:46] control over managing its own context
+[06:16:46] control over managing its own context window. For compaction, uh what we do is
+[06:16:50] window. For compaction, uh what we do is
+[06:16:50] window. For compaction, uh what we do is when you get to a certain uh point
+[06:16:52] when you get to a certain uh point
+[06:16:52] when you get to a certain uh point relative to the context window size, we
+[06:16:54] relative to the context window size, we
+[06:16:54] relative to the context window size, we do a compaction step. We save all the
+[06:16:56] do a compaction step. We save all the
+[06:16:56] do a compaction step. We save all the original messages into the file system
+[06:16:57] original messages into the file system
+[06:16:57] original messages into the file system so that if it wants to go look at those
+[06:16:59] so that if it wants to go look at those
+[06:16:59] so that if it wants to go look at those later, it absolutely can. We're also
+[06:17:01] later, it absolutely can. We're also
+[06:17:02] later, it absolutely can. We're also thinking about giving it a tool that
+[06:17:03] thinking about giving it a tool that
+[06:17:03] thinking about giving it a tool that will let it trigger its own compaction.
+[06:17:05] will let it trigger its own compaction.
+[06:17:05] will let it trigger its own compaction. Um, so again in the spirit of giving the
+[06:17:07] Um, so again in the spirit of giving the
+[06:17:07] Um, so again in the spirit of giving the LLM more control over its own context
+[06:17:09] LLM more control over its own context
+[06:17:09] LLM more control over its own context window. Human in the loop's really
+[06:17:12] window. Human in the loop's really
+[06:17:12] window. Human in the loop's really important. We built deep agents on top
+[06:17:14] important. We built deep agents on top
+[06:17:14] important. We built deep agents on top of uh langraph. Um, and so it naturally
+[06:17:17] of uh langraph. Um, and so it naturally
+[06:17:17] of uh langraph. Um, and so it naturally supports pretty robust human loop
+[06:17:19] supports pretty robust human loop
+[06:17:19] supports pretty robust human loop controls and so we have a nice little
+[06:17:20] controls and so we have a nice little
+[06:17:20] controls and so we have a nice little config where you can specify whether you
+[06:17:22] config where you can specify whether you
+[06:17:22] config where you can specify whether you want tools to interrupt before they are
+[06:17:24] want tools to interrupt before they are
+[06:17:24] want tools to interrupt before they are executed or not.
+[06:17:27] executed or not.
+[06:17:27] executed or not. And with that, I'm going to hand it over
+[06:17:28] And with that, I'm going to hand it over
+[06:17:28] And with that, I'm going to hand it over to Sam to talk more about some tool
+[06:17:30] to Sam to talk more about some tool
+[06:17:30] to Sam to talk more about some tool stuff.
+[06:17:31] stuff.
+[06:17:31] stuff. &gt;&gt; Well done. So, human loop is actually a
+[06:17:34] &gt;&gt; Well done. So, human loop is actually a
+[06:17:34] &gt;&gt; Well done. So, human loop is actually a really good jumping off point. Um,
+[06:17:36] really good jumping off point. Um,
+[06:17:36] really good jumping off point. Um, because it's one of the points at which
+[06:17:37] because it's one of the points at which
+[06:17:37] because it's one of the points at which the harness needs to communicate with
+[06:17:40] the harness needs to communicate with
+[06:17:40] the harness needs to communicate with something that's other than the file
+[06:17:42] something that's other than the file
+[06:17:42] something that's other than the file system of that agent. Um, and so what
+[06:17:44] system of that agent. Um, and so what
+[06:17:44] system of that agent. Um, and so what you just heard from Harrison a lot was
+[06:17:46] you just heard from Harrison a lot was
+[06:17:46] you just heard from Harrison a lot was how that agent can utilize those local
+[06:17:48] how that agent can utilize those local
+[06:17:48] how that agent can utilize those local aspects of the computer. Um, from
+[06:17:51] aspects of the computer. Um, from
+[06:17:51] aspects of the computer. Um, from everything from just writing and reading
+[06:17:52] everything from just writing and reading
+[06:17:52] everything from just writing and reading a file to like something like computer
+[06:17:54] a file to like something like computer
+[06:17:54] a file to like something like computer use, right? And so these are necessary
+[06:17:56] use, right? And so these are necessary
+[06:17:56] use, right? And so these are necessary aspects that the harness provides. And
+[06:17:58] aspects that the harness provides. And
+[06:17:58] aspects that the harness provides. And so where does the tool runtime come in
+[06:18:01] so where does the tool runtime come in
+[06:18:01] so where does the tool runtime come in after that? What is necessary besides
+[06:18:03] after that? What is necessary besides
+[06:18:04] after that? What is necessary besides that local aspect of a standard IO type
+[06:18:06] that local aspect of a standard IO type
+[06:18:06] that local aspect of a standard IO type MCP server working with a a harness,
+[06:18:09] MCP server working with a a harness,
+[06:18:09] MCP server working with a a harness, right? And really the essence is in the
+[06:18:12] right? And really the essence is in the
+[06:18:12] right? And really the essence is in the multi-user and authentication
+[06:18:15] multi-user and authentication
+[06:18:15] multi-user and authentication authorization and third party services
+[06:18:18] authorization and third party services
+[06:18:18] authorization and third party services and that the things your users or you
+[06:18:20] and that the things your users or you
+[06:18:20] and that the things your users or you want to be able to use. And so, how do I
+[06:18:23] want to be able to use. And so, how do I
+[06:18:23] want to be able to use. And so, how do I access my data and secure uh my services
+[06:18:26] access my data and secure uh my services
+[06:18:26] access my data and secure uh my services securely that aren't on my local
+[06:18:28] securely that aren't on my local
+[06:18:28] securely that aren't on my local computer or that my users want to use
+[06:18:31] computer or that my users want to use
+[06:18:31] computer or that my users want to use with my agent uh that aren't local to
+[06:18:33] with my agent uh that aren't local to
+[06:18:33] with my agent uh that aren't local to their computer.
+[06:18:35] their computer.
+[06:18:35] their computer. So, I'll give you an example of this. Uh
+[06:18:38] So, I'll give you an example of this. Uh
+[06:18:38] So, I'll give you an example of this. Uh let's say you're booking a flight, okay?
+[06:18:42] let's say you're booking a flight, okay?
+[06:18:42] let's say you're booking a flight, okay? And you you want to do so with an agent.
+[06:18:44] And you you want to do so with an agent.
+[06:18:44] And you you want to do so with an agent. And I know this might seem not
+[06:18:45] And I know this might seem not
+[06:18:46] And I know this might seem not realistic, but this is actually
+[06:18:47] realistic, but this is actually
+[06:18:47] realistic, but this is actually something that an enterprise company of
+[06:18:48] something that an enterprise company of
+[06:18:48] something that an enterprise company of ours does now with agents. Um, so you
+[06:18:52] ours does now with agents. Um, so you
+[06:18:52] ours does now with agents. Um, so you have to check a calendar. How do you
+[06:18:54] have to check a calendar. How do you
+[06:18:54] have to check a calendar. How do you know which calendar, Outlook or Google?
+[06:18:58] know which calendar, Outlook or Google?
+[06:18:58] know which calendar, Outlook or Google? How do you sign in as that user? If
+[06:19:00] How do you sign in as that user? If
+[06:19:00] How do you sign in as that user? If you're giving this agent to a company,
+[06:19:02] you're giving this agent to a company,
+[06:19:02] you're giving this agent to a company, how does that company use their SSO to
+[06:19:05] how does that company use their SSO to
+[06:19:05] how does that company use their SSO to sign into that agent?
+[06:19:08] sign into that agent?
+[06:19:08] sign into that agent? Finding flights, do you have an
+[06:19:09] Finding flights, do you have an
+[06:19:09] Finding flights, do you have an integration with that? You might have an
+[06:19:11] integration with that? You might have an
+[06:19:11] integration with that? You might have an MCP server, but are you going to surface
+[06:19:14] MCP server, but are you going to surface
+[06:19:14] MCP server, but are you going to surface all of the flights and the flights that
+[06:19:16] all of the flights and the flights that
+[06:19:16] all of the flights and the flights that are particularly relevant for that
+[06:19:18] are particularly relevant for that
+[06:19:18] are particularly relevant for that particular user? What happens when you
+[06:19:19] particular user? What happens when you
+[06:19:19] particular user? What happens when you log into Amazon.com? It's your Amazon.
+[06:19:23] log into Amazon.com? It's your Amazon.
+[06:19:23] log into Amazon.com? It's your Amazon. It's the one that has the relevant
+[06:19:24] It's the one that has the relevant
+[06:19:24] It's the one that has the relevant results for you. It has personalized
+[06:19:27] results for you. It has personalized
+[06:19:27] results for you. It has personalized results with your information curtailing
+[06:19:30] results with your information curtailing
+[06:19:30] results with your information curtailing those specific results. Why don't agents
+[06:19:33] those specific results. Why don't agents
+[06:19:33] those specific results. Why don't agents do that yet?
+[06:19:35] do that yet?
+[06:19:35] do that yet? Book the flight, actually pay for it.
+[06:19:37] Book the flight, actually pay for it.
+[06:19:38] Book the flight, actually pay for it. Payment mechanisms.
+[06:19:40] Payment mechanisms.
+[06:19:40] Payment mechanisms. Notifying your team on Slack. Once
+[06:19:41] Notifying your team on Slack. Once
+[06:19:41] Notifying your team on Slack. Once again, off integration, off integration,
+[06:19:45] again, off integration, off integration,
+[06:19:45] again, off integration, off integration, off integration, off integration. This
+[06:19:48] off integration, off integration. This
+[06:19:48] off integration, off integration. This is the necessary evil
+[06:19:51] is the necessary evil
+[06:19:51] is the necessary evil that the tool runtime is responsible for
+[06:19:54] that the tool runtime is responsible for
+[06:19:54] that the tool runtime is responsible for is the dirty work of making sure that
+[06:19:57] is the dirty work of making sure that
+[06:19:57] is the dirty work of making sure that every system inside of your company,
+[06:19:59] every system inside of your company,
+[06:19:59] every system inside of your company, every enterprise that uses this
+[06:20:01] every enterprise that uses this
+[06:20:01] every enterprise that uses this particular oneoff OOTH server for their
+[06:20:04] particular oneoff OOTH server for their
+[06:20:04] particular oneoff OOTH server for their one-off service and this integration
+[06:20:07] one-off service and this integration
+[06:20:07] one-off service and this integration here, there and beyond all integrate
+[06:20:10] here, there and beyond all integrate
+[06:20:10] here, there and beyond all integrate with your agent properly that's running
+[06:20:13] with your agent properly that's running
+[06:20:13] with your agent properly that's running inside of the harness. This runtime has
+[06:20:15] inside of the harness. This runtime has
+[06:20:15] inside of the harness. This runtime has that responsibility of both that
+[06:20:17] that responsibility of both that
+[06:20:17] that responsibility of both that authentication and authorization layer
+[06:20:19] authentication and authorization layer
+[06:20:20] authentication and authorization layer as well as that integration layer. These
+[06:20:22] as well as that integration layer. These
+[06:20:22] as well as that integration layer. These two can't be separated because now the
+[06:20:24] two can't be separated because now the
+[06:20:24] two can't be separated because now the agent is an intermediary that you can't
+[06:20:27] agent is an intermediary that you can't
+[06:20:27] agent is an intermediary that you can't take out of the equation. It's no longer
+[06:20:29] take out of the equation. It's no longer
+[06:20:29] take out of the equation. It's no longer just a web app with social signin you
+[06:20:31] just a web app with social signin you
+[06:20:31] just a web app with social signin you can use a user token for. And why is
+[06:20:34] can use a user token for. And why is
+[06:20:34] can use a user token for. And why is this? Well, there's two failure patterns
+[06:20:36] this? Well, there's two failure patterns
+[06:20:36] this? Well, there's two failure patterns we see. One is a service token. So what
+[06:20:40] we see. One is a service token. So what
+[06:20:40] we see. One is a service token. So what happens with a service token? Well, it's
+[06:20:42] happens with a service token? Well, it's
+[06:20:42] happens with a service token? Well, it's either got incredibly elevated
+[06:20:43] either got incredibly elevated
+[06:20:43] either got incredibly elevated privileges to the point where no CISO is
+[06:20:45] privileges to the point where no CISO is
+[06:20:45] privileges to the point where no CISO is going to let your product be bought at
+[06:20:47] going to let your product be bought at
+[06:20:47] going to let your product be bought at enterprise or it's got so low privileges
+[06:20:51] enterprise or it's got so low privileges
+[06:20:51] enterprise or it's got so low privileges your agent's not useful and it's only
+[06:20:53] your agent's not useful and it's only
+[06:20:54] your agent's not useful and it's only good for one maybe local user on their
+[06:20:56] good for one maybe local user on their
+[06:20:56] good for one maybe local user on their laptop. And that could be helpful,
+[06:20:58] laptop. And that could be helpful,
+[06:20:58] laptop. And that could be helpful, right, for that single user. But when
+[06:21:00] right, for that single user. But when
+[06:21:00] right, for that single user. But when you want to deploy an agent firmwide,
+[06:21:05] you want to deploy an agent firmwide,
+[06:21:05] you want to deploy an agent firmwide, how are you having that firm's SSO or
+[06:21:07] how are you having that firm's SSO or
+[06:21:07] how are you having that firm's SSO or login making sure that that particular
+[06:21:10] login making sure that that particular
+[06:21:10] login making sure that that particular user is using that particular agent? And
+[06:21:13] user is using that particular agent? And
+[06:21:13] user is using that particular agent? And then even more than that, authorizing
+[06:21:15] then even more than that, authorizing
+[06:21:15] then even more than that, authorizing them to access their Google. It's not
+[06:21:17] them to access their Google. It's not
+[06:21:17] them to access their Google. It's not just the front door off C that is. It's
+[06:21:22] just the front door off C that is. It's
+[06:21:22] just the front door off C that is. It's the authorizing
+[06:21:24] the authorizing
+[06:21:24] the authorizing them to access their own Google. And so
+[06:21:27] them to access their own Google. And so
+[06:21:27] them to access their own Google. And so there's two forms here that that
+[06:21:29] there's two forms here that that
+[06:21:29] there's two forms here that that integration can't be separated from now
+[06:21:31] integration can't be separated from now
+[06:21:31] integration can't be separated from now that the agent is an intermediary.
+[06:21:36] This ends up looking what like what we
+[06:21:38] This ends up looking what like what we call delegated agent authorization.
+[06:21:41] call delegated agent authorization.
+[06:21:41] call delegated agent authorization. Essentially, you're not giving it a user
+[06:21:43] Essentially, you're not giving it a user
+[06:21:43] Essentially, you're not giving it a user token. You're giving it a portion of
+[06:21:46] token. You're giving it a portion of
+[06:21:46] token. You're giving it a portion of your user token for as many services as
+[06:21:49] your user token for as many services as
+[06:21:49] your user token for as many services as there are. The way we've approached this
+[06:21:51] there are. The way we've approached this
+[06:21:52] there are. The way we've approached this is that Arcade will hold uh hold one
+[06:21:54] is that Arcade will hold uh hold one
+[06:21:54] is that Arcade will hold uh hold one token for the subset of permissions
+[06:21:58] token for the subset of permissions
+[06:21:58] token for the subset of permissions you've authorized for that particular
+[06:22:00] you've authorized for that particular
+[06:22:00] you've authorized for that particular agent at that particular time for that
+[06:22:02] agent at that particular time for that
+[06:22:02] agent at that particular time for that user for that service. So we've covered
+[06:22:05] user for that service. So we've covered
+[06:22:05] user for that service. So we've covered both of those doors such that the least
+[06:22:08] both of those doors such that the least
+[06:22:08] both of those doors such that the least level of privilege is given to that
+[06:22:10] level of privilege is given to that
+[06:22:10] level of privilege is given to that agent for that particular user in that
+[06:22:13] agent for that particular user in that
+[06:22:13] agent for that particular user in that particular company. And in doing so,
+[06:22:15] particular company. And in doing so,
+[06:22:15] particular company. And in doing so, it's the same model that you would have
+[06:22:17] it's the same model that you would have
+[06:22:17] it's the same model that you would have had for a website with Octa in the front
+[06:22:19] had for a website with Octa in the front
+[06:22:19] had for a website with Octa in the front door and had no off Z. But now an agent
+[06:22:23] door and had no off Z. But now an agent
+[06:22:23] door and had no off Z. But now an agent has the exact same profile that a CISO
+[06:22:25] has the exact same profile that a CISO
+[06:22:25] has the exact same profile that a CISO has approved for the last 15 years.
+[06:22:29] has approved for the last 15 years.
+[06:22:29] has approved for the last 15 years. And so what does this actually look like
+[06:22:31] And so what does this actually look like
+[06:22:31] And so what does this actually look like in code, which is what I always wish
+[06:22:34] in code, which is what I always wish
+[06:22:34] in code, which is what I always wish people did in talks when they talked at
+[06:22:35] people did in talks when they talked at
+[06:22:35] people did in talks when they talked at this kind of level. Uh what does this
+[06:22:37] this kind of level. Uh what does this
+[06:22:37] this kind of level. Uh what does this look like in code? Well, this is an
+[06:22:39] look like in code? Well, this is an
+[06:22:39] look like in code? Well, this is an example of a tool
+[06:22:42] example of a tool
+[06:22:42] example of a tool to go to Reddit. And now, it actually
+[06:22:44] to go to Reddit. And now, it actually
+[06:22:44] to go to Reddit. And now, it actually isn't the whole tool, okay? It's just
+[06:22:46] isn't the whole tool, okay? It's just
+[06:22:46] isn't the whole tool, okay? It's just basically the function signature, but it
+[06:22:49] basically the function signature, but it
+[06:22:49] basically the function signature, but it is the part of the tool that specifies
+[06:22:53] is the part of the tool that specifies
+[06:22:53] is the part of the tool that specifies the exact level of privilege needed by
+[06:22:56] the exact level of privilege needed by
+[06:22:56] the exact level of privilege needed by this action that the agent's going to
+[06:22:58] this action that the agent's going to
+[06:22:58] this action that the agent's going to take. And in doing so, the agent now can
+[06:23:02] take. And in doing so, the agent now can
+[06:23:02] take. And in doing so, the agent now can say, does this user have that privilege
+[06:23:06] say, does this user have that privilege
+[06:23:06] say, does this user have that privilege for that service
+[06:23:08] for that service
+[06:23:08] for that service in this database?
+[06:23:10] in this database?
+[06:23:10] in this database? And in doing so, you can now say with
+[06:23:13] And in doing so, you can now say with
+[06:23:13] And in doing so, you can now say with certainty that no agent will take any
+[06:23:15] certainty that no agent will take any
+[06:23:15] certainty that no agent will take any action that an authorized user did not
+[06:23:18] action that an authorized user did not
+[06:23:18] action that an authorized user did not authorize them to take and that you do
+[06:23:20] authorize them to take and that you do
+[06:23:20] authorize them to take and that you do not have a log of them saying yes to.
+[06:23:23] not have a log of them saying yes to.
+[06:23:23] not have a log of them saying yes to. And human in the loop of the agent
+[06:23:25] And human in the loop of the agent
+[06:23:25] And human in the loop of the agent harness is a big part of this because
+[06:23:27] harness is a big part of this because
+[06:23:27] harness is a big part of this because how do you surface when the runtime says
+[06:23:30] how do you surface when the runtime says
+[06:23:30] how do you surface when the runtime says no to the user?
+[06:23:33] no to the user?
+[06:23:33] no to the user? We do this in a Slack agent that a lot
+[06:23:35] We do this in a Slack agent that a lot
+[06:23:35] We do this in a Slack agent that a lot of enterprises use. What if it's just
+[06:23:38] of enterprises use. What if it's just
+[06:23:38] of enterprises use. What if it's just Yeah. So I forgot that I had animations
+[06:23:40] Yeah. So I forgot that I had animations
+[06:23:40] Yeah. So I forgot that I had animations in this slide. It's not it's not the
+[06:23:43] in this slide. It's not it's not the
+[06:23:43] in this slide. It's not it's not the user's token for that service. It's a
+[06:23:45] user's token for that service. It's a
+[06:23:45] user's token for that service. It's a delegated subset.
+[06:23:48] delegated subset.
+[06:23:48] delegated subset. You don't want to give an agent RM-rf to
+[06:23:51] You don't want to give an agent RM-rf to
+[06:23:51] You don't want to give an agent RM-rf to your Google Drive. That's a bad idea.
+[06:23:55] your Google Drive. That's a bad idea.
+[06:23:55] your Google Drive. That's a bad idea. Giving them delete is almost never a
+[06:23:57] Giving them delete is almost never a
+[06:23:57] Giving them delete is almost never a good idea. And so why delegate them that
+[06:24:00] good idea. And so why delegate them that
+[06:24:00] good idea. And so why delegate them that privilege with your user token you've
+[06:24:02] privilege with your user token you've
+[06:24:02] privilege with your user token you've been sticking in your environment
+[06:24:03] been sticking in your environment
+[06:24:03] been sticking in your environment variables on your laptop for a standard
+[06:24:05] variables on your laptop for a standard
+[06:24:05] variables on your laptop for a standard IO server, which stopped doing that by
+[06:24:07] IO server, which stopped doing that by
+[06:24:07] IO server, which stopped doing that by the way, but
+[06:24:10] the way, but
+[06:24:10] the way, but please, someone posted one on LinkedIn
+[06:24:13] please, someone posted one on LinkedIn
+[06:24:13] please, someone posted one on LinkedIn the other day. It's like, man, I can log
+[06:24:14] the other day. It's like, man, I can log
+[06:24:14] the other day. It's like, man, I can log in as you right now. Um, but the user,
+[06:24:19] in as you right now. Um, but the user,
+[06:24:19] in as you right now. Um, but the user, it's not the user token. It's a subset.
+[06:24:20] it's not the user token. It's a subset.
+[06:24:20] it's not the user token. It's a subset. And even if it's just a secret, once
+[06:24:23] And even if it's just a secret, once
+[06:24:23] And even if it's just a secret, once again, please don't put this
+[06:24:26] again, please don't put this
+[06:24:26] again, please don't put this in your environment variables. Instead,
+[06:24:28] in your environment variables. Instead,
+[06:24:28] in your environment variables. Instead, put them in a secret store. In the case
+[06:24:31] put them in a secret store. In the case
+[06:24:31] put them in a secret store. In the case of Arcade, we've made it so that each
+[06:24:33] of Arcade, we've made it so that each
+[06:24:33] of Arcade, we've made it so that each function can be labeled with the secret
+[06:24:36] function can be labeled with the secret
+[06:24:36] function can be labeled with the secret name, and that can be for an org,
+[06:24:39] name, and that can be for an org,
+[06:24:39] name, and that can be for an org, project, or a user. And so, you have
+[06:24:41] project, or a user. And so, you have
+[06:24:41] project, or a user. And so, you have multiple levels of control over where
+[06:24:43] multiple levels of control over where
+[06:24:43] multiple levels of control over where that secret gets applied.
+[06:24:47] that secret gets applied.
+[06:24:47] that secret gets applied. Moving on, it's injected. It's not in
+[06:24:49] Moving on, it's injected. It's not in
+[06:24:49] Moving on, it's injected. It's not in context.
+[06:24:50] context.
+[06:24:50] context. But I'm gonna Well, I probably should
+[06:24:52] But I'm gonna Well, I probably should
+[06:24:52] But I'm gonna Well, I probably should have paused there, shouldn't I? Uh,
+[06:24:54] have paused there, shouldn't I? Uh,
+[06:24:54] have paused there, shouldn't I? Uh, contextual access is another part of
+[06:24:56] contextual access is another part of
+[06:24:56] contextual access is another part of this. So, what if you already have an
+[06:24:58] this. So, what if you already have an
+[06:24:58] this. So, what if you already have an arbback system? What if you already have
+[06:25:01] arbback system? What if you already have
+[06:25:01] arbback system? What if you already have some way you do PII? If you already have
+[06:25:04] some way you do PII? If you already have
+[06:25:04] some way you do PII? If you already have some way you do named entity recognition
+[06:25:06] some way you do named entity recognition
+[06:25:06] some way you do named entity recognition and you don't want to replace it.
+[06:25:09] and you don't want to replace it.
+[06:25:09] and you don't want to replace it. Well, what we can do is now take your
+[06:25:12] Well, what we can do is now take your
+[06:25:12] Well, what we can do is now take your tools and say pre and postexecute,
+[06:25:15] tools and say pre and postexecute,
+[06:25:15] tools and say pre and postexecute, what do you want to have happen? and in
+[06:25:17] what do you want to have happen? and in
+[06:25:17] what do you want to have happen? and in doing so hook into your entitlement
+[06:25:19] doing so hook into your entitlement
+[06:25:20] doing so hook into your entitlement system or your Keraro system that's been
+[06:25:22] system or your Keraro system that's been
+[06:25:22] system or your Keraro system that's been there for 40 years. It's this leg work
+[06:25:25] there for 40 years. It's this leg work
+[06:25:25] there for 40 years. It's this leg work that the tool runtime is responsible for
+[06:25:28] that the tool runtime is responsible for and takes care of when you actually want
+[06:25:31] and takes care of when you actually want
+[06:25:31] and takes care of when you actually want to take your agent and go sell it to an
+[06:25:33] to take your agent and go sell it to an
+[06:25:33] to take your agent and go sell it to an enterprise.
+[06:25:35] enterprise.
+[06:25:35] enterprise. And so in doing so, it gives the agent
+[06:25:37] And so in doing so, it gives the agent
+[06:25:38] And so in doing so, it gives the agent harness an ability to say, I'm positive
+[06:25:41] harness an ability to say, I'm positive
+[06:25:41] harness an ability to say, I'm positive that this is that user at this time for
+[06:25:43] that this is that user at this time for
+[06:25:43] that this is that user at this time for this action with this level of privilege
+[06:25:46] this action with this level of privilege
+[06:25:46] this action with this level of privilege to go out into the world and take some
+[06:25:48] to go out into the world and take some
+[06:25:48] to go out into the world and take some action on behalf of that user. Not just
+[06:25:51] action on behalf of that user. Not just
+[06:25:51] action on behalf of that user. Not just for that user, but as that user. It's
+[06:25:55] for that user, but as that user. It's
+[06:25:55] for that user, but as that user. It's probably the most important part. Doing
+[06:25:57] probably the most important part. Doing
+[06:25:57] probably the most important part. Doing work for the user is good. Doing work as
+[06:26:02] work for the user is good. Doing work as
+[06:26:02] work for the user is good. Doing work as the user is much better. in many cases
+[06:26:06] the user is much better. in many cases
+[06:26:06] the user is much better. in many cases because in doing so you're doing their
+[06:26:08] because in doing so you're doing their
+[06:26:08] because in doing so you're doing their work for them, not a bot, not a service
+[06:26:12] work for them, not a bot, not a service
+[06:26:12] work for them, not a bot, not a service token that's over or underprivileged.
+[06:26:14] token that's over or underprivileged.
+[06:26:14] token that's over or underprivileged. You're doing their work as them, which
+[06:26:17] You're doing their work as them, which
+[06:26:17] You're doing their work as them, which is usually much nicer, sending the email
+[06:26:20] is usually much nicer, sending the email
+[06:26:20] is usually much nicer, sending the email as you instead of making you copy paste,
+[06:26:23] as you instead of making you copy paste,
+[06:26:23] as you instead of making you copy paste, for example.
+[06:26:25] for example.
+[06:26:25] for example. What this ends up looking like is
+[06:26:26] What this ends up looking like is
+[06:26:26] What this ends up looking like is something along the lines of this
+[06:26:28] something along the lines of this
+[06:26:28] something along the lines of this diagram. I tried to make this as
+[06:26:29] diagram. I tried to make this as
+[06:26:30] diagram. I tried to make this as uncomplicated as I could, but obviously
+[06:26:32] uncomplicated as I could, but obviously
+[06:26:32] uncomplicated as I could, but obviously it's a pretty big system. So, I will say
+[06:26:35] it's a pretty big system. So, I will say
+[06:26:35] it's a pretty big system. So, I will say there's a Helm chart you can read, which
+[06:26:37] there's a Helm chart you can read, which
+[06:26:37] there's a Helm chart you can read, which for me is much easier. However, you can
+[06:26:40] for me is much easier. However, you can
+[06:26:40] for me is much easier. However, you can see some of the things that are part of
+[06:26:41] see some of the things that are part of
+[06:26:41] see some of the things that are part of the runtime here. I mentioned the
+[06:26:42] the runtime here. I mentioned the
+[06:26:42] the runtime here. I mentioned the connection to enterprise systems, but I
+[06:26:44] connection to enterprise systems, but I
+[06:26:44] connection to enterprise systems, but I feel like most people can imagine an MCP
+[06:26:47] feel like most people can imagine an MCP
+[06:26:47] feel like most people can imagine an MCP server writing a tool that's privileged
+[06:26:48] server writing a tool that's privileged
+[06:26:48] server writing a tool that's privileged for their system. What's a little bit
+[06:26:50] for their system. What's a little bit
+[06:26:50] for their system. What's a little bit harder is actually those layers of the
+[06:26:53] harder is actually those layers of the
+[06:26:53] harder is actually those layers of the registry access. How do I manage all of
+[06:26:56] registry access. How do I manage all of
+[06:26:56] registry access. How do I manage all of these things? How do I do this at an
+[06:26:58] these things? How do I do this at an
+[06:26:58] these things? How do I do this at an enterprise? Um, and that's what you see
+[06:27:00] enterprise? Um, and that's what you see
+[06:27:00] enterprise? Um, and that's what you see in the core on the right hand side
+[06:27:01] in the core on the right hand side
+[06:27:01] in the core on the right hand side there.
+[06:27:04] there. All of this of course connects directly
+[06:27:06] All of this of course connects directly
+[06:27:06] All of this of course connects directly to those harnesses that you see. Put it
+[06:27:09] to those harnesses that you see. Put it
+[06:27:09] to those harnesses that you see. Put it into lang chain, put it into langraph if
+[06:27:11] into lang chain, put it into langraph if
+[06:27:11] into lang chain, put it into langraph if you're writing it from scratch or take
+[06:27:13] you're writing it from scratch or take
+[06:27:13] you're writing it from scratch or take deep agents and just hook up the MCP
+[06:27:15] deep agents and just hook up the MCP
+[06:27:15] deep agents and just hook up the MCP server directly. Put it in a skill name
+[06:27:17] server directly. Put it in a skill name
+[06:27:18] server directly. Put it in a skill name the MCP servers and it works
+[06:27:20] the MCP servers and it works
+[06:27:20] the MCP servers and it works immediately.
+[06:27:23] immediately.
+[06:27:23] immediately. This is what that looks like. You can
+[06:27:24] This is what that looks like. You can
+[06:27:24] This is what that looks like. You can basically just go inside of Arcade and
+[06:27:27] basically just go inside of Arcade and
+[06:27:27] basically just go inside of Arcade and use our gateway, which essentially takes
+[06:27:30] use our gateway, which essentially takes
+[06:27:30] use our gateway, which essentially takes multiple MCP servers and says, "I want a
+[06:27:33] multiple MCP servers and says, "I want a
+[06:27:33] multiple MCP servers and says, "I want a new MCP server. Give me that tool, that
+[06:27:36] new MCP server. Give me that tool, that
+[06:27:36] new MCP server. Give me that tool, that tool, GitHub, Google, Microsoft, this,
+[06:27:39] tool, GitHub, Google, Microsoft, this,
+[06:27:39] tool, GitHub, Google, Microsoft, this, make an MCP server. Now serve it on the
+[06:27:41] make an MCP server. Now serve it on the
+[06:27:41] make an MCP server. Now serve it on the internet securely." That's what a
+[06:27:44] internet securely." That's what a
+[06:27:44] internet securely." That's what a gateway does. And it looks something
+[06:27:45] gateway does. And it looks something
+[06:27:45] gateway does. And it looks something like that. And then you can take that
+[06:27:47] like that. And then you can take that
+[06:27:48] like that. And then you can take that URL and that slug and plug it right into
+[06:27:50] URL and that slug and plug it right into
+[06:27:50] URL and that slug and plug it right into line chain and use it immediately
+[06:27:53] line chain and use it immediately
+[06:27:53] line chain and use it immediately or cloud code or what have you. Deep
+[06:27:56] or cloud code or what have you. Deep
+[06:27:56] or cloud code or what have you. Deep agents is pretty great.
+[06:27:59] agents is pretty great.
+[06:28:00] agents is pretty great. So bringing this all together and we'll
+[06:28:03] So bringing this all together and we'll
+[06:28:03] So bringing this all together and we'll talk about something we've recently done
+[06:28:04] talk about something we've recently done
+[06:28:04] talk about something we've recently done together to kind of bring this even more
+[06:28:06] together to kind of bring this even more
+[06:28:06] together to kind of bring this even more together. But these two pieces are
+[06:28:09] together. But these two pieces are
+[06:28:09] together. But these two pieces are distinct in the fact that they're
+[06:28:10] distinct in the fact that they're
+[06:28:10] distinct in the fact that they're responsible for major pieces of making
+[06:28:13] responsible for major pieces of making
+[06:28:13] responsible for major pieces of making an agent general. and the purpose of
+[06:28:16] an agent general. and the purpose of
+[06:28:16] an agent general. and the purpose of that agent general. Hopefully that has
+[06:28:18] that agent general. Hopefully that has
+[06:28:18] that agent general. Hopefully that has come through.
+[06:28:21] come through.
+[06:28:21] come through. &gt;&gt; And so talking a little bit about uh
+[06:28:23] &gt;&gt; And so talking a little bit about uh
+[06:28:23] &gt;&gt; And so talking a little bit about uh what this looks like in a general
+[06:28:25] what this looks like in a general
+[06:28:25] what this looks like in a general purpose world. One of the things that we
+[06:28:28] purpose world. One of the things that we
+[06:28:28] purpose world. One of the things that we have a really good integration for is
+[06:28:29] have a really good integration for is
+[06:28:30] have a really good integration for is what we call agent builder and arcade.
+[06:28:33] what we call agent builder and arcade.
+[06:28:33] what we call agent builder and arcade. So we talked about how this underlying
+[06:28:35] So we talked about how this underlying
+[06:28:35] So we talked about how this underlying harness which is very similar to coding
+[06:28:37] harness which is very similar to coding
+[06:28:37] harness which is very similar to coding agent harnesses is is can in fact power
+[06:28:40] agent harnesses is is can in fact power
+[06:28:40] agent harnesses is is can in fact power general purpose agents. Um, I don't uh I
+[06:28:43] general purpose agents. Um, I don't uh I
+[06:28:43] general purpose agents. Um, I don't uh I don't really think the interface for
+[06:28:45] don't really think the interface for
+[06:28:45] don't really think the interface for general purpose agent is in the
+[06:28:47] general purpose agent is in the
+[06:28:47] general purpose agent is in the terminal. Uh, I think that's um I don't
+[06:28:50] terminal. Uh, I think that's um I don't
+[06:28:50] terminal. Uh, I think that's um I don't think my mom would use that. I think
+[06:28:52] think my mom would use that. I think
+[06:28:52] think my mom would use that. I think there's a different interface that other
+[06:28:53] there's a different interface that other
+[06:28:53] there's a different interface that other people would and I think you see some
+[06:28:54] people would and I think you see some
+[06:28:54] people would and I think you see some ideas with this with with with Manis and
+[06:28:57] ideas with this with with with Manis and
+[06:28:57] ideas with this with with with Manis and Claude Co-work kind of like pushing in
+[06:28:59] Claude Co-work kind of like pushing in
+[06:28:59] Claude Co-work kind of like pushing in this direction of what does a more
+[06:29:00] this direction of what does a more
+[06:29:00] this direction of what does a more userfriendly interface for these things
+[06:29:02] userfriendly interface for these things
+[06:29:02] userfriendly interface for these things look like? And and so that's what agent
+[06:29:04] look like? And and so that's what agent
+[06:29:04] look like? And and so that's what agent builder is. It's powered by deep agents.
+[06:29:07] builder is. It's powered by deep agents.
+[06:29:07] builder is. It's powered by deep agents. You can connect to how how many tools
+[06:29:09] You can connect to how how many tools
+[06:29:09] You can connect to how how many tools does arcade have? thousand
+[06:29:11] does arcade have? thousand
+[06:29:11] does arcade have? thousand &gt;&gt; over 8,000
+[06:29:12] &gt;&gt; over 8,000
+[06:29:12] &gt;&gt; over 8,000 &gt;&gt; over 8,000. Okay. You can connect to
+[06:29:14] &gt;&gt; over 8,000. Okay. You can connect to
+[06:29:14] &gt;&gt; over 8,000. Okay. You can connect to over 8,000 tools uh through there as
+[06:29:16] over 8,000 tools uh through there as
+[06:29:16] over 8,000 tools uh through there as well. Um and uh and and what it is is
+[06:29:20] well. Um and uh and and what it is is
+[06:29:20] well. Um and uh and and what it is is basically a way to create agents in in a
+[06:29:25] basically a way to create agents in in a
+[06:29:25] basically a way to create agents in in a no code way by just chatting with them.
+[06:29:27] no code way by just chatting with them.
+[06:29:27] no code way by just chatting with them. One of the things that's built into to
+[06:29:29] One of the things that's built into to
+[06:29:29] One of the things that's built into to agent builder is this memory aspect. The
+[06:29:31] agent builder is this memory aspect. The
+[06:29:31] agent builder is this memory aspect. The memory is just done by modifying the
+[06:29:33] memory is just done by modifying the
+[06:29:33] memory is just done by modifying the files on the file system. We talked
+[06:29:35] files on the file system. We talked
+[06:29:35] files on the file system. We talked about how you can represent agents as
+[06:29:37] about how you can represent agents as
+[06:29:37] about how you can represent agents as files on a file system with agent.mmd
+[06:29:39] files on a file system with agent.mmd
+[06:29:39] files on a file system with agent.mmd and skills and sub aagents and mcp.json.
+[06:29:42] and skills and sub aagents and mcp.json.
+[06:29:42] and skills and sub aagents and mcp.json. And so when you talk to this agent, all
+[06:29:44] And so when you talk to this agent, all
+[06:29:44] And so when you talk to this agent, all it does is it just modifies those files
+[06:29:46] it does is it just modifies those files
+[06:29:46] it does is it just modifies those files and it it creates and evolves its
+[06:29:48] and it it creates and evolves its
+[06:29:48] and it it creates and evolves its definition of an agent along the way. So
+[06:29:51] definition of an agent along the way. So
+[06:29:51] definition of an agent along the way. So we have a number of very general purpose
+[06:29:53] we have a number of very general purpose
+[06:29:53] we have a number of very general purpose templates here. Uh so the where is it?
+[06:29:56] templates here. Uh so the where is it?
+[06:29:56] templates here. Uh so the where is it? The email assistant is one that I use uh
+[06:29:59] The email assistant is one that I use uh
+[06:29:59] The email assistant is one that I use uh I use daily. I no longer check my email.
+[06:30:01] I use daily. I no longer check my email.
+[06:30:01] I use daily. I no longer check my email. I check my email.
+[06:30:02] I check my email.
+[06:30:02] I check my email. &gt;&gt; He actually does use it. I actually yeah
+[06:30:04] &gt;&gt; He actually does use it. I actually yeah
+[06:30:04] &gt;&gt; He actually does use it. I actually yeah I I've been I' I was using it I've been
+[06:30:06] I I've been I' I was using it I've been
+[06:30:06] I I've been I' I was using it I've been using it for like a year and a half. It
+[06:30:07] using it for like a year and a half. It
+[06:30:07] using it for like a year and a half. It started
+[06:30:07] started
+[06:30:07] started &gt;&gt; it's actually been a while since we did
+[06:30:09] &gt;&gt; it's actually been a while since we did
+[06:30:09] &gt;&gt; it's actually been a while since we did agent inbox.
+[06:30:10] agent inbox.
+[06:30:10] agent inbox. &gt;&gt; It's it's evolved a lot. It started off
+[06:30:11] &gt;&gt; It's it's evolved a lot. It started off
+[06:30:11] &gt;&gt; It's it's evolved a lot. It started off on Langchain and then went to Langraph
+[06:30:13] on Langchain and then went to Langraph
+[06:30:13] on Langchain and then went to Langraph and then went to Deep Agent and now it's
+[06:30:14] and then went to Deep Agent and now it's
+[06:30:14] and then went to Deep Agent and now it's an agent builder and um and and and uh
+[06:30:18] an agent builder and um and and and uh
+[06:30:18] an agent builder and um and and and uh uh LinkedIn recruiter is a good one as
+[06:30:20] uh LinkedIn recruiter is a good one as
+[06:30:20] uh LinkedIn recruiter is a good one as well that that we use to kind of like
+[06:30:22] well that that we use to kind of like
+[06:30:22] well that that we use to kind of like source candidates. We're hiring by the
+[06:30:24] source candidates. We're hiring by the
+[06:30:24] source candidates. We're hiring by the way. Uh nice plug for that. Um
+[06:30:26] way. Uh nice plug for that. Um
+[06:30:26] way. Uh nice plug for that. Um &gt;&gt; the social media one's fun too.
+[06:30:28] &gt;&gt; the social media one's fun too.
+[06:30:28] &gt;&gt; the social media one's fun too. &gt;&gt; What?
+[06:30:28] &gt;&gt; What?
+[06:30:28] &gt;&gt; What? &gt;&gt; The social media one's fun too. You can,
+[06:30:30] &gt;&gt; The social media one's fun too. You can,
+[06:30:30] &gt;&gt; The social media one's fun too. You can, there's one that someone put out
+[06:30:31] there's one that someone put out
+[06:30:32] there's one that someone put out recently to impersonate anyone you want
+[06:30:33] recently to impersonate anyone you want
+[06:30:33] recently to impersonate anyone you want on social media, which may or may not be
+[06:30:35] on social media, which may or may not be
+[06:30:35] on social media, which may or may not be a great idea, but it is very fun to do.
+[06:30:38] a great idea, but it is very fun to do.
+[06:30:38] a great idea, but it is very fun to do. &gt;&gt; Um, this is the integration that you see
+[06:30:40] &gt;&gt; Um, this is the integration that you see
+[06:30:40] &gt;&gt; Um, this is the integration that you see right here. Essentially, it's a very
+[06:30:42] right here. Essentially, it's a very
+[06:30:42] right here. Essentially, it's a very similar page to what you've seen before.
+[06:30:43] similar page to what you've seen before.
+[06:30:43] similar page to what you've seen before. This will be coming out soon, but
+[06:30:45] This will be coming out soon, but
+[06:30:45] This will be coming out soon, but essentially, it'll enable this already
+[06:30:47] essentially, it'll enable this already
+[06:30:47] essentially, it'll enable this already really easy to use interface to just
+[06:30:49] really easy to use interface to just
+[06:30:49] really easy to use interface to just access all of the tools in Arcade.
+[06:30:51] access all of the tools in Arcade.
+[06:30:51] access all of the tools in Arcade. Hence, giving all of the deep agents
+[06:30:53] Hence, giving all of the deep agents
+[06:30:53] Hence, giving all of the deep agents that are inside of there with those easy
+[06:30:55] that are inside of there with those easy
+[06:30:55] that are inside of there with those easy to use templates a ton of different
+[06:30:56] to use templates a ton of different
+[06:30:56] to use templates a ton of different tools to be able to use. So, uh,
+[06:30:58] tools to be able to use. So, uh,
+[06:30:58] tools to be able to use. So, uh, hopefully most people can see how
+[06:30:59] hopefully most people can see how
+[06:31:00] hopefully most people can see how that'll be really fun. Um, and an easier
+[06:31:01] that'll be really fun. Um, and an easier
+[06:31:02] that'll be really fun. Um, and an easier to use interface like your mom would
+[06:31:03] to use interface like your mom would
+[06:31:03] to use interface like your mom would use.
+[06:31:04] use.
+[06:31:04] use. &gt;&gt; Yeah. Yeah. We've done integrations for
+[06:31:05] &gt;&gt; Yeah. Yeah. We've done integrations for
+[06:31:05] &gt;&gt; Yeah. Yeah. We've done integrations for a while, but this is definitely the
+[06:31:07] a while, but this is definitely the
+[06:31:07] a while, but this is definitely the tightest one. And so, excited to get
+[06:31:09] tightest one. And so, excited to get
+[06:31:09] tightest one. And so, excited to get that. And maybe just wrapping things up
+[06:31:11] that. And maybe just wrapping things up
+[06:31:11] that. And maybe just wrapping things up with uh three real simple takeaways.
+[06:31:13] with uh three real simple takeaways.
+[06:31:13] with uh three real simple takeaways. Tools really matter. Um, and if you want
+[06:31:15] Tools really matter. Um, and if you want
+[06:31:15] Tools really matter. Um, and if you want to use tools in a productionready way,
+[06:31:17] to use tools in a productionready way,
+[06:31:17] to use tools in a productionready way, use Arcade. Like the design around the
+[06:31:19] use Arcade. Like the design around the
+[06:31:19] use Arcade. Like the design around the tools. You guys wrote a really I don't
+[06:31:21] tools. You guys wrote a really I don't
+[06:31:21] tools. You guys wrote a really I don't know whether it was a blog post or
+[06:31:22] know whether it was a blog post or
+[06:31:22] know whether it was a blog post or website, but you had like 80 different
+[06:31:24] website, but you had like 80 different
+[06:31:24] website, but you had like 80 different like tips and tricks for tools.
+[06:31:26] like tips and tricks for tools.
+[06:31:26] like tips and tricks for tools. &gt;&gt; Patterns you can check out online.
+[06:31:28] &gt;&gt; Patterns you can check out online.
+[06:31:28] &gt;&gt; Patterns you can check out online. Basically just things we've learned
+[06:31:29] Basically just things we've learned
+[06:31:29] Basically just things we've learned about building tools since the past two
+[06:31:31] about building tools since the past two
+[06:31:31] about building tools since the past two and a half years.
+[06:31:33] and a half years.
+[06:31:33] and a half years. &gt;&gt; Um two, the harness matters. So this is
+[06:31:35] &gt;&gt; Um two, the harness matters. So this is
+[06:31:35] &gt;&gt; Um two, the harness matters. So this is this is what's powering the agent under
+[06:31:37] this is what's powering the agent under
+[06:31:37] this is what's powering the agent under the hood. Um you can use lingchain deep
+[06:31:39] the hood. Um you can use lingchain deep
+[06:31:39] the hood. Um you can use lingchain deep agents or the best part is it's fully
+[06:31:41] agents or the best part is it's fully
+[06:31:41] agents or the best part is it's fully open source. So you can uh fork it and
+[06:31:43] open source. So you can uh fork it and
+[06:31:43] open source. So you can uh fork it and then modify it as as you wish. We have
+[06:31:45] then modify it as as you wish. We have
+[06:31:46] then modify it as as you wish. We have lots of middleware to hook in and
+[06:31:47] lots of middleware to hook in and
+[06:31:47] lots of middleware to hook in and control that. And if you want to use
+[06:31:49] control that. And if you want to use
+[06:31:49] control that. And if you want to use them together and you don't want to code
+[06:31:50] them together and you don't want to code
+[06:31:50] them together and you don't want to code at all, but you want to get the power of
+[06:31:51] at all, but you want to get the power of
+[06:31:51] at all, but you want to get the power of these agents, use agent builder. Um, and
+[06:31:56] these agents, use agent builder. Um, and
+[06:31:56] these agents, use agent builder. Um, and yeah,
+[06:31:56] yeah,
+[06:31:56] yeah, &gt;&gt; that's pretty much it.
+[06:31:57] &gt;&gt; that's pretty much it.
+[06:31:57] &gt;&gt; that's pretty much it. &gt;&gt; That's pretty much all. Yeah. Thank you
+[06:31:58] &gt;&gt; That's pretty much all. Yeah. Thank you
+[06:31:58] &gt;&gt; That's pretty much all. Yeah. Thank you guys for coming.
+[06:31:59] guys for coming.
+[06:31:59] guys for coming. &gt;&gt; All right.
+[06:32:02] &gt;&gt; All right. &gt;&gt; Nice.
+[06:32:04] &gt;&gt; Nice. Who's got a question?
+[06:32:05] Who's got a question?
+[06:32:05] Who's got a question? &gt;&gt; We have 15 seconds left. Come on. That
+[06:32:07] &gt;&gt; We have 15 seconds left. Come on. That
+[06:32:07] &gt;&gt; We have 15 seconds left. Come on. That was pretty good, right? We timed that
+[06:32:08] was pretty good, right? We timed that
+[06:32:08] was pretty good, right? We timed that up.
+[06:32:09] up.
+[06:32:09] up. &gt;&gt; Perfect. And funny story, the reason I
+[06:32:13] &gt;&gt; Perfect. And funny story, the reason I
+[06:32:13] &gt;&gt; Perfect. And funny story, the reason I got Harrison to give this talk is I
+[06:32:15] got Harrison to give this talk is I
+[06:32:15] got Harrison to give this talk is I prompt injected his little Google agent.
+[06:32:19] prompt injected his little Google agent.
+[06:32:19] prompt injected his little Google agent. &gt;&gt; I can't believe you said that.
+[06:32:20] &gt;&gt; I can't believe you said that.
+[06:32:20] &gt;&gt; I can't believe you said that. &gt;&gt; This is great, guys. And the combination
+[06:32:22] &gt;&gt; This is great, guys. And the combination
+[06:32:22] &gt;&gt; This is great, guys. And the combination makes a lot of sense. I'm I'm curious
+[06:32:24] makes a lot of sense. I'm I'm curious
+[06:32:24] makes a lot of sense. I'm I'm curious like how you think about, you know, the
+[06:32:27] like how you think about, you know, the
+[06:32:27] like how you think about, you know, the issue of a legitimately authorized tool
+[06:32:32] issue of a legitimately authorized tool
+[06:32:32] issue of a legitimately authorized tool used maliciously or with emergent
+[06:32:34] used maliciously or with emergent
+[06:32:34] used maliciously or with emergent misalignment. You know, like Carrison,
+[06:32:36] misalignment. You know, like Carrison,
+[06:32:36] misalignment. You know, like Carrison, if you're, you know, someone's sending
+[06:32:38] if you're, you know, someone's sending
+[06:32:38] if you're, you know, someone's sending you a prompt inject in your email that
+[06:32:40] you a prompt inject in your email that
+[06:32:40] you a prompt inject in your email that then does a thing that does a thing or
+[06:32:42] then does a thing that does a thing or
+[06:32:42] then does a thing that does a thing or the agent gets confused. Yep.
+[06:32:44] the agent gets confused. Yep.
+[06:32:44] the agent gets confused. Yep. &gt;&gt; And I'm just curious how you're
+[06:32:47] &gt;&gt; And I'm just curious how you're
+[06:32:47] &gt;&gt; And I'm just curious how you're &gt;&gt; approaching that.
+[06:32:48] &gt;&gt; approaching that.
+[06:32:48] &gt;&gt; approaching that. &gt;&gt; I can talk about some of what we do. You
+[06:32:49] &gt;&gt; I can talk about some of what we do. You
+[06:32:49] &gt;&gt; I can talk about some of what we do. You can talk about what some of you do. I
+[06:32:50] can talk about what some of you do. I
+[06:32:50] can talk about what some of you do. I think we both have different approaches.
+[06:32:52] think we both have different approaches.
+[06:32:52] think we both have different approaches. So, um, one of the things that's in
+[06:32:54] So, um, one of the things that's in
+[06:32:54] So, um, one of the things that's in agent builder is, uh, basically
+[06:32:56] agent builder is, uh, basically
+[06:32:56] agent builder is, uh, basically guardrails about what tools can and
+[06:32:58] guardrails about what tools can and
+[06:32:58] guardrails about what tools can and cannot get executed automatically. and
+[06:33:00] cannot get executed automatically. and
+[06:33:00] cannot get executed automatically. and by default uh tools with write
+[06:33:02] by default uh tools with write
+[06:33:02] by default uh tools with write operations um uh can't um and so uh yeah
+[06:33:07] operations um uh can't um and so uh yeah
+[06:33:07] operations um uh can't um and so uh yeah like sending emails I'm still in the
+[06:33:09] like sending emails I'm still in the
+[06:33:09] like sending emails I'm still in the loop I go in and improve um editing its
+[06:33:12] loop I go in and improve um editing its
+[06:33:12] loop I go in and improve um editing its own memories um you can toggle and you
+[06:33:14] own memories um you can toggle and you
+[06:33:14] own memories um you can toggle and you can toggle this on and off so if you
+[06:33:15] can toggle this on and off so if you
+[06:33:15] can toggle this on and off so if you want to be riskier but by default uh
+[06:33:17] want to be riskier but by default uh
+[06:33:17] want to be riskier but by default uh anything with a write operation is
+[06:33:18] anything with a write operation is
+[06:33:18] anything with a write operation is generally human in the loop
+[06:33:20] generally human in the loop
+[06:33:20] generally human in the loop &gt;&gt; it's a great example of how now uh once
+[06:33:23] &gt;&gt; it's a great example of how now uh once
+[06:33:23] &gt;&gt; it's a great example of how now uh once again it they're both nec like the the
+[06:33:25] again it they're both nec like the the
+[06:33:25] again it they're both nec like the the file system there that's controlling the
+[06:33:27] file system there that's controlling the
+[06:33:27] file system there that's controlling the read and write right That's not in the
+[06:33:30] read and write right That's not in the
+[06:33:30] read and write right That's not in the tool definition themselves. That's in
+[06:33:32] tool definition themselves. That's in
+[06:33:32] tool definition themselves. That's in the agent harness layer. And then at our
+[06:33:34] the agent harness layer. And then at our
+[06:33:34] the agent harness layer. And then at our layer, we have things like custom
+[06:33:36] layer, we have things like custom
+[06:33:36] layer, we have things like custom verifier. So when someone clicks a link
+[06:33:38] verifier. So when someone clicks a link
+[06:33:38] verifier. So when someone clicks a link to authorize, we're going to either make
+[06:33:40] to authorize, we're going to either make
+[06:33:40] to authorize, we're going to either make you go to your IDP, us, or Langmith in
+[06:33:43] you go to your IDP, us, or Langmith in
+[06:33:43] you go to your IDP, us, or Langmith in the case of agent builder, we're going
+[06:33:44] the case of agent builder, we're going
+[06:33:44] the case of agent builder, we're going to make you go to something to say you
+[06:33:46] to make you go to something to say you
+[06:33:46] to make you go to something to say you are you first, no matter what, and then
+[06:33:49] are you first, no matter what, and then
+[06:33:49] are you first, no matter what, and then we'll make you authorized to Google to
+[06:33:51] we'll make you authorized to Google to
+[06:33:51] we'll make you authorized to Google to send your email. And that was learned
+[06:33:53] send your email. And that was learned
+[06:33:53] send your email. And that was learned the hard way. So it's a very good
+[06:33:54] the hard way. So it's a very good
+[06:33:54] the hard way. So it's a very good question.
+[06:33:57] question.
+[06:33:57] question. &gt;&gt; Yeah, thanks. Awesome talk. um you
+[06:33:59] &gt;&gt; Yeah, thanks. Awesome talk. um you
+[06:33:59] &gt;&gt; Yeah, thanks. Awesome talk. um you mentioned kind of model or agent that
+[06:34:01] mentioned kind of model or agent that
+[06:34:01] mentioned kind of model or agent that your mom would want to use very similar
+[06:34:03] your mom would want to use very similar
+[06:34:03] your mom would want to use very similar to what Peter Steinberg says uh with
+[06:34:05] to what Peter Steinberg says uh with
+[06:34:05] to what Peter Steinberg says uh with openclaw and so curious your thoughts on
+[06:34:09] openclaw and so curious your thoughts on
+[06:34:09] openclaw and so curious your thoughts on how you see this space evolving if you
+[06:34:12] how you see this space evolving if you
+[06:34:12] how you see this space evolving if you two are kind of converging and manis and
+[06:34:16] two are kind of converging and manis and
+[06:34:16] two are kind of converging and manis and all of those it seems like this is going
+[06:34:17] all of those it seems like this is going
+[06:34:17] all of those it seems like this is going to be the space for the next 90 days at
+[06:34:20] to be the space for the next 90 days at
+[06:34:20] to be the space for the next 90 days at least
+[06:34:22] least
+[06:34:22] least &gt;&gt; yeah well
+[06:34:23] &gt;&gt; yeah well
+[06:34:23] &gt;&gt; yeah well &gt;&gt; it's actually a really long time thank
+[06:34:25] &gt;&gt; it's actually a really long time thank
+[06:34:25] &gt;&gt; it's actually a really long time thank you
+[06:34:27] you
+[06:34:27] you &gt;&gt; I mean It's funny that you say that
+[06:34:28] &gt;&gt; I mean It's funny that you say that
+[06:34:28] &gt;&gt; I mean It's funny that you say that because like so we released agent
+[06:34:30] because like so we released agent
+[06:34:30] because like so we released agent builder the first version in kind of
+[06:34:32] builder the first version in kind of
+[06:34:32] builder the first version in kind of like um in whatever alpha beta thing uh
+[06:34:36] like um in whatever alpha beta thing uh
+[06:34:36] like um in whatever alpha beta thing uh probably around the time like some
+[06:34:38] probably around the time like some
+[06:34:38] probably around the time like some initial early version of open claw came
+[06:34:40] initial early version of open claw came
+[06:34:40] initial early version of open claw came out but like before it exploded and uh
+[06:34:43] out but like before it exploded and uh
+[06:34:43] out but like before it exploded and uh since then that's that's like informed
+[06:34:45] since then that's that's like informed
+[06:34:45] since then that's that's like informed our northstar of where we want to go a
+[06:34:46] our northstar of where we want to go a
+[06:34:46] our northstar of where we want to go a lot like I think they did a lot of
+[06:34:47] lot like I think they did a lot of
+[06:34:47] lot like I think they did a lot of things really really well um I think
+[06:34:49] things really really well um I think
+[06:34:49] things really really well um I think like uh
+[06:34:50] like uh
+[06:34:50] like uh &gt;&gt; did a lot of things
+[06:34:51] &gt;&gt; did a lot of things
+[06:34:51] &gt;&gt; did a lot of things &gt;&gt; yeah like chat being the primary
+[06:34:53] &gt;&gt; yeah like chat being the primary
+[06:34:53] &gt;&gt; yeah like chat being the primary interface is is is I think a really good
+[06:34:55] interface is is is I think a really good
+[06:34:56] interface is is is I think a really good one there I think this idea of like how
+[06:34:58] one there I think this idea of like how
+[06:34:58] one there I think this idea of like how you expose the agent to the external
+[06:35:00] you expose the agent to the external
+[06:35:00] you expose the agent to the external world is also really interesting. I was
+[06:35:02] world is also really interesting. I was
+[06:35:02] world is also really interesting. I was chatting with Sam about like if I create
+[06:35:04] chatting with Sam about like if I create
+[06:35:04] chatting with Sam about like if I create an agent and expose it to Sam does it
+[06:35:06] an agent and expose it to Sam does it
+[06:35:06] an agent and expose it to Sam does it use does it use Sam's credentials as
+[06:35:08] use does it use Sam's credentials as
+[06:35:08] use does it use Sam's credentials as like a pass through or does the agent
+[06:35:10] like a pass through or does the agent
+[06:35:10] like a pass through or does the agent have its own kind of like identity? And
+[06:35:12] have its own kind of like identity? And
+[06:35:12] have its own kind of like identity? And I think like with Open Claw I think we
+[06:35:14] I think like with Open Claw I think we
+[06:35:14] I think like with Open Claw I think we saw actually these agents take on their
+[06:35:16] saw actually these agents take on their
+[06:35:16] saw actually these agents take on their own identity which I think was really
+[06:35:17] own identity which I think was really
+[06:35:18] own identity which I think was really interesting and not at all what we'd
+[06:35:19] interesting and not at all what we'd
+[06:35:20] interesting and not at all what we'd seen kind of like previously.
+[06:35:21] seen kind of like previously.
+[06:35:21] seen kind of like previously. Previously, we'd seen everyone always
+[06:35:22] Previously, we'd seen everyone always
+[06:35:22] Previously, we'd seen everyone always wanted to pass their credentials
+[06:35:24] wanted to pass their credentials
+[06:35:24] wanted to pass their credentials through. And now with OpenCloud, there's
+[06:35:25] through. And now with OpenCloud, there's
+[06:35:25] through. And now with OpenCloud, there's this idea of like an agent identity and
+[06:35:27] this idea of like an agent identity and
+[06:35:27] this idea of like an agent identity and it has its memory and it has its
+[06:35:29] it has its memory and it has its
+[06:35:29] it has its memory and it has its credentials and that's really
+[06:35:30] credentials and that's really
+[06:35:30] credentials and that's really interesting and I don't know what it
+[06:35:32] interesting and I don't know what it
+[06:35:32] interesting and I don't know what it means and it'll probably figure out in
+[06:35:33] means and it'll probably figure out in
+[06:35:33] means and it'll probably figure out in 90 days or or probably more or something
+[06:35:35] 90 days or or probably more or something
+[06:35:35] 90 days or or probably more or something like that. Um, but yeah, I mean I think
+[06:35:38] like that. Um, but yeah, I mean I think
+[06:35:38] like that. Um, but yeah, I mean I think pretty clearly the agent of the future
+[06:35:40] pretty clearly the agent of the future
+[06:35:40] pretty clearly the agent of the future have uh they have they have they have uh
+[06:35:43] have uh they have they have they have uh
+[06:35:43] have uh they have they have they have uh they can write and execute code. They
+[06:35:45] they can write and execute code. They
+[06:35:45] they can write and execute code. They have some aspect of memory. They're
+[06:35:47] have some aspect of memory. They're
+[06:35:47] have some aspect of memory. They're connected to a bunch of tools. they're
+[06:35:49] connected to a bunch of tools. they're
+[06:35:49] connected to a bunch of tools. they're exposed through different services.
+[06:35:52] exposed through different services.
+[06:35:52] exposed through different services. I think there'll be two types. Some that
+[06:35:54] I think there'll be two types. Some that
+[06:35:54] I think there'll be two types. Some that have their own identity, some that take
+[06:35:55] have their own identity, some that take
+[06:35:55] have their own identity, some that take on their users's identity. Um where I I
+[06:35:58] on their users's identity. Um where I I
+[06:35:58] on their users's identity. Um where I I guess like maybe uh one thing that I
+[06:36:00] guess like maybe uh one thing that I
+[06:36:00] guess like maybe uh one thing that I haven't said that is more future
+[06:36:01] haven't said that is more future
+[06:36:01] haven't said that is more future looking. One of the things that we do in
+[06:36:03] looking. One of the things that we do in
+[06:36:03] looking. One of the things that we do in agent builder that is distinctive is we
+[06:36:04] agent builder that is distinctive is we
+[06:36:04] agent builder that is distinctive is we have this concept of agents that are
+[06:36:06] have this concept of agents that are
+[06:36:06] have this concept of agents that are triggered by events. So like running in
+[06:36:07] triggered by events. So like running in
+[06:36:07] triggered by events. So like running in the background ambiently. And we have
+[06:36:09] the background ambiently. And we have
+[06:36:09] the background ambiently. And we have this concept of an inbox where you go in
+[06:36:11] this concept of an inbox where you go in
+[06:36:11] this concept of an inbox where you go in and you see all the agents that are
+[06:36:13] and you see all the agents that are
+[06:36:13] and you see all the agents that are stuck and need human approval for tool
+[06:36:14] stuck and need human approval for tool
+[06:36:14] stuck and need human approval for tool calls and stuff.
+[06:36:15] calls and stuff.
+[06:36:15] calls and stuff. &gt;&gt; Well, it channels an open claw kind of.
+[06:36:18] &gt;&gt; Well, it channels an open claw kind of.
+[06:36:18] &gt;&gt; Well, it channels an open claw kind of. &gt;&gt; Okay. I haven't I actually I should go
+[06:36:20] &gt;&gt; Okay. I haven't I actually I should go
+[06:36:20] &gt;&gt; Okay. I haven't I actually I should go check that out then. Yeah, see I'm
+[06:36:21] check that out then. Yeah, see I'm
+[06:36:21] check that out then. Yeah, see I'm already updating my belief today. So,
+[06:36:23] already updating my belief today. So,
+[06:36:23] already updating my belief today. So, but but I think this idea of agents
+[06:36:24] but but I think this idea of agents
+[06:36:24] but but I think this idea of agents running in the background and then
+[06:36:26] running in the background and then
+[06:36:26] running in the background and then pinging you when they they need help
+[06:36:28] pinging you when they they need help
+[06:36:28] pinging you when they they need help like kind of like uh yeah, they they
+[06:36:30] like kind of like uh yeah, they they
+[06:36:30] like kind of like uh yeah, they they push things to you rather than you go in
+[06:36:32] push things to you rather than you go in
+[06:36:32] push things to you rather than you go in and kind of like pull. I think I think
+[06:36:33] and kind of like pull. I think I think
+[06:36:33] and kind of like pull. I think I think that's maybe where more and more things
+[06:36:35] that's maybe where more and more things
+[06:36:35] that's maybe where more and more things will go will go.
+[06:36:36] will go will go.
+[06:36:36] will go will go. &gt;&gt; I think what a lot of people saw with
+[06:36:37] &gt;&gt; I think what a lot of people saw with
+[06:36:37] &gt;&gt; I think what a lot of people saw with Open Call too is that it was really
+[06:36:39] Open Call too is that it was really
+[06:36:39] Open Call too is that it was really really cool, but the reason you need to
+[06:36:41] really cool, but the reason you need to
+[06:36:41] really cool, but the reason you need to buy a Mac Mini is that there's things
+[06:36:43] buy a Mac Mini is that there's things
+[06:36:43] buy a Mac Mini is that there's things that need to be figured out.
+[06:36:44] that need to be figured out.
+[06:36:44] that need to be figured out. &gt;&gt; Yeah.
+[06:36:44] &gt;&gt; Yeah. &gt;&gt; Um and we're still figuring that out.
+[06:36:47] &gt;&gt; Um and we're still figuring that out.
+[06:36:47] &gt;&gt; Um and we're still figuring that out. The agent identity piece is really
+[06:36:48] The agent identity piece is really
+[06:36:48] The agent identity piece is really important. Um, I think we're still in in
+[06:36:52] important. Um, I think we're still in in
+[06:36:52] important. Um, I think we're still in in many ways learning how to deploy agents
+[06:36:54] many ways learning how to deploy agents
+[06:36:54] many ways learning how to deploy agents that do stuff as you, right? I think the
+[06:36:57] that do stuff as you, right? I think the
+[06:36:57] that do stuff as you, right? I think the agent identity is another piece that
+[06:36:59] agent identity is another piece that
+[06:36:59] agent identity is another piece that needs to get figured out that in
+[06:37:02] needs to get figured out that in
+[06:37:02] needs to get figured out that in addition to something like delegated off
+[06:37:04] addition to something like delegated off
+[06:37:04] addition to something like delegated off we need to be able to do so that like
+[06:37:06] we need to be able to do so that like
+[06:37:06] we need to be able to do so that like Harrison said there can be a remote
+[06:37:08] Harrison said there can be a remote
+[06:37:08] Harrison said there can be a remote memory service that says oh it's that
+[06:37:10] memory service that says oh it's that
+[06:37:10] memory service that says oh it's that agent for that user that is using this
+[06:37:13] agent for that user that is using this
+[06:37:13] agent for that user that is using this service and they can pull that specific
+[06:37:15] service and they can pull that specific
+[06:37:15] service and they can pull that specific memory only for that user or only for
+[06:37:18] memory only for that user or only for
+[06:37:18] memory only for that user or only for the org but right now that is still an
+[06:37:20] the org but right now that is still an
+[06:37:20] the org but right now that is still an early topic.
+[06:37:23] early topic.
+[06:37:23] early topic. All right, before we get to the next
+[06:37:24] All right, before we get to the next
+[06:37:24] All right, before we get to the next question, I just have a friendly
+[06:37:26] question, I just have a friendly
+[06:37:26] question, I just have a friendly announcement.
+[06:37:27] announcement.
+[06:37:27] announcement. &gt;&gt; I can't see anyone.
+[06:37:29] &gt;&gt; I can't see anyone.
+[06:37:29] &gt;&gt; I can't see anyone. &gt;&gt; Me in the back over here. So, we've got
+[06:37:32] &gt;&gt; Me in the back over here. So, we've got
+[06:37:32] &gt;&gt; Me in the back over here. So, we've got a booth crawl happening right after this
+[06:37:34] a booth crawl happening right after this
+[06:37:34] a booth crawl happening right after this Q&amp;A. Make sure to grab a ticket for
+[06:37:37] Q&amp;A. Make sure to grab a ticket for
+[06:37:37] Q&amp;A. Make sure to grab a ticket for drinks when you're leaving. There's
+[06:37:38] drinks when you're leaving. There's
+[06:37:38] drinks when you're leaving. There's going to be a few people handing them
+[06:37:40] going to be a few people handing them
+[06:37:40] going to be a few people handing them out. All right, next question.
+[06:37:42] out. All right, next question.
+[06:37:42] out. All right, next question. &gt;&gt; Right, thanks guys for the presentation.
+[06:37:43] &gt;&gt; Right, thanks guys for the presentation.
+[06:37:43] &gt;&gt; Right, thanks guys for the presentation. My question is about off and with MCPs
+[06:37:47] My question is about off and with MCPs
+[06:37:47] My question is about off and with MCPs and all. We I work in ITS ops. One of
+[06:37:50] and all. We I work in ITS ops. One of
+[06:37:50] and all. We I work in ITS ops. One of the things we've seen is that when our
+[06:37:53] the things we've seen is that when our
+[06:37:53] the things we've seen is that when our agent tries there's a case where there's
+[06:37:55] agent tries there's a case where there's
+[06:37:55] agent tries there's a case where there's like a a manager that's taking care of
+[06:37:57] like a a manager that's taking care of
+[06:37:57] like a a manager that's taking care of someone that went on vacation and they
+[06:37:59] someone that went on vacation and they
+[06:37:59] someone that went on vacation and they need to run an anible like our agent
+[06:38:00] need to run an anible like our agent
+[06:38:00] need to run an anible like our agent wants to run an Ansible playbook but
+[06:38:02] wants to run an Ansible playbook but
+[06:38:02] wants to run an Ansible playbook but they don't have the permission so they
+[06:38:04] they don't have the permission so they
+[06:38:04] they don't have the permission so they have to go through like procurement and
+[06:38:06] have to go through like procurement and
+[06:38:06] have to go through like procurement and whatnot and have you guys seen a way
+[06:38:08] whatnot and have you guys seen a way
+[06:38:08] whatnot and have you guys seen a way where you could the agent could say like
+[06:38:10] where you could the agent could say like
+[06:38:10] where you could the agent could say like hey this person will definitely get
+[06:38:12] hey this person will definitely get
+[06:38:12] hey this person will definitely get permission and we really just want to
+[06:38:13] permission and we really just want to
+[06:38:13] permission and we really just want to run this one thing to solve and mitigate
+[06:38:16] run this one thing to solve and mitigate
+[06:38:16] run this one thing to solve and mitigate the issue.
+[06:38:16] the issue.
+[06:38:16] the issue. &gt;&gt; You should use arcade.
+[06:38:19] &gt;&gt; You should use arcade.
+[06:38:19] &gt;&gt; You should use arcade. Um yes, we've seen that a lot. That is
+[06:38:21] Um yes, we've seen that a lot. That is
+[06:38:21] Um yes, we've seen that a lot. That is that is a core issue. So essentially
+[06:38:23] that is a core issue. So essentially
+[06:38:23] that is a core issue. So essentially what is being described as I believe it
+[06:38:25] what is being described as I believe it
+[06:38:25] what is being described as I believe it is uh look this person is running this
+[06:38:27] is uh look this person is running this
+[06:38:27] is uh look this person is running this workflow with this token and now this
+[06:38:29] workflow with this token and now this
+[06:38:29] workflow with this token and now this person's on vacation. Now this manager
+[06:38:31] person's on vacation. Now this manager
+[06:38:31] person's on vacation. Now this manager is responsible for it or something like
+[06:38:32] is responsible for it or something like
+[06:38:32] is responsible for it or something like that and now I have no visibility or
+[06:38:34] that and now I have no visibility or
+[06:38:34] that and now I have no visibility or chain of command over this workflow and
+[06:38:37] chain of command over this workflow and
+[06:38:37] chain of command over this workflow and so now how do I see which user did what
+[06:38:40] so now how do I see which user did what
+[06:38:40] so now how do I see which user did what and how do I do that now if they're not
+[06:38:42] and how do I do that now if they're not
+[06:38:42] and how do I do that now if they're not there? Is that roughly correct?
+[06:38:45] there? Is that roughly correct?
+[06:38:45] there? Is that roughly correct? &gt;&gt; Yeah. It's also like they don't have the
+[06:38:47] &gt;&gt; Yeah. It's also like they don't have the
+[06:38:47] &gt;&gt; Yeah. It's also like they don't have the permissions. Yeah, exactly. So, even
+[06:38:49] permissions. Yeah, exactly. So, even
+[06:38:49] permissions. Yeah, exactly. So, even worse, right, they haven't been
+[06:38:51] worse, right, they haven't been
+[06:38:51] worse, right, they haven't been delegated those specific permissions.
+[06:38:53] delegated those specific permissions.
+[06:38:53] delegated those specific permissions. Only that one person that you know
+[06:38:55] Only that one person that you know
+[06:38:55] Only that one person that you know they've gotten fired or they're on
+[06:38:57] they've gotten fired or they're on
+[06:38:57] they've gotten fired or they're on vacation or what have you. We've
+[06:38:58] vacation or what have you. We've
+[06:38:58] vacation or what have you. We've actually seen that in both cases. Um,
+[06:39:00] actually seen that in both cases. Um,
+[06:39:00] actually seen that in both cases. Um, and how do you change or revoke even
+[06:39:03] and how do you change or revoke even
+[06:39:03] and how do you change or revoke even worse like if they got fired, how do you
+[06:39:04] worse like if they got fired, how do you
+[06:39:04] worse like if they got fired, how do you revoke them? Um, that is functionality
+[06:39:08] revoke them? Um, that is functionality
+[06:39:08] revoke them? Um, that is functionality that we've built again the hard way of
+[06:39:10] that we've built again the hard way of
+[06:39:10] that we've built again the hard way of figuring it out. Uh, so you basically
+[06:39:12] figuring it out. Uh, so you basically
+[06:39:12] figuring it out. Uh, so you basically need all of those things for your agent.
+[06:39:13] need all of those things for your agent.
+[06:39:14] need all of those things for your agent. You need to be able to say that token
+[06:39:16] You need to be able to say that token
+[06:39:16] You need to be able to say that token for that user is no longer viable
+[06:39:18] for that user is no longer viable
+[06:39:18] for that user is no longer viable because they got fired or this person's
+[06:39:20] because they got fired or this person's
+[06:39:20] because they got fired or this person's on vacation. I need to be able to have a
+[06:39:22] on vacation. I need to be able to have a
+[06:39:22] on vacation. I need to be able to have a step up authorization flow that
+[06:39:24] step up authorization flow that
+[06:39:24] step up authorization flow that authorizes a new user to do this exact
+[06:39:26] authorizes a new user to do this exact
+[06:39:26] authorizes a new user to do this exact thing. Um, and delegating that token and
+[06:39:29] thing. Um, and delegating that token and
+[06:39:29] thing. Um, and delegating that token and enforcing that at runtime um is a
+[06:39:32] enforcing that at runtime um is a
+[06:39:32] enforcing that at runtime um is a non-trivial challenge. I will tell you
+[06:39:34] non-trivial challenge. I will tell you
+[06:39:34] non-trivial challenge. I will tell you that it has been a lot of fun to learn a
+[06:39:36] that it has been a lot of fun to learn a
+[06:39:36] that it has been a lot of fun to learn a ton about off. I'll tell you that. I'm
+[06:39:38] ton about off. I'll tell you that. I'm
+[06:39:38] ton about off. I'll tell you that. I'm not being sarcastic at all. But yes,
+[06:39:41] not being sarcastic at all. But yes,
+[06:39:41] not being sarcastic at all. But yes, that is a very common problem at
+[06:39:43] that is a very common problem at
+[06:39:43] that is a very common problem at enterprises for sure, especially in IT
+[06:39:45] enterprises for sure, especially in IT
+[06:39:45] enterprises for sure, especially in IT departments.
+[06:39:47] departments.
+[06:39:47] departments. &gt;&gt; Hi,
+[06:39:48] &gt;&gt; Hi,
+[06:39:48] &gt;&gt; Hi, thank you for um I'm back here too. For
+[06:39:52] thank you for um I'm back here too. For
+[06:39:52] thank you for um I'm back here too. For um enterprises that are worried about
+[06:39:54] um enterprises that are worried about
+[06:39:54] um enterprises that are worried about sending their private data to the public
+[06:39:57] sending their private data to the public
+[06:39:58] sending their private data to the public AI companies, um can you run your own
+[06:40:01] AI companies, um can you run your own
+[06:40:01] AI companies, um can you run your own LLMs on prem with all of this stuff?
+[06:40:03] LLMs on prem with all of this stuff?
+[06:40:04] LLMs on prem with all of this stuff? &gt;&gt; Yes. So that is a big part of uh why we
+[06:40:08] &gt;&gt; Yes. So that is a big part of uh why we
+[06:40:08] &gt;&gt; Yes. So that is a big part of uh why we can work well together is that there are
+[06:40:09] can work well together is that there are
+[06:40:09] can work well together is that there are companies that deploy everything we're
+[06:40:11] companies that deploy everything we're
+[06:40:12] companies that deploy everything we're talking about today entirely inside
+[06:40:13] talking about today entirely inside
+[06:40:13] talking about today entirely inside their VPC. Um I don't think you take
+[06:40:16] their VPC. Um I don't think you take
+[06:40:16] their VPC. Um I don't think you take care of models though. I mean
+[06:40:17] care of models though. I mean
+[06:40:17] care of models though. I mean &gt;&gt; no we don't do models. The only thing
+[06:40:19] &gt;&gt; no we don't do models. The only thing
+[06:40:19] &gt;&gt; no we don't do models. The only thing I'd say is like for a lot of these agent
+[06:40:21] I'd say is like for a lot of these agent
+[06:40:21] I'd say is like for a lot of these agent harnesses the models do have to be good
+[06:40:22] harnesses the models do have to be good
+[06:40:22] harnesses the models do have to be good enough to actually take advantage of all
+[06:40:24] enough to actually take advantage of all
+[06:40:24] enough to actually take advantage of all the tools that they're given. Um we're
+[06:40:26] the tools that they're given. Um we're
+[06:40:26] the tools that they're given. Um we're doing some stuff to benchmark different
+[06:40:28] doing some stuff to benchmark different
+[06:40:28] doing some stuff to benchmark different open source models on on deep agents and
+[06:40:30] open source models on on deep agents and
+[06:40:30] open source models on on deep agents and see where they see where they stack up.
+[06:40:32] see where they see where they stack up.
+[06:40:32] see where they see where they stack up. But like, you know, to be honest, if
+[06:40:34] But like, you know, to be honest, if
+[06:40:34] But like, you know, to be honest, if you're using OpenAI or Anthropic right
+[06:40:36] you're using OpenAI or Anthropic right
+[06:40:36] you're using OpenAI or Anthropic right now, those are going to have the biggest
+[06:40:37] now, those are going to have the biggest
+[06:40:37] now, those are going to have the biggest kind of like performance. Um, I am
+[06:40:40] kind of like performance. Um, I am
+[06:40:40] kind of like performance. Um, I am really really excited for an open source
+[06:40:42] really really excited for an open source
+[06:40:42] really really excited for an open source model that can reliably drive these
+[06:40:44] model that can reliably drive these
+[06:40:44] model that can reliably drive these harness.
+[06:40:44] harness.
+[06:40:44] harness. &gt;&gt; GLM Kimmy.
+[06:40:46] &gt;&gt; GLM Kimmy.
+[06:40:46] &gt;&gt; GLM Kimmy. &gt;&gt; Um, we hooked it up the other day and it
+[06:40:49] &gt;&gt; Um, we hooked it up the other day and it
+[06:40:49] &gt;&gt; Um, we hooked it up the other day and it wasn't amazing, but we're doing more
+[06:40:51] wasn't amazing, but we're doing more
+[06:40:51] wasn't amazing, but we're doing more rigorous testing.
+[06:40:52] rigorous testing.
+[06:40:52] rigorous testing. &gt;&gt; I've used GLM before. Uh, personally, I
+[06:40:54] &gt;&gt; I've used GLM before. Uh, personally, I
+[06:40:54] &gt;&gt; I've used GLM before. Uh, personally, I I will say there's a severe deg if
+[06:40:56] I will say there's a severe deg if
+[06:40:56] I will say there's a severe deg if you're going from 4.6 Opus to anything
+[06:40:58] you're going from 4.6 Opus to anything
+[06:40:58] you're going from 4.6 Opus to anything pretty much right now. It's you're going
+[06:41:01] pretty much right now. It's you're going
+[06:41:01] pretty much right now. It's you're going to have a tough time.
+[06:41:02] to have a tough time.
+[06:41:02] to have a tough time. in my opinion.
+[06:41:04] in my opinion.
+[06:41:04] in my opinion. &gt;&gt; Yeah.
+[06:41:04] &gt;&gt; Yeah. &gt;&gt; Hey Sam, just follow up. You touched on
+[06:41:06] &gt;&gt; Hey Sam, just follow up. You touched on
+[06:41:06] &gt;&gt; Hey Sam, just follow up. You touched on the Mac Mini. Um, which I saw something
+[06:41:09] the Mac Mini. Um, which I saw something
+[06:41:09] the Mac Mini. Um, which I saw something walking in here that was really
+[06:41:10] walking in here that was really
+[06:41:10] walking in here that was really interesting. Uh, they said that people
+[06:41:12] interesting. Uh, they said that people
+[06:41:12] interesting. Uh, they said that people are actually buying Mac minis just for
+[06:41:14] are actually buying Mac minis just for
+[06:41:14] are actually buying Mac minis just for access to iMessage.
+[06:41:17] access to iMessage.
+[06:41:17] access to iMessage. &gt;&gt; Blue bubble.
+[06:41:18] &gt;&gt; Blue bubble.
+[06:41:18] &gt;&gt; Blue bubble. &gt;&gt; Yeah. Right. And going through the CLI
+[06:41:21] &gt;&gt; Yeah. Right. And going through the CLI
+[06:41:21] &gt;&gt; Yeah. Right. And going through the CLI interface to do that. So, I think
+[06:41:22] interface to do that. So, I think
+[06:41:22] interface to do that. So, I think everything you touched on is cool, but I
+[06:41:24] everything you touched on is cool, but I
+[06:41:24] everything you touched on is cool, but I think that's another avenue that's going
+[06:41:26] think that's another avenue that's going
+[06:41:26] think that's another avenue that's going to explode, too.
+[06:41:27] to explode, too.
+[06:41:27] to explode, too. &gt;&gt; So, skills, right? So, Bluebubble and a
+[06:41:28] &gt;&gt; So, skills, right? So, Bluebubble and a
+[06:41:28] &gt;&gt; So, skills, right? So, Bluebubble and a lot of those work through skills, right?
+[06:41:30] lot of those work through skills, right?
+[06:41:30] lot of those work through skills, right? and they use the CLI and I personally
+[06:41:33] and they use the CLI and I personally
+[06:41:33] and they use the CLI and I personally when I I can I contributed a PR it got
+[06:41:36] when I I can I contributed a PR it got
+[06:41:36] when I I can I contributed a PR it got closed by Claudinator automatically
+[06:41:38] closed by Claudinator automatically
+[06:41:38] closed by Claudinator automatically somehow uh Peter's on it but uh the
+[06:41:42] somehow uh Peter's on it but uh the
+[06:41:42] somehow uh Peter's on it but uh the thing that you're talking about with the
+[06:41:43] thing that you're talking about with the
+[06:41:43] thing that you're talking about with the CLI skills a lot of people do also feel
+[06:41:46] CLI skills a lot of people do also feel
+[06:41:46] CLI skills a lot of people do also feel uncomfortable with CLI access like shell
+[06:41:49] uncomfortable with CLI access like shell
+[06:41:49] uncomfortable with CLI access like shell command access and that is also why
+[06:41:51] command access and that is also why
+[06:41:51] command access and that is also why they're buying that which is a great
+[06:41:53] they're buying that which is a great
+[06:41:53] they're buying that which is a great point I also bought a Mac mini for the
+[06:41:55] point I also bought a Mac mini for the
+[06:41:56] point I also bought a Mac mini for the blue bubble part because uh of exactly
+[06:41:58] blue bubble part because uh of exactly
+[06:41:58] blue bubble part because uh of exactly that thing so that is very through. I
+[06:42:00] that thing so that is very through. I
+[06:42:00] that thing so that is very through. I will say it's a lot of fun. Channels are
+[06:42:02] will say it's a lot of fun. Channels are
+[06:42:02] will say it's a lot of fun. Channels are a really interesting concept. Um, with
+[06:42:04] a really interesting concept. Um, with
+[06:42:04] a really interesting concept. Um, with where we're going in agent builder, I
+[06:42:06] where we're going in agent builder, I
+[06:42:06] where we're going in agent builder, I think that's going to be a really
+[06:42:07] think that's going to be a really
+[06:42:07] think that's going to be a really interesting topic to be discussed. But I
+[06:42:09] interesting topic to be discussed. But I
+[06:42:09] interesting topic to be discussed. But I think, uh, especially OpenClaw kind of
+[06:42:12] think, uh, especially OpenClaw kind of
+[06:42:12] think, uh, especially OpenClaw kind of nailed it. Uh, it really scorched the
+[06:42:14] nailed it. Uh, it really scorched the
+[06:42:14] nailed it. Uh, it really scorched the earth to be honest with you. If you look
+[06:42:16] earth to be honest with you. If you look
+[06:42:16] earth to be honest with you. If you look at the code base, I mean, it is full.
+[06:42:19] at the code base, I mean, it is full.
+[06:42:19] at the code base, I mean, it is full. Let's put it that way. Um, but that
+[06:42:22] Let's put it that way. Um, but that
+[06:42:22] Let's put it that way. Um, but that concept of channels in particular that
+[06:42:24] concept of channels in particular that
+[06:42:24] concept of channels in particular that allows you to do that like Bluebubble or
+[06:42:26] allows you to do that like Bluebubble or
+[06:42:26] allows you to do that like Bluebubble or whatever iMessage thing that you're
+[06:42:28] whatever iMessage thing that you're
+[06:42:28] whatever iMessage thing that you're using to be able to do that on the CLI.
+[06:42:30] using to be able to do that on the CLI.
+[06:42:30] using to be able to do that on the CLI. Um, it's an important part of where
+[06:42:32] Um, it's an important part of where
+[06:42:32] Um, it's an important part of where we're going. And it's not just MCPS.
+[06:42:34] we're going. And it's not just MCPS.
+[06:42:34] we're going. And it's not just MCPS. It's also skills on the CLI. It's a good
+[06:42:36] It's also skills on the CLI. It's a good
+[06:42:36] It's also skills on the CLI. It's a good point.
+[06:42:37] point.
+[06:42:37] point. &gt;&gt; Thanks for doing this, guys. I
+[06:42:39] &gt;&gt; Thanks for doing this, guys. I
+[06:42:39] &gt;&gt; Thanks for doing this, guys. I appreciate you so much. Give it up for
+[06:42:41] appreciate you so much. Give it up for
+[06:42:41] appreciate you so much. Give it up for him. Huh?
+[06:42:41] him. Huh?
+[06:42:41] him. Huh? &gt;&gt; Thank you.
+[06:42:42] &gt;&gt; Thank you. &gt;&gt; Yes.
+[06:42:44] &gt;&gt; Yes.
+[06:42:44] &gt;&gt; Yes. Awesome. All right.
+[06:42:47] Awesome. All right.
+[06:42:47] Awesome. All right. We've got the booth hangout. There's
+[06:42:49] We've got the booth hangout. There's
+[06:42:49] We've got the booth hangout. There's food. There's drinks. I want to say
+[06:42:51] food. There's drinks. I want to say
+[06:42:52] food. There's drinks. I want to say thank you all for coming. This was an
+[06:42:54] thank you all for coming. This was an
+[06:42:54] thank you all for coming. This was an awesome day. I learned a ton. Hopefully
+[06:42:56] awesome day. I learned a ton. Hopefully
+[06:42:56] awesome day. I learned a ton. Hopefully you learned a ton. And I'll let you go.
+[06:42:59] you learned a ton. And I'll let you go.
+[06:42:59] you learned a ton. And I'll let you go. Maybe I could tell one joke. I told it
+[06:43:01] Maybe I could tell one joke. I told it
+[06:43:01] Maybe I could tell one joke. I told it earlier, but there was only like five
+[06:43:03] earlier, but there was only like five
+[06:43:03] earlier, but there was only like five people here. So I Dex is in. Okay. So I
+[06:43:07] people here. So I Dex is in. Okay. So I
+[06:43:07] people here. So I Dex is in. Okay. So I was talking with Claude Code and I said,
+[06:43:09] was talking with Claude Code and I said,
+[06:43:09] was talking with Claude Code and I said, "Hey, choose a random number between 1
+[06:43:12] "Hey, choose a random number between 1
+[06:43:12] "Hey, choose a random number between 1 and 50." And it said, "All right, 32."
+[06:43:16] and 50." And it said, "All right, 32."
+[06:43:16] and 50." And it said, "All right, 32." And I went, "That's it. For the next 32
+[06:43:19] And I went, "That's it. For the next 32
+[06:43:19] And I went, "That's it. For the next 32 days, we're not going to talk." I cut
+[06:43:21] days, we're not going to talk." I cut
+[06:43:22] days, we're not going to talk." I cut off all communication. You and I were
+[06:43:24] off all communication. You and I were
+[06:43:24] off all communication. You and I were finished. And then it said, "Can I
+[06:43:27] finished. And then it said, "Can I
+[06:43:27] finished. And then it said, "Can I choose another number?" And I I thought,
+[06:43:30] choose another number?" And I I thought,
+[06:43:30] choose another number?" And I I thought, "Wow, that's so sweet. Of course you
+[06:43:31] "Wow, that's so sweet. Of course you
+[06:43:32] "Wow, that's so sweet. Of course you can. Go ahead, choose." And it said 50.
+[06:43:35] can. Go ahead, choose." And it said 50.
+[06:43:35] can. Go ahead, choose." And it said 50. So have a great day. You all are
+[06:43:37] So have a great day. You all are
+[06:43:37] So have a great day. You all are awesome. Enjoyed the side quests that
+[06:43:39] awesome. Enjoyed the side quests that
+[06:43:39] awesome. Enjoyed the side quests that are to come.
