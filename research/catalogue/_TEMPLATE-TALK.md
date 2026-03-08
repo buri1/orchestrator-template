@@ -50,6 +50,16 @@
 
 ---
 
+## Deep Dive Candidates
+
+[URLs from video description, show notes, or mentioned in the talk that are worth a separate ingest. Leave empty if none.]
+
+| URL | Why | Suggested Ingest |
+|-----|-----|-----------------|
+| [url] | [reason it's worth following] | `/ingest-article` or `/ingest-talk` or `/ingest-post` |
+
+---
+
 ## Referenced Tools/Projects
 
 | Tool/Project | Mentioned Context | In Our Catalogue? |

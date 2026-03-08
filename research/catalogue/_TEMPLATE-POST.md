@@ -25,9 +25,36 @@
 
 ---
 
+## Relevance to Our Interests
+
+| Dimension | Score | Notes |
+|-----------|-------|-------|
+| **Relevance** | X/10 | [how it maps to our interest space] |
+
+---
+
 ## Full Content
 
 [Full text of the post/thread, preserving structure. For threads, number each post.]
+
+---
+
+## Notable Replies
+
+[Top 3-5 high-signal replies — those containing URLs, tool names, counterarguments, or valuable additional context. Skip if no replies are accessible or none are valuable.]
+
+> **@[reply_handle]**: [reply text]
+> *[Why this reply matters — e.g., "links to implementation repo", "contradicts with evidence"]*
+
+---
+
+## Deep Dive Candidates
+
+[URLs found in replies or the post itself that are worth a separate ingest. Leave empty if none.]
+
+| URL | Why | Suggested Ingest |
+|-----|-----|-----------------|
+| [url] | [reason it's worth following] | `/ingest-article` or `/ingest-talk` or `/ingest-post` |
 
 ---
 
