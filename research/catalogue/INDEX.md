@@ -3,34 +3,35 @@
 > A categorized reference of all tools, frameworks, platforms, practitioners, articles, talks, and posts analyzed during research.
 
 **Last updated:** 2026-03-08
-**Total entries:** 107 (19 tools, 7 practitioners, 81 reference docs, 0 articles, 0 talks, 0 posts)
+**Total entries:** 192 (104 tools, 7 practitioners, 81 reference docs, 0 articles, 0 talks, 0 posts)
 **Templates:** [Tool](./_TEMPLATE.md) | [Practitioner](./_TEMPLATE-PRACTITIONER.md) | [Article](./_TEMPLATE-ARTICLE.md) | [Talk](./_TEMPLATE-TALK.md) | [Post](./_TEMPLATE-POST.md)
 
 ---
 
-## Quick Reference — Tools & Frameworks
+## Quick Reference — Top Tier (8+ Relevance)
 
 | Tool | Category | Relevance | Verdict |
 |------|----------|-----------|---------|
 | [Claude Agent SDK](./agent-harnesses/claude-agent-sdk.md) | ⚙️ Harness | 9/10 | Primary harness — SDK, Agent Teams, 18 hooks, subagents |
-| [Oh-My-Pi](./agent-harnesses/oh-my-pi.md) | ⚙️ Harness | 9/10 | Pi fork with worktree isolation, hash state, model routing |
-| [Stripe Minions](./orchestration-platforms/stripe-minions.md) | 🎛️ Orch. Framework | 9/10 | The 70/30 deterministic/LLM blueprint pattern |
-| [Pi Agent](./agent-harnesses/pi-agent.md) | ⚙️ Harness | 8/10 | Primary Day 60+ harness candidate |
-| [OpenCode](./agent-harnesses/opencode.md) | ⚙️ Harness | 7/10 | Go+TS hybrid, 117K stars, TaskTool + Teams |
-| [Pi Subagents](./agent-harnesses/pi-subagents.md) | ⚙️ Harness | 7/10 | Nico Bailon's role-based delegation for Pi |
-| [OpenClaw](./orchestration-platforms/openclaw.md) | 🎛️ Orch. Framework | 6/10 | 271K stars, lane queuing, context checkpoints |
-| [Paperclip](./orchestration-platforms/paperclip.md) | 🎛️ Orch. Framework | 6/10 | Reference cost tracking + session persistence |
-| [Pi Messenger](./agent-harnesses/pi-messenger.md) | ⚙️ Harness | 6/10 | Multi-agent comms for Pi, steering injection |
-| [Always-On Memory Agent](./agent-memory/always-on-memory-agent.md) | 🧠 Memory | 6/10 | Consolidation-as-sleep pattern |
-| [DSPy](./agent-harnesses/dspy.md) | ⚙️ Harness | 5/10 | Declarative agent paradigm, GEPA optimizer |
-| [OpenAI Codex](./agent-harnesses/openai-codex.md) | ⚙️ Harness | 5/10 | Open-source; Phase 3+ adapter candidate |
-| [Copilot SDK](./agent-harnesses/copilot-sdk.md) | ⚙️ Harness | 4/10 | Proprietary; competitive intelligence only |
-| [Factory IDE](./developer-gui/factory-ide.md) | 🖥️ GUI | 4/10 | Proprietary; competitive reference only |
-| [Airweave](./agent-memory/airweave.md) | 🧠 Memory | 3/10 | Too heavy; Phase 4+ |
-| [ElizaOS](./orchestration-platforms/elizaos.md) | 🎛️ Orch. Framework | 3/10 | Web3/chatbot DNA; evaluator pattern only |
-| [Qwen-Agent](./agent-harnesses/qwen-agent.md) | ⚙️ Harness | 3/10 | Qwen-coupled; low relevance |
-| [Jean](./developer-gui/jean.md) | 🖥️ GUI | 3/10 | Not relevant; different layer |
-| [T3 Code](./developer-gui/t3code.md) | 🖥️ GUI | 2/10 | Market signal only |
+| [Oh-My-Pi](./agent-harnesses/pi/oh-my-pi.md) | ⚙️ Harness | 9/10 | Pi fork with worktree isolation, hash state, model routing |
+| [Stripe Minions](./orchestration-platforms/stripe-minions.md) | 🎛️ Orchestration | 9/10 | The 70/30 deterministic/LLM blueprint pattern |
+| [Overstory](./agent-harnesses/overstory.md) | ⚙️ Harness | 9/10 | Validates our tmux+worktree+SQLite arch; AgentRuntime adapter + 4-tier merge queue |
+| [AGENTS.md](./agent-protocols/agents-md.md) | 🔗 Protocol | 9/10 | Convention file for agent capabilities; 60K+ repos; adopt today |
+| [pi-side-agents](./agent-harnesses/pi/pi-side-agents.md) | ⚙️ Pi | 9/10 | Independently arrived at our tmux+worktree pattern; cleanest migration target |
+| [ccusage](./observability/ccusage.md) | 🔍 Observability | 9/10 | Zero-install Claude Max usage tracking; highest-ROI tool in catalogue |
+| [Pi Agent](./agent-harnesses/pi/pi-agent.md) | ⚙️ Harness | 8/10 | Primary Day 60+ harness candidate |
+| [Inngest](./orchestration-platforms/inngest.md) | 🎛️ Orchestration | 8/10 | TypeScript-native, deterministic routing default, durable execution — most aligned framework |
+| [Gas Town](./orchestration-platforms/gas-town.md) | 🎛️ Orchestration | 8/10 | Yegge's actor model; git worktree isolation + bead tracking are transferable |
+| [A2A Protocol](./agent-protocols/a2a-protocol.md) | 🔗 Protocol | 8/10 | Google's de facto standard for agent-to-agent communication; 22K stars |
+| [Graphite](./code-intelligence/graphite.md) | 🧬 Code Intel | 8/10 | Stack-aware merge queue solves our 19-20% conflict rate; acquired by Cursor for >$290M |
+| [Langfuse](./observability/langfuse.md) | 🔍 Observability | 8/10 | Self-hosted LLM observability for gov client trust artifacts |
+| [LiteLLM](./infrastructure/litellm.md) | 🏗️ Infrastructure | 8/10 | Unified API proxy addressing 378x pricing spread; deploy as model router |
+| [Trigger.dev](./infrastructure/trigger-dev.md) | 🏗️ Infrastructure | 8/10 | TypeScript-native durable execution; strongest tmux crash recovery replacement |
+| [oh-my-claudecode](./agent-harnesses/oh-my-claudecode.md) | ⚙️ Harness | 8/10 | Closest competitor; same stack; steal model routing + staged pipeline |
+| [Superpowers](./agent-harnesses/superpowers.md) | ⚙️ Harness | 8/10 | obra's TDD enforcement + two-stage review; adopt patterns immediately |
+| [pi-mcp-adapter](./agent-harnesses/pi/pi-mcp-adapter.md) | ⚙️ Pi | 8/10 | 50-100x token reduction via single proxy tool; mandatory for Pi+MCP |
+| [pi-agent-teams](./agent-harnesses/pi/pi-agent-teams.md) | ⚙️ Pi | 8/10 | Most feature-complete Pi coordination: dependency tasks, quality gates, auto-claim |
+| [pi-interactive-shell](./agent-harnesses/pi/pi-interactive-shell.md) | ⚙️ Pi | 8/10 | PTY emulation eliminates tmux dependency; three autonomy modes; most-starred Pi ext |
 
 ---
 
@@ -42,9 +43,30 @@ Multi-agent coordination, task routing, governance, business orchestration.
 | Tool | Relevance | Key Insight |
 |------|-----------|-------------|
 | [Stripe Minions](./orchestration-platforms/stripe-minions.md) | 9/10 | 70/30 deterministic/LLM split — the blueprint pattern for production agent systems |
+| [Inngest](./orchestration-platforms/inngest.md) | 8/10 | TypeScript-native, deterministic routing default, durable execution — most architecturally aligned |
+| [Gas Town](./orchestration-platforms/gas-town.md) | 8/10 | Yegge's actor model; git worktree isolation and bead-based work tracking |
+| [Temporal](./orchestration-platforms/temporal.md) | 7/10 | Gold standard durable execution; workflow=deterministic/activity=agent maps to our 70/30 |
+| [Relay App](./orchestration-platforms/relay-app.md) | 7/10 | TypeScript-native, Claude-first, sub-5ms messaging; tmux replacement candidate |
+| [Agent-MCP](./orchestration-platforms/agent-mcp.md) | 6/10 | MCP-as-coordination-protocol; expose create_agent/assign_task as MCP tools |
+| [Composio](./orchestration-platforms/composio.md) | 6/10 | Auth/integration layer (not orchestrator); TypeScript SDK for Notion/Airtable connectivity |
+| [Shannon](./orchestration-platforms/shannon.md) | 6/10 | Token budget with automatic model fallback — deterministic cost control pattern |
+| [ccswarm](./orchestration-platforms/ccswarm.md) | 6/10 | Rust-based Claude Code swarm; validates worktree isolation independently |
 | [OpenClaw](./orchestration-platforms/openclaw.md) | 6/10 | 271K stars; lane queuing, context checkpoints, stuck-loop detection |
 | [Paperclip](./orchestration-platforms/paperclip.md) | 6/10 | Per-token cost attribution + task-keyed session persistence |
-| [ElizaOS](./orchestration-platforms/elizaos.md) | 3/10 | Web3/chatbot DNA; Evaluator post-action reflection is the only portable pattern |
+| [LangGraph](./orchestration-platforms/langgraph.md) | 5/10 | Graph-based state machines validate our approach; Python/LangChain lock-in |
+| [Swarms](./orchestration-platforms/swarms.md) | 5/10 | Topology taxonomy + AgentRearrange syntax; Python-only, fragile |
+| [OpenAI Agents SDK](./orchestration-platforms/openai-agents-sdk.md) | 5/10 | Manager/Handoff two-pattern taxonomy validates our architecture |
+| [Conductor](./orchestration-platforms/conductor.md) | 5/10 | Netflix-born heavyweight (31K stars); wrong stack (Java) but good workflow reference |
+| [NVIDIA Orchestrator-8B](./orchestration-platforms/nvidia-orchestrator-8b.md) | 5/10 | 8B model beating GPT-5 at orchestration; validates separation-of-concerns |
+| [n8n](./orchestration-platforms/n8n.md) | 4/10 | 178K stars; webhook/resilience patterns but not multi-agent native |
+| [CrewAI](./orchestration-platforms/crew-ai.md) | 4/10 | Python-only, LLM-heavy role-play paradigm; opposite of deterministic routing |
+| [AutoGen](./orchestration-platforms/autogen.md) | 4/10 | 55K stars but conversation-centric + API instability; wrong language |
+| [Prefect](./orchestration-platforms/prefect.md) | 4/10 | Python workflow orchestration; infrastructure patterns only |
+| [DyLAN](./orchestration-platforms/dylan.md) | 4/10 | Academic "LLM-as-neuron" metaphor; Agent Importance Score concept |
+| [HyperAgent](./orchestration-platforms/hyperagent.md) | 3/10 | SWE-Bench research; tiered model assignment is useful cost pattern |
+| [Dify](./orchestration-platforms/dify.md) | 3/10 | 131K stars but GUI-first LLM app builder; different problem domain |
+| [BridgeMCP](./orchestration-platforms/bridgemcp.md) | 3/10 | Proprietary cloud SaaS; DSGVO incompatible |
+| [ElizaOS](./orchestration-platforms/elizaos.md) | 3/10 | Web3/chatbot DNA; Evaluator post-action reflection only |
 
 ---
 
@@ -54,15 +76,50 @@ CLI tools, SDKs, runtimes, and frameworks that execute agent tasks.
 | Tool | Relevance | Key Insight |
 |------|-----------|-------------|
 | [Claude Agent SDK](./agent-harnesses/claude-agent-sdk.md) | 9/10 | SDK + Agent Teams + 18 hooks + subagents — our primary harness |
-| [Oh-My-Pi](./agent-harnesses/oh-my-pi.md) | 9/10 | Worktree isolation, hash-anchored state, MCP pooling, model routing, LSP feedback |
-| [Pi Agent](./agent-harnesses/pi-agent.md) | 8/10 | Token efficiency, `context` event, SDK embeddability — Day 60+ candidate |
-| [Pi Subagents](./agent-harnesses/pi-subagents.md) | 7/10 | Role-based delegation, chain pipelines, observability for Pi |
+| [Overstory](./agent-harnesses/overstory.md) | 9/10 | Validates our tmux+worktree+SQLite arch; AgentRuntime adapter + 4-tier merge queue |
+| [oh-my-claudecode](./agent-harnesses/oh-my-claudecode.md) | 8/10 | Same stack (CC + tmux); steal model routing (Haiku/Opus) + staged pipeline |
+| [Superpowers](./agent-harnesses/superpowers.md) | 8/10 | obra's 73K stars; TDD enforcement + two-stage review + brainstorm-before-code |
+| [agent-browser](./agent-harnesses/agent-browser.md) | 7/10 | 93% context reduction via Snapshot+Refs; drop-in E2E testing candidate |
+| [agtx](./agent-harnesses/agtx.md) | 7/10 | Per-phase agent assignment + TOML plugin lifecycle hooks |
+| [Bowser](./agent-harnesses/bowser.md) | 7/10 | IndyDevDan's browser automation; YAML user stories + Justfile patterns |
+| [CodeMachine-CLI](./agent-harnesses/codemachine-cli.md) | 7/10 | Closest OSS competitor to L-Thread; Sustaina 60K LOC case study |
+| [Goose](./agent-harnesses/goose.md) | 7/10 | Block's MCP-first agent; Rust core, custom distributions for federated vision |
 | [OpenCode](./agent-harnesses/opencode.md) | 7/10 | Go+TS hybrid, 117K stars, TaskTool, Teams — alternative architecture reference |
-| [Pi Messenger](./agent-harnesses/pi-messenger.md) | 6/10 | File-based comms, steering injection, wave execution — validates Teams mode patterns |
-| [DSPy](./agent-harnesses/dspy.md) | 5/10 | Declarative paradigm, GEPA optimizer, typed contracts — Phase 3+ patterns |
-| [OpenAI Codex](./agent-harnesses/openai-codex.md) | 5/10 | Only open-source terminal agent from a major lab; credible second adapter |
+| [CodeRabbit](./agent-harnesses/coderabbit.md) | 6/10 | Install today as quality gate for agent-generated PRs |
+| [Augment Code](./agent-harnesses/augment-code.md) | 6/10 | Context Engine MCP usable with CC today; $977M valuation, #1 SWE-bench |
+| [Mendral](./agent-harnesses/mendral.md) | 6/10 | Docker founders' agent; model tiering (Opus/Sonnet/Haiku) pattern |
+| [Roo Code](./agent-harnesses/roo-code.md) | 6/10 | Cline fork with custom modes + MCP support |
+| [DSPy](./agent-harnesses/dspy.md) | 5/10 | Declarative paradigm, GEPA optimizer, typed contracts — Phase 3+ |
+| [Aider](./agent-harnesses/aider.md) | 5/10 | Repo-map algorithm for context selection; Python-based |
+| [Bridle](./agent-harnesses/bridle.md) | 5/10 | Rust-based config manager; profile switching for multi-harness |
+| [Cline CLI](./agent-harnesses/cline-cli.md) | 5/10 | 58K stars; MCP auto-config reference |
+| [oh-my-opencode](./agent-harnesses/oh-my-opencode.md) | 5/10 | 38K stars; Hashline (content-hash editing) is novel |
+| [OpenAI Codex](./agent-harnesses/openai-codex.md) | 5/10 | Open-source terminal agent from major lab; Phase 3+ adapter |
 | [Copilot SDK](./agent-harnesses/copilot-sdk.md) | 4/10 | Microsoft's platform play; MCP-by-default validates protocol adoption |
-| [Qwen-Agent](./agent-harnesses/qwen-agent.md) | 3/10 | Python/Qwen-coupled; DeepPlanning benchmark is the notable output |
+| [Amp Code](./agent-harnesses/amp-code.md) | 4/10 | Proprietary; multi-model sub-agent dispatching (Oracle/Librarian/Painter/Task) |
+| [Devin](./agent-harnesses/devin.md) | 4/10 | Proprietary black box; market benchmark only |
+| [Gemini CLI](./agent-harnesses/gemini-cli.md) | 4/10 | 96K stars; Google's CC competitor, free tier notable |
+| [Manus AI](./agent-harnesses/manus-ai.md) | 4/10 | CodeAct paradigm; acquired by Meta for ~$2-3B |
+| [ADAS](./agent-harnesses/adas.md) | 3/10 | ICLR 2025; meta-agent that designs better agents; academic only |
+| [Qwen-Agent](./agent-harnesses/qwen-agent.md) | 3/10 | Python/Qwen-coupled; DeepPlanning benchmark |
+| [Intercom Fin](./agent-harnesses/intercom-fin.md) | 2/10 | Customer support agent; outcome-based pricing ($0.99/resolution) |
+
+#### Pi Ecosystem Extensions
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [Oh-My-Pi](./agent-harnesses/pi/oh-my-pi.md) | 9/10 | Worktree isolation, hash-anchored state, MCP pooling, model routing, LSP feedback |
+| [pi-side-agents](./agent-harnesses/pi/pi-side-agents.md) | 9/10 | Independently arrived at tmux+worktree pattern; cleanest migration target |
+| [Pi Agent](./agent-harnesses/pi/pi-agent.md) | 8/10 | Token efficiency, `context` event, SDK embeddability — Day 60+ candidate |
+| [pi-mcp-adapter](./agent-harnesses/pi/pi-mcp-adapter.md) | 8/10 | 50-100x token reduction via single proxy tool; mandatory for Pi+MCP |
+| [pi-agent-teams](./agent-harnesses/pi/pi-agent-teams.md) | 8/10 | Dependency-aware tasks, quality gate hooks, auto-claim |
+| [pi-interactive-shell](./agent-harnesses/pi/pi-interactive-shell.md) | 8/10 | PTY emulation eliminates tmux dependency; 287 stars, most-starred Pi ext |
+| [Pi Subagents](./agent-harnesses/pi/pi-subagents.md) | 7/10 | Role-based delegation, chain pipelines, observability for Pi |
+| [pi-collaborating-agents](./agent-harnesses/pi/pi-collaborating-agents.md) | 7/10 | File reservation pattern (tool-level edit blocking) |
+| [pi-foreground-chains](./agent-harnesses/pi/pi-foreground-chains.md) | 7/10 | Scout-Planner-Worker-Reviewer as pure prompt engineering |
+| [Pi Messenger](./agent-harnesses/pi/pi-messenger.md) | 6/10 | File-based comms, steering injection, wave execution |
+| [pi-web-access](./agent-harnesses/pi/pi-web-access.md) | 6/10 | Smart fallback chains, GitHub clone-not-scrape, zero-config Chrome cookies |
+| [pi-agent-scip](./agent-harnesses/pi/pi-agent-scip.md) | 5/10 | Archived (merged into rhubarb-pi); SCIP code intelligence concept |
 
 ---
 
@@ -71,8 +128,80 @@ Memory systems, context retrieval, knowledge stores, RAG platforms.
 
 | Tool | Relevance | Key Insight |
 |------|-----------|-------------|
+| [Context-Gateway](./agent-memory/context-gateway.md) | 7/10 | YC W26; zero-infra Go proxy for Claude Code context compression; trial this week |
+| [Beads](./agent-memory/beads.md) | 7/10 | Yegge's zero-infra git-backed task memory with dependency graphs + semantic compaction |
+| [Letta / MemGPT](./agent-memory/letta.md) | 6/10 | "LLM-as-OS" self-editing memory; git-based Context Repositories validate approach |
 | [Always-On Memory Agent](./agent-memory/always-on-memory-agent.md) | 6/10 | Consolidation-as-sleep pattern for knowledge compounding |
+| [Cognee](./agent-memory/cognee.md) | 5/10 | Knowledge graph memory; Neo4j+vector DB infra conflicts with zero-infra approach |
+| [Context7](./agent-memory/context7.md) | 4/10 | MCP server for fresh library docs; 48K stars by Upstash; nice-to-have for workers |
+| [Mem0](./agent-memory/mem0.md) | 4/10 | 49K stars but built for SaaS multi-user personalization, not agent-to-agent |
+| [Dolt](./agent-memory/dolt.md) | 4/10 | Git-for-data primitive; our JSON-in-git already provides sufficient versioning |
 | [Airweave](./agent-memory/airweave.md) | 3/10 | Enterprise retrieval layer; overkill for Phase 1-2 |
+
+---
+
+### 🔗 Agent Protocols
+Standards and interoperability specifications for agent communication and trust.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [AGENTS.md](./agent-protocols/agents-md.md) | 9/10 | Convention file for agent capabilities; 18.6K stars, 60K+ repos; adopt today |
+| [A2A Protocol](./agent-protocols/a2a-protocol.md) | 8/10 | Google's de facto A2A standard; 22K stars; absorbed ACP; Phase 3-4 for federation |
+| [x402](./agent-protocols/x402.md) | 7/10 | Coinbase's HTTP 402 micropayments; most novel payment protocol; Phase 4 |
+| [OpenSkills](./agent-protocols/openskills.md) | 7/10 | SKILL.md standard; our .claude/commands/ are 80% compatible; portability play |
+| [AAIF](./agent-protocols/aaif.md) | 6/10 | Linux Foundation consortium housing MCP, goose, AGENTS.md — the CNCF of agentic AI |
+| [Koylan Skills](./agent-protocols/koylan-skills.md) | 6/10 | Best public reference for context engineering; validates our approach |
+| [ACP](./agent-protocols/acp.md) | 5/10 | Dead (archived Aug 2025, merged into A2A); design patterns worth studying |
+| [ANP](./agent-protocols/anp.md) | 4/10 | Three-layer architecture; lacks industry backing to compete with A2A |
+
+---
+
+### 💰 Agent Economy
+Payment infrastructure, token standards, and financial primitives for autonomous agent transactions.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [ERC-8004](./agent-economy/erc-8004.md) | 4/10 | Three-registry trust layer (Identity/Reputation/Validation); mainnet since Jan 2026 |
+| [Coinbase Agentic Wallets](./agent-economy/coinbase-agentic-wallets.md) | 4/10 | Most production-ready agent wallet infra; x402 + MCP; regulated public company |
+| [MoonPay Agents](./agent-economy/moonpay-agents.md) | 3/10 | Full fiat-to-crypto-to-fiat lifecycle; 17 skills/54 tools; closed-source |
+
+---
+
+### 🧬 Code Intelligence
+Semantic code understanding, codebase search, knowledge graphs.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [Graphite](./code-intelligence/graphite.md) | 8/10 | Stack-aware merge queue + stacked PRs; solves 19-20% conflict rate; Anthropic investor |
+
+---
+
+### 🔍 Observability & Debugging
+Tracing, monitoring, failure analysis, cost tracking.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [ccusage](./observability/ccusage.md) | 9/10 | Zero-install, TypeScript-native Claude Max usage tracking; highest-ROI tool |
+| [Langfuse](./observability/langfuse.md) | 8/10 | Self-hosted LLM observability for gov client trust artifacts; 22.8K stars |
+| [AgentRR](./observability/agentrr.md) | 6/10 | Research paper; check functions as deterministic validators map to 70/30 split |
+| [Arize Phoenix](./observability/arize-phoenix.md) | 6/10 | Redundant given Langfuse; Python-first; study evaluation framework only |
+| [CodexBar](./observability/codexbar.md) | 3/10 | macOS menu bar for Claude Max limit visibility; by PSPDFKit founder |
+| [Assail](./observability/assail.md) | 3/10 | Pre-seed security assessment; 9 stars; watch, don't use |
+
+---
+
+### 🏗️ Infrastructure
+Sandboxes, hosting, compute, model routing.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [LiteLLM](./infrastructure/litellm.md) | 8/10 | Unified API proxy for 100+ providers; deploy for cost visibility + model routing |
+| [Trigger.dev](./infrastructure/trigger-dev.md) | 8/10 | TypeScript-native durable execution; strongest tmux crash recovery replacement |
+| [MorphLLM](./infrastructure/morphllm.md) | 7/10 | Context compression; value diminished by Claude Max flat rate |
+| [DBOS](./infrastructure/dbos.md) | 7/10 | Postgres-backed durable workflows; Stonebraker + Zaharia; Phase 3 crash recovery |
+| [Daytona](./infrastructure/daytona.md) | 6/10 | 63K stars; most popular sandbox; AGPL license friction |
+| [E2B](./infrastructure/e2b.md) | 5/10 | 88% Fortune 100 adoption; Apache-2.0; Phase 3+ sandbox |
+| [Hyperbrowser](./infrastructure/hyperbrowser.md) | 4/10 | Cloud browser infra; two-tier action model (deterministic-first, AI-fallback) |
 
 ---
 
@@ -81,7 +210,9 @@ Desktop/web apps for managing agent sessions, IDE extensions.
 
 | Tool | Relevance | Key Insight |
 |------|-----------|-------------|
-| [Factory IDE](./developer-gui/factory-ide.md) | 4/10 | Validates autonomous agent thesis at enterprise scale; Droid specialization pattern |
+| [Vibe Kanban](./developer-gui/vibe-kanban.md) | 5/10 | 22.6K stars; validates git worktree isolation; human-operated not autonomous |
+| [Factory IDE](./developer-gui/factory-ide.md) | 4/10 | Validates autonomous agent thesis at enterprise scale; Droid specialization |
+| [Cursor](./developer-gui/cursor.md) | 3/10 | $29.3B gorilla; Automations (trigger-based agents) worth watching |
 | [Jean](./developer-gui/jean.md) | 3/10 | Execution modes (Plan/Build/Yolo) concept |
 | [T3 Code](./developer-gui/t3code.md) | 2/10 | Market signal for GUI demand, but architecturally irrelevant |
 
