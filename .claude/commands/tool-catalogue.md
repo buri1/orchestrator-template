@@ -19,10 +19,10 @@ You are adding a new entry to the Tool Catalogue at `{project-root}/research/cat
 
 | Category | Directory | Use When |
 |----------|-----------|----------|
+| 🎛️ Orchestration Frameworks | `orchestration-platforms/` | Multi-agent coordination, task routing, governance, business orchestration |
+| ⚙️ Agent Harnesses | `agent-harnesses/` | CLI tools, SDKs, runtimes, and frameworks that execute agent tasks |
 | 🧠 Agent Memory & Context | `agent-memory/` | Memory systems, context retrieval, knowledge stores, RAG platforms |
-| 🎛️ Orchestration Platforms | `orchestration-platforms/` | Multi-agent coordination, task routing, governance, business orchestration |
 | 🖥️ Developer GUI / IDE | `developer-gui/` | Desktop/web apps for managing agent sessions, IDE extensions |
-| ⚙️ Agent Harnesses / SDKs | `agent-harnesses/` | CLI tools, SDKs, runtimes that execute agent tasks |
 | 📚 Research & Academic | `research-academic/` | Papers, benchmarks, research systems (not production tools) |
 | 🔍 Observability & Debugging | `observability/` | Tracing, monitoring, failure analysis, cost tracking |
 | 🧬 Code Intelligence | `code-intelligence/` | Semantic code understanding, codebase search, knowledge graphs |
@@ -59,3 +59,4 @@ When scoring **Actionable** (0-10):
 - Be opinionated — state clearly whether to adopt, reference, or ignore
 - Publisher background should assess credibility (track record, other projects, backing)
 - Architecture section should include actual data model details, not just marketing copy
+- **ALWAYS include GitHub Stars** with timestamp (e.g., "4,200 (as of 2026-03-08)") for any tool with a GitHub repo. Fetch the current count via the GitHub API or web.

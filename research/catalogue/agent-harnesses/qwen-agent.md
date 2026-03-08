@@ -4,7 +4,7 @@
 
 | Field | Value |
 |-------|-------|
-| Category | 🎛️ Orchestration Platforms |
+| Category | ⚙️ Agent Harnesses / SDKs |
 | Repository | [QwenLM/Qwen-Agent](https://github.com/QwenLM/Qwen-Agent) |
 | Publisher | Alibaba Cloud / Qwen Team (bigtech) |
 | License | Apache-2.0 |

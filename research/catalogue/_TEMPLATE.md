@@ -6,6 +6,7 @@
 |-------|-------|
 | Category | [emoji + name] |
 | Repository | [link] |
+| GitHub Stars | [X,XXX (as of YYYY-MM-DD)] |
 | Publisher | [name + type: solo/startup/bigtech/research] |
 | License | [MIT/Apache/proprietary/etc.] |
 | Tech Stack | [primary languages + key deps] |
