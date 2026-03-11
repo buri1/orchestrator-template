@@ -1,22 +1,32 @@
-# Ghostty Task Finish Notification Setup
+# Ghostty Task Finish Notification — Setup Guide
 
-When a long-running command or AI agent finishes in any Ghostty tab/split:
+Notification system for Ghostty on macOS. When a long-running command or AI coding agent finishes in any tab/split:
 
 - **Ghostty not focused** → brings Ghostty to front + marks tab with 🔔
 - **Ghostty already focused** → plays a sound + marks tab with 🔔
 - The 🔔 disappears automatically when you click the tab or type in it
+
+## Prerequisites
+
+- **macOS** (uses `osascript`, `afplay`, `stat -f`)
+- **Ghostty** terminal (any version with `bell-features` support, v1.2.0+)
+- **zsh** as default shell (macOS default)
+- **jq** — for parsing Claude Code hook payloads (`brew install jq`)
+- **Claude Code** — optional, for Claude-specific hooks (`npm install -g @anthropic-ai/claude-code`)
+
+> **First-time macOS permission:** When the notification first fires, macOS will ask for **Accessibility** permission for Ghostty (needed for `osascript` to query/activate apps via System Events). Grant it in System Settings → Privacy & Security → Accessibility.
 
 ## Coverage
 
 | Scenario | Works? | Mechanism |
 |---|---|---|
 | Regular commands (`sleep`, `npm build`, etc.) | Yes | zsh `precmd` hooks |
-| Claude Code finishes response | Yes | Claude Code Stop/Notification hooks |
+| Claude Code finishes response mid-session | Yes | Claude Code Stop/Notification hooks |
 | Exiting `claude` or `codex` entirely | Yes | zsh `precmd` hooks |
 | `codex exec "..."` non-interactive | Yes | zsh `precmd` hooks |
-| Any interactive agent via `agent-watch` | Yes | `script` + mtime watcher |
+| Any interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher |
 
-## Architecture (3 layers)
+## Architecture
 
 ```
 Layer 1: Ghostty config        → bell-features (🔔 on tab, dock bounce)
@@ -25,11 +35,19 @@ Layer 3a: Claude Code hooks    → Claude finishing a response mid-session
 Layer 3b: agent-watch wrapper  → ANY agent (codex, aider, etc.) via output silence detection
 ```
 
-## Files Modified (4 files)
+---
 
-### 1. Ghostty Config
+## Step-by-Step Setup
 
-**Path:** `~/Library/Application Support/com.mitchellh.ghostty/config`
+### Step 1: Ghostty Config
+
+The Ghostty config path on macOS:
+
+```
+~/Library/Application Support/com.mitchellh.ghostty/config
+```
+
+Append the following to the end of your Ghostty config file:
 
 ```
 # === Bell / Task Finish Notification ===
@@ -38,18 +56,28 @@ Layer 3b: agent-watch wrapper  → ANY agent (codex, aider, etc.) via output sil
 bell-features = attention,title
 ```
 
-### 2. Zsh Hooks + agent-watch
+Or as a one-liner:
 
-**Path:** `~/.zshrc`
+```bash
+echo '\n# === Bell / Task Finish Notification ===\nbell-features = attention,title' >> ~/Library/Application\ Support/com.mitchellh.ghostty/config
+```
 
-Handles regular shell commands (Layer 2) and the universal `agent-watch` wrapper (Layer 3b).
+Reload with `Cmd+Shift+,` or restart Ghostty.
+
+### Step 2: Zsh Hooks + agent-watch
+
+Append the following block to the **end** of `~/.zshrc`:
 
 ```zsh
 # === Ghostty Task Finish Notifier ===
-GHOSTTY_NOTIFY_THRESHOLD=${GHOSTTY_NOTIFY_THRESHOLD:-10}
+# When a long-running command finishes:
+#   - Ghostty not focused → bring Ghostty to front + mark tab with 🔔
+#   - Ghostty already focused → play sound + mark tab with 🔔
+GHOSTTY_NOTIFY_THRESHOLD=${GHOSTTY_NOTIFY_THRESHOLD:-10}  # seconds
 GHOSTTY_NOTIFY_SOUND="${GHOSTTY_NOTIFY_SOUND:-/System/Library/Sounds/Glass.aiff}"
+AGENT_WATCH_IDLE=${AGENT_WATCH_IDLE:-5}  # seconds of silence for agent-watch
 
-zmodload zsh/datetime 2>/dev/null
+zmodload zsh/datetime 2>/dev/null  # provides EPOCHSECONDS
 
 _ghostty_notify_preexec() {
   _ghostty_cmd_start=$EPOCHSECONDS
@@ -62,7 +90,9 @@ _ghostty_notify_precmd() {
     unset _ghostty_cmd_start
   fi
   (( elapsed < GHOSTTY_NOTIFY_THRESHOLD )) && return
-  printf '\a'
+
+  printf '\a'  # BEL → Ghostty marks this tab with 🔔
+
   local frontapp
   frontapp=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
   if [[ "$frontapp" == "Ghostty" ]]; then
@@ -77,12 +107,14 @@ add-zsh-hook preexec _ghostty_notify_preexec
 add-zsh-hook precmd _ghostty_notify_precmd
 
 # --- Universal Agent Wrapper ---
-# Uses macOS `script` to preserve full TTY interactivity while monitoring
-# the log file's mtime for output silence.
-# Usage: agent-watch codex "fix the bug"
-#        agent-watch aider
-AGENT_WATCH_IDLE=${AGENT_WATCH_IDLE:-5}
-
+# Wraps any interactive agent and notifies when terminal output goes silent.
+# Uses macOS `script` to preserve full TTY interactivity (colors, cursor, etc.)
+# while monitoring the log file's modification time for silence detection.
+#
+# Usage:
+#   agent-watch codex "fix the bug"
+#   agent-watch aider
+#   agent-watch opencode
 agent-watch() {
   if [[ $# -eq 0 ]]; then
     echo "Usage: agent-watch <command> [args...]"
@@ -91,6 +123,7 @@ agent-watch() {
 
   local tmplog=$(mktemp /tmp/agent-watch.XXXXXX)
 
+  # Background watcher: polls log mtime every 2s
   (
     local was_active=false
     local notified=false
@@ -117,6 +150,7 @@ agent-watch() {
   ) &
   local watcher_pid=$!
 
+  # Run the command under `script` (preserves full TTY interactivity)
   script -q "$tmplog" "$@"
   local exit_code=$?
 
@@ -128,52 +162,33 @@ agent-watch() {
 # === End Ghostty Notifier ===
 ```
 
-### 3. Claude Code Hooks
+Activate in current session: `source ~/.zshrc`
+New tabs pick this up automatically.
 
-**Path:** `~/.claude/settings.json`
+### Step 3: Claude Code Hooks (optional — only if you use Claude Code)
 
-Handles Claude Code finishing a response (within its interactive session). This is preferred over `agent-watch` for Claude Code because it's more precise (hook fires on exact events, not silence detection).
+Claude Code has its own hook system that fires on exact events (more precise than silence detection). This step is independent of Step 2.
 
-```json
-{
-  "hooks": {
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/buraksmac/.claude/hooks/notify.sh"
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "matcher": "",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "/Users/buraksmac/.claude/hooks/notify.sh"
-          }
-        ]
-      }
-    ]
-  }
-}
+#### 3a. Create the hook script
+
+```bash
+mkdir -p ~/.claude/hooks
 ```
 
-### 4. Claude Code Hook Script
-
-**Path:** `~/.claude/hooks/notify.sh`
+Create `~/.claude/hooks/notify.sh` with the following content:
 
 ```bash
 #!/bin/bash
+# Claude Code Notification Hook
+# Brings Ghostty to front (if unfocused) or plays sound (if focused)
+
 NOTIFICATION=$(cat)
 MESSAGE=$(echo "$NOTIFICATION" | jq -r '.message // empty' 2>/dev/null || echo "Claude is waiting for your input")
 TITLE=$(echo "$NOTIFICATION" | jq -r '.title // empty' 2>/dev/null || echo "Claude Code")
 [ -z "$MESSAGE" ] && MESSAGE="Claude is waiting for your input"
 [ -z "$TITLE" ] && TITLE="Claude Code"
 
+# BEL → Ghostty marks the tab with 🔔
 printf '\a'
 
 FRONTAPP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
@@ -186,66 +201,135 @@ fi
 exit 0
 ```
 
-## How It Works
+Make it executable:
 
-### Layer 2: Zsh Hooks (regular commands)
-`preexec` records start time → `precmd` fires when shell prompt returns → if >10s elapsed → BEL + notify
+```bash
+chmod +x ~/.claude/hooks/notify.sh
+```
 
-### Layer 3a: Claude Code Hooks
-Claude Code fires `Stop` when response finishes, `Notification` when it needs input → `notify.sh` → BEL + notify
+#### 3b. Wire up the hooks in Claude Code settings
 
-### Layer 3b: agent-watch (universal)
-`script -q logfile <agent>` runs the agent in a pty (full interactivity preserved) → background watcher polls the logfile's mtime every 2s → when output stops for 5s after being active → BEL + notify
+Edit `~/.claude/settings.json` and add (or merge into) the `"hooks"` section:
 
-### Layer 1: Ghostty bell-features
-All layers send BEL (`\a`) → Ghostty's `attention` bounces dock icon, `title` marks the specific tab with 🔔
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/notify.sh"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.claude/hooks/notify.sh"
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+> **Important:** The `command` path must be **absolute**. Replace `$HOME` with your actual home directory (e.g., `/Users/yourname/.claude/hooks/notify.sh`). If `settings.json` already exists, merge the `hooks` key — don't overwrite the entire file.
+
+New Claude Code sessions will pick up the hooks automatically.
+
+---
 
 ## Usage
 
 ```bash
-# Claude Code: just run normally (hooks handle it)
+# Claude Code — just run normally, hooks handle it:
 claude
 
-# Any other agent: wrap with agent-watch
+# Any other interactive agent — wrap with agent-watch:
 agent-watch codex
 agent-watch codex "fix the login bug"
 agent-watch aider --model gpt-4
+agent-watch opencode
+
+# Regular shell commands — automatic (zsh hooks), no wrapper needed:
+npm run build   # notifies if it takes >10s
 ```
 
 ## Customization
 
+Set these in `~/.zshrc` (before the notifier block) or export in your shell:
+
 ```bash
-# In ~/.zshrc or export in shell:
-GHOSTTY_NOTIFY_THRESHOLD=5    # zsh hooks: trigger after 5s instead of 10
-AGENT_WATCH_IDLE=3             # agent-watch: trigger after 3s of silence
-GHOSTTY_NOTIFY_SOUND="/System/Library/Sounds/Ping.aiff"  # different sound
+GHOSTTY_NOTIFY_THRESHOLD=5                              # zsh hooks: notify after 5s instead of 10
+AGENT_WATCH_IDLE=3                                       # agent-watch: notify after 3s of silence
+GHOSTTY_NOTIFY_SOUND="/System/Library/Sounds/Ping.aiff"  # change notification sound
 ```
 
-**Available macOS sounds:** Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sosumi, Submarine, Tink (all in `/System/Library/Sounds/`)
+**Available macOS sounds** (in `/System/Library/Sounds/`):
+Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sosumi, Submarine, Tink
 
-## Reload After Changes
+## How It Works
 
-- **Ghostty config:** Press `Cmd+Shift+,` or restart Ghostty
-- **Zsh hooks / agent-watch:** Open a new tab or run `source ~/.zshrc`
-- **Claude Code hooks:** Start a new Claude Code session
+### Layer 1: Ghostty bell-features
+All notification layers send BEL (`\a`). Ghostty's `attention` feature bounces the dock icon, and `title` prepends 🔔 to the specific tab's title. The emoji clears when you focus the tab or type.
+
+### Layer 2: Zsh precmd/preexec (regular commands)
+`preexec` records the timestamp when any command starts. `precmd` fires when the shell prompt returns. If the elapsed time exceeds `GHOSTTY_NOTIFY_THRESHOLD`, it sends BEL and either brings Ghostty to front or plays a sound.
+
+### Layer 3a: Claude Code hooks
+Claude Code fires `Stop` when it finishes a response and `Notification` when it needs user input. Both trigger `notify.sh` which applies the same Ghostty logic. This is preferred over `agent-watch` for Claude because it's event-driven (no polling).
+
+### Layer 3b: agent-watch (universal wrapper)
+`script -q logfile <command>` runs the agent inside a pseudo-terminal (full colors, cursor, interactivity preserved). A background subshell polls the logfile's modification time every 2 seconds. When the file stops being written to for `AGENT_WATCH_IDLE` seconds after having been active, it triggers the notification. The temp file is cleaned up on exit.
+
+## Troubleshooting
+
+| Problem | Fix |
+|---|---|
+| No sound plays | Check System Settings → Sound → Alert volume is not muted |
+| Ghostty doesn't come to front | Grant Accessibility permission: System Settings → Privacy & Security → Accessibility → Ghostty |
+| `osascript` errors | First run may trigger a macOS permission dialog — approve it |
+| `agent-watch` not found | Run `source ~/.zshrc` or open a new tab |
+| BEL / 🔔 not appearing on tab | Ensure `bell-features = attention,title` is in Ghostty config and reload with `Cmd+Shift+,` |
+| Claude Code hooks not firing | Check `~/.claude/settings.json` has the hooks section; start a **new** Claude session |
+| `jq: command not found` | Install jq: `brew install jq` |
 
 ## Limitations
 
-- No external API to programmatically **switch to** the finished tab — but 🔔 makes it visible
-- `system` and `audio` bell features are GTK-only (Linux); on macOS we use `afplay`
-- `agent-watch` adds a `script` layer (the agent runs in a pty-in-a-pty) — very rare edge cases with some TUI apps
-- The `script` log file grows during the session; cleaned up on exit
-- `osascript` adds ~50ms overhead per notification (negligible)
+- No external API to programmatically **switch to** the finished tab — but the 🔔 emoji makes it visible which one completed
+- `system` and `audio` Ghostty bell features are GTK-only (Linux); on macOS we use `afplay` instead
+- `agent-watch` runs the agent in a pty-in-a-pty via `script` — very rare edge cases with some TUI apps
+- The `script` log file grows during the session; automatically cleaned up on exit
+- Codex CLI has no hook system, so you must use `agent-watch codex` for mid-session notifications
 
 ## Testing
 
 ```bash
-# Test zsh hooks:
+# 1. Test zsh hooks (regular commands):
 sleep 12
+# → Switch to another app while waiting. Ghostty should come to front after 12s.
+# → Stay in Ghostty on another tab. Should hear Glass sound + see 🔔.
 
-# Test agent-watch:
-agent-watch sleep 12
+# 2. Test agent-watch:
+agent-watch sleep 8
+# → Same behavior as above.
 
-# Test Claude Code hooks:
-# Start claude in one tab, switch to another, ask something — hear Glass sound + 🔔
+# 3. Test Claude Code hooks:
+# Start claude in one tab, switch to another tab, ask Claude something.
+# → When Claude responds, hear Glass sound + see 🔔 on the Claude tab.
 ```
+
+## Quick Reference: All File Paths
+
+| File | Purpose |
+|---|---|
+| `~/Library/Application Support/com.mitchellh.ghostty/config` | Ghostty bell-features config |
+| `~/.zshrc` | Zsh hooks + agent-watch function |
+| `~/.claude/settings.json` | Claude Code hook wiring |
+| `~/.claude/hooks/notify.sh` | Shared notification script (Claude Code) |
