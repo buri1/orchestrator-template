@@ -24,18 +24,20 @@ Notification system for Ghostty on macOS. When a long-running command or AI codi
 | Scenario | Works? | Mechanism | Clipboard? |
 |---|---|---|---|
 | Regular commands (`sleep`, `npm build`, etc.) | Yes | zsh `precmd` hooks | No |
-| Claude Code finishes response | Yes | Claude Code Stop/Notification hooks | Yes |
+| Claude Code finishes response | Yes | Claude Code Stop/Notification hooks | No* |
 | Codex CLI finishes response | Yes | Codex Stop hook | Yes |
 | Exiting `claude` or `codex` entirely | Yes | zsh `precmd` hooks | No |
 | `codex exec "..."` non-interactive | Yes | zsh `precmd` hooks | No |
 | Any other interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher | Yes |
+
+> *\*Claude Code hooks don't expose response text. Use `agent-watch claude` for clipboard, or manually `Cmd+C`.*
 
 ## Architecture
 
 ```
 Layer 1: Ghostty config        → bell-features (🔔 on tab, dock bounce)
 Layer 2: Zsh precmd/preexec    → regular shell commands (>10s)
-Layer 3a: Claude Code hooks    → Claude response → clipboard + notify
+Layer 3a: Claude Code hooks    → Claude response → notify only (no response in payload)
 Layer 3b: Codex CLI hooks      → Codex response → clipboard + notify
 Layer 3c: agent-watch wrapper  → ANY other agent → clipboard + notify via output silence
 ```
@@ -186,7 +188,7 @@ New tabs pick this up automatically.
 
 ### Step 3: Claude Code Hooks (optional — only if you use Claude Code)
 
-Claude Code has its own hook system that fires on exact events (more precise than silence detection). The hook also copies Claude's response to the system clipboard so it's available in Maccy.
+Claude Code has its own hook system that fires on exact events (more precise than silence detection). Note: Claude Code hooks **don't pass the actual response text** — only metadata like notification titles. For clipboard, use `agent-watch claude` instead, or manually select + `Cmd+C`.
 
 #### 3a. Create the hook script
 
@@ -199,19 +201,16 @@ Create `~/.claude/hooks/notify.sh` with the following content:
 ```bash
 #!/bin/bash
 # Claude Code Notification Hook
-# 1. Copies last response to system clipboard (available in Maccy history)
-# 2. Brings Ghostty to front (if unfocused) or plays sound (if focused)
+# Brings Ghostty to front (if unfocused) or plays sound (if focused)
+# NOTE: Claude Code hooks don't pass the actual response text (only metadata
+# like "Claude is waiting for your input"), so no clipboard copy here.
+# For clipboard, use agent-watch claude instead, or manually select + Cmd+C.
 
 NOTIFICATION=$(cat)
 MESSAGE=$(echo "$NOTIFICATION" | jq -r '.message // empty' 2>/dev/null || echo "Claude is waiting for your input")
 TITLE=$(echo "$NOTIFICATION" | jq -r '.title // empty' 2>/dev/null || echo "Claude Code")
 [ -z "$MESSAGE" ] && MESSAGE="Claude is waiting for your input"
 [ -z "$TITLE" ] && TITLE="Claude Code"
-
-# Copy response to clipboard (Maccy picks this up automatically)
-if [ -n "$MESSAGE" ]; then
-  printf '%s' "$MESSAGE" | pbcopy 2>/dev/null
-fi
 
 # BEL → Ghostty marks the tab with 🔔
 printf '\a'
@@ -415,7 +414,7 @@ All notification layers send BEL (`\a`). Ghostty's `attention` feature bounces t
 `preexec` records the timestamp when any command starts. `precmd` fires when the shell prompt returns. If the elapsed time exceeds `GHOSTTY_NOTIFY_THRESHOLD`, it sends BEL and either brings Ghostty to front or plays a sound.
 
 ### Layer 3a: Claude Code hooks
-Claude Code fires `Stop` when it finishes a response and `Notification` when it needs user input. Both trigger `notify.sh` which copies the response to clipboard via `pbcopy` and applies the Ghostty notification logic.
+Claude Code fires `Stop` when it finishes a response and `Notification` when it needs user input. Both trigger `notify.sh` which applies the Ghostty notification logic. Note: Claude Code hooks only pass metadata (notification title/message), **not** the actual response text — so no clipboard copy. For Claude clipboard, use `agent-watch claude` or select + `Cmd+C`.
 
 ### Layer 3b: Codex CLI hooks
 Codex fires `Stop` when the agent finishes a response. The hook receives `last_assistant_message` in the JSON payload, copies it to clipboard via `pbcopy`, and triggers the same Ghostty notification. Must output `{}` on stdout (Codex requires valid JSON response from Stop hooks).
