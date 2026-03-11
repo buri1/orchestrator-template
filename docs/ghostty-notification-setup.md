@@ -5,34 +5,39 @@ Notification system for Ghostty on macOS. When a long-running command or AI codi
 - **Ghostty not focused** → brings Ghostty to front + marks tab with 🔔
 - **Ghostty already focused** → plays a sound + marks tab with 🔔
 - The 🔔 disappears automatically when you click the tab or type in it
+- **Last agent response is copied to clipboard** (available in Maccy history)
 
 ## Prerequisites
 
-- **macOS** (uses `osascript`, `afplay`, `stat -f`)
+- **macOS** (uses `osascript`, `afplay`, `stat -f`, `pbcopy`)
 - **Ghostty** terminal (any version with `bell-features` support, v1.2.0+)
 - **zsh** as default shell (macOS default)
-- **jq** — for parsing Claude Code hook payloads (`brew install jq`)
+- **jq** — for parsing hook payloads (`brew install jq`)
+- **Maccy** — clipboard history manager (recommended, `brew install --cask maccy`)
 - **Claude Code** — optional, for Claude-specific hooks (`npm install -g @anthropic-ai/claude-code`)
+- **Codex CLI** — optional, v0.114.0+ for Codex hooks (`npm install -g @openai/codex`)
 
 > **First-time macOS permission:** When the notification first fires, macOS will ask for **Accessibility** permission for Ghostty (needed for `osascript` to query/activate apps via System Events). Grant it in System Settings → Privacy & Security → Accessibility.
 
 ## Coverage
 
-| Scenario | Works? | Mechanism |
-|---|---|---|
-| Regular commands (`sleep`, `npm build`, etc.) | Yes | zsh `precmd` hooks |
-| Claude Code finishes response mid-session | Yes | Claude Code Stop/Notification hooks |
-| Exiting `claude` or `codex` entirely | Yes | zsh `precmd` hooks |
-| `codex exec "..."` non-interactive | Yes | zsh `precmd` hooks |
-| Any interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher |
+| Scenario | Works? | Mechanism | Clipboard? |
+|---|---|---|---|
+| Regular commands (`sleep`, `npm build`, etc.) | Yes | zsh `precmd` hooks | No |
+| Claude Code finishes response | Yes | Claude Code Stop/Notification hooks | Yes |
+| Codex CLI finishes response | Yes | Codex Stop hook | Yes |
+| Exiting `claude` or `codex` entirely | Yes | zsh `precmd` hooks | No |
+| `codex exec "..."` non-interactive | Yes | zsh `precmd` hooks | No |
+| Any other interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher | No |
 
 ## Architecture
 
 ```
 Layer 1: Ghostty config        → bell-features (🔔 on tab, dock bounce)
 Layer 2: Zsh precmd/preexec    → regular shell commands (>10s)
-Layer 3a: Claude Code hooks    → Claude finishing a response mid-session
-Layer 3b: agent-watch wrapper  → ANY agent (codex, aider, etc.) via output silence detection
+Layer 3a: Claude Code hooks    → Claude response → clipboard + notify
+Layer 3b: Codex CLI hooks      → Codex response → clipboard + notify
+Layer 3c: agent-watch wrapper  → ANY other agent via output silence detection
 ```
 
 ---
@@ -167,7 +172,7 @@ New tabs pick this up automatically.
 
 ### Step 3: Claude Code Hooks (optional — only if you use Claude Code)
 
-Claude Code has its own hook system that fires on exact events (more precise than silence detection). This step is independent of Step 2.
+Claude Code has its own hook system that fires on exact events (more precise than silence detection). The hook also copies Claude's response to the system clipboard so it's available in Maccy.
 
 #### 3a. Create the hook script
 
@@ -180,13 +185,19 @@ Create `~/.claude/hooks/notify.sh` with the following content:
 ```bash
 #!/bin/bash
 # Claude Code Notification Hook
-# Brings Ghostty to front (if unfocused) or plays sound (if focused)
+# 1. Copies last response to system clipboard (available in Maccy history)
+# 2. Brings Ghostty to front (if unfocused) or plays sound (if focused)
 
 NOTIFICATION=$(cat)
 MESSAGE=$(echo "$NOTIFICATION" | jq -r '.message // empty' 2>/dev/null || echo "Claude is waiting for your input")
 TITLE=$(echo "$NOTIFICATION" | jq -r '.title // empty' 2>/dev/null || echo "Claude Code")
 [ -z "$MESSAGE" ] && MESSAGE="Claude is waiting for your input"
 [ -z "$TITLE" ] && TITLE="Claude Code"
+
+# Copy response to clipboard (Maccy picks this up automatically)
+if [ -n "$MESSAGE" ]; then
+  printf '%s' "$MESSAGE" | pbcopy 2>/dev/null
+fi
 
 # BEL → Ghostty marks the tab with 🔔
 printf '\a'
@@ -243,17 +254,124 @@ Edit `~/.claude/settings.json` and add (or merge into) the `"hooks"` section:
 
 New Claude Code sessions will pick up the hooks automatically.
 
+### Step 4: Codex CLI Hooks (optional — only if you use Codex CLI v0.114.0+)
+
+Codex CLI added an experimental hooks engine in v0.114.0. The `Stop` hook fires when the agent finishes a response and receives `last_assistant_message` on stdin — perfect for clipboard integration.
+
+#### 4a. Enable hooks feature flag
+
+Add to `~/.codex/config.toml`:
+
+```toml
+[features]
+codex_hooks = true
+```
+
+#### 4b. Create the hooks config
+
+Create `~/.codex/hooks.json`:
+
+```json
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$HOME/.codex/hooks/notify.sh",
+            "timeout": 10,
+            "statusMessage": "Notifying..."
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+> **Important:** Replace `$HOME` with your actual home directory (e.g., `/Users/yourname/.codex/hooks/notify.sh`).
+
+#### 4c. Create the hook script
+
+```bash
+mkdir -p ~/.codex/hooks
+```
+
+Create `~/.codex/hooks/notify.sh` with the following content:
+
+```bash
+#!/bin/bash
+# Codex CLI Notification Hook (Stop event)
+# 1. Copies last assistant message to system clipboard (Maccy picks it up)
+# 2. Brings Ghostty to front (if unfocused) or plays sound (if focused)
+
+# Read hook data from stdin (Codex passes JSON with last_assistant_message)
+INPUT=$(cat)
+
+# Extract the last assistant message
+LAST_MSG=$(echo "$INPUT" | jq -r '.last_assistant_message // empty' 2>/dev/null)
+
+# Copy to system clipboard if we have content (Maccy history picks this up)
+if [ -n "$LAST_MSG" ]; then
+  printf '%s' "$LAST_MSG" | pbcopy 2>/dev/null
+fi
+
+# Send BEL to mark the Ghostty tab with 🔔
+printf '\a'
+
+# Check if Ghostty is the frontmost app
+FRONTAPP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
+
+if [ "$FRONTAPP" = "Ghostty" ]; then
+  afplay "${GHOSTTY_NOTIFY_SOUND:-/System/Library/Sounds/Glass.aiff}" &>/dev/null &
+else
+  osascript -e 'tell application "Ghostty" to activate' &>/dev/null &
+  osascript -e "display notification \"Codex finished\" with title \"Codex CLI\" sound name \"Glass\"" &
+fi
+
+# Must output valid JSON for Codex Stop hook (empty = allow stop)
+echo '{}'
+exit 0
+```
+
+Make it executable:
+
+```bash
+chmod +x ~/.codex/hooks/notify.sh
+```
+
+New Codex sessions will pick up the hooks automatically.
+
+---
+
+## Clipboard Workflow with Maccy
+
+Both Claude Code and Codex hooks automatically copy the agent's last response to the system clipboard. Maccy keeps a history of all clipboard entries.
+
+**Workflow:**
+1. Agent finishes in Tab A → response is auto-copied to clipboard
+2. Switch to Tab B (another agent or editor)
+3. `Cmd+V` to paste the response directly
+4. If you've copied something else since, open **Maccy** (`Cmd+Shift+C` by default) to find the agent response in clipboard history
+
+**Cross-agent sharing:**
+- Claude finishes → response in Maccy → switch to Codex tab → paste as context
+- Codex finishes → response in Maccy → switch to Claude tab → paste as context
+- No files needed, pure clipboard
+
 ---
 
 ## Usage
 
 ```bash
-# Claude Code — just run normally, hooks handle it:
+# Claude Code — just run normally, hooks handle notification + clipboard:
 claude
 
-# Any other interactive agent — wrap with agent-watch:
-agent-watch codex
-agent-watch codex "fix the login bug"
+# Codex CLI — just run normally (with hooks enabled), same behavior:
+codex
+
+# Any other interactive agent — wrap with agent-watch (notification only, no clipboard):
 agent-watch aider --model gpt-4
 agent-watch opencode
 
@@ -283,9 +401,12 @@ All notification layers send BEL (`\a`). Ghostty's `attention` feature bounces t
 `preexec` records the timestamp when any command starts. `precmd` fires when the shell prompt returns. If the elapsed time exceeds `GHOSTTY_NOTIFY_THRESHOLD`, it sends BEL and either brings Ghostty to front or plays a sound.
 
 ### Layer 3a: Claude Code hooks
-Claude Code fires `Stop` when it finishes a response and `Notification` when it needs user input. Both trigger `notify.sh` which applies the same Ghostty logic. This is preferred over `agent-watch` for Claude because it's event-driven (no polling).
+Claude Code fires `Stop` when it finishes a response and `Notification` when it needs user input. Both trigger `notify.sh` which copies the response to clipboard via `pbcopy` and applies the Ghostty notification logic.
 
-### Layer 3b: agent-watch (universal wrapper)
+### Layer 3b: Codex CLI hooks
+Codex fires `Stop` when the agent finishes a response. The hook receives `last_assistant_message` in the JSON payload, copies it to clipboard via `pbcopy`, and triggers the same Ghostty notification. Must output `{}` on stdout (Codex requires valid JSON response from Stop hooks).
+
+### Layer 3c: agent-watch (universal wrapper)
 `script -q logfile <command>` runs the agent inside a pseudo-terminal (full colors, cursor, interactivity preserved). A background subshell polls the logfile's modification time every 2 seconds. When the file stops being written to for `AGENT_WATCH_IDLE` seconds after having been active, it triggers the notification. The temp file is cleaned up on exit.
 
 ## Troubleshooting
@@ -298,7 +419,10 @@ Claude Code fires `Stop` when it finishes a response and `Notification` when it 
 | `agent-watch` not found | Run `source ~/.zshrc` or open a new tab |
 | BEL / 🔔 not appearing on tab | Ensure `bell-features = attention,title` is in Ghostty config and reload with `Cmd+Shift+,` |
 | Claude Code hooks not firing | Check `~/.claude/settings.json` has the hooks section; start a **new** Claude session |
+| Codex hooks not firing | Check `codex_hooks = true` in `~/.codex/config.toml` [features]; verify Codex v0.114.0+ (`codex --version`) |
 | `jq: command not found` | Install jq: `brew install jq` |
+| Clipboard not updating | Verify `pbcopy` works: `echo test \| pbcopy` then `Cmd+V` |
+| Maccy not showing entries | Ensure Maccy is running; check Maccy preferences for clipboard monitoring |
 
 ## Limitations
 
@@ -306,7 +430,8 @@ Claude Code fires `Stop` when it finishes a response and `Notification` when it 
 - `system` and `audio` Ghostty bell features are GTK-only (Linux); on macOS we use `afplay` instead
 - `agent-watch` runs the agent in a pty-in-a-pty via `script` — very rare edge cases with some TUI apps
 - The `script` log file grows during the session; automatically cleaned up on exit
-- Codex CLI has no hook system, so you must use `agent-watch codex` for mid-session notifications
+- Codex hooks are experimental (v0.114.0) — schema may change in future versions
+- Clipboard copies may be truncated for very long responses (system clipboard has no hard limit, but Maccy may truncate display)
 
 ## Testing
 
@@ -323,6 +448,12 @@ agent-watch sleep 8
 # 3. Test Claude Code hooks:
 # Start claude in one tab, switch to another tab, ask Claude something.
 # → When Claude responds, hear Glass sound + see 🔔 on the Claude tab.
+# → Open Maccy (Cmd+Shift+C) — Claude's response should be in clipboard history.
+
+# 4. Test Codex hooks:
+# Start codex in one tab, switch to another tab, ask Codex something.
+# → When Codex responds, hear Glass sound + see 🔔 on the Codex tab.
+# → Open Maccy — Codex's response should be in clipboard history.
 ```
 
 ## Quick Reference: All File Paths
@@ -332,4 +463,7 @@ agent-watch sleep 8
 | `~/Library/Application Support/com.mitchellh.ghostty/config` | Ghostty bell-features config |
 | `~/.zshrc` | Zsh hooks + agent-watch function |
 | `~/.claude/settings.json` | Claude Code hook wiring |
-| `~/.claude/hooks/notify.sh` | Shared notification script (Claude Code) |
+| `~/.claude/hooks/notify.sh` | Claude Code notification + clipboard script |
+| `~/.codex/config.toml` | Codex feature flags (`codex_hooks = true`) |
+| `~/.codex/hooks.json` | Codex hook wiring |
+| `~/.codex/hooks/notify.sh` | Codex notification + clipboard script |
