@@ -28,18 +28,18 @@ Notification system for Ghostty on macOS. When a long-running command or AI codi
 | Codex CLI finishes response | Yes | Codex Stop hook | Yes |
 | Exiting `claude` or `codex` entirely | Yes | zsh `precmd` hooks | No |
 | `codex exec "..."` non-interactive | Yes | zsh `precmd` hooks | No |
-| Any other interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher | Yes |
+| Any other interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher | Noisy* |
 
-> *\*Claude Code hooks don't expose response text. Use `agent-watch claude` for clipboard, or manually `Cmd+C`.*
+> *\*Claude Code hooks don't expose response text (only metadata like "Claude is waiting for your input"). Manual `Cmd+C` is recommended for Claude Code. `agent-watch` captures raw terminal output (all tool calls, spinners, etc.) — not a clean response. Only Codex provides a clean `last_assistant_message` via hooks.*
 
 ## Architecture
 
 ```
 Layer 1: Ghostty config        → bell-features (🔔 on tab, dock bounce)
 Layer 2: Zsh precmd/preexec    → regular shell commands (>10s)
-Layer 3a: Claude Code hooks    → Claude response → notify only (no response in payload)
+Layer 3a: Claude Code hooks    → Claude response → notify only (no response text in payload)
 Layer 3b: Codex CLI hooks      → Codex response → clipboard + notify
-Layer 3c: agent-watch wrapper  → ANY other agent → clipboard + notify via output silence
+Layer 3c: agent-watch wrapper  → ANY other agent → notify + raw clipboard via output silence
 ```
 
 ---
@@ -420,7 +420,7 @@ Claude Code fires `Stop` when it finishes a response and `Notification` when it 
 Codex fires `Stop` when the agent finishes a response. The hook receives `last_assistant_message` in the JSON payload, copies it to clipboard via `pbcopy`, and triggers the same Ghostty notification. Must output `{}` on stdout (Codex requires valid JSON response from Stop hooks).
 
 ### Layer 3c: agent-watch (universal wrapper)
-`script -q logfile <command>` runs the agent inside a pseudo-terminal (full colors, cursor, interactivity preserved). A background subshell polls the logfile's modification time every 2 seconds. When the file stops being written to for `AGENT_WATCH_IDLE` seconds after having been active, it extracts the last output burst from the log, strips ANSI escape codes, copies it to clipboard via `pbcopy`, and triggers the notification. The temp file is cleaned up on exit.
+`script -q logfile <command>` runs the agent inside a pseudo-terminal (full colors, cursor, interactivity preserved). A background subshell polls the logfile's modification time every 2 seconds. When the file stops being written to for `AGENT_WATCH_IDLE` seconds after having been active, it extracts the last output burst from the log, strips ANSI escape codes, copies it to clipboard via `pbcopy`, and triggers the notification. The temp file is cleaned up on exit. **Note:** the clipboard content is raw terminal output (includes tool calls, spinners, etc.) — not a clean agent response like Codex's `last_assistant_message`.
 
 ## Troubleshooting
 
