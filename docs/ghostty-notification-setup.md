@@ -28,7 +28,7 @@ Notification system for Ghostty on macOS. When a long-running command or AI codi
 | Codex CLI finishes response | Yes | Codex Stop hook | Yes |
 | Exiting `claude` or `codex` entirely | Yes | zsh `precmd` hooks | No |
 | `codex exec "..."` non-interactive | Yes | zsh `precmd` hooks | No |
-| Any other interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher | No |
+| Any other interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher | Yes |
 
 ## Architecture
 
@@ -37,7 +37,7 @@ Layer 1: Ghostty config        → bell-features (🔔 on tab, dock bounce)
 Layer 2: Zsh precmd/preexec    → regular shell commands (>10s)
 Layer 3a: Claude Code hooks    → Claude response → clipboard + notify
 Layer 3b: Codex CLI hooks      → Codex response → clipboard + notify
-Layer 3c: agent-watch wrapper  → ANY other agent via output silence detection
+Layer 3c: agent-watch wrapper  → ANY other agent → clipboard + notify via output silence
 ```
 
 ---
@@ -132,6 +132,7 @@ agent-watch() {
   (
     local was_active=false
     local notified=false
+    local active_start_size=0
     while [[ -f "$tmplog" ]]; do
       sleep 2
       [[ -f "$tmplog" ]] || break
@@ -139,10 +140,23 @@ agent-watch() {
       local now=$(date +%s)
       local idle=$((now - mtime))
       if (( idle < 3 )); then
+        if ! $was_active; then
+          # Mark where this output burst started
+          active_start_size=$(stat -f %z "$tmplog" 2>/dev/null || echo 0)
+        fi
         was_active=true
         notified=false
       elif $was_active && ! $notified && (( idle >= AGENT_WATCH_IDLE )); then
         notified=true
+        # Copy the last output burst to clipboard (strip ANSI escape codes)
+        local cur_size=$(stat -f %z "$tmplog" 2>/dev/null || echo 0)
+        if (( cur_size > active_start_size )); then
+          tail -c +$((active_start_size + 1)) "$tmplog" 2>/dev/null \
+            | sed $'s/\x1b\[[0-9;]*[a-zA-Z]//g' \
+            | sed $'s/\x1b\][^\x07]*\x07//g' \
+            | sed $'s/\r//g' \
+            | pbcopy 2>/dev/null
+        fi
         printf '\a' > /dev/tty 2>/dev/null
         local frontapp=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
         if [[ "$frontapp" == "Ghostty" ]]; then
@@ -371,7 +385,7 @@ claude
 # Codex CLI — just run normally (with hooks enabled), same behavior:
 codex
 
-# Any other interactive agent — wrap with agent-watch (notification only, no clipboard):
+# Any other interactive agent — wrap with agent-watch (notification + clipboard):
 agent-watch aider --model gpt-4
 agent-watch opencode
 
@@ -407,7 +421,7 @@ Claude Code fires `Stop` when it finishes a response and `Notification` when it 
 Codex fires `Stop` when the agent finishes a response. The hook receives `last_assistant_message` in the JSON payload, copies it to clipboard via `pbcopy`, and triggers the same Ghostty notification. Must output `{}` on stdout (Codex requires valid JSON response from Stop hooks).
 
 ### Layer 3c: agent-watch (universal wrapper)
-`script -q logfile <command>` runs the agent inside a pseudo-terminal (full colors, cursor, interactivity preserved). A background subshell polls the logfile's modification time every 2 seconds. When the file stops being written to for `AGENT_WATCH_IDLE` seconds after having been active, it triggers the notification. The temp file is cleaned up on exit.
+`script -q logfile <command>` runs the agent inside a pseudo-terminal (full colors, cursor, interactivity preserved). A background subshell polls the logfile's modification time every 2 seconds. When the file stops being written to for `AGENT_WATCH_IDLE` seconds after having been active, it extracts the last output burst from the log, strips ANSI escape codes, copies it to clipboard via `pbcopy`, and triggers the notification. The temp file is cleaned up on exit.
 
 ## Troubleshooting
 
