@@ -78,8 +78,8 @@ During Q&A, Scott elaborates on their organizational structure: one PM for the e
 
 | URL | Why | Suggested Ingest |
 |-----|-----|-----------------|
-| https://www.kilo.dev | Kilo's agentic engineering platform -- 25T+ tokens, 1.5M+ devs, 5 built-in agents (orchestrator, architect, code, ask, debug) | `/tool-catalogue` |
-| PostHog anti-collaboration blog post | Referenced by Scott as inspiration for their anti-collaboration philosophy | `/ingest-article` (URL not provided in talk -- search for "PostHog anti-collaboration") |
+| ~~https://www.kilo.dev~~ | ~~Kilo's agentic engineering platform -- 25T+ tokens, 1.5M+ devs, 5 built-in agents (orchestrator, architect, code, ask, debug)~~ | DONE -- [Kilo Code](../../agent-harnesses/kilo-code.md) |
+| ~~PostHog anti-collaboration blog post~~ | ~~Referenced by Scott as inspiration for their anti-collaboration philosophy~~ | DONE -- [Collaboration sucks](../../articles/2025-11/collaboration-sucks.md) |
 
 ---
 
@@ -87,7 +87,7 @@ During Q&A, Scott elaborates on their organizational structure: one PM for the e
 
 | Tool/Project | Mentioned Context | In Our Catalogue? |
 |-------------|-------------------|-------------------|
-| Kilo | Scott's company -- agentic engineering platform with orchestrator, architect, code, ask, and debug agents | No -- consider `/tool-catalogue` |
+| Kilo | Scott's company -- agentic engineering platform with orchestrator, architect, code, ask, and debug agents | Yes -- [Kilo Code](../../agent-harnesses/kilo-code.md) |
 | Claude Opus | Recommended for architecture/planning tasks | Yes -- referenced across catalogue |
 | Qwen (Kimmy) | Mentioned as cost-effective coding model | Yes -- [Qwen-Agent](../../agent-harnesses/qwen-agent.md) |
 | MiniMax | Mentioned as cost-effective coding model | No |
@@ -99,8 +99,8 @@ During Q&A, Scott elaborates on their organizational structure: one PM for the e
 
 ## Action Items
 
-- [ ] Evaluate Kilo platform (kilo.dev) -- their 5-agent architecture (orchestrator, architect, code, ask, debug) may have patterns worth studying
-- [ ] Find and ingest PostHog's anti-collaboration blog post -- directly relevant to our org structure decisions
+- [x] Evaluate Kilo platform (kilo.dev) -- DONE: [Kilo Code](../../agent-harnesses/kilo-code.md)
+- [x] Find and ingest PostHog's anti-collaboration blog post -- DONE: [Collaboration sucks](../../articles/2025-11/collaboration-sucks.md)
 - [ ] Consider the Trust Ladder as a framework for evaluating our own orchestrator UX -- where do trust breakdowns happen?
 - [ ] Validate model routing pattern: use expensive models (Opus) for architecture/planning, cheap models for execution -- aligns with our 70/30 split philosophy
 - [ ] The "200 hours agent coding supported by 40 hours human thinking" ratio is a useful mental model for capacity planning

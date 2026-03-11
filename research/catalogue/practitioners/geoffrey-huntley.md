@@ -134,7 +134,7 @@ Huntley runs agents autonomously, including overnight. He has personally operate
 | [Ralph Wiggum Plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum) | Official Anthropic formalization of his technique | No |
 | [how-to-ralph-wiggum](https://github.com/ghuntley/how-to-ralph-wiggum) | Methodology and implementation guide | No |
 | [how-to-build-a-coding-agent](https://github.com/ghuntley/how-to-build-a-coding-agent) | Free workshop: build your own coding agent from scratch | No |
-| [Loom](https://github.com/ghuntley/loom) | Experimental self-evolutionary software infrastructure | No |
+| [Loom](https://github.com/ghuntley/loom) | Experimental self-evolutionary software infrastructure | [Yes](../agent-harnesses/loom.md) |
 | [Gas Town](https://github.com/steveyegge/gastown) (Steve Yegge) | Multi-agent extension of Ralph; 20-30 parallel Claude Code instances | No |
 | Cursor | IDE-as-agent with stdlib approach | No |
 | Chrome DevTools MCP / Playwright | UI verification back pressure for agents | No |

@@ -76,8 +76,8 @@ Dex also makes a strong stand on code quality: "2026 is the year of no more slop
 
 | URL | Why | Suggested Ingest |
 |-----|-----|-----------------|
-| https://humanlayer.dev | HumanLayer — Dex's company building an IDE that orchestrates CRISPY pipeline | `/tool-catalogue` |
-| 12 Factor Agents paper (by Dex) | First formalization of "context engineering"; pre-dates RPI | `/ingest-article` |
+| https://humanlayer.dev | HumanLayer — Dex's company building an IDE that orchestrates CRISPY pipeline | **DONE** — [catalogued](../../developer-gui/humanlayer.md) |
+| 12 Factor Agents paper (by Dex) | First formalization of "context engineering"; pre-dates RPI | **DONE** — [catalogued](../../articles/2025-04/12-factor-agents.md) |
 | Kyle's blog post on instruction budgets (Nov/Dec 2025) | Cited arXiv paper on 150-200 instruction limit for frontier LLMs | `/ingest-article` |
 | Drew Brunick's testing talk (same conference) | Dex explicitly deferred testing/verification discussion to this talk | `/ingest-talk` |
 
@@ -87,7 +87,7 @@ Dex also makes a strong stand on code quality: "2026 is the year of no more slop
 
 | Tool/Project | Mentioned Context | In Our Catalogue? |
 |-------------|-------------------|-------------------|
-| HumanLayer | Dex's company; building IDE that orchestrates CRISPY pipeline | Not yet catalogued — consider `/tool-catalogue` |
+| HumanLayer | Dex's company; building IDE that orchestrates CRISPY pipeline | [Yes](../../developer-gui/humanlayer.md) |
 | RPI / CRISPY | The methodology itself; evolved from 3-phase to 7-phase | This entry |
 | Claude Code | Primary coding agent platform discussed throughout | Referenced in many entries |
 | Gas Town | Mentioned skeptically re: agent swarms and quality concerns | [Yes](../../orchestration-platforms/gas-town.md) |

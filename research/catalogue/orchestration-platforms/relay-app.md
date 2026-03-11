@@ -6,12 +6,13 @@
 |-------|-------|
 | Category | 🎛️ Orchestration Platforms |
 | Repository | [AgentWorkforce/relay](https://github.com/AgentWorkforce/relay) |
-| GitHub Stars | 566 (as of 2026-03-08) |
-| Publisher | Agent Workforce Incorporated (startup) |
+| GitHub Stars | 569 (as of 2026-03-08) |
+| Publisher | Agent Workforce Incorporated / Khaliq Gant (startup) |
 | License | Apache-2.0 |
-| Tech Stack | TypeScript (primary), Python SDK, Node.js, WebSocket, supports Claude CLI + Codex CLI |
-| Maturity | 🟡 Early (active development, pushed today 2026-03-08, 42 forks, growing community) |
-| Last Analyzed | 2026-03-08 |
+| Tech Stack | Rust (broker binary), TypeScript 63.9% (SDK/CLI), Python 4.1% (SDK), WebSocket (Relaycast cloud) |
+| Version | v3.1.12 (npm `@agent-relay/sdk`) |
+| Maturity | 🟢 Production (v3.x, 2,589 commits, Rust broker rewrite, active daily pushes, 42 forks) |
+| Last Analyzed | 2026-03-08 (deep analysis — ARCHITECTURE.md + full codebase) |
 
 ---
 
@@ -25,143 +26,213 @@
 
 | Dimension | Score | Notes |
 |-----------|-------|-------|
-| **Relevance to our vision** | 7/10 | Agent Relay solves the exact problem we solve with tmux pane communication — real-time agent-to-agent messaging. TypeScript stack, Claude-native, sub-5ms latency. This is a dedicated solution for our inter-agent communication layer. |
-| **Novelty** | 7/10 | Purpose-built messaging layer for AI agents is a genuinely new category. "Not a framework, just messaging" philosophy aligns with thin-layer architecture. Channel-based pub/sub for agent coordination is cleaner than our tmux capture approach. |
-| **Actionable** | 6/10 | Could replace our tmux-based inter-agent communication. The SDK is npm-installable, TypeScript-native, and supports Claude CLI out of the box. However, it introduces a server dependency we don't currently have. |
+| **Relevance to our vision** | 8/10 | This is not just a messaging layer — it's a full agent lifecycle system with a Rust broker managing PTY sessions, MCP tool integration, idle detection, and a DAG workflow engine. They solved the exact tmux problem we have and moved to native PTY. The MCP-based communication pattern (agents call `relay_send()` as a tool) is cleaner than our terminal injection approach. Directly maps to Blueprint principles #2 (deterministic orchestration) and #6 (thin meta-layer). Bumped from 7 after deep architecture review. |
+| **Novelty** | 8/10 | The Rust broker wrapping CLI agents in PTY sessions with MCP tool injection is a genuinely novel architecture we haven't seen elsewhere in the catalogue. They independently solved the tmux-to-PTY migration we haven't attempted yet. The idle-detection-before-injection pattern and hash-based message deduplication are production-hardened patterns we lack. |
+| **Actionable** | 7/10 | Three concrete adoption paths: (1) steal the PTY-over-tmux pattern for our broker, (2) adopt MCP tools for inter-agent messaging instead of terminal capture, (3) study the idle detection + injection timing logic. The DAG workflow engine (`WorkflowBuilder`) is also directly usable. Bumped from 6 — the Rust broker is `curl`-installable as a single binary. |
 
 ---
 
 ## Overview
 
-Agent Relay is a purpose-built real-time messaging layer for AI agent communication. Built by Agent Workforce Inc., it is explicitly "not a framework" — it's a messaging primitive that works with any CLI tool, any orchestration system, and any memory layer. The design philosophy is to do one thing well: real-time agent messaging with sub-5ms latency.
+Agent Relay is a real-time agent-to-agent communication system that has evolved well beyond a simple messaging layer. At v3.1.12 with 2,589 commits, it now comprises a Rust broker binary that manages agent CLI processes in native PTY sessions, a TypeScript SDK for programmatic orchestration, a cloud WebSocket routing service (Relaycast), and a DAG-based workflow engine. The system supports Claude, Codex, Gemini, Aider, and Goose CLIs.
 
-The system supports spawning agents from multiple CLI backends (Claude, Codex), organizing them into channels for topic-based communication, and providing real-time message delivery between agents. The API is intentionally minimal: spawn agents, subscribe to channels, send messages. The system also includes a dashboard for monitoring agent fleets and a visualizer for debugging agent interactions.
+The core architectural insight is that AI agents can communicate by invoking MCP tools (`relay_send`, `relay_spawn`, `relay_who`, `relay_inbox`) provided by the broker, rather than parsing terminal output or injecting text into sessions manually. This eliminates the parsing ambiguity problem entirely — agents make structured tool calls with typed parameters, and the broker routes messages through Relaycast's cloud WebSocket service. Message delivery uses idle detection (configurable threshold, default 30s) to wait for agent silence before injecting incoming messages into the recipient's PTY stdin.
 
-What makes Agent Relay notable is its focus on the communication layer specifically rather than trying to be a full orchestration platform. It provides the messaging substrate that orchestrators can build on top of — similar to how Redis provides pub/sub that applications build workflows around. This aligns with our thin-shared-layer architecture principle.
+The project made an explicit architectural decision to move from tmux to native PTY sessions via Rust's `portable-pty` crate, eliminating the tmux dependency entirely. This is directly relevant to our orchestrator — they encountered the same tmux pain points (dependency management, output capture reliability, session lifecycle) and solved them with a compiled broker binary. The broker handles ANSI stripping, CLI-specific injection quirks, hash-based message deduplication, and automatic WebSocket reconnection with backoff.
 
 ---
 
 ## Technical Architecture
 
-### Core API
-
-```typescript
-import { AgentRelay, Models } from "@agent-relay/sdk";
-
-const relay = new AgentRelay();
-
-// Subscribe to messages
-relay.onMessageReceived = (msg) =>
-  console.log(`[${msg.from} → ${msg.to}]: ${msg.text}`);
-
-// Spawn agents into channels
-const agent = await relay.claude.spawn({
-  name: "Worker1",
-  model: Models.Claude.SONNET,
-  channels: ["backend-team"],
-  task: "Implement the API endpoint for /users",
-});
-
-// Wait for agent readiness
-await relay.waitForAgentReady("Worker1");
-
-// Send messages between agents
-relay.system().sendMessage({ to: "Worker1", text: "Start." });
-```
-
-### Architecture Components
-
-| Component | Function |
-|-----------|----------|
-| **Relay SDK** | TypeScript/Python client library. `npm install @agent-relay/sdk` or `pip install agent-relay-sdk` |
-| **Relay Server** | Central message broker. Handles routing, channel management, agent lifecycle. |
-| **Channels** | Pub/sub topics for organizing agent communication. Agents subscribe to channels. |
-| **Agent Spawner** | Launches CLI agents (Claude, Codex) with task assignments and channel subscriptions. |
-| **Dashboard** | Web UI for real-time monitoring, agent fleet management, communication logs. |
-| **Visualizer** | Interactive visualization of agent network topology and message flows. |
-
-### Supported CLI Backends
-
-- **Claude** (Anthropic CLI)
-- **Codex** (OpenAI CLI)
-
-### Message Flow
+### 5-Layer Architecture
 
 ```
-Orchestrator
-  → relay.claude.spawn({name, model, channels, task})
-     → Agent starts in CLI process
-        → Agent subscribes to channels
-           → relay.system().sendMessage({to, text})
-              → Message routed via Relay server (<5ms)
-                 → Target agent receives message
-                    → Agent processes and responds via channel
+┌─────────────────────────────────────────────────────────────────┐
+│  Layer 1: CLI Interface (src/cli/)                              │
+│  Commands: up, down, status, spawn, bridge, doctor              │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 2: Broker (Rust binary — agent-relay-broker)             │
+│  ┌───────────────┐ ┌───────────────┐ ┌───────────────┐        │
+│  │ PTY Manager   │ │ MCP Tools     │ │ Relaycast WS  │        │
+│  │ (portable-pty)│ │ (relay_send)  │ │ (Cloud route) │        │
+│  └───────────────┘ └───────────────┘ └───────────────┘        │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 3: SDK (packages/sdk/)                                   │
+│  ┌───────────────┐ ┌───────────────┐ ┌───────────────┐        │
+│  │ Client        │ │ Workflows     │ │ Relay Adapter │        │
+│  │ (Stdio JSON)  │ │ (DAG runner)  │ │ (High-level)  │        │
+│  └───────────────┘ └───────────────┘ └───────────────┘        │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 4: Storage (packages/storage/)                           │
+│  ┌───────────────┐ ┌───────────────┐ ┌───────────────┐        │
+│  │ JSONL Adapter │ │ Memory Adapter│ │ DLQ Adapter   │        │
+│  └───────────────┘ └───────────────┘ └───────────────┘        │
+├─────────────────────────────────────────────────────────────────┤
+│  Layer 5: Dashboard (packages/dashboard/) — Next.js + WebSocket │
+└─────────────────────────────────────────────────────────────────┘
 ```
 
-### Related Projects (same org)
+### MCP Tool Protocol (how agents communicate)
 
-| Project | Purpose |
+| Tool | Description |
+|------|-------------|
+| `relay_send(to, message)` | Send direct message, broadcast (`*`), or channel (`#channel`) |
+| `relay_spawn(name, cli, task)` | Spawn a worker agent |
+| `relay_release(name)` | Release a worker agent |
+| `relay_who()` | List connected agents |
+| `relay_inbox()` | Check incoming messages |
+| `relay_status()` | Check connection status |
+
+### Broker Stdio Protocol (SDK <-> Broker)
+
+```json
+// Request (SDK → Broker)
+{ "id": "uuid", "method": "spawn_pty", "params": { "name": "Worker", "cli": "claude" } }
+
+// Response (Broker → SDK)
+{ "id": "uuid", "result": { "ok": true } }
+
+// Event (Broker → SDK)
+{ "event": "agent_idle", "data": { "name": "Worker", "idle_secs": 30 } }
+```
+
+### Message Flow (End-to-End)
+
+```
+Alice (Agent)          Broker (Rust)         Relaycast (Cloud)     Bob (Agent)
+  │                      │                    │                    │
+  │── relay_send() ─────▶│                    │                    │
+  │  (MCP tool call)     │── hash dedup ─────▶│                    │
+  │                      │── WebSocket msg ──▶│                    │
+  │                      │                    │── WebSocket msg ──▶│ Bob's broker
+  │                      │                    │                    │
+  │                      │                    │     idle detection  │
+  │                      │                    │     (30s default)   │
+  │                      │                    │     inject into PTY │
+  │                      │                    │     stdin + Enter   │
+```
+
+### Key Implementation Details
+
+1. **PTY over tmux**: Uses Rust `portable-pty` for cross-platform PTY management. Explicit decision documented: eliminates tmux dependency, provides direct I/O control, works on Windows.
+2. **ANSI stripping**: Output stripped of escape codes before pattern matching.
+3. **Hash-based dedup**: `DedupCache` prevents re-sending identical messages.
+4. **Idle detection**: Configurable threshold (default 30s) monitors agent output silence before injecting incoming messages.
+5. **CLI-specific handlers**: Different injection strategies for Claude, Codex, Gemini, Aider, Goose.
+6. **DAG Workflow Engine**: `WorkflowBuilder` in SDK supports YAML templates, step dependencies, output chaining via `{{steps.X.output}}`.
+
+### Storage
+
+```
+.agent-relay/
+├── credentials/             # Auth tokens
+├── state.json               # Broker state (agents, channels)
+└── pending/                 # Pending deliveries
+```
+
+Storage uses a `StorageAdapter` interface with JSONL, Memory, and DLQ (dead-letter queue) implementations.
+
+### Supported CLIs
+
+Claude, Codex, Gemini, Aider, Goose — each with CLI-specific injection handling.
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `AGENT_RELAY_DASHBOARD_PORT` | 3888 | Dashboard HTTP port |
+| `RELAY_AGENT_NAME` | - | Agent name for broker registration |
+| `RELAY_API_KEY` | - | Relaycast workspace API key |
+| `RELAY_BASE_URL` | `https://api.relaycast.dev` | Relaycast API base URL |
+| `RELAY_CHANNELS` | `general` | Comma-separated channel list |
+
+### Additional Packages
+
+| Package | Purpose |
 |---------|---------|
-| [relay-dashboard](https://github.com/AgentWorkforce/relay-dashboard) | Web dashboard for agent monitoring and fleet management |
-| [relay-visualizer](https://github.com/AgentWorkforce/relay-visualizer) | Interactive visualization of agent network |
-| Relaycast | "Headless Slack for AI agents" — async communication layer |
+| `packages/acp-bridge/` | ACP protocol bridge for editors |
+| `packages/hooks/` | Hook system for events |
+| `packages/telemetry/` | Usage analytics |
+| `packages/trajectory/` | Work trajectory tracking |
+| `packages/memory/` | Agent memory persistence |
+| `packages/policy/` | Policy enforcement |
+| `packages/user-directory/` | Agent directory management |
 
 ---
 
 ## Publisher Background
 
-**Agent Workforce Incorporated** is a startup focused specifically on inter-agent communication infrastructure. The company maintains the Agent Relay ecosystem (core SDK, dashboard, visualizer). The organization has a clear and focused mission — building the messaging layer for AI agent teams. The repository shows active development (pushed today, 2026-03-08), growing community (42 forks, 566 stars), and a dedicated Discord community. Copyright is 2026, indicating this is a new venture built specifically for the current agentic AI wave.
+**Agent Workforce Incorporated** is a startup led by **Khaliq Gant** (`@khaliqgant`, 1,629 of 2,589 commits — 63% of codebase). Khaliq has 82 public repos and a focused presence on the agent-communication problem. The second-largest contributor is `claude` (354 commits), indicating heavy use of Claude Code for development — they eat their own dogfood.
+
+**Will Washburn** (`@willwashburn`, 116 commits) is the second human contributor. The team is small (2-3 humans + Claude), which is exactly the team size our Blueprint recommends (Principle #4: 2-3 agents max).
+
+The repo has an `AGENTS.md`, `CLAUDE.md`, and `GEMINI.md` — indicating they've embraced the agent-instructions-as-code pattern we also champion. The `openclaw-web/` directory suggests a connection to the OpenClaw project (Elvis Sun's ecosystem — a known benchmark person in our research).
+
+Active development: 2,589 commits, pushed within hours of analysis, 569 stars, 42 forks, dedicated Discord community. Copyright 2026, Apache-2.0 licensed.
 
 ---
 
 ## What's Valuable for Us
 
-### 1. Dedicated Agent Messaging Layer
+### 1. PTY-Over-Tmux Migration Pattern (HIGH VALUE)
 
-Agent Relay is exactly the kind of thin, purpose-built communication layer our architecture calls for. Instead of building agent communication into the orchestrator itself (which is what we do with tmux capture/send), Agent Relay provides it as a separate service. This aligns with our thin-shared-layer principle.
+They independently faced our exact problem — tmux as the agent process manager — and documented their explicit decision to replace it with native PTY sessions via Rust's `portable-pty`. Their rationale maps perfectly to our pain points:
+- Eliminates tmux as a dependency
+- More direct control over agent I/O
+- Better process lifecycle management
+- Cross-platform (including Windows)
 
-### 2. Channel-Based Agent Organization
+This is the strongest validation yet that our tmux approach is a stepping stone, not an endpoint.
 
-The channel/pub/sub pattern for agent communication is cleaner than our point-to-point tmux approach:
-- Agents subscribe to topic channels (e.g., "backend-team", "review")
-- Multiple agents can listen to the same channel
-- The orchestrator doesn't need to know individual agent pane IDs
+### 2. MCP Tools for Agent Communication (HIGH VALUE)
 
-### 3. TypeScript-Native, Claude-First
+Instead of parsing terminal output or injecting text blindly, agents call structured MCP tools (`relay_send`, `relay_who`, `relay_inbox`). This eliminates:
+- Line-wrapping / ANSI code parsing issues we fight constantly
+- Ambiguous output pattern matching
+- Multi-line message fragmentation
 
-Agent Relay is TypeScript (our stack), supports Claude CLI natively, and uses npm for distribution. This is rare — most multi-agent tools are Python-first. The SDK is clean and minimal.
+This directly implements Blueprint Principle #2 (deterministic orchestration): the routing is structured tool calls, not LLM-interpreted text scraping.
 
-### 4. Sub-5ms Latency Claim
+### 3. Idle Detection Before Injection (MEDIUM VALUE)
 
-If true, this is significantly faster than our tmux capture approach (which involves shell commands, file I/O, and polling loops). For real-time agent coordination, low latency matters.
+Their configurable idle threshold (monitor agent output silence, then inject) is a production-hardened version of our crude `terminal-wait` approach. The event-driven idle detection (`onAgentIdle` callback with `idleSecs`) is cleaner than our polling loop.
 
-### 5. Agent Lifecycle Management
+### 4. Hash-Based Message Deduplication (MEDIUM VALUE)
 
-The `waitForAgentReady()` and `shutdown()` patterns provide clean lifecycle management for spawned agents — something we currently handle with tmux session probing and crude health checks.
+The `DedupCache` preventing re-delivery of identical messages is a pattern we need but haven't implemented. In our tmux approach, we sometimes see duplicate message processing when capture-pane reads overlap.
+
+### 5. DAG Workflow Engine (MEDIUM VALUE)
+
+The `WorkflowBuilder` with YAML templates and `{{steps.X.output}}` chaining provides a lightweight alternative to our manual task decomposition. Worth studying for Phase 2 when we need repeatable multi-agent workflows.
+
+### 6. CLI-Specific Injection Handlers (LOW-MEDIUM VALUE)
+
+They maintain per-CLI injection strategies for Claude, Codex, Gemini, Aider, Goose. If we ever support multiple CLI backends, this is the reference implementation.
 
 ---
 
 ## What's NOT Relevant
 
-| Aspect | Why Not Relevant |
-|--------|-----------------|
-| **Server dependency** | Agent Relay requires running a relay server. We currently operate serverless (tmux on a single machine). Adding a server is additional infrastructure and a potential single point of failure. |
-| **Codex integration** | We don't use OpenAI's Codex CLI. Claude-only for us. |
-| **Dashboard/Visualizer** | Nice for demos but we monitor via terminal. Additional web services to maintain. |
-| **Multi-machine distribution** | Agent Relay seems designed for distributed agent fleets. We run everything on one machine currently. |
-| **Channel complexity** | For 2-3 agents, channels add overhead. Direct point-to-point (tmux) is simpler when agent count is small. |
+| Aspect | Why Not Relevant | Blueprint Principle |
+|--------|-----------------|---------------------|
+| **Relaycast cloud dependency** | All messages route through their cloud WebSocket service. We need local-first operation (gov contracts, DSGVO). Internet dependency is a dealbreaker for production. | #6: Federated systems, no cloud lock-in |
+| **Workspace-based multi-tenancy** | Their cloud isolation model doesn't match our per-business-line federation. We isolate at the git worktree / file system level. | #6: Federated with thin meta-layer |
+| **Dashboard / Next.js web UI** | Additional web infrastructure to maintain. We monitor via terminal and state files. | #7: Build only what you've needed |
+| **Telemetry / trajectory packages** | Usage analytics and work tracking are nice-to-have but not in our 60-day roadmap. | #7: Build only what you've needed |
+| **Multi-CLI support (Codex/Gemini/Aider/Goose)** | We're Claude-only. Supporting 5 CLIs adds complexity without value for us. | #3: Context is zero-sum |
+| **ACP bridge for editors** | Editor integration is outside our headless terminal workflow. | Not needed |
 
 ---
 
 ## Future Use Cases
 
-- **Phase 1 (Days 1-3):** None — tmux communication works for current needs. But bookmark for evaluation.
-- **Phase 2 (Days 4-60):** If tmux-based agent communication becomes a bottleneck (polling latency, pane management overhead), evaluate Agent Relay as a drop-in replacement. Test with `npm install @agent-relay/sdk` and compare latency/reliability.
-- **Phase 3 (Days 60-90):** If scaling to multi-client deployments where agents need to communicate across projects, Agent Relay's channel system provides natural isolation (one channel per project/client).
-- **Phase 4 (Days 90+):** If building a distributed orchestrator across multiple machines, Agent Relay becomes the natural communication backbone. The thin messaging layer is exactly what you'd need for federation.
+- **Phase 1 (Days 1-3):** No adoption. But study `src/main.rs` PTY management and the MCP tool protocol as reference architecture for our own broker evolution.
+- **Phase 2 (Days 4-60):** **Primary evaluation window.** If tmux-based communication becomes a bottleneck, prototype a local Rust broker (steal their PTY + idle detection pattern) WITHOUT the Relaycast cloud dependency. The MCP tool approach for agent messaging could be implemented independently using our existing tmux infrastructure as a transport layer. Study the `WorkflowBuilder` for repeatable multi-agent task patterns.
+- **Phase 3 (Days 60-90):** If scaling to multi-client deployments, evaluate whether a self-hosted Relaycast equivalent provides value. The channel-based routing (`#channel` addressing) would map well to per-client isolation.
+- **Phase 4 (Days 90+):** If building distributed orchestration across machines, Agent Relay (or a fork with self-hosted routing) becomes the strongest candidate for the communication backbone. The 5-layer architecture is clean enough to adopt wholesale.
 
 ---
 
 ## Key Takeaway
 
-> **Agent Relay is the most architecturally aligned tool in this batch — a thin, TypeScript-native, Claude-first messaging layer for agent-to-agent communication that could replace our tmux-based approach when we outgrow single-machine orchestration, but introduces a server dependency we don't need today.**
+> **Agent Relay has evolved from a simple messaging layer into a production-grade agent lifecycle system with a Rust broker, native PTY management, and MCP-based communication — they independently solved the tmux-to-PTY migration we face and provide the reference architecture for our own broker evolution, though their cloud routing dependency (Relaycast) means we should steal patterns, not adopt wholesale.**

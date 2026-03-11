@@ -62,7 +62,7 @@ Williams specifically promotes Semgrep's MCP server, which integrates with Curso
 
 | URL | Why | Suggested Ingest |
 |-----|-----|-----------------|
-| Semgrep MCP server docs (semgrep.dev) | Agent-agnostic security scanning via MCP; integrates with Claude Code, Cursor, Windsurf | `/tool-catalogue` |
+| ~~Semgrep MCP server docs (semgrep.dev)~~ | ~~Agent-agnostic security scanning via MCP~~ | DONE — [semgrep](../../code-intelligence/semgrep.md) |
 
 ---
 
@@ -70,7 +70,7 @@ Williams specifically promotes Semgrep's MCP server, which integrates with Curso
 
 | Tool/Project | Mentioned Context | In Our Catalogue? |
 |-------------|-------------------|-------------------|
-| Semgrep | Speaker's company; MCP server for agent-agnostic code scanning | Mentioned in passing in AGENTS.md and observability docs, but no dedicated entry |
+| Semgrep | Speaker's company; MCP server for agent-agnostic code scanning | Yes — [semgrep](../../code-intelligence/semgrep.md) |
 | Claude Code | Praised for good out-of-the-box session logging | Yes — [claude-code-multiagent-architecture](../reference/claude-code-multiagent-architecture.md) |
 | Cursor | Listed as integration target for Semgrep MCP | Yes — [cursor](../developer-gui/cursor.md) |
 | Windsurf | Listed as integration target for Semgrep MCP | No dedicated entry |
@@ -80,6 +80,6 @@ Williams specifically promotes Semgrep's MCP server, which integrates with Curso
 
 ## Action Items
 
-- [ ] Evaluate Semgrep MCP server as a quality gate for agent-generated code (`/tool-catalogue`)
+- [x] Evaluate Semgrep MCP server as a quality gate for agent-generated code — see [catalogue entry](../../code-intelligence/semgrep.md)
 - [ ] Verify our hooks-based audit logging is actually wired up (check `_bmad/orchestrator-audit.jsonl`)
 - [ ] Review agent token scoping — ensure spawned agents use downscoped credentials, not personal tokens

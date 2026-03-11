@@ -68,7 +68,7 @@ Hood closed with a forward-looking vision: coding as the "legs and hands" for AI
 
 | URL | Why | Suggested Ingest |
 |-----|-----|-----------------|
-| https://swebench.com (probable) | SWEBench Pro official site — leaderboard data, methodology details | `/ingest-article` |
+| https://scale.com/blog/swe-bench-pro | SWEBench Pro blog post + arXiv paper — **DONE**: [article entry](../../articles/2025-09/swebench-pro-raising-the-bar-for-agentic-coding.md) | `/ingest-article` -- COMPLETED |
 | TerminalBench (Stanford) | Measures AI capability through command line exploration — novel benchmark axis | `/tool-catalogue` |
 
 ---
@@ -78,7 +78,7 @@ Hood closed with a forward-looking vision: coding as the "legs and hands" for AI
 | Tool/Project | Mentioned Context | In Our Catalogue? |
 |-------------|-------------------|-------------------|
 | SWEBench (original) | Princeton benchmark that started the coding agent evaluation space | No — foundational reference |
-| SWEBench Pro | Hood's benchmark solving contamination via proprietary codebases | No — this entry covers it |
+| SWEBench Pro | Hood's benchmark solving contamination via proprietary codebases | [Yes — article](../../articles/2025-09/swebench-pro-raising-the-bar-for-agentic-coding.md) |
 | Cursor | Mentioned as example of IDE + AI evolution | [Yes](../../developer-gui/cursor.md) |
 | TerminalBench | Stanford benchmark measuring AI command-line exploration capability | No — consider `/tool-catalogue` |
 | OpenClaw | Cited as signal of agents building their own tools | [Yes](../../orchestration-platforms/openclaw.md) |

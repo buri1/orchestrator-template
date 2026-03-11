@@ -76,7 +76,7 @@ Aaron emphasizes these three lessons form a tightly coupled loop. Missing any on
 
 | Tool/Project | Mentioned Context | In Our Catalogue? |
 |-------------|-------------------|-------------------|
-| Cleric | Aaron's company — AI SRE that learns from production incidents, builds environment models, absorbs alert channel history | No — consider `/tool-catalogue` |
+| Cleric | Aaron's company — AI SRE that learns from production incidents, builds environment models, absorbs alert channel history | Yes — [observability/cleric.md](../../observability/cleric.md) |
 
 ---
 

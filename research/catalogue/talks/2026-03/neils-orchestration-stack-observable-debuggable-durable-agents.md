@@ -87,9 +87,9 @@ In Q&A, Bentilan recommends starting with a single agent plus sub-agents (not de
 
 | Tool/Project | Mentioned Context | In Our Catalogue? |
 |-------------|-------------------|-------------------|
-| Flyte / Flyte 2.0 | Core subject — ML orchestration platform with durability, replay logs, caching, containerized tasks | No — consider `/tool-catalogue` |
-| Union | Commercial platform behind Flyte; speaker's company | No — consider `/tool-catalogue` |
-| BAML | Used by Dragonfly customer for their agent prototype | No — consider `/tool-catalogue` |
+| Flyte / Flyte 2.0 | Core subject — ML orchestration platform with durability, replay logs, caching, containerized tasks | Yes — [Flyte](../../orchestration-platforms/flyte.md) + [Union](../../orchestration-platforms/union.md) |
+| Union | Commercial platform behind Flyte; speaker's company | Yes — [Union](../../orchestration-platforms/union.md) |
+| BAML | Used by Dragonfly customer for their agent prototype | Yes — [BAML](../agent-harnesses/baml.md) |
 | Pydantic Monty | Used for restricted Python sandbox (code mode) | No — consider `/tool-catalogue` |
 | LangChain | Mentioned as 2024 prototyping tool | Yes — [LangGraph](../orchestration-platforms/langgraph.md) (related) |
 | Cursor | Mentioned as coding tool in adoption timeline | Yes — [Cursor](../developer-gui/cursor.md) |
@@ -107,4 +107,4 @@ In Q&A, Bentilan recommends starting with a single agent plus sub-agents (not de
 - [ ] Look into Pydantic Monty for restricted sandbox execution in our worker agents
 - [ ] Consider the Dragonfly "semantic convergence detection" pattern for deduplicating parallel agent work
 - [ ] Compare Flyte's durability approach with Temporal and Trigger.dev (already in catalogue)
-- [ ] Assess whether BAML is worth a `/tool-catalogue` entry given the fast onboarding claim
+- [x] ~~Assess whether BAML is worth a `/tool-catalogue` entry given the fast onboarding claim~~ — Done: [BAML catalogue entry](../agent-harnesses/baml.md) created (5/10 relevance, Phase 3+)
