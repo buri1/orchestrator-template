@@ -2,18 +2,22 @@
 # ============================================================================
 # L-Thread Pi Orchestrator — Launch Script
 # ============================================================================
-# Starts the Pi orchestrator with all extensions loaded.
+# Two modes:
+#   ORCHESTRATOR: Pi IS the orchestrator (uses tmux tools directly)
+#   SUPERVISOR:   Pi WATCHES the orchestrator (deterministic harness)
 #
 # Usage:
-#   ./run.sh                    # Interactive mode
-#   ./run.sh --auto             # Auto-mode (no user prompts)
-#   ./run.sh --model opus       # Use Opus instead of Sonnet
+#   ./run.sh                          # Supervisor mode (default, recommended)
+#   ./run.sh --mode orchestrator      # Pi is the orchestrator
+#   ./run.sh --mode supervisor        # Explicit supervisor mode
+#   ./run.sh --auto                   # Auto-mode (no user prompts)
+#   ./run.sh --model opus             # Use Opus for Pi's LLM
+#   ./run.sh --model haiku            # Use Haiku (cheapest supervisor)
 #
 # Prerequisites:
-#   - Pi Agent installed: npm install -g @mariozechner/pi-coding-agent
-#   - tmux installed: brew install tmux
-#   - Claude Code installed: npm install -g @anthropic-ai/claude-code
-#   - Notification hooks installed: see ../docs/ghostty-notification-setup.md
+#   - Pi Agent: npm install -g @mariozechner/pi-coding-agent
+#   - tmux: brew install tmux
+#   - Claude Code: npm install -g @anthropic-ai/claude-code
 # ============================================================================
 
 set -euo pipefail
@@ -24,6 +28,7 @@ cd "$DIR"
 # Parse args
 MODEL="sonnet"
 AUTO_MODE="DISABLED"
+MODE="supervisor"
 
 while [[ $# -gt 0 ]]; do
     case $1 in
@@ -35,19 +40,21 @@ while [[ $# -gt 0 ]]; do
             MODEL="$2"
             shift 2
             ;;
+        --mode)
+            MODE="$2"
+            shift 2
+            ;;
         *)
             echo "Unknown option: $1"
-            echo "Usage: ./run.sh [--auto] [--model <model>]"
+            echo "Usage: ./run.sh [--mode supervisor|orchestrator] [--auto] [--model <model>]"
             exit 1
             ;;
     esac
 done
 
 # Set AUTO_MODE
-echo "$AUTO_MODE" > .bmad/AUTO_MODE
-
-# Ensure _bmad exists
 mkdir -p _bmad .bmad
+echo "$AUTO_MODE" > .bmad/AUTO_MODE
 
 # Check prerequisites
 if ! command -v pi &>/dev/null; then
@@ -64,23 +71,48 @@ echo "================================================"
 echo "  L-THREAD PI ORCHESTRATOR"
 echo "================================================"
 echo ""
+echo "  Mode:      $MODE"
 echo "  Model:     $MODEL"
 echo "  Auto-Mode: $AUTO_MODE"
 echo "  Workers:   $(tmux list-sessions 2>/dev/null | wc -l | tr -d ' ') tmux sessions"
 echo ""
-echo "  Extensions:"
-echo "    - orchestrator-discipline (code write blocker)"
-echo "    - orchestrator-agents (tmux worker lifecycle)"
-echo "    - orchestrator-state (persistence + devlog)"
-echo "    - orchestrator-dashboard (TUI footer)"
-echo ""
-echo "================================================"
-echo ""
 
-# Launch Pi with all extensions
-exec pi \
-    --model "$MODEL" \
-    -e extensions/orchestrator-discipline.ts \
-    -e extensions/orchestrator-agents.ts \
-    -e extensions/orchestrator-state.ts \
-    -e extensions/orchestrator-dashboard.ts
+if [ "$MODE" = "supervisor" ]; then
+    echo "  SUPERVISOR MODE"
+    echo "  Pi watches the orchestrator. Deterministic heartbeat."
+    echo "  The orchestrator is Claude Opus in a tmux session."
+    echo ""
+    echo "  Extensions:"
+    echo "    - supervisor (heartbeat, nudge, restart, state machine)"
+    echo "    - orchestrator-dashboard (TUI footer)"
+    echo ""
+    echo "================================================"
+    echo ""
+
+    exec pi \
+        --model "$MODEL" \
+        -e extensions/supervisor.ts
+
+elif [ "$MODE" = "orchestrator" ]; then
+    echo "  ORCHESTRATOR MODE"
+    echo "  Pi IS the orchestrator. Uses tmux tools directly."
+    echo ""
+    echo "  Extensions:"
+    echo "    - orchestrator-discipline (code write blocker)"
+    echo "    - orchestrator-agents (tmux worker lifecycle)"
+    echo "    - orchestrator-state (persistence + devlog)"
+    echo "    - orchestrator-dashboard (TUI footer)"
+    echo ""
+    echo "================================================"
+    echo ""
+
+    exec pi \
+        --model "$MODEL" \
+        -e extensions/orchestrator-discipline.ts \
+        -e extensions/orchestrator-agents.ts \
+        -e extensions/orchestrator-state.ts \
+        -e extensions/orchestrator-dashboard.ts
+else
+    echo "ERROR: Unknown mode '$MODE'. Use 'supervisor' or 'orchestrator'."
+    exit 1
+fi
