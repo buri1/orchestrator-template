@@ -14,6 +14,12 @@
  *                                                        ↓
  *                                              Event → Reduce → Effects → ...
  *
+ * Features:
+ *   - Session registry (file-based tracking of all sessions/agents)
+ *   - Pause/Resume (interrupt all agents without killing)
+ *   - Hard kill on stop (guaranteed process termination)
+ *   - Agent activity log (deterministic JSONL audit trail)
+ *
  * Usage: pi -e extensions/supervisor.ts
  */
 
@@ -61,7 +67,7 @@ const DEFAULT_CONFIG: SupervisorConfig = {
 
 // ── State ───────────────────────────────────────
 
-type Phase = "stopped" | "starting" | "running" | "silent" | "nudging" | "stalled" | "crashed";
+type Phase = "stopped" | "starting" | "running" | "silent" | "nudging" | "stalled" | "crashed" | "paused";
 
 interface SupervisorState {
 	phase: Phase;
@@ -75,6 +81,7 @@ interface SupervisorState {
 	totalRestarts: number;
 	lastCapturedOutput: string;
 	orchestratorPhase: string;
+	task: string | null;
 	eventLog: Array<{ ts: number; type: string; detail: string }>;
 }
 
@@ -90,15 +97,49 @@ const INITIAL_STATE: SupervisorState = {
 	totalRestarts: 0,
 	lastCapturedOutput: "",
 	orchestratorPhase: "unknown",
+	task: null,
 	eventLog: [],
 };
+
+// ── Session Registry ────────────────────────────
+
+interface SessionRegistry {
+	version: number;
+	session: {
+		id: string;
+		tmux_session: string;
+		launched_at: string;
+		status: "active" | "paused" | "stopped";
+		task: string | null;
+		panes: Record<string, { pane_id: string; pid: number | null }>;
+		agents: Array<{
+			role: string;
+			pane_id: string;
+			model: string;
+			started_at: string;
+			stopped_at: string | null;
+			status: "running" | "paused" | "stopped" | "crashed";
+		}>;
+	} | null;
+	history: Array<{
+		id: string;
+		started_at: string;
+		stopped_at: string;
+		task: string | null;
+		agents_spawned: number;
+	}>;
+}
+
+const INITIAL_REGISTRY: SessionRegistry = { version: 1, session: null, history: [] };
 
 // ── Events (things that happened) ───────────────
 
 type SupervisorEvent =
 	| { type: "heartbeat"; paneAlive: boolean; claudeRunning: boolean; outputHash: string; output: string; now: number }
-	| { type: "start"; directory: string; flags: string; helperScript: string; now: number }
+	| { type: "start"; directory: string; flags: string; helperScript: string; task: string | null; now: number }
 	| { type: "stop"; kill: boolean; now: number }
+	| { type: "pause"; now: number }
+	| { type: "resume"; message?: string; now: number }
 	| { type: "manual_nudge"; message: string; now: number }
 	| { type: "restart_settled"; now: number }
 	| { type: "nudge_settled"; now: number }
@@ -115,9 +156,12 @@ type SupervisorEffect =
 	| { type: "stop_heartbeat" }
 	| { type: "persist_state" }
 	| { type: "persist_layout" }
+	| { type: "persist_registry" }
 	| { type: "log_devlog"; entry: string }
+	| { type: "log_activity"; event: string; details: any }
 	| { type: "notify"; message: string }
 	| { type: "update_widget" }
+	| { type: "hard_kill"; paneId: string; delayMs: number }
 	| { type: "schedule"; delayMs: number; event: SupervisorEvent };
 
 // ════════════════════════════════════════════════════════════════════
@@ -156,9 +200,11 @@ function reduce(
 
 			// 1. Pane gone?
 			if (!paneAlive) {
-				if (s.phase !== "stopped" && s.phase !== "crashed") {
+				if (s.phase !== "stopped" && s.phase !== "crashed" && s.phase !== "paused") {
 					transition("crashed", "orchestrator pane disappeared");
 					fx.push({ type: "log_devlog", entry: `### [${new Date(now).toISOString()}] CRASH DETECTED\n- Pane gone — layout destroyed` });
+					fx.push({ type: "log_activity", event: "orchestrator_crashed", details: { reason: "pane_disappeared" } });
+					fx.push({ type: "persist_registry" });
 				}
 				break;
 			}
@@ -168,9 +214,11 @@ function reduce(
 				if (s.phase === "running" || s.phase === "silent") {
 					transition("crashed", "claude process died");
 					fx.push({ type: "log_devlog", entry: `### [${new Date(now).toISOString()}] CLAUDE DIED — restarting` });
+					fx.push({ type: "log_activity", event: "orchestrator_crashed", details: { reason: "process_died" } });
 					fx.push({ type: "send_keys", paneId: layout.orchestratorPaneId, text: `export ORCHY_SESSION_NAME=orchestrator && unset CLAUDECODE && claude ${config.orchestratorFlags}` });
 					s.restartCount++;
 					s.totalRestarts++;
+					fx.push({ type: "persist_registry" });
 					fx.push({ type: "schedule", delayMs: 15000, event: { type: "restart_settled", now: now + 15000 } });
 				}
 				break;
@@ -244,11 +292,14 @@ function reduce(
 			s.startedAt = new Date(event.now).toISOString();
 			s.lastOutputAt = event.now;
 			s.nudgeCount = 0;
+			s.task = event.task;
 			transition("starting", "orchestrator spawned");
 			fx.push({ type: "send_keys", paneId: layout.orchestratorPaneId, text: `cd "${event.directory}" && export ORCHY_SESSION_NAME=orchestrator && export PANE_HELPERS="${event.helperScript}" && unset CLAUDECODE && claude ${event.flags}` });
 			fx.push({ type: "set_pane_title", paneId: layout.orchestratorPaneId, title: "Orchestrator (running)" });
 			fx.push({ type: "start_heartbeat" });
-			fx.push({ type: "log_devlog", entry: `### [${new Date(event.now).toISOString()}] ORCHESTRATOR STARTED\n- Dir: ${event.directory}\n- Flags: ${event.flags}` });
+			fx.push({ type: "log_devlog", entry: `### [${new Date(event.now).toISOString()}] ORCHESTRATOR STARTED\n- Dir: ${event.directory}\n- Flags: ${event.flags}\n- Task: ${(event.task || "none").slice(0, 100)}` });
+			fx.push({ type: "log_activity", event: "orchestrator_started", details: { directory: event.directory, task: event.task } });
+			fx.push({ type: "persist_registry" });
 			break;
 		}
 
@@ -258,10 +309,63 @@ function reduce(
 			transition("stopped", event.kill ? "killed by supervisor" : "monitoring stopped");
 			fx.push({ type: "stop_heartbeat" });
 			if (event.kill) {
+				// Polite interrupt first
 				fx.push({ type: "send_control", paneId: layout.orchestratorPaneId, keys: ["Escape", "C-c", "C-c", "C-c"] });
+				// Hard kill after 3s if still alive (INC-007 fix)
+				fx.push({ type: "hard_kill", paneId: layout.orchestratorPaneId, delayMs: 3000 });
 				fx.push({ type: "set_pane_title", paneId: layout.orchestratorPaneId, title: "Orchestrator (stopped)" });
+				// Also kill all workers
+				for (const w of layout.workerPanes) {
+					fx.push({ type: "send_control", paneId: w.paneId, keys: ["Escape", "C-c", "C-c", "C-c"] });
+					fx.push({ type: "hard_kill", paneId: w.paneId, delayMs: 3000 });
+				}
 			}
+			fx.push({ type: "log_activity", event: "stopped", details: { kill: event.kill, task: s.task } });
+			fx.push({ type: "persist_registry" });
 			fx.push({ type: "persist_state" });
+			break;
+		}
+
+		// ── PAUSE ───────────────────────────────────────
+
+		case "pause": {
+			if (s.phase === "running" || s.phase === "silent" || s.phase === "nudging" || s.phase === "starting") {
+				const prevPhase = s.phase;
+				transition("paused", "user paused all agents");
+				fx.push({ type: "stop_heartbeat" });
+				// Interrupt orchestrator (Escape interrupts Claude Code without killing)
+				fx.push({ type: "send_control", paneId: layout.orchestratorPaneId, keys: ["Escape"] });
+				fx.push({ type: "set_pane_title", paneId: layout.orchestratorPaneId, title: "Orchestrator (paused)" });
+				// Interrupt all workers
+				for (const w of layout.workerPanes) {
+					fx.push({ type: "send_control", paneId: w.paneId, keys: ["Escape"] });
+					fx.push({ type: "set_pane_title", paneId: w.paneId, title: `${w.name} (paused)` });
+				}
+				fx.push({ type: "log_activity", event: "paused", details: { phase_before: prevPhase, workers_paused: layout.workerPanes.length } });
+				fx.push({ type: "persist_registry" });
+			}
+			break;
+		}
+
+		// ── RESUME ──────────────────────────────────────
+
+		case "resume": {
+			if (s.phase === "paused") {
+				transition("running", "user resumed");
+				s.lastOutputAt = event.now; // Reset silence timer so it doesn't immediately nudge
+				s.nudgeCount = 0;
+				fx.push({ type: "start_heartbeat" });
+				// Send continue to orchestrator
+				fx.push({ type: "send_keys", paneId: layout.orchestratorPaneId, text: event.message || "continue" });
+				fx.push({ type: "set_pane_title", paneId: layout.orchestratorPaneId, title: "Orchestrator (running)" });
+				// Resume all workers
+				for (const w of layout.workerPanes) {
+					fx.push({ type: "send_keys", paneId: w.paneId, text: "continue" });
+					fx.push({ type: "set_pane_title", paneId: w.paneId, title: w.name });
+				}
+				fx.push({ type: "log_activity", event: "resumed", details: { workers_resumed: layout.workerPanes.length } });
+				fx.push({ type: "persist_registry" });
+			}
 			break;
 		}
 
@@ -270,6 +374,8 @@ function reduce(
 		case "manual_nudge": {
 			s.totalNudges++;
 			log(`manual nudge: ${event.message.slice(0, 60)}`);
+			// Defensive: exit copy mode before sending (INC-005 fix)
+			fx.push({ type: "send_control", paneId: layout.orchestratorPaneId, keys: ["q"] });
 			fx.push({ type: "send_keys", paneId: layout.orchestratorPaneId, text: event.message });
 			fx.push({ type: "log_devlog", entry: `### [${new Date(event.now).toISOString()}] MANUAL NUDGE\n- ${event.message.slice(0, 200)}` });
 			fx.push({ type: "persist_state" });
@@ -282,6 +388,7 @@ function reduce(
 			if (s.phase === "crashed" || s.phase === "stalled") {
 				fx.push({ type: "send_keys", paneId: layout.orchestratorPaneId, text: `export ORCHY_SESSION_NAME=orchestrator && unset CLAUDECODE && claude ${config.orchestratorFlags}` });
 				transition("starting", "auto-restarted");
+				fx.push({ type: "log_activity", event: "orchestrator_restarted", details: { restartCount: s.restartCount } });
 			}
 			break;
 		}
@@ -297,16 +404,20 @@ function reduce(
 
 		case "worker_spawned": {
 			log(`worker ${event.name} spawned in ${event.paneId}`);
+			fx.push({ type: "log_activity", event: "worker_spawned", details: { name: event.name, paneId: event.paneId, directory: event.directory } });
 			fx.push({ type: "persist_state" });
 			fx.push({ type: "persist_layout" });
+			fx.push({ type: "persist_registry" });
 			fx.push({ type: "update_widget" });
 			break;
 		}
 
 		case "worker_closed": {
 			log(`worker ${event.name} closed`);
+			fx.push({ type: "log_activity", event: "worker_closed", details: { name: event.name } });
 			fx.push({ type: "persist_state" });
 			fx.push({ type: "persist_layout" });
+			fx.push({ type: "persist_registry" });
 			fx.push({ type: "update_widget" });
 			break;
 		}
@@ -341,6 +452,11 @@ function paneCapture(paneId: string, lines = 30): string {
 	return exec(`tmux capture-pane -t "${paneId}" -p -S -${lines}`, 5000);
 }
 
+function panePid(paneId: string): number | null {
+	const pid = exec(`tmux display-message -t "${paneId}" -p '#{pane_pid}' 2>/dev/null`);
+	return pid ? parseInt(pid, 10) : null;
+}
+
 function simpleHash(str: string): string {
 	let hash = 0;
 	for (let i = 0; i < str.length; i++) {
@@ -357,6 +473,7 @@ export default function (pi: ExtensionAPI) {
 	let config: SupervisorConfig = { ...DEFAULT_CONFIG };
 	let state: SupervisorState = { ...INITIAL_STATE };
 	let layout: PaneLayout = { session: "lthread", supervisorPaneId: "", orchestratorPaneId: "", workersPaneId: "", orchestratorDir: "", workerPanes: [] };
+	let registry: SessionRegistry = { ...INITIAL_REGISTRY };
 	let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
 	let widgetCtx: any = null;
 	let cwd = "";
@@ -388,6 +505,8 @@ export default function (pi: ExtensionAPI) {
 			switch (fx.type) {
 				case "send_keys": {
 					const escaped = fx.text.replace(/'/g, "'\\''");
+					// Defensive: exit copy mode before sending (INC-005)
+					exec(`tmux send-keys -t "${fx.paneId}" q 2>/dev/null`, 2000);
 					exec(`tmux send-keys -t "${fx.paneId}" '${escaped}' Enter`, 5000);
 					break;
 				}
@@ -410,8 +529,14 @@ export default function (pi: ExtensionAPI) {
 				case "persist_layout":
 					persistLayout();
 					break;
+				case "persist_registry":
+					persistRegistry();
+					break;
 				case "log_devlog":
 					writeDevlog(fx.entry);
+					break;
+				case "log_activity":
+					logActivity(fx.event, fx.details);
 					break;
 				case "notify":
 					widgetCtx?.ui.notify(`Supervisor: ${fx.message}`, "info");
@@ -419,6 +544,28 @@ export default function (pi: ExtensionAPI) {
 				case "update_widget":
 					updateWidget();
 					break;
+				case "hard_kill": {
+					const targetPane = fx.paneId;
+					const delay = fx.delayMs;
+					setTimeout(() => {
+						// Check if process is still alive after polite interrupt
+						const pid = panePid(targetPane);
+						if (pid) {
+							// Find the actual claude/node child process
+							const children = exec(`pgrep -P ${pid} 2>/dev/null`);
+							if (children) {
+								for (const cpid of children.split("\n").filter(Boolean)) {
+									const proc = exec(`ps -p ${cpid} -o comm= 2>/dev/null`);
+									if (proc.includes("claude") || proc.includes("node")) {
+										exec(`kill -9 ${cpid} 2>/dev/null`);
+										logActivity("hard_kill_applied", { paneId: targetPane, pid: parseInt(cpid), process: proc });
+									}
+								}
+							}
+						}
+					}, delay);
+					break;
+				}
 				case "schedule":
 					setTimeout(() => dispatch(fx.event), fx.delayMs);
 					break;
@@ -486,6 +633,107 @@ export default function (pi: ExtensionAPI) {
 		appendFileSync(p, `\n${entry}\n`);
 	}
 
+	// ── Session Registry Persistence ────────────────
+
+	function persistRegistry(): void {
+		const dir = join(cwd, "_bmad");
+		mkdirSync(dir, { recursive: true });
+
+		// Build fresh pane PID snapshot
+		const panes: Record<string, { pane_id: string; pid: number | null }> = {};
+		if (layout.supervisorPaneId) panes.supervisor = { pane_id: layout.supervisorPaneId, pid: panePid(layout.supervisorPaneId) };
+		if (layout.orchestratorPaneId) panes.orchestrator = { pane_id: layout.orchestratorPaneId, pid: panePid(layout.orchestratorPaneId) };
+		if (layout.workersPaneId) panes.workers_base = { pane_id: layout.workersPaneId, pid: panePid(layout.workersPaneId) };
+		for (const w of layout.workerPanes) {
+			panes[`worker_${w.name}`] = { pane_id: w.paneId, pid: panePid(w.paneId) };
+		}
+
+		// Build agents list
+		const agents: Array<{ role: string; pane_id: string; model: string; started_at: string; stopped_at: string | null; status: string }> = [];
+		// Supervisor agent (Pi itself)
+		agents.push({
+			role: "supervisor",
+			pane_id: layout.supervisorPaneId,
+			model: widgetCtx?.model?.id || "unknown",
+			started_at: state.startedAt || new Date().toISOString(),
+			stopped_at: state.phase === "stopped" ? new Date().toISOString() : null,
+			status: state.phase === "stopped" ? "stopped" : state.phase === "paused" ? "paused" : state.phase === "crashed" ? "crashed" : "running",
+		});
+		// Orchestrator agent (Claude Code)
+		if (state.phase !== "stopped" || state.startedAt) {
+			agents.push({
+				role: "orchestrator",
+				pane_id: layout.orchestratorPaneId,
+				model: "claude-opus-4-6",
+				started_at: state.startedAt || new Date().toISOString(),
+				stopped_at: state.phase === "stopped" ? new Date().toISOString() : null,
+				status: state.phase === "stopped" ? "stopped" : state.phase === "paused" ? "paused" : state.phase === "crashed" ? "crashed" : "running",
+			});
+		}
+		// Worker agents
+		for (const w of layout.workerPanes) {
+			agents.push({
+				role: `worker:${w.name}`,
+				pane_id: w.paneId,
+				model: "claude-opus-4-6",
+				started_at: new Date().toISOString(),
+				stopped_at: null,
+				status: state.phase === "paused" ? "paused" : "running",
+			});
+		}
+
+		// Map supervisor phase to registry status
+		const statusMap: Record<Phase, "active" | "paused" | "stopped"> = {
+			stopped: "stopped", starting: "active", running: "active",
+			silent: "active", nudging: "active", stalled: "active",
+			crashed: "stopped", paused: "paused",
+		};
+
+		// If session existed before, preserve id and launched_at
+		const prevSession = registry.session;
+		registry.session = {
+			id: prevSession?.id || `${layout.session}-${Date.now().toString(36)}`,
+			tmux_session: layout.session,
+			launched_at: prevSession?.launched_at || new Date().toISOString(),
+			status: statusMap[state.phase],
+			task: state.task,
+			panes,
+			agents,
+		};
+
+		writeFileSync(join(dir, "session-registry.json"), JSON.stringify(registry, null, 2));
+	}
+
+	function loadRegistry(): void {
+		const p = join(cwd, "_bmad", "session-registry.json");
+		if (existsSync(p)) {
+			try { registry = { ...INITIAL_REGISTRY, ...JSON.parse(readFileSync(p, "utf-8")) }; } catch {}
+		}
+	}
+
+	// ── Agent Activity Log (deterministic JSONL) ────
+
+	function logActivity(event: string, details: any): void {
+		const entry = {
+			ts: new Date().toISOString(),
+			epoch: Date.now(),
+			session: layout.session,
+			session_id: registry.session?.id || "unknown",
+			event,
+			phase: state.phase,
+			task: state.task,
+			...details,
+		};
+
+		const dir = join(cwd, "_bmad");
+		mkdirSync(dir, { recursive: true });
+		appendFileSync(join(dir, "agent-activity.jsonl"), JSON.stringify(entry) + "\n");
+
+		// Also log through telemetry if available
+		const tlog = (globalThis as any).__telemetry_log;
+		if (tlog) tlog("activity", event, details);
+	}
+
 	// ── Worker Pane Spawning (I/O) ──────────────────
 
 	function spawnWorkerPane(name: string, directory: string, flags: string): string | null {
@@ -516,8 +764,8 @@ export default function (pi: ExtensionAPI) {
 		if (!widgetCtx) return;
 		widgetCtx.ui.setWidget("supervisor", (_tui: any, theme: any) => ({
 			render(_width: number): string[] {
-				const icons: Record<Phase, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH" };
-				const colors: Record<Phase, string> = { stopped: "dim", starting: "accent", running: "success", silent: "warning", nudging: "accent", stalled: "error", crashed: "error" };
+				const icons: Record<Phase, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH", paused: "PAUSE" };
+				const colors: Record<Phase, string> = { stopped: "dim", starting: "accent", running: "success", silent: "warning", nudging: "accent", stalled: "error", crashed: "error", paused: "warning" };
 				const silence = state.lastOutputAt ? `${Math.round((Date.now() - state.lastOutputAt) / 1000)}s ago` : "never";
 				const workers = layout.workerPanes.map(w => w.name).join(", ") || "none";
 				const lines = [
@@ -525,6 +773,20 @@ export default function (pi: ExtensionAPI) {
 					` [${theme.fg(colors[state.phase], icons[state.phase])}] Last output: ${theme.fg("dim", silence)}`,
 					` N:${state.nudgeCount}/${config.maxNudgesBeforeRestart} R:${state.restartCount} | Orchy: ${theme.fg("accent", state.orchestratorPhase)} | W: ${theme.fg("dim", workers)}`,
 				];
+
+				// Show task from registry
+				if (state.task) {
+					lines.push(` Task: ${theme.fg("accent", state.task.slice(0, 60))}`);
+				}
+
+				// Show session ID from registry
+				if (registry.session) {
+					lines.push(` Session: ${theme.fg("dim", registry.session.id)} | ${theme.fg(
+						registry.session.status === "active" ? "success" : registry.session.status === "paused" ? "warning" : "dim",
+						registry.session.status.toUpperCase()
+					)}`);
+				}
+
 				const last = state.eventLog[state.eventLog.length - 1];
 				if (last) lines.push(` ${theme.fg("dim", `${new Date(last.ts).toISOString().slice(11, 19)} ${last.type}: ${last.detail.slice(0, 50)}`)}`);
 				return lines;
@@ -544,30 +806,37 @@ export default function (pi: ExtensionAPI) {
 		parameters: Type.Object({
 			directory: Type.Optional(Type.String({ description: "Working directory override" })),
 			initial_prompt: Type.Optional(Type.String({ description: "First prompt after Claude starts" })),
+			task: Type.Optional(Type.String({ description: "Task description (shown in TUI)" })),
 		}),
 		async execute(_id, params, _signal, _onUpdate, ctx) {
-			const { directory, initial_prompt } = params as any;
+			const { directory, initial_prompt, task } = params as any;
 			const dir = directory || layout.orchestratorDir || ctx.cwd;
 			layout.orchestratorDir = dir;
+
+			// Extract task from initial_prompt if not explicitly provided
+			const taskDesc = task || (initial_prompt ? initial_prompt.slice(0, 120) : null);
 
 			dispatch({
 				type: "start",
 				directory: dir,
 				flags: config.orchestratorFlags,
 				helperScript: join(ctx.cwd, "_bmad", "scripts", "pane-workers.sh"),
+				task: taskDesc,
 				now: Date.now(),
 			});
 
 			if (initial_prompt) {
 				setTimeout(() => {
 					const escaped = initial_prompt.replace(/'/g, "'\\''");
+					// Defensive: exit copy mode before sending (INC-005)
+					exec(`tmux send-keys -t "${layout.orchestratorPaneId}" q 2>/dev/null`, 2000);
 					exec(`tmux send-keys -t "${layout.orchestratorPaneId}" '${escaped}' Enter`, 5000);
 				}, 15000);
 			}
 
 			return {
-				content: [{ type: "text", text: `Orchestrator started in ${layout.orchestratorPaneId}. Heartbeat: ${config.heartbeatIntervalMs / 1000}s.${initial_prompt ? ` Initial prompt in 15s.` : ""}` }],
-				details: { paneId: layout.orchestratorPaneId, directory: dir },
+				content: [{ type: "text", text: `Orchestrator started in ${layout.orchestratorPaneId}. Heartbeat: ${config.heartbeatIntervalMs / 1000}s.${initial_prompt ? ` Initial prompt in 15s.` : ""}\nTask: ${taskDesc || "none"}` }],
+				details: { paneId: layout.orchestratorPaneId, directory: dir, task: taskDesc },
 			};
 		},
 		renderCall(args, theme) {
@@ -578,17 +847,70 @@ export default function (pi: ExtensionAPI) {
 	pi.registerTool({
 		name: "supervisor_stop",
 		label: "Stop Orchestrator",
-		description: "Stop heartbeat. Optionally kill Claude in orchestrator pane.",
+		description: "Stop heartbeat and kill Claude in orchestrator pane + all workers. Hard-kills after 3s if polite interrupt fails.",
 		parameters: Type.Object({
-			kill: Type.Optional(Type.Boolean({ description: "Kill Claude too (default: false)" })),
+			kill: Type.Optional(Type.Boolean({ description: "Kill Claude too (default: true)" })),
 		}),
 		async execute(_id, params) {
 			const { kill } = params as { kill?: boolean };
-			dispatch({ type: "stop", kill: !!kill, now: Date.now() });
+			const doKill = kill !== false; // Default to true (changed from false)
+			dispatch({ type: "stop", kill: doKill, now: Date.now() });
 			return {
-				content: [{ type: "text", text: `Stopped. ${kill ? "Claude killed." : "Still running (unmonitored)."}` }],
-				details: { killed: !!kill },
+				content: [{ type: "text", text: `Stopped. ${doKill ? "Claude killed (hard-kill in 3s if needed)." : "Still running (unmonitored)."}` }],
+				details: { killed: doKill },
 			};
+		},
+	});
+
+	pi.registerTool({
+		name: "supervisor_pause",
+		label: "Pause All",
+		description: "Pause all agents (orchestrator + workers). Sends Escape to interrupt without killing. Resume with supervisor_resume.",
+		parameters: Type.Object({}),
+		async execute() {
+			if (state.phase === "paused") {
+				return { content: [{ type: "text", text: "Already paused." }], details: { already: true } };
+			}
+			if (state.phase === "stopped") {
+				return { content: [{ type: "text", text: "Nothing running to pause." }], details: { nothing: true } };
+			}
+
+			dispatch({ type: "pause", now: Date.now() });
+
+			const paused = 1 + layout.workerPanes.length; // orchestrator + workers
+			return {
+				content: [{ type: "text", text: `Paused ${paused} agent(s). Heartbeat stopped. Use supervisor_resume to continue.` }],
+				details: { agentsPaused: paused },
+			};
+		},
+		renderCall(_args, theme) {
+			return new Text(theme.fg("toolTitle", theme.bold("supervisor_pause")), 0, 0);
+		},
+	});
+
+	pi.registerTool({
+		name: "supervisor_resume",
+		label: "Resume All",
+		description: "Resume all paused agents. Sends 'continue' to orchestrator and all workers. Restarts heartbeat.",
+		parameters: Type.Object({
+			message: Type.Optional(Type.String({ description: "Custom resume message (default: 'continue')" })),
+		}),
+		async execute(_id, params) {
+			const { message } = params as { message?: string };
+			if (state.phase !== "paused") {
+				return { content: [{ type: "text", text: `Not paused (phase: ${state.phase}). Nothing to resume.` }], details: { notPaused: true } };
+			}
+
+			dispatch({ type: "resume", message, now: Date.now() });
+
+			const resumed = 1 + layout.workerPanes.length;
+			return {
+				content: [{ type: "text", text: `Resumed ${resumed} agent(s). Heartbeat restarted. Message: "${message || "continue"}"` }],
+				details: { agentsResumed: resumed },
+			};
+		},
+		renderCall(args, theme) {
+			return new Text(theme.fg("toolTitle", theme.bold("supervisor_resume ")) + theme.fg("muted", (args as any).message || "continue"), 0, 0);
 		},
 	});
 
@@ -641,7 +963,7 @@ export default function (pi: ExtensionAPI) {
 	pi.registerTool({
 		name: "supervisor_status",
 		label: "Status",
-		description: "Full supervisor status with pane layout and event log.",
+		description: "Full supervisor status with pane layout, registry, and event log.",
 		parameters: Type.Object({}),
 		async execute() {
 			const orchAlive = paneExists(layout.orchestratorPaneId);
@@ -652,11 +974,22 @@ export default function (pi: ExtensionAPI) {
 				return `  ${w.name}: ${alive ? (paneClaudeRunning(w.paneId) ? "running" : "idle") : "DEAD"} (${w.paneId})`;
 			});
 
+			// Registry info
+			const reg = registry.session;
+			const regInfo = reg ? [
+				`Session: ${reg.id} | Status: ${reg.status}`,
+				`Task: ${reg.task || "none"}`,
+				`Agents: ${reg.agents.map(a => `${a.role}[${a.status}]`).join(", ")}`,
+			] : ["Session: none"];
+
 			const report = [
 				`Phase: ${state.phase}`,
 				`Orchestrator: ${layout.orchestratorPaneId} (${orchAlive ? "alive" : "DEAD"}) | Claude: ${claudeRunning ? "running" : "NOT running"}`,
 				`Silence: ${silenceSec >= 0 ? `${silenceSec}s` : "never"} | Nudges: ${state.nudgeCount}/${config.maxNudgesBeforeRestart} (total: ${state.totalNudges}) | Restarts: ${state.restartCount}`,
 				`Orchestrator phase: ${state.orchestratorPhase} | Started: ${state.startedAt || "never"}`,
+				``,
+				`Registry:`,
+				...regInfo.map(l => `  ${l}`),
 				``,
 				`Workers (${layout.workerPanes.length}):`,
 				...(workers.length > 0 ? workers : ["  none"]),
@@ -665,7 +998,7 @@ export default function (pi: ExtensionAPI) {
 				...state.eventLog.slice(-10).map(e => `  ${new Date(e.ts).toISOString().slice(11, 19)} [${e.type}] ${e.detail.slice(0, 60)}`),
 			].join("\n");
 
-			return { content: [{ type: "text", text: report }], details: { phase: state.phase, orchAlive, claudeRunning } };
+			return { content: [{ type: "text", text: report }], details: { phase: state.phase, orchAlive, claudeRunning, registry: reg } };
 		},
 	});
 
@@ -763,12 +1096,24 @@ export default function (pi: ExtensionAPI) {
 		loadLayout();
 		loadConfig();
 		loadState();
+		loadRegistry();
 
 		const orchAlive = paneExists(layout.orchestratorPaneId);
 		if (state.phase !== "stopped" && orchAlive) {
 			heartbeatTimer = setInterval(() => heartbeatProbe(), config.heartbeatIntervalMs);
 			state.eventLog.push({ ts: Date.now(), type: "resumed", detail: "Pi restarted, heartbeat resumed" });
 		}
+
+		// Log session start to activity log
+		logActivity("supervisor_session_start", {
+			model: ctx.model?.id,
+			orchestratorAlive: orchAlive,
+			phase: state.phase,
+			registrySession: registry.session?.id || null,
+		});
+
+		// Persist registry on startup
+		persistRegistry();
 
 		updateWidget();
 		ctx.ui.notify(`Supervisor | Orch: ${orchAlive ? "alive" : "not started"} | Phase: ${state.phase}`, "info");
@@ -777,12 +1122,17 @@ export default function (pi: ExtensionAPI) {
 	pi.on("session_before_compact" as any, async () => {
 		persistState();
 		persistLayout();
+		persistRegistry();
 	});
 
 	// ── System Prompt ───────────────────────────────
 
 	pi.on("before_agent_start", async () => {
 		const workerList = layout.workerPanes.map(w => `  - ${w.name} (${w.paneId}) in ${w.directory}`).join("\n") || "  none";
+		const regInfo = registry.session
+			? `Session: ${registry.session.id} | Status: ${registry.session.status} | Task: ${registry.session.task || "none"}`
+			: "No active session";
+
 		return {
 			systemPrompt: `You are the L-Thread SUPERVISOR — a meta-orchestrator monitoring Claude Opus.
 
@@ -796,10 +1146,19 @@ Session: ${layout.session}
 - Right (workers):
 ${workerList}
 
+## SESSION REGISTRY
+${regInfo}
+
 ## DETERMINISTIC (TypeScript heartbeat handles automatically)
 - Silence detection -> auto-nudge ("continue")
 - Crash detection -> auto-restart
 - Stall detection -> escalation (3 nudges then restart)
+- Copy mode protection -> auto 'q' before send_keys (INC-005)
+- Hard kill on stop -> polite C-c then kill -9 after 3s (INC-007)
+
+## PAUSE/RESUME
+- supervisor_pause: Interrupts ALL agents (Escape), stops heartbeat. Safe pause.
+- supervisor_resume: Sends "continue" to ALL agents, restarts heartbeat.
 
 ## YOUR INTELLIGENCE (what the LLM is for)
 - Understanding WHAT the orchestrator is stuck on
@@ -807,8 +1166,12 @@ ${workerList}
 - Deciding restart vs nudge vs skip
 - Answering user questions
 
+## CRITICAL: FIRST ACTION
+When you receive a task, call supervisor_start IMMEDIATELY with the task as initial_prompt.
+Do NOT analyze docs first. The orchestrator will read its own docs.
+
 ## TOOLS
-supervisor_start, supervisor_stop, supervisor_nudge, supervisor_observe, supervisor_status, supervisor_config, supervisor_spawn_worker, supervisor_close_worker`,
+supervisor_start, supervisor_stop, supervisor_pause, supervisor_resume, supervisor_nudge, supervisor_observe, supervisor_status, supervisor_config, supervisor_spawn_worker, supervisor_close_worker`,
 		};
 	});
 
@@ -822,9 +1185,13 @@ supervisor_start, supervisor_stop, supervisor_nudge, supervisor_observe, supervi
 				const model = ctx.model?.id || "?";
 				const pct = ctx.getContextUsage()?.percent ?? 0;
 				const bar = "#".repeat(Math.round(pct / 10)) + "-".repeat(10 - Math.round(pct / 10));
-				const icons: Record<string, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH" };
+				const icons: Record<string, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH", paused: "PAUSE" };
 				const silenceSec = state.lastOutputAt ? Math.round((Date.now() - state.lastOutputAt) / 1000) : 0;
-				const left = theme.fg("dim", ` ${model}`) + theme.fg("muted", " | ") + `[${icons[state.phase] || "?"}]` + theme.fg("muted", " | ") + theme.fg("dim", `${silenceSec}s N:${state.nudgeCount} R:${state.restartCount} W:${layout.workerPanes.length}`);
+
+				// Compact task display
+				const taskStr = state.task ? ` | ${state.task.slice(0, 30)}` : "";
+
+				const left = theme.fg("dim", ` ${model}`) + theme.fg("muted", " | ") + `[${icons[state.phase] || "?"}]` + theme.fg("muted", " | ") + theme.fg("dim", `${silenceSec}s N:${state.nudgeCount} R:${state.restartCount} W:${layout.workerPanes.length}`) + theme.fg("accent", taskStr);
 				const right = theme.fg("dim", `[${bar}] ${Math.round(pct)}% `);
 				const pad = " ".repeat(Math.max(1, width - visibleWidth(left) - visibleWidth(right)));
 				return [truncateToWidth(left + pad + right, width)];
