@@ -3,7 +3,7 @@
 > A categorized reference of all tools, frameworks, platforms, practitioners, articles, talks, and posts analyzed during research.
 
 **Last updated:** 2026-03-12
-**Total entries:** 311 (164 tools, 7 practitioners, 81 reference docs, 32 articles, 11 talks, 19 posts)
+**Total entries:** 313 (166 tools, 7 practitioners, 81 reference docs, 32 articles, 11 talks, 19 posts)
 **Templates:** [Tool](./_TEMPLATE.md) | [Practitioner](./_TEMPLATE-PRACTITIONER.md) | [Article](./_TEMPLATE-ARTICLE.md) | [Talk](./_TEMPLATE-TALK.md) | [Post](./_TEMPLATE-POST.md)
 **Views:** [Chronological Timeline](./TIMELINE.md) | [Interactive UI](./catalogue-explorer.html)
 
@@ -17,6 +17,7 @@
 | [Oh-My-Pi](./agent-harnesses/pi/oh-my-pi.md) | ⚙️ Harness | 9/10 | Pi fork with worktree isolation, hash state, model routing |
 | [Stripe Minions](./orchestration-platforms/stripe-minions.md) | 🎛️ Orchestration | 9/10 | The 70/30 deterministic/LLM blueprint pattern |
 | [Overstory](./agent-harnesses/overstory.md) | ⚙️ Harness | 9/10 | Validates our tmux+worktree+SQLite arch; AgentRuntime adapter + 4-tier merge queue |
+| [12 Factor Agents](./agent-protocols/12-factor-agents.md) | 🔗 Protocol | 9/10 | The "12 Factor App" of agent engineering; 18.7K stars; codifies deterministic-first agent design; coined "context engineering" |
 | [AGENTS.md](./agent-protocols/agents-md.md) | 🔗 Protocol | 9/10 | Convention file for agent capabilities; 60K+ repos; adopt today |
 | [pi-side-agents](./agent-harnesses/pi/pi-side-agents.md) | ⚙️ Pi | 9/10 | Independently arrived at our tmux+worktree pattern; cleanest migration target |
 | [ccusage](./observability/ccusage.md) | 🔍 Observability | 9/10 | Zero-install Claude Max usage tracking; highest-ROI tool in catalogue |
@@ -204,6 +205,7 @@ Standards and interoperability specifications for agent communication and trust.
 
 | Tool | Relevance | Key Insight |
 |------|-----------|-------------|
+| [12 Factor Agents](./agent-protocols/12-factor-agents.md) | 9/10 | The "12 Factor App" of agent engineering; 18.7K stars; 12+1 principles for production agents; coined "context engineering"; workshop + scaffold CLI |
 | [AGENTS.md](./agent-protocols/agents-md.md) | 9/10 | Convention file for agent capabilities; 18.6K stars, 60K+ repos; adopt today |
 | [A2A Protocol](./agent-protocols/a2a-protocol.md) | 8/10 | Google's de facto A2A standard; 22K stars; absorbed ACP; Phase 3-4 for federation |
 | [OpenAI Skills](./agent-protocols/openai-skills.md) | 8/10 | Official Codex skills catalogue; 13.5K stars; skill-creator is best authoring guide; 35 curated skills; 3-tier distribution model |
@@ -314,6 +316,7 @@ Desktop/web apps for managing agent sessions, IDE extensions.
 | [Cursor](./developer-gui/cursor.md) | 3/10 | $29.3B gorilla; Automations (trigger-based agents) worth watching |
 | [Jean](./developer-gui/jean.md) | 3/10 | Execution modes (Plan/Build/Yolo) concept |
 | [Hello Halo](./developer-gui/hello-halo.md) | 3/10 | OSS Claude Cowork clone (624 stars); Digital Human Protocol spec.yaml pattern for declarative agent definitions is the one interesting contribution |
+| [OpenTUI](./developer-gui/opentui.md) | 5/10 | Zig-native terminal rendering engine (9,322 stars) powering OpenCode in production; SolidJS+React reconcilers for TUI; Phase 3+ if building orchestrator status dashboard |
 | [Goodable](./developer-gui/goodable.md) | 3/10 | OSS Claude Cowork clone (158 stars); dual-mode Skills (AI tool + standalone GUI sharing data); "Digital Employee" role templates with planning/execution phase prompts; Chinese-market focus |
 | [AionUi](./developer-gui/aionui.md) | 3/10 | OSS Cowork clone; 18K stars; Electron GUI wrapping 15+ CLI agents; Channels IM-bot architecture is only interesting pattern |
 | [DeepSeek Cowork](./developer-gui/deepseek-cowork.md) | 3/10 | OSS Cowork clone (422 stars); Electron+Express hybrid with modular server (modulesManager pattern); browser automation via custom WS extension; stale since Feb 2026 |
@@ -482,6 +485,7 @@ Internal syntheses, landscape overviews, strategy documents, and architecture bl
 
 | Title | Speaker | Date | Relevance | Key Insight |
 |-------|---------|------|-----------|-------------|
+| [Agentic Engineering & Multi-Agent Systems](./talks/2026-03/jonas-joerg-ai-engineering-podcast.md) | Jonas & Jörg | 2026-03-12 | 9/10 | Context clearing + specialized sub-agents solve "data drift"; project management skills (Gadget) > vibe coding |
 | [Fireside Chat: Claude Code, AI Development](./talks/2026-03/sid-anthropic-fireside-chat-claude-code.md) | Sid (Anthropic) | 2026-03 | 9/10 | Skills + MCP = everything; adversarial review agents; plan mode as highest-ROI practice; quick remediation > proactive prevention |
 | [Lightning Talk: Building Production Agents — Lessons from Cleric](./talks/2026-03/aaron-cleric-building-production-agents.md) | Aaron Ahmed (Cleric) | 2026-03-08 | 8/10 | Persist/compound/visible correction loop + ambient learning = the learning agent trifecta |
 | [Lightning Talk: Agent Infrastructure Challenges](./talks/2026-03/milan-simgrip-agent-infrastructure-challenges.md) | Milan Williams (Semgrep) | 2026-03-08 | 7/10 | Three practical agent security tips: downscope tokens, hook-based audit logging, deterministic code scanning |

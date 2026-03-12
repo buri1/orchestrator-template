@@ -1,0 +1,15 @@
+{
+  "handle": "@doodlestein",
+  "practitioner_profile": null,
+  "last_scan": "2026-03-12T13:00:00Z",
+  "scan_count": 1,
+  "total_tracked": 23,
+  "stats": {
+    "high": 14,
+    "medium": 6,
+    "low": 3,
+    "noise": 0,
+    "ingested": 0
+  },
+  "notes": "First scan. Coverage period: 2026-01-15 to 2026-03-07. 9 known posts from prior research + 14 newly discovered via web search. No jeff-emanuel.md practitioner profile exists yet — practitioner_ref is null across all shards. Highest-priority ingest candidates: pi_agent_rust (2024526138102435934), dcg deep-dive (2015510232869245033), agent swarm health suite (2025361026363875633), rch announcement (2019626572018327718), beads_rust (2012972038332260744), FrankenSearch (2025758721888924091), FrankenSQLite website (2027199039490466225), Agent Mail Rust sneak peek (2026872257172161002), Jan 22 vision post (2014204765085798716)."
+}

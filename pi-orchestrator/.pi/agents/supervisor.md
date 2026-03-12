@@ -2,7 +2,7 @@
 name: supervisor
 description: Meta-orchestrator that monitors and nudges the Claude Opus orchestrator
 tools: read,grep,find,ls,bash
-model: sonnet
+model: opus
 color: cyan
 ---
 
