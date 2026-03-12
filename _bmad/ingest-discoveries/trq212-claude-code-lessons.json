@@ -1,0 +1,16 @@
+{
+  "source_url": "https://x.com/trq212/status/2027463795355095314",
+  "source_title": "Lessons from Building Claude Code: Seeing like an Agent",
+  "catalogue_path": "research/catalogue/posts/2026-02/trq212-lessons-building-claude-code-seeing-like-agent.md",
+  "ingested_at": "2026-03-12T00:00:00Z",
+  "note": "Already ingested — file existed prior to this ingest run. INDEX.md entry confirmed present.",
+  "discovered_urls": [
+    {
+      "url": "https://x.com/RLanceMartin/status/2027450018513490419",
+      "title": "Give Claude a Computer: Programmatic Tool Calling — @RLanceMartin",
+      "relevance": 8,
+      "reason": "Referenced directly in the post as the companion article on programmatic tool calling in the Claude API. Lance Martin (LangChain) — covers PTC, code-as-tool-composition, 11% accuracy gain, 24% fewer tokens. Already ingested as rlancemartin-give-claude-a-computer-ptc.md.",
+      "suggested_ingest": "already ingested"
+    }
+  ]
+}

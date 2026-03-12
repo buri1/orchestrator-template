@@ -1,0 +1,26 @@
+{
+  "source_url": "https://github.com/stephengpope/thepopebot",
+  "source_title": "thepopebot/AIIDE",
+  "catalogue_path": "research/catalogue/agent-harnesses/thepopebot-aiide.md",
+  "ingested_at": "2026-03-12T14:30:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/badlogic/pi-skills",
+      "context": "External skills repository referenced by thepopebot; shared SKILL.md format works across Pi Agent, Claude Code, Codex CLI, Amp, and Droid",
+      "suggested_type": "tool",
+      "relevance_hint": "Canonical cross-harness skill repository; validates our skill portability thesis for Day 60+ migration; directly compatible with .claude/commands/"
+    },
+    {
+      "url": "https://github.com/badlogic/pi-mono/blob/main/packages/coding-agent/docs/skills.md",
+      "context": "Canonical SKILL.md format specification from Pi Agent's monorepo, referenced as the skills format standard",
+      "suggested_type": "article",
+      "relevance_hint": "Formal spec for the Agent Skills standard that thepopebot, Pi, Claude Code, Codex, Amp, and Droid all support; needed for cross-harness portability"
+    },
+    {
+      "url": "https://skool.com/ai-architects",
+      "context": "Stephen Pope's AI Architects community; premium support hub for thepopebot users; Skool is a community platform Pope has invested in",
+      "suggested_type": "post",
+      "relevance_hint": "Potential source for practitioner patterns around autonomous agent deployment; community of people running 24/7 agents in production"
+    }
+  ]
+}

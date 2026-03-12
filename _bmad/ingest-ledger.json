@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "last_run": "2026-03-12T12:11:50.226950+00:00",
+  "ingested": {
+    "https://thenewstack.io/agentic-knowledge-base-patterns/": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/agentic-knowledge-base-patterns.md"
+    },
+    "https://github.com/Rabrg/artificial-life": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T12:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/artificial-life.md"
+    },
+    "https://github.com/peteromallet/desloppify": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T14:30:00Z",
+      "catalogue_path": "research/catalogue/code-intelligence/desloppify.md"
+    },
+    "https://www.emdash.sh/": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T14:30:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/emdash.md"
+    },
+    "https://blog.jetbrains.com/junie/2026/03/junie-cli-the-llm-agnostic-coding-agent-is-now-in-beta/": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T12:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/junie-cli-beta.md"
+    },
+    "https://gist.github.com/OmerFarukOruc/a02a5883e27b5b52ce740cadae0e4d60": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T12:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/ai-coding-agent-workflow-orchestration-guidelines.md"
+    },
+    "https://github.com/stephengpope/thepopebot": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T14:30:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/thepopebot-aiide.md"
+    },
+    "https://github.com/vercel-labs/portless": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T14:30:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/portless.md"
+    },
+    "https://x.com/i/status/2025161888456474851": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/hasantoxr-alibaba-zvec-vector-database.md"
+    },
+    "https://x.com/i/status/2025920521871716562": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/elvissun-openclaw-codex-claude-agent-swarm-setup.md"
+    },
+    "https://x.com/i/status/2027770787659464812": {
+      "source": "manual",
+      "ingested_at": "2026-03-12T12:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/omarsar0-agents-md-dont-scale-codified-context.md"
+    }
+  }
+}
