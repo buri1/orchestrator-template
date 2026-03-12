@@ -1,0 +1,7 @@
+{
+  "defaultProvider": "anthropic",
+  "defaultModel": "claude-sonnet-4-5-20250514",
+  "steeringMode": "all",
+  "followUpMode": "all",
+  "theme": "dracula"
+}

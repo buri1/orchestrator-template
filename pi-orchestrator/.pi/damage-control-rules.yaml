@@ -1,0 +1,44 @@
+# L-Thread Orchestrator Damage Control Rules
+# The orchestrator MUST NOT write code. Only state files are writable.
+
+bashToolPatterns:
+  - pattern: '\brm\s+(-[^\s]*)*-[rRf]'
+    reason: "rm with recursive or force flags"
+  - pattern: '\bgit\s+reset\s+--hard\b'
+    reason: "git reset --hard (use --soft or stash)"
+  - pattern: '\bgit\s+push\s+.*--force\b'
+    reason: "git force push (will overwrite remote history)"
+  - pattern: 'DELETE\s+FROM\s+\w+\s*;'
+    reason: "DELETE without WHERE"
+    ask: true
+  - pattern: '\bgit\s+branch\s+-D\b'
+    reason: "git branch force-delete"
+    ask: true
+  - pattern: '\bnpx?\s+supabase\s+db\s+reset\b'
+    reason: "Supabase DB reset (will destroy all data)"
+
+zeroAccessPaths:
+  - ".env"
+  - ".env.local"
+  - ".env.production"
+  - "~/.ssh/"
+  - "~/.aws/"
+  - "*-credentials.json"
+  - "*.pem"
+  - "*.key"
+
+readOnlyPaths:
+  - node_modules/
+  - dist/
+  - build/
+  - .next/
+  - "*.lock"
+  - "*.min.js"
+
+noDeletePaths:
+  - CLAUDE.md
+  - LICENSE
+  - README.md
+  - .git/
+  - .github/
+  - supabase/migrations/

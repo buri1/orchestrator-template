@@ -1,0 +1,9 @@
+{
+  "current_story": null,
+  "current_agent": null,
+  "phase": "idle",
+  "review_cycle": 0,
+  "stories_completed": 0,
+  "last_updated": null,
+  "workers": {}
+}
