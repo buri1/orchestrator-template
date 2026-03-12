@@ -1,8 +1,8 @@
 # Ghostty Task Finish Notification — Setup Guide
 
-Notification system for Ghostty on macOS. When a long-running command or AI coding agent finishes in any tab/split:
+Notification system for Ghostty 1.3+ on macOS. When a long-running command or AI coding agent finishes in any tab/split:
 
-- **Ghostty not focused** → brings Ghostty to front + marks tab with 🔔
+- **Ghostty not focused** → brings Ghostty to front (focuses the exact split) + marks tab with 🔔
 - **Ghostty already focused** → plays a sound + marks tab with 🔔
 - The 🔔 disappears automatically when you click the tab or type in it
 - **Last agent response is copied to clipboard** (available in Maccy history)
@@ -10,9 +10,10 @@ Notification system for Ghostty on macOS. When a long-running command or AI codi
 ## Prerequisites
 
 - **macOS** (uses `osascript`, `afplay`, `stat -f`, `pbcopy`)
-- **Ghostty** terminal (any version with `bell-features` support, v1.2.0+)
+- **Ghostty 1.3+** (for `notify-on-command-finish`, `bell-features` scrollbar, AppleScript per-split focus)
 - **zsh** as default shell (macOS default)
 - **jq** — for parsing hook payloads (`brew install jq`)
+- **tmux** — optional, for multi-agent pane layouts (`brew install tmux`)
 - **Maccy** — clipboard history manager (recommended, `brew install --cask maccy`)
 - **Claude Code** — optional, for Claude-specific hooks (`npm install -g @anthropic-ai/claude-code`)
 - **Codex CLI** — optional, v0.114.0+ for Codex hooks (`npm install -g @openai/codex`)
@@ -23,11 +24,12 @@ Notification system for Ghostty on macOS. When a long-running command or AI codi
 
 | Scenario | Works? | Mechanism | Clipboard? |
 |---|---|---|---|
-| Regular commands (`sleep`, `npm build`, etc.) | Yes | zsh `precmd` hooks | No |
+| Regular commands outside tmux (`sleep`, `npm build`, etc.) | Yes | Ghostty `notify-on-command-finish` (native) | No |
+| Regular commands inside tmux | Yes | zsh `precmd` hooks (fallback) | No |
 | Claude Code finishes response | Yes | Claude Code Stop/Notification hooks | No* |
 | Codex CLI finishes response | Yes | Codex Stop hook | Yes |
-| Exiting `claude` or `codex` entirely | Yes | zsh `precmd` hooks | No |
-| `codex exec "..."` non-interactive | Yes | zsh `precmd` hooks | No |
+| Exiting `claude` or `codex` entirely | Yes | Ghostty native / zsh hooks | No |
+| `codex exec "..."` non-interactive | Yes | Ghostty native / zsh hooks | No |
 | Any other interactive agent via `agent-watch` | Yes | `script` + mtime silence watcher | Noisy* |
 
 > *\*Claude Code hooks don't expose response text (only metadata like "Claude is waiting for your input"). Manual `Cmd+C` is recommended for Claude Code. `agent-watch` captures raw terminal output (all tool calls, spinners, etc.) — not a clean response. Only Codex provides a clean `last_assistant_message` via hooks.*
@@ -35,18 +37,20 @@ Notification system for Ghostty on macOS. When a long-running command or AI codi
 ## Architecture
 
 ```
-Layer 1: Ghostty config        → bell-features (🔔 on tab, dock bounce)
-Layer 2: Zsh precmd/preexec    → regular shell commands (>10s)
-Layer 3a: Claude Code hooks    → Claude response → notify only (no response text in payload)
-Layer 3b: Codex CLI hooks      → Codex response → clipboard + notify
-Layer 3c: agent-watch wrapper  → ANY other agent → notify + raw clipboard via output silence
+Layer 1: Ghostty config         → bell-features + scrollbar markers
+Layer 2: Ghostty NATIVE          → notify-on-command-finish (outside tmux only)
+Layer 2b: tmux event-driven      → wait-for + monitor-silence (inside tmux)
+Layer 3a: Claude Code hooks      → Stop/Notification → AppleScript focus + bell + sound
+Layer 3b: Codex CLI hooks        → Stop → clipboard + AppleScript focus + bell
+Layer 3c: agent-watch wrapper    → universal fallback (silence detection)
+Layer 4: Ghostty AppleScript     → workspace launcher, per-split focus
 ```
 
 ---
 
 ## Step-by-Step Setup
 
-### Step 1: Ghostty Config
+### Step 1: Ghostty Config (Layer 1 + Layer 2)
 
 The Ghostty config path on macOS:
 
@@ -60,26 +64,38 @@ Append the following to the end of your Ghostty config file:
 # === Bell / Task Finish Notification ===
 # attention: bounce dock icon when unfocused
 # title: prepend 🔔 to tab title of the surface that triggered BEL
-bell-features = attention,title
+# scrollbar: show a marker in the scrollbar at the BEL position (1.3+)
+bell-features = attention,title,scrollbar
+
+# === Native Command Finish Notification (1.3+) ===
+# Ghostty detects command completion via OSC 133 shell integration.
+# Only fires when Ghostty is NOT focused and command ran longer than threshold.
+# NOTE: Does NOT work inside tmux (tmux consumes OSC 133 sequences).
+notify-on-command-finish = unfocused
+notify-on-command-finish-action = notify
+notify-on-command-finish-after = 10s
 ```
 
 Or as a one-liner:
 
 ```bash
-echo '\n# === Bell / Task Finish Notification ===\nbell-features = attention,title' >> ~/Library/Application\ Support/com.mitchellh.ghostty/config
+printf '\n# === Bell / Task Finish Notification ===\nbell-features = attention,title,scrollbar\n\n# === Native Command Finish (1.3+) ===\nnotify-on-command-finish = unfocused\nnotify-on-command-finish-action = notify\nnotify-on-command-finish-after = 10s\n' >> ~/Library/Application\ Support/com.mitchellh.ghostty/config
 ```
 
 Reload with `Cmd+Shift+,` or restart Ghostty.
 
-### Step 2: Zsh Hooks + agent-watch
+> **Why `scrollbar`?** New in Ghostty 1.3, `scrollbar` leaves a visual marker in the scrollbar gutter at the exact position where BEL fired. When you scroll through long build output, the markers show you where each notification happened.
+
+### Step 2: Zsh Hooks + agent-watch (Layer 2b fallback + Layer 3c)
+
+Ghostty's native `notify-on-command-finish` handles most regular commands outside tmux. The zsh hooks below serve as a **fallback for commands running inside tmux** (where OSC 133 is consumed by tmux and never reaches Ghostty). The `agent-watch` function remains the universal wrapper for any interactive agent without native hook support.
 
 Append the following block to the **end** of `~/.zshrc`:
 
 ```zsh
 # === Ghostty Task Finish Notifier ===
-# When a long-running command finishes:
-#   - Ghostty not focused → bring Ghostty to front + mark tab with 🔔
-#   - Ghostty already focused → play sound + mark tab with 🔔
+# Fallback for commands inside tmux (Ghostty native notify doesn't work there).
+# Also provides agent-watch for wrapping arbitrary interactive agents.
 GHOSTTY_NOTIFY_THRESHOLD=${GHOSTTY_NOTIFY_THRESHOLD:-10}  # seconds
 GHOSTTY_NOTIFY_SOUND="${GHOSTTY_NOTIFY_SOUND:-/System/Library/Sounds/Glass.aiff}"
 AGENT_WATCH_IDLE=${AGENT_WATCH_IDLE:-5}  # seconds of silence for agent-watch
@@ -99,6 +115,11 @@ _ghostty_notify_precmd() {
   (( elapsed < GHOSTTY_NOTIFY_THRESHOLD )) && return
 
   printf '\a'  # BEL → Ghostty marks this tab with 🔔
+
+  # If inside tmux, also signal the tmux wait-for channel
+  if [[ -n "$TMUX" && -n "$TMUX_PANE" ]]; then
+    tmux wait-for -S "done${TMUX_PANE}" 2>/dev/null
+  fi
 
   local frontapp
   frontapp=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
@@ -143,14 +164,12 @@ agent-watch() {
       local idle=$((now - mtime))
       if (( idle < 3 )); then
         if ! $was_active; then
-          # Mark where this output burst started
           active_start_size=$(stat -f %z "$tmplog" 2>/dev/null || echo 0)
         fi
         was_active=true
         notified=false
       elif $was_active && ! $notified && (( idle >= AGENT_WATCH_IDLE )); then
         notified=true
-        # Copy the last output burst to clipboard (strip ANSI escape codes)
         local cur_size=$(stat -f %z "$tmplog" 2>/dev/null || echo 0)
         if (( cur_size > active_start_size )); then
           tail -c +$((active_start_size + 1)) "$tmplog" 2>/dev/null \
@@ -171,7 +190,6 @@ agent-watch() {
   ) &
   local watcher_pid=$!
 
-  # Run the command under `script` (preserves full TTY interactivity)
   script -q "$tmplog" "$@"
   local exit_code=$?
 
@@ -184,11 +202,10 @@ agent-watch() {
 ```
 
 Activate in current session: `source ~/.zshrc`
-New tabs pick this up automatically.
 
-### Step 3: Claude Code Hooks (optional — only if you use Claude Code)
+### Step 3: Claude Code Hooks (Layer 3a)
 
-Claude Code has its own hook system that fires on exact events (more precise than silence detection). Note: Claude Code hooks **don't pass the actual response text** — only metadata like notification titles. For clipboard, use `agent-watch claude` instead, or manually select + `Cmd+C`.
+Claude Code fires `Stop` when it finishes a response and `Notification` when it needs user input.
 
 #### 3a. Create the hook script
 
@@ -196,31 +213,68 @@ Claude Code has its own hook system that fires on exact events (more precise tha
 mkdir -p ~/.claude/hooks
 ```
 
-Create `~/.claude/hooks/notify.sh` with the following content:
+Create `~/.claude/hooks/notify.sh`:
 
 ```bash
 #!/bin/bash
-# Claude Code Notification Hook
-# Brings Ghostty to front (if unfocused) or plays sound (if focused)
-# NOTE: Claude Code hooks don't pass the actual response text (only metadata
-# like "Claude is waiting for your input"), so no clipboard copy here.
-# For clipboard, use agent-watch claude instead, or manually select + Cmd+C.
+# Claude Code Notification Hook — Ghostty 1.3 AppleScript Split-Aware Focus
+#
+# Uses Ghostty 1.3's AppleScript API to focus the SPECIFIC terminal (split pane)
+# where Claude finished, matched by working directory via $CLAUDE_PROJECT_DIR.
+#
+# Also signals tmux wait-for channels for event-driven orchestration.
+
+set -euo pipefail
+
+SOUND="${GHOSTTY_NOTIFY_SOUND:-/System/Library/Sounds/Glass.aiff}"
 
 NOTIFICATION=$(cat)
-MESSAGE=$(echo "$NOTIFICATION" | jq -r '.message // empty' 2>/dev/null || echo "Claude is waiting for your input")
-TITLE=$(echo "$NOTIFICATION" | jq -r '.title // empty' 2>/dev/null || echo "Claude Code")
+MESSAGE=$(echo "$NOTIFICATION" | jq -r '.message // empty' 2>/dev/null || true)
+TITLE=$(echo "$NOTIFICATION" | jq -r '.title // empty' 2>/dev/null || true)
 [ -z "$MESSAGE" ] && MESSAGE="Claude is waiting for your input"
 [ -z "$TITLE" ] && TITLE="Claude Code"
 
-# BEL → Ghostty marks the tab with 🔔
+MATCH_DIR="${CLAUDE_PROJECT_DIR:-$PWD}"
+
+# BEL → Ghostty marks this tab with 🔔
 printf '\a'
 
-FRONTAPP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
+# Signal tmux wait-for channel (event-driven orchestration)
+if [ -n "${TMUX:-}" ] && [ -n "${TMUX_PANE:-}" ]; then
+  tmux wait-for -S "done${TMUX_PANE}" 2>/dev/null || true
+fi
+
+# Signal orchestrator latch + channel (if ORCHY_SESSION_NAME is set)
+if [ -n "${ORCHY_SESSION_NAME:-}" ]; then
+  LATCH="/tmp/orchy-${ORCHY_SESSION_NAME}.latch"
+  cat > "${LATCH}.tmp" <<LATCH_EOF
+{"session":"${ORCHY_SESSION_NAME}","stop_reason":"end_turn","timestamp":"$(date -u +%Y-%m-%dT%H:%M:%SZ)"}
+LATCH_EOF
+  mv "${LATCH}.tmp" "$LATCH"
+  tmux wait-for -S "orchy-${ORCHY_SESSION_NAME}-done" 2>/dev/null || true
+  tmux wait-for -S "orchy-any-done" 2>/dev/null || true
+fi
+
+FRONTAPP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null || echo "")
+
 if [ "$FRONTAPP" = "Ghostty" ]; then
-  afplay "${GHOSTTY_NOTIFY_SOUND:-/System/Library/Sounds/Glass.aiff}" &>/dev/null &
+  afplay "$SOUND" &>/dev/null &
 else
-  osascript -e 'tell application "Ghostty" to activate' &>/dev/null &
-  osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\" sound name \"Glass\"" &
+  # Focus the specific Ghostty split matching this project directory
+  osascript <<APPLESCRIPT &>/dev/null &
+tell application "Ghostty"
+    set matches to every terminal whose working directory is "$MATCH_DIR"
+    if (count of matches) = 0 then
+        set matches to every terminal whose working directory contains "$MATCH_DIR"
+    end if
+    if (count of matches) > 0 then
+        focus (item 1 of matches)
+    else
+        activate
+    end if
+end tell
+APPLESCRIPT
+  osascript -e "display notification \"$MESSAGE\" with title \"$TITLE\" sound name \"Glass\"" &>/dev/null &
 fi
 exit 0
 ```
@@ -263,13 +317,9 @@ Edit `~/.claude/settings.json` and add (or merge into) the `"hooks"` section:
 }
 ```
 
-> **Important:** The `command` path must be **absolute**. Replace `$HOME` with your actual home directory (e.g., `/Users/yourname/.claude/hooks/notify.sh`). If `settings.json` already exists, merge the `hooks` key — don't overwrite the entire file.
+> **Important:** Replace `$HOME` with your actual home directory (e.g., `/Users/yourname/.claude/hooks/notify.sh`).
 
-New Claude Code sessions will pick up the hooks automatically.
-
-### Step 4: Codex CLI Hooks (optional — only if you use Codex CLI v0.114.0+)
-
-Codex CLI added an experimental hooks engine in v0.114.0. The `Stop` hook fires when the agent finishes a response and receives `last_assistant_message` on stdin — perfect for clipboard integration.
+### Step 4: Codex CLI Hooks (Layer 3b — optional, Codex v0.114.0+)
 
 #### 4a. Enable hooks feature flag
 
@@ -303,70 +353,171 @@ Create `~/.codex/hooks.json`:
 }
 ```
 
-> **Important:** Replace `$HOME` with your actual home directory (e.g., `/Users/yourname/.codex/hooks/notify.sh`).
-
 #### 4c. Create the hook script
 
 ```bash
 mkdir -p ~/.codex/hooks
 ```
 
-Create `~/.codex/hooks/notify.sh` with the following content:
+Create `~/.codex/hooks/notify.sh`:
 
 ```bash
 #!/bin/bash
-# Codex CLI Notification Hook (Stop event)
-# 1. Copies last assistant message to system clipboard (Maccy picks it up)
-# 2. Brings Ghostty to front (if unfocused) or plays sound (if focused)
+# Codex CLI Notification Hook — Ghostty 1.3 Split-Aware Focus + Clipboard
 
-# Read hook data from stdin (Codex passes JSON with last_assistant_message)
+set -euo pipefail
+
+SOUND="${GHOSTTY_NOTIFY_SOUND:-/System/Library/Sounds/Glass.aiff}"
+
 INPUT=$(cat)
+LAST_MSG=$(echo "$INPUT" | jq -r '.last_assistant_message // empty' 2>/dev/null || true)
 
-# Extract the last assistant message
-LAST_MSG=$(echo "$INPUT" | jq -r '.last_assistant_message // empty' 2>/dev/null)
-
-# Copy to system clipboard if we have content (Maccy history picks this up)
 if [ -n "$LAST_MSG" ]; then
   printf '%s' "$LAST_MSG" | pbcopy 2>/dev/null
 fi
 
-# Send BEL to mark the Ghostty tab with 🔔
+MATCH_DIR="${CODEX_PROJECT_DIR:-${CLAUDE_PROJECT_DIR:-$PWD}}"
+
 printf '\a'
 
-# Check if Ghostty is the frontmost app
-FRONTAPP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null)
-
-if [ "$FRONTAPP" = "Ghostty" ]; then
-  afplay "${GHOSTTY_NOTIFY_SOUND:-/System/Library/Sounds/Glass.aiff}" &>/dev/null &
-else
-  osascript -e 'tell application "Ghostty" to activate' &>/dev/null &
-  osascript -e "display notification \"Codex finished\" with title \"Codex CLI\" sound name \"Glass\"" &
+if [ -n "${TMUX:-}" ] && [ -n "${TMUX_PANE:-}" ]; then
+  tmux wait-for -S "done${TMUX_PANE}" 2>/dev/null || true
 fi
 
-# Must output valid JSON for Codex Stop hook (empty = allow stop)
+FRONTAPP=$(osascript -e 'tell application "System Events" to get name of first application process whose frontmost is true' 2>/dev/null || echo "")
+
+if [ "$FRONTAPP" = "Ghostty" ]; then
+  afplay "$SOUND" &>/dev/null &
+else
+  osascript <<APPLESCRIPT &>/dev/null &
+tell application "Ghostty"
+    set matches to every terminal whose working directory is "$MATCH_DIR"
+    if (count of matches) = 0 then
+        set matches to every terminal whose working directory contains "$MATCH_DIR"
+    end if
+    if (count of matches) > 0 then
+        focus (item 1 of matches)
+    else
+        activate
+    end if
+end tell
+APPLESCRIPT
+  osascript -e "display notification \"Codex finished\" with title \"Codex CLI\" sound name \"Glass\"" &>/dev/null &
+fi
+
 echo '{}'
 exit 0
 ```
 
-Make it executable:
+Make it executable: `chmod +x ~/.codex/hooks/notify.sh`
 
-```bash
-chmod +x ~/.codex/hooks/notify.sh
+### Step 5: tmux Integration (Layer 2b — for multi-agent pane layouts)
+
+When running agents inside tmux, Ghostty's native `notify-on-command-finish` does **not** work because tmux consumes the OSC 133 shell integration sequences. This layer provides event-driven notification using `tmux wait-for` channels and `monitor-silence` as a fallback.
+
+#### 5a. tmux.conf settings
+
+A complete `.tmux.conf` optimized for agent orchestration is provided in this repo at `setup/tmux-agent.conf`. The key settings:
+
+```tmux
+# Bell passthrough: BEL in tmux pane → Ghostty
+set-option -g bell-action any
+set-option -g visual-bell off
+set-option -g monitor-bell on
+
+# Silence monitoring: fallback when agents don't use hooks
+set-option -g monitor-silence 30
+
+# OSC passthrough for Ghostty features
+set-option -g allow-passthrough on
+set-option -g set-clipboard on
 ```
 
-New Codex sessions will pick up the hooks automatically.
+Install: `cp setup/tmux-agent.conf ~/.tmux.conf && tmux source-file ~/.tmux.conf`
+
+#### 5b. tmux wait-for event-driven pattern
+
+`tmux wait-for` provides true event-driven signaling between panes. Zero CPU while waiting, instant wakeup on signal.
+
+**How it works:**
+
+1. The **watcher** blocks on the channel (zero CPU):
+   ```bash
+   tmux wait-for "done%3"  # blocks until pane %3 signals
+   echo "Agent finished!"
+   ```
+
+2. The **agent pane** signals when done (wired into hooks above):
+   ```bash
+   tmux wait-for -S "done%3"  # unblocks all waiters instantly
+   ```
+
+3. The zsh hooks (Step 2) and Claude/Codex hooks (Steps 3-4) already include `tmux wait-for -S` — no extra setup needed.
+
+**Orchestrator pattern with latch files** (handles signal-before-waiter race):
+
+```bash
+source .bmad/scripts/tmux-helpers.sh
+
+# Clear latch, dispatch work, wait for completion
+tmux_dispatch "autarkis1" "implement the login form"
+tmux_wait_for_session "autarkis1"
+echo "Agent done! Reading output..."
+tmux_capture_output "autarkis1" 100
+
+# Wait for ANY of multiple agents
+tmux_dispatch "autarkis1" "task 1"
+tmux_dispatch "cityhub" "task 2"
+WINNER=$(tmux_wait_any autarkis1 cityhub)
+echo "$WINNER finished first!"
+```
+
+See `.bmad/scripts/tmux-helpers.sh` for the full event-driven API.
+
+#### 5c. monitor-silence as fallback
+
+For agents without hooks, tmux's `monitor-silence` triggers after 30s of no output. Combined with `bell-action any`, BEL propagates to Ghostty for the 🔔 marker.
+
+Per-pane silence thresholds:
+```bash
+tmux set-option -t %3 monitor-silence 10   # quick agent
+tmux set-option -t %5 monitor-silence 60   # build process
+```
+
+### Step 6: Ghostty AppleScript (Layer 4 — workspace automation)
+
+Ghostty 1.3 exposes AppleScript for window/split management. A workspace launcher is provided at `setup/ghostty-workspace.sh`.
+
+Usage:
+```bash
+./setup/ghostty-workspace.sh
+```
+
+This creates a 4-pane Ghostty window with tmux crash protection:
+- Top-left: Lagerlink Hildesheim (Claude Code)
+- Top-right: CityHub (Claude Code)
+- Bottom-left: Orchestrator (Claude Code)
+- Bottom-right: Monitoring (htop)
+
+For manual per-split focus from scripts:
+```bash
+osascript -e '
+tell application "Ghostty"
+    set matches to every terminal whose working directory contains "Lagerlink"
+    if (count of matches) > 0 then focus (item 1 of matches)
+end tell
+'
+```
 
 ---
 
 ## Clipboard Workflow with Maccy
 
-Both Claude Code and Codex hooks automatically copy the agent's last response to the system clipboard. Maccy keeps a history of all clipboard entries.
-
 **Workflow:**
 1. Agent finishes in Tab A → response is auto-copied to clipboard
 2. Switch to Tab B (another agent or editor)
 3. `Cmd+V` to paste the response directly
-4. If you've copied something else since, open **Maccy** (`Cmd+Shift+C` by default) to find the agent response in clipboard history
+4. If you've copied something else since, open **Maccy** (`Cmd+Shift+C`) to find the agent response in clipboard history
 
 **Cross-agent sharing:**
 - Claude finishes → response in Maccy → switch to Codex tab → paste as context
@@ -378,28 +529,41 @@ Both Claude Code and Codex hooks automatically copy the agent's last response to
 ## Usage
 
 ```bash
-# Claude Code — just run normally, hooks handle notification + clipboard:
+# Claude Code — hooks handle notification + focus:
 claude
 
-# Codex CLI — just run normally (with hooks enabled), same behavior:
+# Codex CLI — hooks handle clipboard + notification:
 codex
 
-# Any other interactive agent — wrap with agent-watch (notification + clipboard):
+# Any other agent — wrap with agent-watch:
 agent-watch aider --model gpt-4
 agent-watch opencode
 
-# Regular shell commands — automatic (zsh hooks), no wrapper needed:
+# Regular commands outside tmux — Ghostty native notify:
 npm run build   # notifies if it takes >10s
+
+# Regular commands inside tmux — zsh hooks fallback:
+npm run build   # zsh precmd handles notification
+
+# Launch multi-agent workspace:
+./setup/ghostty-workspace.sh
+
+# Event-driven wait for agent (from orchestrator):
+source .bmad/scripts/tmux-helpers.sh
+tmux_dispatch "autarkis1" "fix the login bug"
+tmux_wait_for_session "autarkis1"
 ```
 
 ## Customization
 
-Set these in `~/.zshrc` (before the notifier block) or export in your shell:
-
 ```bash
-GHOSTTY_NOTIFY_THRESHOLD=5                              # zsh hooks: notify after 5s instead of 10
-AGENT_WATCH_IDLE=3                                       # agent-watch: notify after 3s of silence
-GHOSTTY_NOTIFY_SOUND="/System/Library/Sounds/Ping.aiff"  # change notification sound
+# In ~/.zshrc (before the notifier block):
+GHOSTTY_NOTIFY_THRESHOLD=5                              # zsh: notify after 5s
+AGENT_WATCH_IDLE=3                                       # agent-watch: 3s silence
+GHOSTTY_NOTIFY_SOUND="/System/Library/Sounds/Ping.aiff"  # change sound
+
+# In Ghostty config:
+notify-on-command-finish-after = 5s   # native notify threshold
 ```
 
 **Available macOS sounds** (in `/System/Library/Sounds/`):
@@ -408,75 +572,66 @@ Basso, Blow, Bottle, Frog, Funk, Glass, Hero, Morse, Ping, Pop, Purr, Sosumi, Su
 ## How It Works
 
 ### Layer 1: Ghostty bell-features
-All notification layers send BEL (`\a`). Ghostty's `attention` feature bounces the dock icon, and `title` prepends 🔔 to the specific tab's title. The emoji clears when you focus the tab or type.
+All layers send BEL (`\a`). Ghostty's `attention` bounces the dock icon, `title` prepends 🔔, and `scrollbar` (1.3+) marks the scroll position. The 🔔 clears on focus or typing.
 
-### Layer 2: Zsh precmd/preexec (regular commands)
-`preexec` records the timestamp when any command starts. `precmd` fires when the shell prompt returns. If the elapsed time exceeds `GHOSTTY_NOTIFY_THRESHOLD`, it sends BEL and either brings Ghostty to front or plays a sound.
+### Layer 2: Ghostty native notify-on-command-finish (1.3+)
+Uses OSC 133 shell integration to detect command completion. Fires macOS notification if command took longer than threshold and Ghostty is unfocused. **Does NOT work inside tmux** (tmux consumes OSC 133).
+
+### Layer 2b: tmux event-driven notification
+Two mechanisms replace native Ghostty notify inside tmux:
+1. **`tmux wait-for` channels** — True event-driven. Each pane gets channel `done%<pane_id>`. Hooks signal on completion. Orchestrator blocks with zero CPU.
+2. **`monitor-silence` fallback** — After N seconds of no output, tmux alerts. Bell propagation (`bell-action any`) sends BEL to Ghostty.
 
 ### Layer 3a: Claude Code hooks
-Claude Code fires `Stop` when it finishes a response and `Notification` when it needs user input. Both trigger `notify.sh` which applies the Ghostty notification logic. Note: Claude Code hooks only pass metadata (notification title/message), **not** the actual response text — so no clipboard copy. For Claude clipboard, use `agent-watch claude` or select + `Cmd+C`.
+`Stop` fires on response completion, `Notification` on user input needed. Hook sends BEL, signals tmux channels (both per-pane and orchestrator latch), and uses Ghostty AppleScript to focus the specific split by matching `$CLAUDE_PROJECT_DIR`.
 
 ### Layer 3b: Codex CLI hooks
-Codex fires `Stop` when the agent finishes a response. The hook receives `last_assistant_message` in the JSON payload, copies it to clipboard via `pbcopy`, and triggers the same Ghostty notification. Must output `{}` on stdout (Codex requires valid JSON response from Stop hooks).
+`Stop` fires with `last_assistant_message` in JSON payload. Hook copies to clipboard via `pbcopy`, signals tmux channels, and triggers Ghostty notification. Must output `{}` on stdout.
 
 ### Layer 3c: agent-watch (universal wrapper)
-`script -q logfile <command>` runs the agent inside a pseudo-terminal (full colors, cursor, interactivity preserved). A background subshell polls the logfile's modification time every 2 seconds. When the file stops being written to for `AGENT_WATCH_IDLE` seconds after having been active, it extracts the last output burst from the log, strips ANSI escape codes, copies it to clipboard via `pbcopy`, and triggers the notification. The temp file is cleaned up on exit. **Note:** the clipboard content is raw terminal output (includes tool calls, spinners, etc.) — not a clean agent response like Codex's `last_assistant_message`.
+`script -q logfile <command>` runs agent in a PTY. Background subshell polls logfile mtime. On silence, strips ANSI codes, copies to clipboard, sends BEL.
+
+### Layer 4: Ghostty AppleScript
+Workspace launcher creates multi-agent Ghostty layouts. Per-split focus via `focus terminal N` (which activates window + tab + split in one command). Matches terminals by `working directory` property.
 
 ## Troubleshooting
 
 | Problem | Fix |
 |---|---|
-| No sound plays | Check System Settings → Sound → Alert volume is not muted |
-| Ghostty doesn't come to front | Grant Accessibility permission: System Settings → Privacy & Security → Accessibility → Ghostty |
-| `osascript` errors | First run may trigger a macOS permission dialog — approve it |
-| `agent-watch` not found | Run `source ~/.zshrc` or open a new tab |
-| BEL / 🔔 not appearing on tab | Ensure `bell-features = attention,title` is in Ghostty config and reload with `Cmd+Shift+,` |
-| Claude Code hooks not firing | Check `~/.claude/settings.json` has the hooks section; start a **new** Claude session |
-| Codex hooks not firing | Check `codex_hooks = true` in `~/.codex/config.toml` [features]; verify Codex v0.114.0+ (`codex --version`) |
-| `jq: command not found` | Install jq: `brew install jq` |
-| Clipboard not updating | Verify `pbcopy` works: `echo test \| pbcopy` then `Cmd+V` |
-| Maccy not showing entries | Ensure Maccy is running; check Maccy preferences for clipboard monitoring |
+| No sound plays | Check System Settings → Sound → Alert volume |
+| Ghostty doesn't come to front | Grant Accessibility: System Settings → Privacy → Accessibility → Ghostty |
+| `osascript` errors | First run triggers macOS permission dialog — approve it |
+| BEL / 🔔 not appearing | Ensure `bell-features = attention,title,scrollbar` in Ghostty config, reload |
+| Native notify not firing | Verify Ghostty 1.3+ (`ghostty --version`); check config |
+| Native notify not firing in tmux | **Expected** — tmux consumes OSC 133. Use Layer 2b |
+| `tmux wait-for` hangs forever | Agent pane never signaled. Check hooks include `tmux wait-for -S` |
+| Bell not propagating through tmux | Ensure `bell-action any` and `visual-bell off` in `~/.tmux.conf` |
+| Claude Code hooks not firing | Check `~/.claude/settings.json` has hooks; start new session |
+| Codex hooks not firing | Check `codex_hooks = true` in `~/.codex/config.toml`; Codex v0.114.0+ |
+| `jq: command not found` | `brew install jq` |
+| Clipboard not updating | Test: `echo test \| pbcopy` then `Cmd+V` |
 
 ## Limitations
 
-- No external API to programmatically **switch to** the finished tab — but the 🔔 emoji makes it visible which one completed
-- `system` and `audio` Ghostty bell features are GTK-only (Linux); on macOS we use `afplay` instead
-- `agent-watch` runs the agent in a pty-in-a-pty via `script` — very rare edge cases with some TUI apps
-- The `script` log file grows during the session; automatically cleaned up on exit
-- Codex hooks are experimental (v0.114.0) — schema may change in future versions
-- Clipboard copies may be truncated for very long responses (system clipboard has no hard limit, but Maccy may truncate display)
-
-## Testing
-
-```bash
-# 1. Test zsh hooks (regular commands):
-sleep 12
-# → Switch to another app while waiting. Ghostty should come to front after 12s.
-# → Stay in Ghostty on another tab. Should hear Glass sound + see 🔔.
-
-# 2. Test agent-watch:
-agent-watch sleep 8
-# → Same behavior as above.
-
-# 3. Test Claude Code hooks:
-# Start claude in one tab, switch to another tab, ask Claude something.
-# → When Claude responds, hear Glass sound + see 🔔 on the Claude tab.
-# → Open Maccy (Cmd+Shift+C) — Claude's response should be in clipboard history.
-
-# 4. Test Codex hooks:
-# Start codex in one tab, switch to another tab, ask Codex something.
-# → When Codex responds, hear Glass sound + see 🔔 on the Codex tab.
-# → Open Maccy — Codex's response should be in clipboard history.
-```
+- `notify-on-command-finish` does **not** work inside tmux (OSC 133 consumed)
+- Ghostty AppleScript cannot read terminal contents (security restriction)
+- `agent-watch` clipboard content is raw terminal output (includes tool calls, spinners)
+- `tmux wait-for` signals are fire-and-forget — use latch files for robustness
+- Ghostty AppleScript is "preview" in 1.3 — may have breaking changes in 1.4
+- Codex hooks are experimental (v0.114.0)
 
 ## Quick Reference: All File Paths
 
 | File | Purpose |
 |---|---|
-| `~/Library/Application Support/com.mitchellh.ghostty/config` | Ghostty bell-features config |
-| `~/.zshrc` | Zsh hooks + agent-watch function |
+| `~/Library/Application Support/com.mitchellh.ghostty/config` | Ghostty bell-features + native notify |
+| `~/.tmux.conf` | tmux bell passthrough + monitor-silence |
+| `~/.zshrc` | Zsh hooks (tmux fallback) + agent-watch |
 | `~/.claude/settings.json` | Claude Code hook wiring |
-| `~/.claude/hooks/notify.sh` | Claude Code notification + clipboard script |
-| `~/.codex/config.toml` | Codex feature flags (`codex_hooks = true`) |
+| `~/.claude/hooks/notify.sh` | Claude Code notification + AppleScript focus |
+| `~/.codex/config.toml` | Codex feature flags |
 | `~/.codex/hooks.json` | Codex hook wiring |
-| `~/.codex/hooks/notify.sh` | Codex notification + clipboard script |
+| `~/.codex/hooks/notify.sh` | Codex notification + clipboard |
+| `setup/tmux-agent.conf` | Complete tmux config for agent orchestration |
+| `setup/ghostty-workspace.sh` | Multi-agent Ghostty workspace launcher |
+| `.bmad/scripts/tmux-helpers.sh` | Event-driven tmux helper functions |
