@@ -309,7 +309,7 @@ function reduce(
 				}
 
 				// Don't nudge if no meaningful task
-				const task = registry?.session?.task;
+				const task = s.task;
 				if (!task || task.length < 10) {
 					log(`silent but no real task (${task || "none"}), skipping nudge`);
 					break;
