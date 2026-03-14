@@ -107,7 +107,7 @@ interface SessionRegistry {
 	version: number;
 	session: {
 		id: string;
-		tmux_session: string;
+		terminal_session: string;
 		launched_at: string;
 		status: "active" | "paused" | "stopped";
 		task: string | null;
@@ -427,8 +427,12 @@ function reduce(
 }
 
 // ════════════════════════════════════════════════════════════════════
-// TMUX I/O (impure helpers — only called by the effect executor)
+// CMUX I/O (impure helpers — only called by the effect executor)
 // ════════════════════════════════════════════════════════════════════
+// Migrated from tmux to cmux CLI (manaflow-ai/cmux).
+// cmux CLI is auto-available inside cmux terminals via PATH injection.
+// All commands auto-detect workspace/surface from CMUX_* env vars.
+// Surface IDs use short refs (surface:N) — stable within a cmux session.
 
 function exec(cmd: string, timeout = 10000): string {
 	try {
@@ -440,21 +444,44 @@ function exec(cmd: string, timeout = 10000): string {
 
 function paneExists(paneId: string): boolean {
 	if (!paneId) return false;
-	return exec(`tmux display-message -t "${paneId}" -p '#{pane_id}' 2>/dev/null`) === paneId;
+	// cmux identify exits non-zero if surface doesn't exist
+	const result = exec(`cmux identify --surface "${paneId}" 2>/dev/null`);
+	return result !== "";
 }
 
 function paneClaudeRunning(paneId: string): boolean {
-	const cmd = exec(`tmux display-message -t "${paneId}" -p '#{pane_current_command}' 2>/dev/null`);
-	return cmd.includes("claude") || cmd.includes("node");
+	// cmux doesn't expose #{pane_current_command} directly.
+	// Screen-scrape last lines for Claude Code UI indicators.
+	const output = exec(`cmux read-screen --surface "${paneId}" --lines 8 2>/dev/null`, 5000);
+	if (!output) return false;
+	return /[✓◆❯]|claude>|╭─|│ >|Thinking|Tool |⏺|waiting for|permission/i.test(output);
 }
 
 function paneCapture(paneId: string, lines = 30): string {
-	return exec(`tmux capture-pane -t "${paneId}" -p -S -${lines}`, 5000);
+	// cmux read-screen returns clean text (no ANSI stripping needed)
+	return exec(`cmux read-screen --surface "${paneId}" --lines ${lines} 2>/dev/null`, 5000);
 }
 
 function panePid(paneId: string): number | null {
-	const pid = exec(`tmux display-message -t "${paneId}" -p '#{pane_pid}' 2>/dev/null`);
-	return pid ? parseInt(pid, 10) : null;
+	// cmux doesn't directly expose shell PIDs per surface.
+	// Return null — hard_kill uses findClaudePid() instead.
+	return null;
+}
+
+/** Find PID of a running claude/node process for a given session name */
+function findClaudePid(sessionName: string): number | null {
+	const pids = exec(`pgrep -f "ORCHY_SESSION_NAME=${sessionName}" 2>/dev/null`);
+	if (!pids) return null;
+	for (const pid of pids.split("\n").filter(Boolean)) {
+		const children = exec(`pgrep -P ${pid} 2>/dev/null`);
+		if (children) {
+			for (const cpid of children.split("\n").filter(Boolean)) {
+				const cmd = exec(`ps -p ${cpid} -o comm= 2>/dev/null`);
+				if (cmd.includes("claude") || cmd.includes("node")) return parseInt(cpid, 10);
+			}
+		}
+	}
+	return null;
 }
 
 function simpleHash(str: string): string {
@@ -504,17 +531,23 @@ export default function (pi: ExtensionAPI) {
 		for (const fx of effects) {
 			switch (fx.type) {
 				case "send_keys": {
+					// cmux send takes raw text — no shell escaping needed
+					// No INC-005 copy-mode workaround — cmux has no scroll/copy mode
 					const escaped = fx.text.replace(/'/g, "'\\''");
-					// Defensive: exit copy mode before sending (INC-005)
-					exec(`tmux send-keys -t "${fx.paneId}" q 2>/dev/null`, 2000);
-					exec(`tmux send-keys -t "${fx.paneId}" '${escaped}' Enter`, 5000);
+					exec(`cmux send --surface "${fx.paneId}" '${escaped}' 2>/dev/null`, 5000);
 					break;
 				}
 				case "send_control":
-					for (const key of fx.keys) exec(`tmux send-keys -t "${fx.paneId}" ${key}`, 5000);
+					for (const key of fx.keys) {
+						// Skip "q" — was tmux copy-mode exit (INC-005), meaningless in cmux
+						if (key === "q") continue;
+						// Map tmux key names to cmux: C-c → ctrl+c, Escape → escape
+						const cmuxKey = key === "C-c" ? "ctrl+c" : key.toLowerCase();
+						exec(`cmux send-key --surface "${fx.paneId}" "${cmuxKey}" 2>/dev/null`, 5000);
+					}
 					break;
 				case "set_pane_title":
-					exec(`tmux select-pane -t "${fx.paneId}" -T "${fx.title}"`);
+					exec(`cmux rename-tab --surface "${fx.paneId}" "${fx.title}" 2>/dev/null`);
 					break;
 				case "start_heartbeat":
 					if (heartbeatTimer) clearInterval(heartbeatTimer);
@@ -548,21 +581,19 @@ export default function (pi: ExtensionAPI) {
 					const targetPane = fx.paneId;
 					const delay = fx.delayMs;
 					setTimeout(() => {
-						// Check if process is still alive after polite interrupt
-						const pid = panePid(targetPane);
-						if (pid) {
-							// Find the actual claude/node child process
-							const children = exec(`pgrep -P ${pid} 2>/dev/null`);
-							if (children) {
-								for (const cpid of children.split("\n").filter(Boolean)) {
-									const proc = exec(`ps -p ${cpid} -o comm= 2>/dev/null`);
-									if (proc.includes("claude") || proc.includes("node")) {
-										exec(`kill -9 ${cpid} 2>/dev/null`);
-										logActivity("hard_kill_applied", { paneId: targetPane, pid: parseInt(cpid), process: proc });
-									}
-								}
+						// Find claude/node process by session name marker
+						// cmux doesn't expose per-surface PIDs, so we use ORCHY_SESSION_NAME
+						const workerEntry = layout.workerPanes.find(w => w.paneId === targetPane);
+						const sessionName = targetPane === layout.orchestratorPaneId ? "orchestrator" : workerEntry?.name || "";
+						if (sessionName) {
+							const claudePid = findClaudePid(sessionName);
+							if (claudePid) {
+								exec(`kill -9 ${claudePid} 2>/dev/null`);
+								logActivity("hard_kill_applied", { paneId: targetPane, pid: claudePid, sessionName });
 							}
 						}
+						// Also close the cmux surface if still alive
+						exec(`cmux close-surface --surface "${targetPane}" 2>/dev/null`);
 					}, delay);
 					break;
 				}
@@ -693,7 +724,7 @@ export default function (pi: ExtensionAPI) {
 		const prevSession = registry.session;
 		registry.session = {
 			id: prevSession?.id || `${layout.session}-${Date.now().toString(36)}`,
-			tmux_session: layout.session,
+			terminal_session: layout.session,
 			launched_at: prevSession?.launched_at || new Date().toISOString(),
 			status: statusMap[state.phase],
 			task: state.task,
@@ -740,20 +771,23 @@ export default function (pi: ExtensionAPI) {
 		if (layout.workerPanes.length === 0) {
 			const paneId = layout.workersPaneId;
 			if (!paneExists(paneId)) return null;
-			const escaped = `cd "${directory}" && export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}`;
-			exec(`tmux send-keys -t "${paneId}" '${escaped.replace(/'/g, "'\\''")}' Enter`, 5000);
-			exec(`tmux select-pane -t "${paneId}" -T "${name}"`);
+			const cmd = `cd "${directory}" && export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}`;
+			const escaped = cmd.replace(/'/g, "'\\''");
+			exec(`cmux send --surface "${paneId}" '${escaped}' 2>/dev/null`, 5000);
+			exec(`cmux rename-tab --surface "${paneId}" "${name}" 2>/dev/null`);
 			layout.workerPanes.push({ name, paneId, directory });
 			return paneId;
 		}
 
+		// Split above the last worker (cmux new-split up)
 		const topPaneId = layout.workerPanes[layout.workerPanes.length - 1].paneId;
-		const splitPct = Math.floor(100 / (layout.workerPanes.length + 1));
-		const newPaneId = exec(`tmux split-window -v -b -t "${topPaneId}" -c "${directory}" -l ${splitPct}% -P -F '#{pane_id}'`);
+		const newPaneId = exec(`cmux new-split up --surface "${topPaneId}" 2>/dev/null`);
 		if (!newPaneId) return null;
 
-		exec(`tmux send-keys -t "${newPaneId}" 'export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}' Enter`, 5000);
-		exec(`tmux select-pane -t "${newPaneId}" -T "${name}"`);
+		const cmd = `cd "${directory}" && export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}`;
+		const escaped = cmd.replace(/'/g, "'\\''");
+		exec(`cmux send --surface "${newPaneId}" '${escaped}' 2>/dev/null`, 5000);
+		exec(`cmux rename-tab --surface "${newPaneId}" "${name}" 2>/dev/null`);
 		layout.workerPanes.push({ name, paneId: newPaneId, directory });
 		return newPaneId;
 	}
@@ -828,9 +862,7 @@ export default function (pi: ExtensionAPI) {
 			if (initial_prompt) {
 				setTimeout(() => {
 					const escaped = initial_prompt.replace(/'/g, "'\\''");
-					// Defensive: exit copy mode before sending (INC-005)
-					exec(`tmux send-keys -t "${layout.orchestratorPaneId}" q 2>/dev/null`, 2000);
-					exec(`tmux send-keys -t "${layout.orchestratorPaneId}" '${escaped}' Enter`, 5000);
+					exec(`cmux send --surface "${layout.orchestratorPaneId}" '${escaped}' 2>/dev/null`, 5000);
 				}, 15000);
 			}
 
@@ -1074,8 +1106,8 @@ export default function (pi: ExtensionAPI) {
 
 			const w = layout.workerPanes[idx];
 			if (paneExists(w.paneId)) {
-				for (const key of ["Escape", "C-c", "C-c", "C-c"]) exec(`tmux send-keys -t "${w.paneId}" ${key}`, 5000);
-				setTimeout(() => exec(`tmux kill-pane -t "${w.paneId}" 2>/dev/null`), 2000);
+				for (const key of ["escape", "ctrl+c", "ctrl+c", "ctrl+c"]) exec(`cmux send-key --surface "${w.paneId}" "${key}" 2>/dev/null`, 5000);
+				setTimeout(() => exec(`cmux close-surface --surface "${w.paneId}" 2>/dev/null`), 2000);
 			}
 
 			layout.workerPanes.splice(idx, 1);
@@ -1153,7 +1185,7 @@ ${regInfo}
 - Silence detection -> auto-nudge ("continue")
 - Crash detection -> auto-restart
 - Stall detection -> escalation (3 nudges then restart)
-- Copy mode protection -> auto 'q' before send_keys (INC-005)
+- cmux has no copy/scroll mode — INC-005 workaround removed
 - Hard kill on stop -> polite C-c then kill -9 after 3s (INC-007)
 
 ## PAUSE/RESUME

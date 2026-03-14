@@ -1,9 +1,9 @@
 #!/bin/bash
 # ============================================================================
-# Pane Worker Helpers — for the Opus Orchestrator
+# Pane Worker Helpers — for the Opus Orchestrator (cmux)
 # ============================================================================
 # Source this in the orchestrator pane to get worker CRUD functions.
-# These manage workers as tmux panes in the right half of the lthread session.
+# These manage workers as cmux surfaces in the right half of the workspace.
 #
 # Layout convention:
 #   Left half:  Supervisor (top) + Orchestrator (bottom)
@@ -99,7 +99,7 @@ spawn_worker() {
     local existing_pane
     existing_pane=$(_read_worker_pane "$name")
     if [ -n "$existing_pane" ]; then
-        echo "Worker '$name' already exists in pane $existing_pane"
+        echo "Worker '$name' already exists in surface $existing_pane"
         return 1
     fi
 
@@ -109,15 +109,14 @@ spawn_worker() {
     workers_base_pane=$(_read_layout_field "workersPaneId")
 
     if [ "$count" = "0" ]; then
-        # First worker: use the existing workers pane
+        # First worker: use the existing workers surface
         local pane_id="$workers_base_pane"
-        tmux send-keys -t "$pane_id" "cd '$directory' && export ORCHY_SESSION_NAME=$name && unset CLAUDECODE && claude $flags" Enter
-        tmux select-pane -t "$pane_id" -T "$name"
+        cmux send --surface "$pane_id" "cd '$directory' && export ORCHY_SESSION_NAME=$name && unset CLAUDECODE && claude $flags" 2>/dev/null
+        cmux rename-tab --surface "$pane_id" "$name" 2>/dev/null || true
         _add_worker_to_layout "$name" "$pane_id" "$directory"
-        echo "Worker '$name' started in pane $pane_id (first worker, right side)"
+        echo "Worker '$name' started in surface $pane_id (first worker, right side)"
     else
         # Subsequent workers: split above the last worker
-        # Get the pane ID of the most recently added worker (topmost)
         local last_pane
         last_pane=$(python3 -c "
 import json
@@ -126,21 +125,18 @@ wp = d.get('workerPanes', [])
 print(wp[-1]['paneId'] if wp else '')
 " 2>/dev/null)
 
-        local total=$((count + 1))
-        local split_pct=$((100 / total))
-
         local new_pane
-        new_pane=$(tmux split-window -v -b -t "$last_pane" -c "$directory" -l "${split_pct}%" -P -F '#{pane_id}')
+        new_pane=$(cmux new-split up --surface "$last_pane" 2>/dev/null)
 
         if [ -z "$new_pane" ]; then
-            echo "ERROR: Failed to split pane for worker '$name'"
+            echo "ERROR: Failed to split surface for worker '$name'"
             return 1
         fi
 
-        tmux send-keys -t "$new_pane" "export ORCHY_SESSION_NAME=$name && unset CLAUDECODE && claude $flags" Enter
-        tmux select-pane -t "$new_pane" -T "$name"
+        cmux send --surface "$new_pane" "cd '$directory' && export ORCHY_SESSION_NAME=$name && unset CLAUDECODE && claude $flags" 2>/dev/null
+        cmux rename-tab --surface "$new_pane" "$name" 2>/dev/null || true
         _add_worker_to_layout "$name" "$new_pane" "$directory"
-        echo "Worker '$name' started in pane $new_pane (worker #$total, top of right side)"
+        echo "Worker '$name' started in surface $new_pane (worker #$((count + 1)), top of right side)"
     fi
 }
 
@@ -163,9 +159,8 @@ dispatch_worker() {
     # Clear latch before dispatching
     rm -f "/tmp/orchy-${name}.latch" 2>/dev/null
 
-    # Escape single quotes for tmux
-    local escaped="${prompt//\'/\'\\\'\'}"
-    tmux send-keys -t "$pane_id" "$escaped" Enter
+    # cmux send takes raw text — no shell escaping gymnastics
+    cmux send --surface "$pane_id" "$prompt" 2>/dev/null
     echo "Dispatched to '$name' ($pane_id)"
 }
 
@@ -185,7 +180,7 @@ capture_worker() {
         return 1
     fi
 
-    tmux capture-pane -t "$pane_id" -p -S "-${lines}"
+    cmux read-screen --surface "$pane_id" --lines "$lines" 2>/dev/null
 }
 
 close_worker() {
@@ -203,11 +198,13 @@ close_worker() {
         return 1
     fi
 
-    # Graceful exit
-    tmux send-keys -t "$pane_id" Escape
-    tmux send-keys -t "$pane_id" C-c C-c C-c
+    # Graceful exit: send interrupt sequence
+    cmux send-key --surface "$pane_id" "escape" 2>/dev/null || true
+    cmux send-key --surface "$pane_id" "ctrl+c" 2>/dev/null || true
+    cmux send-key --surface "$pane_id" "ctrl+c" 2>/dev/null || true
+    cmux send-key --surface "$pane_id" "ctrl+c" 2>/dev/null || true
     sleep 2
-    tmux kill-pane -t "$pane_id" 2>/dev/null
+    cmux close-surface --surface "$pane_id" 2>/dev/null || true
 
     # Cleanup
     rm -f "/tmp/orchy-${name}.latch" 2>/dev/null
@@ -230,11 +227,11 @@ if not workers:
 else:
     for w in workers:
         try:
-            cmd = subprocess.run(['tmux', 'display-message', '-t', w['paneId'], '-p', '#{pane_current_command}'], capture_output=True, text=True, timeout=5)
-            process = cmd.stdout.strip() or 'unknown'
+            cmd = subprocess.run(['cmux', 'read-screen', '--surface', w['paneId'], '--lines', '1'], capture_output=True, text=True, timeout=5)
+            status = 'active' if cmd.returncode == 0 else 'DEAD'
         except:
-            process = 'DEAD'
-        print(f\"  {w['name']:20s} {w['paneId']:6s} {process:12s} {w['directory']}\")
+            status = 'DEAD'
+        print(f\"  {w['name']:20s} {w['paneId']:12s} {status:12s} {w['directory']}\")
 " 2>/dev/null
 }
 
@@ -247,7 +244,6 @@ wait_worker() {
         return 1
     fi
 
-    local channel="orchy-${name}-done"
     local latch="/tmp/orchy-${name}.latch"
 
     # Fast path: latch already exists
@@ -257,22 +253,37 @@ wait_worker() {
         return 0
     fi
 
-    echo "Waiting for '$name' (timeout: ${timeout}s)..."
-    timeout "$timeout" tmux wait-for "$channel"
-    local exit_code=$?
+    # Poll-based wait (cmux wait-for not yet implemented)
+    echo "Waiting for '$name' (timeout: ${timeout}s, polling every 5s)..."
+    local elapsed=0
+    while [ $elapsed -lt "$timeout" ]; do
+        # Check if latch appeared
+        if [ -f "$latch" ]; then
+            echo "Worker '$name' completed!"
+            cat "$latch"
+            return 0
+        fi
 
-    if [ $exit_code -eq 0 ]; then
-        echo "Worker '$name' completed!"
-        [ -f "$latch" ] && cat "$latch"
-    elif [ $exit_code -eq 124 ]; then
-        echo "TIMEOUT: Worker '$name' did not complete within ${timeout}s"
-        return 1
-    else
-        echo "ERROR waiting for '$name'"
-        return 1
-    fi
+        # Check if surface is still alive
+        local pane_id
+        pane_id=$(_read_worker_pane "$name")
+        if [ -n "$pane_id" ]; then
+            local screen
+            screen=$(cmux read-screen --surface "$pane_id" --lines 3 2>/dev/null || echo "")
+            if [ -z "$screen" ]; then
+                echo "Worker '$name' surface died"
+                return 1
+            fi
+        fi
+
+        sleep 5
+        elapsed=$((elapsed + 5))
+    done
+
+    echo "TIMEOUT: Worker '$name' did not complete within ${timeout}s"
+    return 1
 }
 
 # ── Auto-source notice ───────────────────────────
 
-echo "Pane worker helpers loaded. Commands: spawn_worker, dispatch_worker, capture_worker, close_worker, list_workers, wait_worker"
+echo "Pane worker helpers loaded (cmux). Commands: spawn_worker, dispatch_worker, capture_worker, close_worker, list_workers, wait_worker"

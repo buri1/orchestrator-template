@@ -1,8 +1,8 @@
 #!/bin/bash
 # ============================================================================
-# L-Thread Pi Supervisor — Launch Script
+# L-Thread Pi Supervisor — Launch Script (cmux)
 # ============================================================================
-# Creates a single tmux session with deterministic pane layout:
+# Creates a 3-pane split layout within the current cmux workspace:
 #
 #   +──────────────────────────+──────────────────────────+
 #   │ Pi Supervisor            │ Worker N (newest, top)   │
@@ -15,17 +15,18 @@
 # Pi runs in the top-left pane. The supervisor extension manages the
 # orchestrator pane (bottom-left) and spawns workers (right side).
 #
+# MUST BE RUN FROM INSIDE A CMUX TERMINAL.
+#
 # Usage:
 #   ./run.sh                                  # Start supervisor (default)
 #   ./run.sh --model gemini-3-flash           # Override model
 #   ./run.sh --provider antigravity           # Override provider
 #   ./run.sh --auto                           # Auto-mode (no user prompts)
-#   ./run.sh --session myname                 # Custom session name
 #   ./run.sh --orch-dir /path/to/dir          # Orchestrator working directory
 #
 # Prerequisites:
 #   - Pi Agent: npm install -g @mariozechner/pi-coding-agent
-#   - tmux: brew install tmux
+#   - cmux: https://github.com/manaflow-ai/cmux (must be running)
 #   - Claude Code: npm install -g @anthropic-ai/claude-code
 # ============================================================================
 
@@ -34,11 +35,23 @@ set -euo pipefail
 DIR="$(cd "$(dirname "$0")" && pwd)"
 cd "$DIR"
 
+# ── Check cmux environment ────────────────────────
+if [[ -z "${CMUX_SURFACE_ID:-}" ]]; then
+    echo "ERROR: Not running inside cmux."
+    echo "Open cmux app, create a workspace, then run this script."
+    exit 1
+fi
+
+if ! command -v cmux &>/dev/null; then
+    echo "ERROR: cmux CLI not in PATH."
+    echo "Ensure cmux shell integration is loaded (should be automatic inside cmux)."
+    exit 1
+fi
+
 # ── Parse args ──────────────────────────────────────────
 MODEL="opus"
 PROVIDER=""
 AUTO_MODE="DISABLED"
-SESSION="lthread"
 ORCH_DIR="$(dirname "$DIR")"  # Default: parent dir (orchestrator repo root)
 
 while [[ $# -gt 0 ]]; do
@@ -55,17 +68,13 @@ while [[ $# -gt 0 ]]; do
             PROVIDER="$2"
             shift 2
             ;;
-        --session)
-            SESSION="$2"
-            shift 2
-            ;;
         --orch-dir)
             ORCH_DIR="$2"
             shift 2
             ;;
         *)
             echo "Unknown option: $1"
-            echo "Usage: ./run.sh [--model <model>] [--provider <name>] [--auto] [--session <name>] [--orch-dir <path>]"
+            echo "Usage: ./run.sh [--model <model>] [--provider <name>] [--auto] [--orch-dir <path>]"
             exit 1
             ;;
     esac
@@ -79,11 +88,6 @@ PI_CMD="$PI_CMD --model $MODEL -e extensions/telemetry.ts -e extensions/supervis
 # ── Pre-flight checks ──────────────────────────────────
 if ! command -v pi &>/dev/null; then
     echo "ERROR: Pi Agent not installed. Run: npm install -g @mariozechner/pi-coding-agent"
-    exit 1
-fi
-
-if ! command -v tmux &>/dev/null; then
-    echo "ERROR: tmux not installed. Run: brew install tmux"
     exit 1
 fi
 
@@ -103,7 +107,7 @@ fi
 mkdir -p "$DIR/_bmad" "$DIR/.bmad"
 echo "$AUTO_MODE" > "$DIR/.bmad/AUTO_MODE"
 
-# ── Check for existing active session (INC-008 guard) ──
+# ── Check for existing active session ──────────────────
 REGISTRY_FILE="$DIR/_bmad/session-registry.json"
 if [[ -f "$REGISTRY_FILE" ]]; then
     EXISTING_STATUS=$(python3 -c "
@@ -127,90 +131,74 @@ except:
         echo "  Status:  $STATUS"
         echo "  Task:    $TASK"
         echo ""
-
-        # Check if tmux session actually exists
-        if tmux has-session -t "$SESSION" 2>/dev/null; then
-            echo "  tmux session '$SESSION' is alive."
-            echo ""
-            read -p "  Kill existing and start fresh? [y/N] " -n 1 -r
-            echo
-            if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-                echo "Aborted. Use 'tmux attach -t $SESSION' to reconnect."
-                exit 0
-            fi
-        else
-            echo "  tmux session '$SESSION' is dead (stale registry). Cleaning up."
+        read -p "  Start fresh? [y/N] " -n 1 -r
+        echo
+        if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+            echo "Aborted."
+            exit 0
         fi
     fi
 fi
 
-# ── Kill existing session ──────────────────────────────
-if tmux has-session -t "$SESSION" 2>/dev/null; then
-    echo "Killing existing session '$SESSION'..."
-    tmux kill-session -t "$SESSION"
+# ── Generate session ID ───────────────────────────────
+SESSION_ID="lthread-$(date +%s)"
+
+# ── Create 3-pane layout in current cmux workspace ─────
+echo "Creating 3-pane layout in current cmux workspace..."
+
+# Current surface = supervisor pane (top-left after splits)
+SUPERVISOR_SURFACE="$CMUX_SURFACE_ID"
+
+# Split right: workers area (right half)
+WORKERS_SURFACE=$(cmux new-split right --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+if [[ -z "$WORKERS_SURFACE" ]]; then
+    echo "ERROR: Failed to create workers pane (cmux new-split right)"
+    exit 1
 fi
 
-# ── Generate session ID ───────────────────────────────
-SESSION_ID="${SESSION}-$(date +%s)"
+# Split supervisor pane down: orchestrator (bottom of left half)
+ORCHESTRATOR_SURFACE=$(cmux new-split down --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+if [[ -z "$ORCHESTRATOR_SURFACE" ]]; then
+    echo "ERROR: Failed to create orchestrator pane (cmux new-split down)"
+    exit 1
+fi
 
-# ── Create tmux session with 3-pane layout ─────────────
-echo "Creating tmux session '$SESSION' with 3-pane layout..."
-
-# Pane 0: top-left (Pi supervisor)
-tmux new-session -d -s "$SESSION" -c "$DIR"
-SUPERVISOR_PANE=$(tmux display-message -t "$SESSION" -p '#{pane_id}')
-
-# Split right: workers area (50% width)
-WORKERS_PANE=$(tmux split-window -h -t "$SUPERVISOR_PANE" -c "$DIR" -l 50% -P -F '#{pane_id}')
-
-# Split supervisor pane down: orchestrator (50% of left half)
-ORCHESTRATOR_PANE=$(tmux split-window -v -t "$SUPERVISOR_PANE" -c "$ORCH_DIR" -l 50% -P -F '#{pane_id}')
-
-# ── Label panes ────────────────────────────────────────
-tmux select-pane -t "$SUPERVISOR_PANE" -T "Pi Supervisor"
-tmux select-pane -t "$WORKERS_PANE" -T "Workers"
-tmux select-pane -t "$ORCHESTRATOR_PANE" -T "Orchestrator"
-
-# Show pane titles in borders
-tmux set-option -t "$SESSION" pane-border-status top
-tmux set-option -t "$SESSION" pane-border-format " #{pane_title} "
-tmux set-option -t "$SESSION" pane-border-lines heavy
+# ── Label surfaces ────────────────────────────────────
+cmux rename-tab --surface "$SUPERVISOR_SURFACE" "Pi Supervisor" 2>/dev/null || true
+cmux rename-tab --surface "$WORKERS_SURFACE" "Workers" 2>/dev/null || true
+cmux rename-tab --surface "$ORCHESTRATOR_SURFACE" "Orchestrator" 2>/dev/null || true
 
 # ── Write pane layout for supervisor extension ─────────
 cat > "$DIR/_bmad/pane-layout.json" << EOF
 {
-  "session": "$SESSION",
-  "supervisorPaneId": "$SUPERVISOR_PANE",
-  "orchestratorPaneId": "$ORCHESTRATOR_PANE",
-  "workersPaneId": "$WORKERS_PANE",
+  "session": "lthread",
+  "supervisorPaneId": "$SUPERVISOR_SURFACE",
+  "orchestratorPaneId": "$ORCHESTRATOR_SURFACE",
+  "workersPaneId": "$WORKERS_SURFACE",
   "orchestratorDir": "$ORCH_DIR",
   "workerPanes": []
 }
 EOF
 
 # ── Write initial session registry ────────────────────
-SUPERVISOR_PID=$(tmux display-message -t "$SUPERVISOR_PANE" -p '#{pane_pid}')
-ORCHESTRATOR_PID=$(tmux display-message -t "$ORCHESTRATOR_PANE" -p '#{pane_pid}')
-WORKERS_PID=$(tmux display-message -t "$WORKERS_PANE" -p '#{pane_pid}')
-
 cat > "$REGISTRY_FILE" << EOF
 {
   "version": 1,
   "session": {
     "id": "$SESSION_ID",
-    "tmux_session": "$SESSION",
+    "terminal_session": "lthread",
     "launched_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
     "status": "active",
     "task": null,
     "panes": {
-      "supervisor": { "pane_id": "$SUPERVISOR_PANE", "pid": $SUPERVISOR_PID },
-      "orchestrator": { "pane_id": "$ORCHESTRATOR_PANE", "pid": $ORCHESTRATOR_PID },
-      "workers_base": { "pane_id": "$WORKERS_PANE", "pid": $WORKERS_PID }
+      "supervisor": { "pane_id": "$SUPERVISOR_SURFACE", "pid": null },
+      "orchestrator": { "pane_id": "$ORCHESTRATOR_SURFACE", "pid": null },
+      "workers_base": { "pane_id": "$WORKERS_SURFACE", "pid": null }
     },
     "agents": [
       {
         "role": "supervisor",
-        "pane_id": "$SUPERVISOR_PANE",
+        "pane_id": "$SUPERVISOR_SURFACE",
         "model": "$MODEL",
         "started_at": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
         "stopped_at": null,
@@ -223,50 +211,39 @@ cat > "$REGISTRY_FILE" << EOF
 EOF
 
 # ── Write initial activity log entry ──────────────────
-echo "{\"ts\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"epoch\":$(date +%s)000,\"session\":\"$SESSION\",\"session_id\":\"$SESSION_ID\",\"event\":\"session_created\",\"phase\":\"stopped\",\"task\":null,\"model\":\"$MODEL\",\"provider\":\"${PROVIDER:-auto}\",\"panes\":{\"supervisor\":\"$SUPERVISOR_PANE\",\"orchestrator\":\"$ORCHESTRATOR_PANE\",\"workers\":\"$WORKERS_PANE\"}}" >> "$DIR/_bmad/agent-activity.jsonl"
+echo "{\"ts\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"epoch\":$(date +%s)000,\"session\":\"lthread\",\"session_id\":\"$SESSION_ID\",\"event\":\"session_created\",\"phase\":\"stopped\",\"task\":null,\"model\":\"$MODEL\",\"provider\":\"${PROVIDER:-auto}\",\"surfaces\":{\"supervisor\":\"$SUPERVISOR_SURFACE\",\"orchestrator\":\"$ORCHESTRATOR_SURFACE\",\"workers\":\"$WORKERS_SURFACE\"}}" >> "$DIR/_bmad/agent-activity.jsonl"
 
-# ── Display welcome in workers pane ────────────────────
-tmux send-keys -t "$WORKERS_PANE" "echo '── Workers will appear here ──'" Enter
+# ── Display welcome in workers surface ────────────────
+cmux send --surface "$WORKERS_SURFACE" "echo '── Workers will appear here ──'" 2>/dev/null || true
 
-# ── Display welcome in orchestrator pane ───────────────
-tmux send-keys -t "$ORCHESTRATOR_PANE" "echo '── Orchestrator will start here ──'" Enter
+# ── Display welcome in orchestrator surface ───────────
+cmux send --surface "$ORCHESTRATOR_SURFACE" "echo '── Orchestrator will start here ──'" 2>/dev/null || true
 
-# ── Start Pi in supervisor pane ────────────────────────
-tmux send-keys -t "$SUPERVISOR_PANE" "$PI_CMD" Enter
+# ── Set cmux sidebar status ────────────────────────────
+cmux set-status "supervisor" "Starting" --icon "bolt.fill" --color "#4C8DFF" 2>/dev/null || true
 
-# ── Focus supervisor pane ──────────────────────────────
-tmux select-pane -t "$SUPERVISOR_PANE"
-
-# ── Print info and attach ──────────────────────────────
+# ── Print info ────────────────────────────────────────
 echo ""
 echo "================================================"
-echo "  L-THREAD SUPERVISOR"
+echo "  L-THREAD SUPERVISOR (cmux)"
 echo "================================================"
 echo ""
-echo "  Session:     $SESSION ($SESSION_ID)"
+echo "  Session:     lthread ($SESSION_ID)"
 echo "  Model:       $MODEL"
 echo "  Provider:    ${PROVIDER:-auto}"
 echo "  Auto-Mode:   $AUTO_MODE"
 echo "  Orch Dir:    $ORCH_DIR"
 echo "  Pi Version:  $PI_VERSION"
 echo ""
-echo "  Pane IDs:"
-echo "    Supervisor:   $SUPERVISOR_PANE"
-echo "    Orchestrator: $ORCHESTRATOR_PANE"
-echo "    Workers:      $WORKERS_PANE"
-echo ""
-echo "  +──────────────────────+──────────────────────+"
-echo "  │ Pi Supervisor        │ Workers              │"
-echo "  │ $SUPERVISOR_PANE              │ $WORKERS_PANE              │"
-echo "  ├──────────────────────┤                      │"
-echo "  │ Orchestrator         │                      │"
-echo "  │ $ORCHESTRATOR_PANE              │                      │"
-echo "  +──────────────────────+──────────────────────+"
+echo "  Surface IDs:"
+echo "    Supervisor:   $SUPERVISOR_SURFACE"
+echo "    Orchestrator: $ORCHESTRATOR_SURFACE"
+echo "    Workers:      $WORKERS_SURFACE"
 echo ""
 echo "  Registry:    $REGISTRY_FILE"
 echo "  Activity:    $DIR/_bmad/agent-activity.jsonl"
 echo ""
-echo "  Attaching to session..."
-echo ""
 
-exec tmux attach -t "$SESSION"
+# ── Start Pi in supervisor surface (this terminal) ────
+echo "Starting Pi supervisor..."
+exec $PI_CMD

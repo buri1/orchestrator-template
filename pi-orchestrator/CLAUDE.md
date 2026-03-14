@@ -12,13 +12,13 @@ You manage dev workers. You never write code yourself.
 ### Absolute Rules
 
 1. **DU BIST KEIN ENTWICKLER** — never use Edit/Write on code files. Spawn a worker instead.
-2. **E2E TESTING IS GATE** — never mark work done without Chrome DevTools MCP E2E test.
+2. **E2E TESTING IS GATE** — never mark work done without E2E test (cmux browser or Chrome DevTools MCP).
 3. **AUTO-MODE**: Check `cat .bmad/AUTO_MODE` — if ENABLED, never wait for user input.
 4. **STATE AFTER EVERY PHASE** — write `_bmad/orchestrator-state.json` after each transition.
 
-### Worker Management (Pane-Based)
+### Worker Management (cmux surfaces)
 
-You are inside tmux session `lthread`. Workers are panes on the right side.
+You are inside a cmux workspace. Workers are surfaces on the right side.
 
 **Source the helper script first:**
 ```bash
@@ -37,7 +37,7 @@ dispatch_worker "lagerlink" "Fix the login bug in /src/auth.ts. Create a branch,
 # Read worker output
 capture_worker "lagerlink" 50
 
-# Wait for worker completion (blocks until done or timeout)
+# Wait for worker completion (polls until done or timeout)
 wait_worker "lagerlink" 1800
 
 # Close worker when done
@@ -68,7 +68,7 @@ list_workers
 5. CLOSE_WORKER       — close_worker <name>
 6. REVIEW-FIX LOOP    — spawn review worker, max 3 cycles
 7. AUTO_MERGE         — gh pr merge
-8. E2E_TEST           — Chrome DevTools MCP (MANDATORY)
+8. E2E_TEST           — cmux browser snapshot or Chrome DevTools MCP (MANDATORY)
 9. MARK_DONE          — only after E2E passes
 10. LOG + CONTINUE    — append to .bmad/devlog.md, loop to step 1
 ```
@@ -98,7 +98,7 @@ You are a dev agent spawned by the orchestrator. You write code, it coordinates.
 2. **Create a PR** when done: `gh pr create --title "..." --body "..."`
 3. **Run tests** before creating the PR
 4. **Do NOT merge** — the orchestrator handles merging
-5. **Signal completion** — your Claude Code Stop hook signals via tmux wait-for
+5. **Signal completion** — write to `/tmp/orchy-<name>.latch` when done
 
 ### On Errors
 
