@@ -67,7 +67,7 @@ const DEFAULT_CONFIG: SupervisorConfig = {
 
 // ── State ───────────────────────────────────────
 
-type Phase = "stopped" | "starting" | "running" | "silent" | "nudging" | "stalled" | "crashed" | "paused";
+type Phase = "stopped" | "starting" | "running" | "silent" | "nudging" | "stalled" | "crashed" | "paused" | "wave_running" | "wave_merging" | "awaiting_human";
 
 interface SupervisorState {
 	phase: Phase;
@@ -132,6 +132,36 @@ interface SessionRegistry {
 
 const INITIAL_REGISTRY: SessionRegistry = { version: 1, session: null, history: [] };
 
+// ── BMAD Wave State ─────────────────────────────
+
+interface BmadStory {
+	id: string;
+	title: string;
+	workerName: string;
+	status: "pending" | "running" | "done" | "failed";
+	latchFile: string;
+	prUrl: string | null;
+	startedAt: string;
+	completedAt: string | null;
+}
+
+interface BmadWaveState {
+	epic: string | null;
+	epicId: string | null;
+	wave: {
+		id: string;
+		index: number;
+		stories: BmadStory[];
+		status: "spawning" | "running" | "complete" | "merging" | "merged";
+		spawnedAt: string;
+		completedAt: string | null;
+	} | null;
+	completedWaves: Array<{ id: string; storiesCompleted: number; completedAt: string }>;
+	humanCheckpoints: Array<{ reason: string; ts: string; resolved: boolean }>;
+}
+
+const INITIAL_BMAD_STATE: BmadWaveState = { epic: null, epicId: null, wave: null, completedWaves: [], humanCheckpoints: [] };
+
 // ── Events (things that happened) ───────────────
 
 type SupervisorEvent =
@@ -144,7 +174,13 @@ type SupervisorEvent =
 	| { type: "restart_settled"; now: number }
 	| { type: "nudge_settled"; now: number }
 	| { type: "worker_spawned"; name: string; paneId: string; directory: string; now: number }
-	| { type: "worker_closed"; name: string; now: number };
+	| { type: "worker_closed"; name: string; now: number }
+	| { type: "wave_started"; epic: string; epicId: string; waveId: string; stories: BmadStory[]; now: number }
+	| { type: "wave_story_done"; workerName: string; prUrl: string | null; now: number }
+	| { type: "wave_merging"; waveId: string; mergeWorkerName: string; now: number }
+	| { type: "wave_merged"; waveId: string; mergeWorkerName: string; now: number }
+	| { type: "human_checkpoint_requested"; reason: string; now: number }
+	| { type: "latch_poll"; now: number };
 
 // ── Effects (things to do) ──────────────────────
 
@@ -162,7 +198,9 @@ type SupervisorEffect =
 	| { type: "notify"; message: string }
 	| { type: "update_widget" }
 	| { type: "hard_kill"; paneId: string; delayMs: number }
-	| { type: "schedule"; delayMs: number; event: SupervisorEvent };
+	| { type: "schedule"; delayMs: number; event: SupervisorEvent }
+	| { type: "persist_bmad_state" }
+	| { type: "check_latches"; waveId: string };
 
 // ════════════════════════════════════════════════════════════════════
 // REDUCER (pure function — no I/O, fully testable)
@@ -196,6 +234,8 @@ function reduce(
 		// ── HEARTBEAT (the core deterministic logic) ──────────
 
 		case "heartbeat": {
+			// Don't probe during human checkpoint — agents are intentionally paused
+			if (s.phase === "awaiting_human") break;
 			const { paneAlive, claudeRunning, outputHash, output, now } = event;
 
 			// 1. Pane gone?
@@ -421,6 +461,62 @@ function reduce(
 			fx.push({ type: "update_widget" });
 			break;
 		}
+
+		// ── BMAD WAVE EVENTS ────────────────────────────
+
+		case "wave_started": {
+			log(`wave ${event.waveId} started with ${event.stories.length} stories for ${event.epic}`);
+			fx.push({ type: "log_activity", event: "wave_started", details: { epic: event.epic, waveId: event.waveId, stories: event.stories.length } });
+			fx.push({ type: "persist_bmad_state" });
+			fx.push({ type: "update_widget" });
+			// Start latch polling every 15s
+			fx.push({ type: "schedule", delayMs: 15000, event: { type: "latch_poll", now: event.now + 15000 } });
+			break;
+		}
+
+		case "wave_story_done": {
+			log(`story done: ${event.workerName} | PR: ${event.prUrl || "none"}`);
+			fx.push({ type: "log_activity", event: "wave_story_done", details: { workerName: event.workerName, prUrl: event.prUrl } });
+			fx.push({ type: "persist_bmad_state" });
+			fx.push({ type: "update_widget" });
+			fx.push({ type: "notify", message: `Story ${event.workerName} completed${event.prUrl ? ` — PR: ${event.prUrl}` : ""}` });
+			break;
+		}
+
+		case "wave_merging": {
+			log(`wave ${event.waveId} merging via ${event.mergeWorkerName}`);
+			fx.push({ type: "log_activity", event: "wave_merging", details: { waveId: event.waveId, mergeWorkerName: event.mergeWorkerName } });
+			fx.push({ type: "persist_bmad_state" });
+			fx.push({ type: "update_widget" });
+			break;
+		}
+
+		case "wave_merged": {
+			log(`wave ${event.waveId} merged`);
+			fx.push({ type: "log_activity", event: "wave_merged", details: { waveId: event.waveId } });
+			fx.push({ type: "notify", message: `Wave ${event.waveId} fully merged!` });
+			fx.push({ type: "persist_bmad_state" });
+			fx.push({ type: "update_widget" });
+			break;
+		}
+
+		case "human_checkpoint_requested": {
+			if (s.phase !== "stopped" && s.phase !== "paused" && s.phase !== "awaiting_human") {
+				transition("awaiting_human", event.reason);
+				fx.push({ type: "stop_heartbeat" });
+				fx.push({ type: "log_activity", event: "human_checkpoint", details: { reason: event.reason } });
+				fx.push({ type: "persist_bmad_state" });
+			}
+			break;
+		}
+
+		case "latch_poll": {
+			// The actual latch checking happens in the effect executor (I/O).
+			// We just schedule the check and reschedule ourselves.
+			fx.push({ type: "check_latches", waveId: "current" });
+			fx.push({ type: "schedule", delayMs: 15000, event: { type: "latch_poll", now: event.now + 15000 } });
+			break;
+		}
 	}
 
 	return [s, fx];
@@ -504,6 +600,7 @@ export default function (pi: ExtensionAPI) {
 	let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
 	let widgetCtx: any = null;
 	let cwd = "";
+	let bmadState: BmadWaveState = { ...INITIAL_BMAD_STATE };
 
 	// ── Dispatch: Event → Reduce → Execute ──────────
 
@@ -600,6 +697,37 @@ export default function (pi: ExtensionAPI) {
 				case "schedule":
 					setTimeout(() => dispatch(fx.event), fx.delayMs);
 					break;
+				case "persist_bmad_state":
+					persistBmadState();
+					break;
+				case "check_latches": {
+					if (!bmadState.wave || bmadState.wave.status !== "running") break;
+					for (const story of bmadState.wave.stories) {
+						if (story.status === "running" && existsSync(story.latchFile)) {
+							const content = readFileSync(story.latchFile, "utf-8").trim();
+							const prUrl = content.match(/https:\/\/github\.com\/[^\s]+/)?.[0] || null;
+							story.status = "done";
+							story.prUrl = prUrl;
+							story.completedAt = new Date().toISOString();
+							dispatch({ type: "wave_story_done", workerName: story.workerName, prUrl, now: Date.now() });
+						}
+					}
+					// Check if all stories complete
+					const allDone = bmadState.wave.stories.every(s => s.status === "done" || s.status === "failed");
+					if (allDone) {
+						bmadState.wave.status = "complete";
+						bmadState.wave.completedAt = new Date().toISOString();
+						bmadState.completedWaves.push({
+							id: bmadState.wave.id,
+							storiesCompleted: bmadState.wave.stories.filter(s => s.status === "done").length,
+							completedAt: bmadState.wave.completedAt!,
+						});
+						persistBmadState();
+						widgetCtx?.ui.notify(`Wave ${bmadState.wave.id} complete! All ${bmadState.wave.stories.length} stories done.`, "info");
+						exec(`cmux notify --title "Wave Complete" --body "${bmadState.wave.id}: ${bmadState.wave.stories.length} stories done" 2>/dev/null`);
+					}
+					break;
+				}
 			}
 		}
 	}
@@ -718,6 +846,7 @@ export default function (pi: ExtensionAPI) {
 			stopped: "stopped", starting: "active", running: "active",
 			silent: "active", nudging: "active", stalled: "active",
 			crashed: "stopped", paused: "paused",
+			wave_running: "active", wave_merging: "active", awaiting_human: "paused",
 		};
 
 		// If session existed before, preserve id and launched_at
@@ -739,6 +868,19 @@ export default function (pi: ExtensionAPI) {
 		const p = join(cwd, "_bmad", "session-registry.json");
 		if (existsSync(p)) {
 			try { registry = { ...INITIAL_REGISTRY, ...JSON.parse(readFileSync(p, "utf-8")) }; } catch {}
+		}
+	}
+
+	function persistBmadState(): void {
+		const dir = join(cwd, "_bmad");
+		mkdirSync(dir, { recursive: true });
+		writeFileSync(join(dir, "bmad-wave-state.json"), JSON.stringify(bmadState, null, 2));
+	}
+
+	function loadBmadState(): void {
+		const p = join(cwd, "_bmad", "bmad-wave-state.json");
+		if (existsSync(p)) {
+			try { bmadState = { ...INITIAL_BMAD_STATE, ...JSON.parse(readFileSync(p, "utf-8")) }; } catch {}
 		}
 	}
 
@@ -798,8 +940,8 @@ export default function (pi: ExtensionAPI) {
 		if (!widgetCtx) return;
 		widgetCtx.ui.setWidget("supervisor", (_tui: any, theme: any) => ({
 			render(_width: number): string[] {
-				const icons: Record<Phase, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH", paused: "PAUSE" };
-				const colors: Record<Phase, string> = { stopped: "dim", starting: "accent", running: "success", silent: "warning", nudging: "accent", stalled: "error", crashed: "error", paused: "warning" };
+				const icons: Record<Phase, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH", paused: "PAUSE", wave_running: "WAVE", wave_merging: "MERGE", awaiting_human: "HUMAN" };
+				const colors: Record<Phase, string> = { stopped: "dim", starting: "accent", running: "success", silent: "warning", nudging: "accent", stalled: "error", crashed: "error", paused: "warning", wave_running: "success", wave_merging: "accent", awaiting_human: "warning" };
 				const silence = state.lastOutputAt ? `${Math.round((Date.now() - state.lastOutputAt) / 1000)}s ago` : "never";
 				const workers = layout.workerPanes.map(w => w.name).join(", ") || "none";
 				const lines = [
@@ -823,6 +965,71 @@ export default function (pi: ExtensionAPI) {
 
 				const last = state.eventLog[state.eventLog.length - 1];
 				if (last) lines.push(` ${theme.fg("dim", `${new Date(last.ts).toISOString().slice(11, 19)} ${last.type}: ${last.detail.slice(0, 50)}`)}`);
+
+				// ── BMAD Wave progress ────────────────────────────────────────
+				// Gate: only render when a wave is active.
+				if (bmadState.wave !== null) {
+					const wave = bmadState.wave;
+					const stories = wave.stories;
+					const total = stories.length;
+					const doneCount = stories.filter(s => s.status === "done").length;
+					const failedCount = stories.filter(s => s.status === "failed").length;
+
+					// ── Epic + wave header ───────────────────────────────────
+					lines.push(
+						` ${theme.fg("accent", theme.bold("BMAD"))} ${theme.fg("dim", "│")} ${theme.fg("warning", bmadState.epic ?? "?")} ${theme.fg("dim", wave.id)}`
+					);
+
+					// ── Progress bar: [█████░░░░░] 3/5 ─────────────────────
+					const BAR_WIDTH = 10;
+					const filled = Math.round((doneCount / Math.max(total, 1)) * BAR_WIDTH);
+					const empty = BAR_WIDTH - filled;
+					const bar =
+						theme.fg("success", "█".repeat(filled)) +
+						theme.fg("dim", "░".repeat(empty));
+					const waveStatusColor =
+						wave.status === "complete" || wave.status === "merged"
+							? "success"
+							: wave.status === "merging"
+							? "warning"
+							: failedCount > 0
+							? "error"
+							: "accent";
+					lines.push(
+						` [${bar}] ${theme.fg(waveStatusColor, `${doneCount}/${total}`)}${failedCount > 0 ? theme.fg("error", ` ✗${failedCount}`) : ""}`
+					);
+
+					// ── Per-story status icons: 1.1✓ 1.2⟳ 1.3· ────────────
+					// Map each story to a compact coloured badge.
+					const storyIcons = stories
+						.map(s => {
+							const icon =
+								s.status === "done"    ? "✓" :
+								s.status === "failed"  ? "✗" :
+								s.status === "running" ? "⟳" :
+								                        "·";
+							const color =
+								s.status === "done"    ? "success" :
+								s.status === "failed"  ? "error"   :
+								s.status === "running" ? "accent"  :
+								                        "dim";
+							return theme.fg(color, `${s.id}${icon}`);
+						})
+						.join(" ");
+					lines.push(` ${storyIcons}`);
+
+					// ── Human checkpoint banner ──────────────────────────────
+					// Show the most-recent unresolved checkpoint reason.
+					const pendingCheckpoint = [...bmadState.humanCheckpoints]
+						.reverse()
+						.find(c => !c.resolved);
+					if (pendingCheckpoint) {
+						lines.push(
+							` ${theme.fg("error", theme.bold("⚠ HUMAN"))} ${theme.fg("dim", pendingCheckpoint.reason.slice(0, 55))}`
+						);
+					}
+				}
+
 				return lines;
 			},
 			invalidate() {},
@@ -1119,6 +1326,777 @@ export default function (pi: ExtensionAPI) {
 	});
 
 	// ════════════════════════════════════════════════════════════════
+	// BMAD WAVE TOOLS (5 tools for wave-based parallel execution)
+	// ════════════════════════════════════════════════════════════════
+
+	pi.registerTool({
+		name: "bmad_start_wave",
+		label: "BMAD Start Wave",
+		description: "Spawn parallel worker agents for a BMAD wave. Each worker handles one story. Max 4 stories (DeepMind coordination limit). Guards against double-launch.",
+		parameters: Type.Object({
+			epic: Type.String({ description: "Epic title (e.g. 'Epic 1 — Anonymous Discovery')" }),
+			epic_id: Type.String({ description: "Epic ID for file paths (e.g. 'epic-1')" }),
+			wave_id: Type.String({ description: "Wave identifier (e.g. 'wave-0')" }),
+			stories: Type.Array(
+				Type.Object({
+					id: Type.String({ description: "Story ID (e.g. 'story-1.1')" }),
+					title: Type.String({ description: "Story title" }),
+					directory: Type.String({ description: "Working directory for this story's worker" }),
+					prompt: Type.String({ description: "Full prompt to send to the worker after startup" }),
+				}),
+				{ description: "Stories to parallelize (max 4)" },
+			),
+			flags: Type.Optional(Type.String({ description: "Claude flags (default: --dangerously-skip-permissions)" })),
+		}),
+		async execute(_id, params) {
+			const { epic, epic_id, wave_id, stories, flags } = params as {
+				epic: string;
+				epic_id: string;
+				wave_id: string;
+				stories: Array<{ id: string; title: string; directory: string; prompt: string }>;
+				flags?: string;
+			};
+
+			// ── Guard: story count ───────────────────────────────────────
+			// DeepMind paper: coordination overhead exponent = 1.724.
+			// 4 agents is universally sub-optimal beyond this threshold.
+			if (stories.length === 0) {
+				return { content: [{ type: "text", text: "No stories provided. Provide at least 1." }], details: { error: "no_stories" } };
+			}
+			if (stories.length > 4) {
+				return {
+					content: [{ type: "text", text: `Too many stories: ${stories.length}. Max is 4 (DeepMind coordination cost limit). Split into multiple waves.` }],
+					details: { error: "too_many_stories", count: stories.length },
+				};
+			}
+
+			// ── Guard: no active wave already running ────────────────────
+			if (bmadState.wave && (bmadState.wave.status === "spawning" || bmadState.wave.status === "running")) {
+				const active = bmadState.wave.stories.filter(s => s.status === "running").map(s => s.workerName).join(", ");
+				return {
+					content: [{ type: "text", text: `Wave "${bmadState.wave.id}" is already active (${bmadState.wave.status}). Active workers: ${active || "none"}. Use bmad_merge_wave or bmad_wave_status first.` }],
+					details: { error: "wave_already_running", waveId: bmadState.wave.id },
+				};
+			}
+
+			const workerFlags = flags || "--dangerously-skip-permissions";
+			const now = new Date().toISOString();
+			const spawnedStories: BmadStory[] = [];
+			const spawnErrors: string[] = [];
+
+			// ── Spawn one worker per story ───────────────────────────────
+			for (const story of stories) {
+				// Worker name: combine epic_id + story id (e.g. "epic-1-story-1.1")
+				const workerName = `${epic_id}-${story.id}`.replace(/[^a-zA-Z0-9-]/g, "-");
+
+				// Skip if a worker with this name already exists (safe restart guard)
+				if (layout.workerPanes.find(w => w.name === workerName)) {
+					spawnErrors.push(`${workerName}: already spawned, skipping`);
+					continue;
+				}
+
+				const paneId = spawnWorkerPane(workerName, story.directory, workerFlags);
+				if (!paneId) {
+					spawnErrors.push(`${workerName}: failed to create pane`);
+					logActivity("bmad_wave_spawn_failed", { workerName, storyId: story.id, directory: story.directory });
+					continue;
+				}
+
+				// Latch file path — worker writes this when done (signals completion to polling)
+				const latchFile = `/tmp/orchy-${workerName}.latch`;
+
+				spawnedStories.push({
+					id: story.id,
+					title: story.title,
+					workerName,
+					status: "running",
+					latchFile,
+					prUrl: null,
+					startedAt: now,
+					completedAt: null,
+				});
+
+				// Emit worker_spawned through reducer so registry + devlog stay consistent
+				dispatch({ type: "worker_spawned", name: workerName, paneId, directory: story.directory, now: Date.now() });
+			}
+
+			if (spawnedStories.length === 0) {
+				return {
+					content: [{ type: "text", text: `All story spawns failed:\n${spawnErrors.join("\n")}` }],
+					details: { error: "all_spawns_failed", errors: spawnErrors },
+				};
+			}
+
+			// ── Update bmadState ─────────────────────────────────────────
+			bmadState.epic = epic;
+			bmadState.epicId = epic_id;
+			bmadState.wave = {
+				id: wave_id,
+				index: bmadState.completedWaves.length, // monotonic wave index
+				stories: spawnedStories,
+				status: "spawning",
+				spawnedAt: now,
+				completedAt: null,
+			};
+			persistBmadState();
+
+			// ── Dispatch wave_started through reducer ────────────────────
+			dispatch({
+				type: "wave_started",
+				epic,
+				epicId: epic_id,
+				waveId: wave_id,
+				stories: spawnedStories,
+				now: Date.now(),
+			});
+
+			// ── Send prompts after 15s startup delay ─────────────────────
+			// Claude Code takes ~10-15s to load. We wait 15s then fire prompts
+			// via `cmux send` so workers see them after the UI is ready.
+			setTimeout(() => {
+				for (const story of stories) {
+					const workerName = `${epic_id}-${story.id}`.replace(/[^a-zA-Z0-9-]/g, "-");
+					const w = layout.workerPanes.find(p => p.name === workerName);
+					if (!w) continue; // spawn failed, nothing to send
+
+					// Append latch instruction to prompt so worker signals completion
+					const latchFile = `/tmp/orchy-${workerName}.latch`;
+					const fullPrompt =
+						story.prompt +
+						`\n\n---\nWhen your work is fully complete and the PR is created, run:\n` +
+						`echo '{"done":true,"pr":"<PR_URL>"}' > ${latchFile}\n` +
+						`Replace <PR_URL> with the actual PR URL.`;
+
+					const escaped = fullPrompt.replace(/'/g, "'\\''");
+					exec(`cmux send --surface "${w.paneId}" '${escaped}' 2>/dev/null`, 5000);
+					logActivity("bmad_wave_prompt_sent", { workerName, storyId: story.id, latchFile });
+				}
+
+				// Move wave status from spawning → running after prompts fired
+				if (bmadState.wave && bmadState.wave.status === "spawning") {
+					bmadState.wave.status = "running";
+					persistBmadState();
+				}
+			}, 15000);
+
+			// ── Devlog entry ─────────────────────────────────────────────
+			writeDevlog(
+				`### [${now}] BMAD WAVE STARTED\n` +
+				`- Epic: ${epic} (${epic_id})\n` +
+				`- Wave: ${wave_id}\n` +
+				`- Stories (${spawnedStories.length}): ${spawnedStories.map(s => s.id).join(", ")}\n` +
+				(spawnErrors.length > 0 ? `- Spawn errors: ${spawnErrors.join("; ")}\n` : "") +
+				`- Prompts fire in 15s`
+			);
+
+			const summary =
+				`Wave "${wave_id}" launched for epic "${epic}"\n` +
+				`Workers spawned (${spawnedStories.length}/${stories.length}):\n` +
+				spawnedStories.map(s => `  • ${s.workerName} → ${s.id}: ${s.title}`).join("\n") +
+				(spawnErrors.length > 0 ? `\nSpawn errors:\n${spawnErrors.map(e => `  ✗ ${e}`).join("\n")}` : "") +
+				`\n\nPrompts will be sent in ~15s. Use bmad_wave_status to monitor.`;
+
+			return {
+				content: [{ type: "text", text: summary }],
+				details: { waveId: wave_id, epic, epicId: epic_id, storiesSpawned: spawnedStories.length, spawnErrors },
+			};
+		},
+		renderCall(args, theme) {
+			const a = args as any;
+			const count = Array.isArray(a.stories) ? a.stories.length : "?";
+			return new Text(
+				theme.fg("toolTitle", theme.bold("bmad_start_wave ")) +
+				theme.fg("accent", a.wave_id || "?") +
+				theme.fg("muted", ` (${count} stories)`),
+				0, 0,
+			);
+		},
+	});
+
+	pi.registerTool({
+		name: "bmad_wave_status",
+		label: "BMAD Wave Status",
+		description: "Check status of all workers in the active wave. Reads latch files for completion and captures recent screen output per worker.",
+		parameters: Type.Object({
+			capture_lines: Type.Optional(Type.Number({ description: "Screen lines to capture per worker (default: 20)" })),
+		}),
+		async execute(_id, params) {
+			const { capture_lines } = params as { capture_lines?: number };
+			const lines = capture_lines ?? 20;
+
+			// ── Guard: no active wave ────────────────────────────────────
+			if (!bmadState.wave) {
+				return { content: [{ type: "text", text: "No active wave. Use bmad_start_wave first." }], details: { noWave: true } };
+			}
+
+			const wave = bmadState.wave;
+			const reportLines: string[] = [
+				`Wave: ${wave.id} | Epic: ${bmadState.epic || "?"} | Status: ${wave.status}`,
+				`Spawned: ${wave.spawnedAt} | Stories: ${wave.stories.length}`,
+				``,
+			];
+
+			let doneCount = 0;
+			let failedCount = 0;
+
+			// ── Per-story status check ───────────────────────────────────
+			for (const story of wave.stories) {
+				const w = layout.workerPanes.find(p => p.name === story.workerName);
+				const surfaceAlive = w ? paneExists(w.paneId) : false;
+
+				// Check latch file — written by worker when done
+				let latchData: { done?: boolean; pr?: string } | null = null;
+				if (existsSync(story.latchFile)) {
+					try {
+						latchData = JSON.parse(readFileSync(story.latchFile, "utf-8"));
+					} catch {
+						// Malformed latch — treat as done with unknown PR
+						latchData = { done: true, pr: null as any };
+					}
+				}
+
+				// Update story status from latch (mutates bmadState in-place)
+				if (latchData?.done && story.status === "running") {
+					story.status = "done";
+					story.completedAt = new Date().toISOString();
+					story.prUrl = latchData.pr || null;
+
+					dispatch({
+						type: "wave_story_done",
+						workerName: story.workerName,
+						prUrl: story.prUrl,
+						now: Date.now(),
+					});
+
+					logActivity("bmad_story_completed", { storyId: story.id, workerName: story.workerName, prUrl: story.prUrl });
+				}
+
+				if (story.status === "done") doneCount++;
+				if (story.status === "failed") failedCount++;
+
+				// Status icon
+				const icon = story.status === "done" ? "✓" : story.status === "failed" ? "✗" : surfaceAlive ? "⟳" : "?";
+
+				reportLines.push(`── ${icon} ${story.id}: ${story.title}`);
+				reportLines.push(`   Worker: ${story.workerName} | Surface: ${surfaceAlive ? "alive" : "DEAD"}`);
+				reportLines.push(`   Status: ${story.status} | PR: ${story.prUrl || "not yet"}`);
+				if (story.completedAt) reportLines.push(`   Completed: ${story.completedAt}`);
+
+				// Capture screen if worker is alive and still running
+				if (surfaceAlive && story.status === "running" && w) {
+					const screen = paneCapture(w.paneId, lines);
+					if (screen) {
+						reportLines.push(`   --- last ${lines} lines ---`);
+						screen.split("\n").slice(-lines).forEach(l => reportLines.push(`   ${l}`));
+					}
+				}
+
+				reportLines.push(``);
+			}
+
+			// ── Update wave-level status if all stories resolved ─────────
+			const allResolved = wave.stories.every(s => s.status === "done" || s.status === "failed");
+			if (allResolved && wave.status === "running") {
+				wave.status = "complete";
+				wave.completedAt = new Date().toISOString();
+				persistBmadState();
+			} else {
+				// Persist story-level status updates (done/pr url)
+				persistBmadState();
+			}
+
+			reportLines.push(`Summary: ${doneCount} done, ${failedCount} failed, ${wave.stories.length - doneCount - failedCount} running`);
+			if (allResolved) {
+				reportLines.push(`All stories resolved. Ready to bmad_merge_wave.`);
+			}
+
+			return {
+				content: [{ type: "text", text: reportLines.join("\n") }],
+				details: {
+					waveId: wave.id,
+					waveStatus: wave.status,
+					storiesTotal: wave.stories.length,
+					done: doneCount,
+					failed: failedCount,
+					allResolved,
+				},
+			};
+		},
+		renderCall(_args, theme) {
+			return new Text(theme.fg("toolTitle", theme.bold("bmad_wave_status")), 0, 0);
+		},
+	});
+
+	pi.registerTool({
+		name: "bmad_merge_wave",
+		label: "BMAD Merge Wave",
+		description: "Spawn a merge agent after all wave stories are done. Optionally auto-closes workers after merge is confirmed.",
+		parameters: Type.Object({
+			merge_prompt: Type.Optional(Type.String({ description: "Custom merge instructions. Default builds from PR list." })),
+			close_workers_after: Type.Optional(Type.Boolean({ description: "Auto-close story workers after merge latch fires (default: true)" })),
+		}),
+		async execute(_id, params) {
+			const { merge_prompt, close_workers_after } = params as {
+				merge_prompt?: string;
+				close_workers_after?: boolean;
+			};
+			const doClose = close_workers_after !== false; // default true
+
+			// ── Guard: wave must exist ───────────────────────────────────
+			if (!bmadState.wave) {
+				return { content: [{ type: "text", text: "No active wave. Use bmad_start_wave first." }], details: { error: "no_wave" } };
+			}
+
+			const wave = bmadState.wave;
+
+			// ── Guard: all stories must be done or failed ────────────────
+			const pending = wave.stories.filter(s => s.status === "running" || s.status === "pending");
+			if (pending.length > 0) {
+				return {
+					content: [{
+						type: "text",
+						text: `Cannot merge yet — ${pending.length} stories still running:\n${pending.map(s => `  • ${s.id}: ${s.title} [${s.status}]`).join("\n")}\n\nUse bmad_wave_status to check progress.`,
+					}],
+					details: { error: "stories_still_running", pending: pending.map(s => s.id) },
+				};
+			}
+
+			// ── Build default merge prompt from PR URLs ──────────────────
+			const doneStories = wave.stories.filter(s => s.status === "done");
+			const failedStories = wave.stories.filter(s => s.status === "failed");
+			const prList = doneStories
+				.map(s => `  • ${s.id} (${s.title}): ${s.prUrl || "no PR URL"}`)
+				.join("\n");
+
+			const mergeWorkerName = `merge-${wave.id}`;
+			const mergeLatchFile = `/tmp/orchy-${mergeWorkerName}.latch`;
+			const mergeDirectory = layout.orchestratorDir || cwd;
+
+			const defaultMergePrompt =
+				`You are a merge agent for BMAD wave "${wave.id}" in epic "${bmadState.epic}".\n\n` +
+				`The following PRs are ready to merge:\n${prList}\n\n` +
+				(failedStories.length > 0
+					? `Note: ${failedStories.length} stories failed and have no PR:\n${failedStories.map(s => `  • ${s.id}: ${s.title}`).join("\n")}\n\n`
+					: "") +
+				`Your job:\n` +
+				`1. Review each PR for conflicts and code quality\n` +
+				`2. Merge in dependency order (resolve conflicts if any)\n` +
+				`3. Run the test suite after each merge\n` +
+				`4. If a merge conflicts, resolve manually then continue\n` +
+				`5. When all merges are complete, write the latch:\n` +
+				`   echo '{"done":true,"merged":${doneStories.length}}' > ${mergeLatchFile}\n\n` +
+				`Start by reviewing the PRs in order.`;
+
+			const effectivePrompt = merge_prompt || defaultMergePrompt;
+
+			// ── Spawn the merge worker pane ──────────────────────────────
+			const mergeFlags = "--dangerously-skip-permissions";
+			const paneId = spawnWorkerPane(mergeWorkerName, mergeDirectory, mergeFlags);
+			if (!paneId) {
+				return {
+					content: [{ type: "text", text: `Failed to spawn merge worker "${mergeWorkerName}". Check pane layout.` }],
+					details: { error: "spawn_failed", mergeWorkerName },
+				};
+			}
+
+			// Register merge worker in layout via event
+			dispatch({ type: "worker_spawned", name: mergeWorkerName, paneId, directory: mergeDirectory, now: Date.now() });
+
+			// ── Update bmadState to merging ──────────────────────────────
+			wave.status = "merging";
+			persistBmadState();
+
+			// ── Dispatch wave_merging through reducer ────────────────────
+			dispatch({ type: "wave_merging", waveId: wave.id, mergeWorkerName, now: Date.now() });
+
+			// ── Send merge prompt after 15s startup ──────────────────────
+			setTimeout(() => {
+				const escaped = effectivePrompt.replace(/'/g, "'\\''");
+				exec(`cmux send --surface "${paneId}" '${escaped}' 2>/dev/null`, 5000);
+				logActivity("bmad_merge_prompt_sent", { mergeWorkerName, waveId: wave.id, paneId });
+			}, 15000);
+
+			// ── Poll for merge latch and optionally close workers ─────────
+			// Poll every 60s, max 2 hours (120 polls)
+			if (doClose) {
+				let pollCount = 0;
+				const maxPolls = 120;
+				const pollInterval = setInterval(() => {
+					pollCount++;
+
+					if (existsSync(mergeLatchFile)) {
+						clearInterval(pollInterval);
+
+						// Mark wave as merged
+						wave.status = "merged";
+						wave.completedAt = new Date().toISOString();
+
+						// Archive to completedWaves
+						bmadState.completedWaves.push({
+							id: wave.id,
+							storiesCompleted: doneStories.length,
+							completedAt: wave.completedAt,
+						});
+						bmadState.wave = null;
+						persistBmadState();
+
+						// Dispatch wave_merged event
+						dispatch({ type: "wave_merged", waveId: wave.id, mergeWorkerName, now: Date.now() });
+
+						// Close all story workers (not the merge worker — let human verify)
+						for (const story of wave.stories) {
+							const w = layout.workerPanes.find(p => p.name === story.workerName);
+							if (w && paneExists(w.paneId)) {
+								exec(`cmux send-key --surface "${w.paneId}" "ctrl+c" 2>/dev/null`, 5000);
+								setTimeout(() => exec(`cmux close-surface --surface "${w.paneId}" 2>/dev/null`), 2000);
+							}
+							const idx = layout.workerPanes.findIndex(p => p.name === story.workerName);
+							if (idx !== -1) layout.workerPanes.splice(idx, 1);
+							dispatch({ type: "worker_closed", name: story.workerName, now: Date.now() });
+						}
+
+						logActivity("bmad_wave_merged", { waveId: wave.id, storiesMerged: doneStories.length });
+						writeDevlog(
+							`### [${new Date().toISOString()}] BMAD WAVE MERGED\n` +
+							`- Wave: ${wave.id}\n` +
+							`- Stories merged: ${doneStories.length}\n` +
+							`- Story workers closed: ${doClose}`
+						);
+					} else if (pollCount >= maxPolls) {
+						// Timeout after 2 hours — stop polling, log warning
+						clearInterval(pollInterval);
+						logActivity("bmad_merge_timeout", { mergeWorkerName, waveId: wave.id, pollCount });
+						writeDevlog(`### [${new Date().toISOString()}] BMAD MERGE TIMEOUT\n- Wave: ${wave.id}\n- No latch after ${maxPolls} polls (${maxPolls} min). Check merge worker.`);
+					}
+				}, 60_000);
+			}
+
+			// ── Devlog entry ─────────────────────────────────────────────
+			writeDevlog(
+				`### [${new Date().toISOString()}] BMAD MERGE STARTED\n` +
+				`- Wave: ${wave.id}\n` +
+				`- Merge worker: ${mergeWorkerName} (${paneId})\n` +
+				`- PRs to merge: ${doneStories.length}\n` +
+				`- Failed stories skipped: ${failedStories.length}\n` +
+				`- Auto-close workers: ${doClose}\n` +
+				`- Prompt fires in 15s`
+			);
+
+			const summary =
+				`Merge agent "${mergeWorkerName}" spawned in ${paneId}\n` +
+				`PRs to merge (${doneStories.length}): ${doneStories.map(s => s.id).join(", ")}\n` +
+				(failedStories.length > 0 ? `Failed stories skipped: ${failedStories.map(s => s.id).join(", ")}\n` : "") +
+				`Auto-close workers after merge: ${doClose}\n` +
+				`Merge prompt fires in ~15s. Poll latch: ${mergeLatchFile}`;
+
+			return {
+				content: [{ type: "text", text: summary }],
+				details: { mergeWorkerName, paneId, waveId: wave.id, prCount: doneStories.length, mergeLatchFile, autoClose: doClose },
+			};
+		},
+		renderCall(args, theme) {
+			const a = args as any;
+			return new Text(
+				theme.fg("toolTitle", theme.bold("bmad_merge_wave")) +
+				theme.fg("muted", a.close_workers_after === false ? " (keep workers)" : " (auto-close)"),
+				0, 0,
+			);
+		},
+	});
+
+	pi.registerTool({
+		name: "bmad_generate_report",
+		label: "BMAD Generate Report",
+		description: "Generate a markdown report for a completed wave or full epic. Writes to _bmad-output/reports/.",
+		parameters: Type.Object({
+			scope: Type.Union([Type.Literal("wave"), Type.Literal("epic")], { description: "Report scope: 'wave' for current wave, 'epic' for all completed waves" }),
+			include_pr_diffs: Type.Optional(Type.Boolean({ description: "Include PR diff summaries via gh pr diff (default: false, slow)" })),
+		}),
+		async execute(_id, params) {
+			const { scope, include_pr_diffs } = params as { scope: "wave" | "epic"; include_pr_diffs?: boolean };
+
+			// ── Ensure output directory exists ───────────────────────────
+			const reportDir = join(cwd, "_bmad-output", "reports");
+			mkdirSync(reportDir, { recursive: true });
+
+			const ts = new Date().toISOString();
+			const datestamp = ts.slice(0, 10); // YYYY-MM-DD
+
+			// ─────────────────────────────────────────────────────────────
+			// WAVE SCOPE: report on the current (or last completed) wave
+			// ─────────────────────────────────────────────────────────────
+			if (scope === "wave") {
+				// Use active wave first, then last completed
+				const wave = bmadState.wave ||
+					(bmadState.completedWaves.length > 0
+						? { id: bmadState.completedWaves[bmadState.completedWaves.length - 1].id, stories: [] as BmadStory[], status: "merged" as const, spawnedAt: "", completedAt: bmadState.completedWaves[bmadState.completedWaves.length - 1].completedAt, index: bmadState.completedWaves.length - 1 }
+						: null);
+
+				if (!wave) {
+					return { content: [{ type: "text", text: "No wave data available. Run a wave first." }], details: { error: "no_wave" } };
+				}
+
+				const reportLines: string[] = [
+					`# BMAD Wave Report`,
+					``,
+					`**Wave:** ${wave.id}`,
+					`**Epic:** ${bmadState.epic || "?"}`,
+					`**Epic ID:** ${bmadState.epicId || "?"}`,
+					`**Status:** ${wave.status}`,
+					`**Generated:** ${ts}`,
+					`**Spawned:** ${wave.spawnedAt || "?"}`,
+					`**Completed:** ${wave.completedAt || "in progress"}`,
+					``,
+					`## Stories`,
+					``,
+				];
+
+				// Only full wave objects (from bmadState.wave) have story detail
+				const stories = (bmadState.wave?.id === wave.id && bmadState.wave?.stories) ? bmadState.wave.stories : [];
+
+				if (stories.length === 0) {
+					reportLines.push(`_(story details not available for archived waves)_`);
+				} else {
+					for (const story of stories) {
+						// Duration calculation
+						let duration = "?";
+						if (story.startedAt && story.completedAt) {
+							const ms = new Date(story.completedAt).getTime() - new Date(story.startedAt).getTime();
+							const mins = Math.round(ms / 60_000);
+							duration = `${mins} min`;
+						}
+
+						reportLines.push(`### ${story.id}: ${story.title}`);
+						reportLines.push(`- **Worker:** \`${story.workerName}\``);
+						reportLines.push(`- **Status:** ${story.status}`);
+						reportLines.push(`- **Duration:** ${duration}`);
+						reportLines.push(`- **PR:** ${story.prUrl ? `[${story.prUrl}](${story.prUrl})` : "none"}`);
+						reportLines.push(`- **Latch:** \`${story.latchFile}\``);
+
+						// Optionally pull PR diff summary
+						if (include_pr_diffs && story.prUrl) {
+							// Extract PR number from URL pattern: .../pull/NNN
+							const prMatch = story.prUrl.match(/\/pull\/(\d+)/);
+							if (prMatch) {
+								const diff = exec(`gh pr diff ${prMatch[1]} --patch 2>/dev/null | head -200`);
+								if (diff) {
+									reportLines.push(`<details><summary>PR diff (first 200 lines)</summary>\n\n\`\`\`diff\n${diff}\n\`\`\`\n</details>`);
+								}
+							}
+						}
+
+						reportLines.push(``);
+					}
+				}
+
+				// Wave-level summary stats
+				const doneCount = stories.filter(s => s.status === "done").length;
+				const failedCount = stories.filter(s => s.status === "failed").length;
+				reportLines.push(`## Summary`);
+				reportLines.push(``);
+				reportLines.push(`| Metric | Value |`);
+				reportLines.push(`| --- | --- |`);
+				reportLines.push(`| Total stories | ${stories.length} |`);
+				reportLines.push(`| Done | ${doneCount} |`);
+				reportLines.push(`| Failed | ${failedCount} |`);
+				reportLines.push(`| Success rate | ${stories.length > 0 ? Math.round((doneCount / stories.length) * 100) : 0}% |`);
+				reportLines.push(``);
+
+				const fileName = `wave-${wave.id}-${datestamp}.md`;
+				const filePath = join(reportDir, fileName);
+				writeFileSync(filePath, reportLines.join("\n"));
+
+				logActivity("bmad_report_generated", { scope: "wave", waveId: wave.id, filePath });
+
+				return {
+					content: [{ type: "text", text: `Wave report written to:\n${filePath}\n\nStories: ${stories.length} total, ${doneCount} done, ${failedCount} failed.` }],
+					details: { filePath, waveId: wave.id, storiesTotal: stories.length, done: doneCount, failed: failedCount },
+				};
+			}
+
+			// ─────────────────────────────────────────────────────────────
+			// EPIC SCOPE: summarize all completed waves for the active epic
+			// ─────────────────────────────────────────────────────────────
+			if (scope === "epic") {
+				if (!bmadState.epic) {
+					return { content: [{ type: "text", text: "No epic data found in bmadState. Start a wave first." }], details: { error: "no_epic" } };
+				}
+
+				const reportLines: string[] = [
+					`# BMAD Epic Report`,
+					``,
+					`**Epic:** ${bmadState.epic}`,
+					`**Epic ID:** ${bmadState.epicId || "?"}`,
+					`**Generated:** ${ts}`,
+					`**Completed Waves:** ${bmadState.completedWaves.length}`,
+					`**Current Wave:** ${bmadState.wave ? `${bmadState.wave.id} (${bmadState.wave.status})` : "none"}`,
+					``,
+					`## Completed Waves`,
+					``,
+				];
+
+				if (bmadState.completedWaves.length === 0) {
+					reportLines.push(`_No waves completed yet._`);
+				} else {
+					let totalStoriesCompleted = 0;
+					for (const cw of bmadState.completedWaves) {
+						totalStoriesCompleted += cw.storiesCompleted;
+						reportLines.push(`### ${cw.id}`);
+						reportLines.push(`- **Stories completed:** ${cw.storiesCompleted}`);
+						reportLines.push(`- **Completed at:** ${cw.completedAt}`);
+						reportLines.push(``);
+					}
+					reportLines.push(`## Epic Totals`);
+					reportLines.push(``);
+					reportLines.push(`| Metric | Value |`);
+					reportLines.push(`| --- | --- |`);
+					reportLines.push(`| Waves completed | ${bmadState.completedWaves.length} |`);
+					reportLines.push(`| Total stories delivered | ${totalStoriesCompleted} |`);
+					reportLines.push(``);
+				}
+
+				// Include active wave info if any
+				if (bmadState.wave) {
+					const w = bmadState.wave;
+					const doneInWave = w.stories.filter(s => s.status === "done").length;
+					reportLines.push(`## Active Wave: ${w.id}`);
+					reportLines.push(`- **Status:** ${w.status}`);
+					reportLines.push(`- **Stories:** ${w.stories.length} total, ${doneInWave} done`);
+					reportLines.push(``);
+				}
+
+				const fileName = `epic-${bmadState.epicId || "unknown"}-${datestamp}.md`;
+				const filePath = join(reportDir, fileName);
+				writeFileSync(filePath, reportLines.join("\n"));
+
+				logActivity("bmad_report_generated", { scope: "epic", epicId: bmadState.epicId, filePath });
+
+				return {
+					content: [{ type: "text", text: `Epic report written to:\n${filePath}\n\nEpic: ${bmadState.epic}\nCompleted waves: ${bmadState.completedWaves.length}` }],
+					details: { filePath, epic: bmadState.epic, epicId: bmadState.epicId, completedWaves: bmadState.completedWaves.length },
+				};
+			}
+
+			// Should never reach here (union type exhaustive), but safe fallback
+			return { content: [{ type: "text", text: `Unknown scope: ${scope}` }], details: { error: "unknown_scope" } };
+		},
+		renderCall(args, theme) {
+			const a = args as any;
+			return new Text(
+				theme.fg("toolTitle", theme.bold("bmad_generate_report ")) +
+				theme.fg("accent", a.scope || "?"),
+				0, 0,
+			);
+		},
+	});
+
+	pi.registerTool({
+		name: "bmad_notify_human",
+		label: "BMAD Notify Human",
+		description: "Pause all agents and send a desktop notification requesting human review. Use for blockers, ambiguous requirements, or security decisions. Call supervisor_resume to continue.",
+		parameters: Type.Object({
+			reason: Type.String({ description: "Why human review is needed (shown in notification body)" }),
+			context: Type.Optional(Type.String({ description: "Additional context for the human (logged but not in notification)" })),
+			severity: Type.Optional(
+				Type.Union(
+					[Type.Literal("info"), Type.Literal("warning"), Type.Literal("error")],
+					{ description: "Notification severity level (default: warning)" }
+				)
+			),
+		}),
+		async execute(_id, params) {
+			const { reason, context, severity } = params as {
+				reason: string;
+				context?: string;
+				severity?: "info" | "warning" | "error";
+			};
+			const sev = severity || "warning";
+			const ts = new Date().toISOString();
+
+			// ── 1. Pause all agents via reducer ─────────────────────────
+			// Only pause if actually running — avoids double-pause warning
+			if (state.phase !== "paused" && state.phase !== "stopped") {
+				dispatch({ type: "pause", now: Date.now() });
+			}
+
+			// ── 2. Dispatch human_checkpoint_requested through reducer ────
+			dispatch({ type: "human_checkpoint_requested", reason, now: Date.now() });
+
+			// ── 3. Record in bmadState.humanCheckpoints ──────────────────
+			bmadState.humanCheckpoints.push({ reason, ts, resolved: false });
+			persistBmadState();
+
+			// ── 4. Send cmux desktop notification ────────────────────────
+			// cmux notify supports --title and --body; severity maps to urgency level
+			const urgencyFlag = sev === "error" ? "--urgency critical" : sev === "warning" ? "--urgency normal" : "--urgency low";
+			const notifTitle = `BMAD Checkpoint [${sev.toUpperCase()}]`;
+			const notifBody = reason.replace(/'/g, "'\\''").slice(0, 256); // cmux notify body limit
+			exec(`cmux notify --title '${notifTitle}' --body '${notifBody}' ${urgencyFlag} 2>/dev/null`, 5000);
+
+			// ── 5. Log to devlog ─────────────────────────────────────────
+			writeDevlog(
+				`### [${ts}] HUMAN CHECKPOINT [${sev.toUpperCase()}]\n` +
+				`- Reason: ${reason}\n` +
+				(context ? `- Context: ${context}\n` : "") +
+				`- Phase at pause: ${state.phase}\n` +
+				`- Workers paused: ${layout.workerPanes.length}\n` +
+				`- Notification sent via cmux`
+			);
+
+			// ── 6. Log to activity JSONL ─────────────────────────────────
+			logActivity("bmad_human_checkpoint", {
+				reason,
+				context: context || null,
+				severity: sev,
+				workersPaused: layout.workerPanes.length,
+				waveId: bmadState.wave?.id || null,
+				checkpointIndex: bmadState.humanCheckpoints.length - 1,
+			});
+
+			// ── Build human-facing instructions ─────────────────────────
+			const instructions = [
+				`BMAD Human Checkpoint — ${sev.toUpperCase()}`,
+				``,
+				`Reason: ${reason}`,
+				context ? `Context: ${context}` : null,
+				``,
+				`All agents are now PAUSED.`,
+				``,
+				`To continue:`,
+				`  1. Review the situation above`,
+				`  2. Make any necessary decisions / changes`,
+				`  3. Call supervisor_resume (with an optional message)`,
+				``,
+				`Checkpoint recorded at: ${ts}`,
+				`Checkpoint index: ${bmadState.humanCheckpoints.length - 1}`,
+				`Active wave: ${bmadState.wave?.id || "none"}`,
+			].filter(Boolean).join("\n");
+
+			return {
+				content: [{ type: "text", text: instructions }],
+				details: {
+					severity: sev,
+					reason,
+					context: context || null,
+					checkpointIndex: bmadState.humanCheckpoints.length - 1,
+					agentsPaused: 1 + layout.workerPanes.length,
+					waveId: bmadState.wave?.id || null,
+				},
+			};
+		},
+		renderCall(args, theme) {
+			const a = args as any;
+			const sevColor = a.severity === "error" ? "error" : a.severity === "info" ? "success" : "warning";
+			return new Text(
+				theme.fg("toolTitle", theme.bold("bmad_notify_human ")) +
+				theme.fg(sevColor, `[${(a.severity || "warning").toUpperCase()}] `) +
+				theme.fg("muted", (a.reason || "").slice(0, 60)),
+				0, 0,
+			);
+		},
+	});
+
+	// ════════════════════════════════════════════════════════════════
 	// SESSION LIFECYCLE
 	// ════════════════════════════════════════════════════════════════
 
@@ -1129,6 +2107,7 @@ export default function (pi: ExtensionAPI) {
 		loadConfig();
 		loadState();
 		loadRegistry();
+		loadBmadState();
 
 		const orchAlive = paneExists(layout.orchestratorPaneId);
 		if (state.phase !== "stopped" && orchAlive) {
@@ -1155,6 +2134,7 @@ export default function (pi: ExtensionAPI) {
 		persistState();
 		persistLayout();
 		persistRegistry();
+		persistBmadState();
 	});
 
 	// ── System Prompt ───────────────────────────────
@@ -1164,6 +2144,38 @@ export default function (pi: ExtensionAPI) {
 		const regInfo = registry.session
 			? `Session: ${registry.session.id} | Status: ${registry.session.status} | Task: ${registry.session.task || "none"}`
 			: "No active session";
+
+		const bmadBlock: string = (() => {
+			if (bmadState.wave === null) {
+				return `## BMAD: No active wave. Use bmad_start_wave to begin.`;
+			}
+
+			const wave = bmadState.wave;
+			const storyLines = wave.stories
+				.map(s => {
+					const arrow = s.workerName ? `→ ${s.workerName}` : "";
+					return `  ${s.id} [${s.status.toUpperCase()}] ${arrow}${s.prUrl ? ` PR:${s.prUrl}` : ""}`;
+				})
+				.join("\n");
+
+			const pendingHuman = bmadState.humanCheckpoints.filter(c => !c.resolved).length;
+
+			return [
+				`## CURRENT BMAD WAVE`,
+				`Epic: ${bmadState.epic ?? "?"} | Wave: ${wave.id} | Status: ${wave.status.toUpperCase()}`,
+				`Stories:`,
+				storyLines,
+				`Completed waves: ${bmadState.completedWaves.length}`,
+				`Human checkpoints pending: ${pendingHuman}`,
+				``,
+				`## BMAD TOOLS`,
+				`bmad_start_wave     — spawn parallel workers for a wave`,
+				`bmad_wave_status    — check all workers in current wave`,
+				`bmad_merge_wave     — spawn merge agent after wave completion`,
+				`bmad_generate_report — generate wave/epic report`,
+				`bmad_notify_human   — pause + notify human for checkpoint`,
+			].join("\n");
+		})();
 
 		return {
 			systemPrompt: `You are the L-Thread SUPERVISOR — a meta-orchestrator monitoring Claude Opus.
@@ -1203,7 +2215,9 @@ When you receive a task, call supervisor_start IMMEDIATELY with the task as init
 Do NOT analyze docs first. The orchestrator will read its own docs.
 
 ## TOOLS
-supervisor_start, supervisor_stop, supervisor_pause, supervisor_resume, supervisor_nudge, supervisor_observe, supervisor_status, supervisor_config, supervisor_spawn_worker, supervisor_close_worker`,
+supervisor_start, supervisor_stop, supervisor_pause, supervisor_resume, supervisor_nudge, supervisor_observe, supervisor_status, supervisor_config, supervisor_spawn_worker, supervisor_close_worker
+
+${bmadBlock}`,
 		};
 	});
 
@@ -1217,13 +2231,31 @@ supervisor_start, supervisor_stop, supervisor_pause, supervisor_resume, supervis
 				const model = ctx.model?.id || "?";
 				const pct = ctx.getContextUsage()?.percent ?? 0;
 				const bar = "#".repeat(Math.round(pct / 10)) + "-".repeat(10 - Math.round(pct / 10));
-				const icons: Record<string, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH", paused: "PAUSE" };
+				const icons: Record<string, string> = { stopped: "STOP", starting: "INIT", running: "RUN", silent: "QUIET", nudging: "NUDGE", stalled: "STALL", crashed: "CRASH", paused: "PAUSE", wave_running: "WAVE", wave_merging: "MERGE", awaiting_human: "HUMAN" };
 				const silenceSec = state.lastOutputAt ? Math.round((Date.now() - state.lastOutputAt) / 1000) : 0;
 
 				// Compact task display
 				const taskStr = state.task ? ` | ${state.task.slice(0, 30)}` : "";
 
-				const left = theme.fg("dim", ` ${model}`) + theme.fg("muted", " | ") + `[${icons[state.phase] || "?"}]` + theme.fg("muted", " | ") + theme.fg("dim", `${silenceSec}s N:${state.nudgeCount} R:${state.restartCount} W:${layout.workerPanes.length}`) + theme.fg("accent", taskStr);
+				// Compact BMAD wave indicator appended after the task string.
+				// Shows nothing when no wave is active.
+				let bmadIndicator = "";
+				if (bmadState.wave !== null) {
+					const wave = bmadState.wave;
+					const total = wave.stories.length;
+					const done = wave.stories.filter(s => s.status === "done").length;
+					const failed = wave.stories.filter(s => s.status === "failed").length;
+					const waveColor =
+						wave.status === "complete" || wave.status === "merged" ? "success" :
+						wave.status === "merging"                              ? "warning" :
+						failed > 0                                             ? "error"   :
+						                                                         "accent";
+					bmadIndicator =
+						theme.fg("muted", " | ") +
+						theme.fg(waveColor, `W:${wave.id} ${done}/${total}`);
+				}
+
+				const left = theme.fg("dim", ` ${model}`) + theme.fg("muted", " | ") + `[${icons[state.phase] || "?"}]` + theme.fg("muted", " | ") + theme.fg("dim", `${silenceSec}s N:${state.nudgeCount} R:${state.restartCount} W:${layout.workerPanes.length}`) + theme.fg("accent", taskStr) + bmadIndicator;
 				const right = theme.fg("dim", `[${bar}] ${Math.round(pct)}% `);
 				const pad = " ".repeat(Math.max(1, width - visibleWidth(left) - visibleWidth(right)));
 				return [truncateToWidth(left + pad + right, width)];
