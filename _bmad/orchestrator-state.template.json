@@ -1,31 +1,25 @@
 {
-  "version": "1.0.0",
-  "settings": {
-    "auto_mode": true,
-    "auto_merge_on_green_ci": true,
-    "auto_start_next_story": true,
-    "notify_on_completion": true,
-    "max_fix_attempts": 3
+  "version": "3.0",
+  "mode": "tmux",
+  "session": "orchestrator",
+  "project": {
+    "name": "",
+    "dir": "",
+    "repo": ""
   },
-  "current_session": {
-    "phase": "idle",
-    "current_story": null,
-    "current_agent": {
-      "pane_id": null,
-      "started_at": null
-    },
-    "current_pr": {
-      "number": null,
-      "branch": null,
-      "ci_status": null
-    }
-  },
-  "progress": {
+  "auto_mode": false,
+  "current_epic": null,
+  "current_story": null,
+  "phase": "idle",
+  "workers": [],
+  "history": [],
+  "stats": {
     "stories_completed": 0,
-    "last_completed_story": null
-  },
-  "history": {
-    "completed_stories": [],
-    "last_activity": null
+    "stories_skipped": 0,
+    "prs_merged": 0,
+    "review_cycles_total": 0,
+    "screenshots_taken": 0,
+    "started_at": null,
+    "last_updated": null
   }
 }
