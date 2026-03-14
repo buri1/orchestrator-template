@@ -148,6 +148,7 @@ echo "Creating 3-pane layout in current cmux workspace..."
 
 # Current surface = supervisor pane (top-left after splits)
 SUPERVISOR_SURFACE="$CMUX_SURFACE_ID"
+WORKSPACE_ID="${CMUX_WORKSPACE_ID:-}"
 
 # Helper: extract surface ref from cmux output (e.g. "OK surface:19 workspace:1" → "surface:19")
 parse_surface_ref() {
@@ -155,20 +156,22 @@ parse_surface_ref() {
 }
 
 # Split right: workers area (right half)
-WORKERS_RAW=$(cmux new-split right --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+WORKERS_RAW=$(cmux new-split right --surface "$SUPERVISOR_SURFACE" 2>&1 || true)
 WORKERS_SURFACE=$(parse_surface_ref "$WORKERS_RAW")
 if [[ -z "$WORKERS_SURFACE" ]]; then
     echo "ERROR: Failed to create workers pane (cmux new-split right)"
     echo "  Raw output: $WORKERS_RAW"
+    echo "  Hint: Close existing split panes and retry, or open a fresh cmux workspace."
     exit 1
 fi
 
 # Split supervisor pane down: orchestrator (bottom of left half)
-ORCHESTRATOR_RAW=$(cmux new-split down --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+ORCHESTRATOR_RAW=$(cmux new-split down --surface "$SUPERVISOR_SURFACE" 2>&1 || true)
 ORCHESTRATOR_SURFACE=$(parse_surface_ref "$ORCHESTRATOR_RAW")
 if [[ -z "$ORCHESTRATOR_SURFACE" ]]; then
     echo "ERROR: Failed to create orchestrator pane (cmux new-split down)"
     echo "  Raw output: $ORCHESTRATOR_RAW"
+    echo "  Hint: Close existing split panes and retry, or open a fresh cmux workspace."
     exit 1
 fi
 
@@ -181,6 +184,7 @@ cmux rename-tab --surface "$ORCHESTRATOR_SURFACE" "Orchestrator" 2>/dev/null || 
 cat > "$DIR/_bmad/pane-layout.json" << EOF
 {
   "session": "lthread",
+  "workspaceId": "$WORKSPACE_ID",
   "supervisorPaneId": "$SUPERVISOR_SURFACE",
   "orchestratorPaneId": "$ORCHESTRATOR_SURFACE",
   "workersPaneId": "$WORKERS_SURFACE",
@@ -246,6 +250,7 @@ echo "  Auto-Mode:   $AUTO_MODE"
 echo "  Orch Dir:    $ORCH_DIR"
 echo "  Pi Version:  $PI_VERSION"
 echo ""
+echo "  Workspace:   $WORKSPACE_ID"
 echo "  Surface IDs:"
 echo "    Supervisor:   $SUPERVISOR_SURFACE"
 echo "    Orchestrator: $ORCHESTRATOR_SURFACE"

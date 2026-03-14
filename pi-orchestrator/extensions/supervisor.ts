@@ -38,6 +38,7 @@ import { join } from "path";
 
 interface PaneLayout {
 	session: string;
+	workspaceId: string;
 	supervisorPaneId: string;
 	orchestratorPaneId: string;
 	workersPaneId: string;
@@ -550,7 +551,7 @@ function reduce(
 // ════════════════════════════════════════════════════════════════════
 // Migrated from tmux to cmux CLI (manaflow-ai/cmux).
 // cmux CLI is auto-available inside cmux terminals via PATH injection.
-// All commands auto-detect workspace/surface from CMUX_* env vars.
+// All commands use explicit --workspace scoping to prevent phantom windows.
 // Surface IDs use short refs (surface:N) — stable within a cmux session.
 
 function exec(cmd: string, timeout = 10000): string {
@@ -561,17 +562,27 @@ function exec(cmd: string, timeout = 10000): string {
 	}
 }
 
+/** Module-level workspace ID — set from layout after extension init */
+let _cmuxWorkspaceId = "";
+
+/** Execute a cmux command with automatic workspace scoping.
+ *  Appends --workspace to prevent cross-workspace surface targeting
+ *  which causes cmux to open phantom windows. */
+function cmux(args: string, timeout = 5000): string {
+	const ws = _cmuxWorkspaceId ? ` --workspace "${_cmuxWorkspaceId}"` : "";
+	return exec(`cmux ${args}${ws} 2>/dev/null`, timeout);
+}
+
 function paneExists(paneId: string): boolean {
 	if (!paneId) return false;
-	// cmux identify exits non-zero if surface doesn't exist
-	const result = exec(`cmux identify --surface "${paneId}" 2>/dev/null`);
+	const result = cmux(`identify --surface "${paneId}"`);
 	return result !== "";
 }
 
 function paneClaudeRunning(paneId: string): boolean {
 	// cmux doesn't expose #{pane_current_command} directly.
 	// Screen-scrape last lines for Claude Code UI indicators.
-	const output = exec(`cmux read-screen --surface "${paneId}" --lines 8 2>/dev/null`, 5000);
+	const output = cmux(`read-screen --surface "${paneId}" --lines 8`);
 	if (!output) return false;
 	return /[✓◆❯]|claude>|╭─|│ >|Thinking|Tool |⏺|waiting for|permission/i.test(output);
 }
@@ -593,7 +604,7 @@ interface ScreenState {
 }
 
 function parseScreen(paneId: string): ScreenState {
-	const raw = exec(`cmux read-screen --surface "${paneId}" --lines 20 2>/dev/null`, 5000);
+	const raw = cmux(`read-screen --surface "${paneId}" --lines 20`);
 	const result: ScreenState = {
 		activity: "unknown",
 		claudeRunning: false,
@@ -654,7 +665,7 @@ function parseScreen(paneId: string): ScreenState {
 
 function paneCapture(paneId: string, lines = 30): string {
 	// cmux read-screen returns clean text (no ANSI stripping needed)
-	return exec(`cmux read-screen --surface "${paneId}" --lines ${lines} 2>/dev/null`, 5000);
+	return cmux(`read-screen --surface "${paneId}" --lines ${lines}`);
 }
 
 function panePid(paneId: string): number | null {
@@ -694,7 +705,7 @@ function simpleHash(str: string): string {
 export default function (pi: ExtensionAPI) {
 	let config: SupervisorConfig = { ...DEFAULT_CONFIG };
 	let state: SupervisorState = { ...INITIAL_STATE };
-	let layout: PaneLayout = { session: "lthread", supervisorPaneId: "", orchestratorPaneId: "", workersPaneId: "", orchestratorDir: "", workerPanes: [] };
+	let layout: PaneLayout = { session: "lthread", workspaceId: "", supervisorPaneId: "", orchestratorPaneId: "", workersPaneId: "", orchestratorDir: "", workerPanes: [] };
 	let registry: SessionRegistry = { ...INITIAL_REGISTRY };
 	let heartbeatTimer: ReturnType<typeof setInterval> | null = null;
 	let widgetCtx: any = null;
@@ -730,8 +741,8 @@ export default function (pi: ExtensionAPI) {
 					// cmux send takes raw text — no shell escaping needed
 					// No INC-005 copy-mode workaround — cmux has no scroll/copy mode
 					const escaped = fx.text.replace(/'/g, "'\\''");
-					exec(`cmux send --surface "${fx.paneId}" '${escaped}' 2>/dev/null`, 5000);
-					exec(`cmux send-key --surface "${fx.paneId}" Enter 2>/dev/null`, 5000);
+					cmux(`send --surface "${fx.paneId}" '${escaped}'`);
+					cmux(`send-key --surface "${fx.paneId}" Enter`);
 					break;
 				}
 				case "send_control":
@@ -740,11 +751,11 @@ export default function (pi: ExtensionAPI) {
 						if (key === "q") continue;
 						// Map tmux key names to cmux: C-c → ctrl+c, Escape → escape
 						const cmuxKey = key === "C-c" ? "ctrl+c" : key.toLowerCase();
-						exec(`cmux send-key --surface "${fx.paneId}" "${cmuxKey}" 2>/dev/null`, 5000);
+						cmux(`send-key --surface "${fx.paneId}" "${cmuxKey}"`);
 					}
 					break;
 				case "set_pane_title":
-					exec(`cmux rename-tab --surface "${fx.paneId}" "${fx.title}" 2>/dev/null`);
+					cmux(`rename-tab --surface "${fx.paneId}" "${fx.title}"`);
 					break;
 				case "start_heartbeat":
 					if (heartbeatTimer) clearInterval(heartbeatTimer);
@@ -790,7 +801,7 @@ export default function (pi: ExtensionAPI) {
 							}
 						}
 						// Also close the cmux surface if still alive
-						exec(`cmux close-surface --surface "${targetPane}" 2>/dev/null`);
+						cmux(`close-surface --surface "${targetPane}"`);
 					}, delay);
 					break;
 				}
@@ -824,7 +835,7 @@ export default function (pi: ExtensionAPI) {
 						});
 						persistBmadState();
 						widgetCtx?.ui.notify(`Wave ${bmadState.wave.id} complete! All ${bmadState.wave.stories.length} stories done.`, "info");
-						exec(`cmux notify --title "Wave Complete" --body "${bmadState.wave.id}: ${bmadState.wave.stories.length} stories done" 2>/dev/null`);
+						cmux(`notify --title "Wave Complete" --body "${bmadState.wave.id}: ${bmadState.wave.stories.length} stories done"`);
 					}
 					break;
 				}
@@ -877,6 +888,7 @@ export default function (pi: ExtensionAPI) {
 		if (existsSync(p)) {
 			try { layout = JSON.parse(readFileSync(p, "utf-8")); } catch {}
 		}
+		_cmuxWorkspaceId = layout.workspaceId || "";
 	}
 
 	function loadConfig(): void {
@@ -1016,24 +1028,24 @@ export default function (pi: ExtensionAPI) {
 			if (!paneExists(paneId)) return null;
 			const cmd = `cd "${directory}" && export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}`;
 			const escaped = cmd.replace(/'/g, "'\\''");
-			exec(`cmux send --surface "${paneId}" '${escaped}' 2>/dev/null`, 5000);
-			exec(`cmux send-key --surface "${paneId}" Enter 2>/dev/null`, 5000);
-			exec(`cmux rename-tab --surface "${paneId}" "${name}" 2>/dev/null`);
+			cmux(`send --surface "${paneId}" '${escaped}'`);
+			cmux(`send-key --surface "${paneId}" Enter`);
+			cmux(`rename-tab --surface "${paneId}" "${name}"`);
 			layout.workerPanes.push({ name, paneId, directory });
 			return paneId;
 		}
 
 		// Split above the last worker (cmux new-split up)
 		const topPaneId = layout.workerPanes[layout.workerPanes.length - 1].paneId;
-		const newPaneRaw = exec(`cmux new-split up --surface "${topPaneId}" 2>/dev/null`);
+		const newPaneRaw = cmux(`new-split up --surface "${topPaneId}"`);
 		const newPaneId = newPaneRaw.match(/surface:\d+/)?.[0] || newPaneRaw;
 		if (!newPaneId) return null;
 
 		const cmd = `cd "${directory}" && export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}`;
 		const escaped = cmd.replace(/'/g, "'\\''");
-		exec(`cmux send --surface "${newPaneId}" '${escaped}' 2>/dev/null`, 5000);
-		exec(`cmux send-key --surface "${newPaneId}" Enter 2>/dev/null`, 5000);
-		exec(`cmux rename-tab --surface "${newPaneId}" "${name}" 2>/dev/null`);
+		cmux(`send --surface "${newPaneId}" '${escaped}'`);
+		cmux(`send-key --surface "${newPaneId}" Enter`);
+		cmux(`rename-tab --surface "${newPaneId}" "${name}"`);
 		layout.workerPanes.push({ name, paneId: newPaneId, directory });
 		return newPaneId;
 	}
@@ -1173,8 +1185,8 @@ export default function (pi: ExtensionAPI) {
 			if (initial_prompt) {
 				setTimeout(() => {
 					const escaped = initial_prompt.replace(/'/g, "'\\''");
-					exec(`cmux send --surface "${layout.orchestratorPaneId}" '${escaped}' 2>/dev/null`, 5000);
-					exec(`cmux send-key --surface "${layout.orchestratorPaneId}" Enter 2>/dev/null`, 5000);
+					cmux(`send --surface "${layout.orchestratorPaneId}" '${escaped}'`);
+					cmux(`send-key --surface "${layout.orchestratorPaneId}" Enter`);
 				}, 15000);
 			}
 
@@ -1418,8 +1430,8 @@ export default function (pi: ExtensionAPI) {
 
 			const w = layout.workerPanes[idx];
 			if (paneExists(w.paneId)) {
-				for (const key of ["escape", "ctrl+c", "ctrl+c", "ctrl+c"]) exec(`cmux send-key --surface "${w.paneId}" "${key}" 2>/dev/null`, 5000);
-				setTimeout(() => exec(`cmux close-surface --surface "${w.paneId}" 2>/dev/null`), 2000);
+				for (const key of ["escape", "ctrl+c", "ctrl+c", "ctrl+c"]) cmux(`send-key --surface "${w.paneId}" "${key}"`);
+				setTimeout(() => cmux(`close-surface --surface "${w.paneId}"`), 2000);
 			}
 
 			layout.workerPanes.splice(idx, 1);
@@ -1573,8 +1585,8 @@ export default function (pi: ExtensionAPI) {
 						`Replace <PR_URL> with the actual PR URL.`;
 
 					const escaped = fullPrompt.replace(/'/g, "'\\''");
-					exec(`cmux send --surface "${w.paneId}" '${escaped}' 2>/dev/null`, 5000);
-					exec(`cmux send-key --surface "${w.paneId}" Enter 2>/dev/null`, 5000);
+					cmux(`send --surface "${w.paneId}" '${escaped}'`);
+					cmux(`send-key --surface "${w.paneId}" Enter`);
 					logActivity("bmad_wave_prompt_sent", { workerName, storyId: story.id, latchFile });
 				}
 
@@ -1818,8 +1830,8 @@ export default function (pi: ExtensionAPI) {
 			// ── Send merge prompt after 15s startup ──────────────────────
 			setTimeout(() => {
 				const escaped = effectivePrompt.replace(/'/g, "'\\''");
-				exec(`cmux send --surface "${paneId}" '${escaped}' 2>/dev/null`, 5000);
-				exec(`cmux send-key --surface "${paneId}" Enter 2>/dev/null`, 5000);
+				cmux(`send --surface "${paneId}" '${escaped}'`);
+				cmux(`send-key --surface "${paneId}" Enter`);
 				logActivity("bmad_merge_prompt_sent", { mergeWorkerName, waveId: wave.id, paneId });
 			}, 15000);
 
@@ -1854,8 +1866,8 @@ export default function (pi: ExtensionAPI) {
 						for (const story of wave.stories) {
 							const w = layout.workerPanes.find(p => p.name === story.workerName);
 							if (w && paneExists(w.paneId)) {
-								exec(`cmux send-key --surface "${w.paneId}" "ctrl+c" 2>/dev/null`, 5000);
-								setTimeout(() => exec(`cmux close-surface --surface "${w.paneId}" 2>/dev/null`), 2000);
+								cmux(`send-key --surface "${w.paneId}" "ctrl+c"`);
+								setTimeout(() => cmux(`close-surface --surface "${w.paneId}"`), 2000);
 							}
 							const idx = layout.workerPanes.findIndex(p => p.name === story.workerName);
 							if (idx !== -1) layout.workerPanes.splice(idx, 1);
@@ -2134,11 +2146,9 @@ export default function (pi: ExtensionAPI) {
 			persistBmadState();
 
 			// ── 4. Send cmux desktop notification ────────────────────────
-			// cmux notify supports --title and --body; severity maps to urgency level
-			const urgencyFlag = sev === "error" ? "--urgency critical" : sev === "warning" ? "--urgency normal" : "--urgency low";
 			const notifTitle = `BMAD Checkpoint [${sev.toUpperCase()}]`;
-			const notifBody = reason.replace(/'/g, "'\\''").slice(0, 256); // cmux notify body limit
-			exec(`cmux notify --title '${notifTitle}' --body '${notifBody}' ${urgencyFlag} 2>/dev/null`, 5000);
+			const notifBody = reason.replace(/'/g, "'\\''").slice(0, 256);
+			cmux(`notify --title '${notifTitle}' --body '${notifBody}'`);
 
 			// ── 5. Log to devlog ─────────────────────────────────────────
 			writeDevlog(

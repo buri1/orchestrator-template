@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "session": {
+    "id": "lthread-1773509995",
+    "terminal_session": "lthread",
+    "launched_at": "2026-03-14T17:39:56Z",
+    "status": "active",
+    "task": "Wave 0: Build OmniPort-HH foundation.\nStart with Story 1.1 (Portal Shell & Themed Entry) then Story 1.2 (Accessibility & Navigation Baseline). Read _bmad-output/implementation-artifacts/1-1-portal-shell-and-themed-entry.md for the first story spec. Tech: Next.js 16 + Supabase + shadcn/ui + TypeScript. Create branch, implement, run tests, create PR.",
+    "panes": {
+      "supervisor": {
+        "pane_id": "F5CF3294-FBD2-44D5-B3ED-1411CC9FE34A",
+        "pid": null
+      },
+      "orchestrator": {
+        "pane_id": "surface:6",
+        "pid": null
+      },
+      "workers_base": {
+        "pane_id": "surface:5",
+        "pid": null
+      }
+    },
+    "agents": [
+      {
+        "role": "supervisor",
+        "pane_id": "F5CF3294-FBD2-44D5-B3ED-1411CC9FE34A",
+        "model": "gpt-5.4",
+        "started_at": "2026-03-14T18:06:35.542Z",
+        "stopped_at": null,
+        "status": "running"
+      },
+      {
+        "role": "orchestrator",
+        "pane_id": "surface:6",
+        "model": "claude-opus-4-6",
+        "started_at": "2026-03-14T18:06:35.542Z",
+        "stopped_at": null,
+        "status": "running"
+      }
+    ]
+  },
+  "history": []
+}
