@@ -49,8 +49,8 @@ if ! command -v cmux &>/dev/null; then
 fi
 
 # ── Parse args ──────────────────────────────────────────
-MODEL="opus"
-PROVIDER=""
+MODEL="gpt-5.4:xhigh"
+PROVIDER="openai-codex"
 AUTO_MODE="DISABLED"
 ORCH_DIR="$(dirname "$DIR")"  # Default: parent dir (orchestrator repo root)
 
@@ -149,17 +149,26 @@ echo "Creating 3-pane layout in current cmux workspace..."
 # Current surface = supervisor pane (top-left after splits)
 SUPERVISOR_SURFACE="$CMUX_SURFACE_ID"
 
+# Helper: extract surface ref from cmux output (e.g. "OK surface:19 workspace:1" → "surface:19")
+parse_surface_ref() {
+    echo "$1" | grep -o 'surface:[0-9]*'
+}
+
 # Split right: workers area (right half)
-WORKERS_SURFACE=$(cmux new-split right --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+WORKERS_RAW=$(cmux new-split right --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+WORKERS_SURFACE=$(parse_surface_ref "$WORKERS_RAW")
 if [[ -z "$WORKERS_SURFACE" ]]; then
     echo "ERROR: Failed to create workers pane (cmux new-split right)"
+    echo "  Raw output: $WORKERS_RAW"
     exit 1
 fi
 
 # Split supervisor pane down: orchestrator (bottom of left half)
-ORCHESTRATOR_SURFACE=$(cmux new-split down --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+ORCHESTRATOR_RAW=$(cmux new-split down --surface "$SUPERVISOR_SURFACE" 2>/dev/null)
+ORCHESTRATOR_SURFACE=$(parse_surface_ref "$ORCHESTRATOR_RAW")
 if [[ -z "$ORCHESTRATOR_SURFACE" ]]; then
     echo "ERROR: Failed to create orchestrator pane (cmux new-split down)"
+    echo "  Raw output: $ORCHESTRATOR_RAW"
     exit 1
 fi
 
@@ -215,9 +224,11 @@ echo "{\"ts\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\",\"epoch\":$(date +%s)000,\"sess
 
 # ── Display welcome in workers surface ────────────────
 cmux send --surface "$WORKERS_SURFACE" "echo '── Workers will appear here ──'" 2>/dev/null || true
+cmux send-key --surface "$WORKERS_SURFACE" Enter 2>/dev/null || true
 
 # ── Display welcome in orchestrator surface ───────────
 cmux send --surface "$ORCHESTRATOR_SURFACE" "echo '── Orchestrator will start here ──'" 2>/dev/null || true
+cmux send-key --surface "$ORCHESTRATOR_SURFACE" Enter 2>/dev/null || true
 
 # ── Set cmux sidebar status ────────────────────────────
 cmux set-status "supervisor" "Starting" --icon "bolt.fill" --color "#4C8DFF" 2>/dev/null || true

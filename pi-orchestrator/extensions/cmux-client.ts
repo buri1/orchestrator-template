@@ -118,10 +118,12 @@ export function readScreen(surfaceId: string, lines = 30, scrollback = false): s
 	return exec(`${cmd} 2>/dev/null`, 5000);
 }
 
-/** Send text to a surface (equivalent to typing + Enter) */
+/** Send text to a surface and press Enter (equivalent to typing + Enter) */
 export function sendText(surfaceId: string, text: string): boolean {
 	const escaped = text.replace(/'/g, "'\\''");
-	return exec(`cmux send --surface "${surfaceId}" '${escaped}' 2>/dev/null`, 5000) !== "" || true;
+	exec(`cmux send --surface "${surfaceId}" '${escaped}' 2>/dev/null`, 5000);
+	exec(`cmux send-key --surface "${surfaceId}" Enter 2>/dev/null`, 5000);
+	return true;
 }
 
 /** Send a key to a surface (e.g. "escape", "ctrl+c", "enter") */
@@ -129,12 +131,13 @@ export function sendKey(surfaceId: string, key: string): boolean {
 	return exec(`cmux send-key --surface "${surfaceId}" "${key}" 2>/dev/null`, 5000) !== "" || true;
 }
 
-/** Split a surface, returns the new surface ref */
+/** Split a surface, returns the new surface ref (e.g. "surface:19") */
 export function splitSurface(
 	surfaceId: string,
 	direction: "up" | "down" | "left" | "right" = "down",
 ): string {
-	return exec(`cmux new-split ${direction} --surface "${surfaceId}" 2>/dev/null`);
+	const raw = exec(`cmux new-split ${direction} --surface "${surfaceId}" 2>/dev/null`);
+	return raw.match(/surface:\d+/)?.[0] || raw;
 }
 
 /** Close a surface */

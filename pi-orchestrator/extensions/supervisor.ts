@@ -59,7 +59,7 @@ interface SupervisorConfig {
 const DEFAULT_CONFIG: SupervisorConfig = {
 	orchestratorFlags: "--dangerously-skip-permissions",
 	heartbeatIntervalMs: 30_000,
-	silenceThresholdMs: 120_000,
+	silenceThresholdMs: 300_000,
 	stallThresholdMs: 600_000,
 	maxNudgesBeforeRestart: 3,
 	workers: {},
@@ -165,7 +165,7 @@ const INITIAL_BMAD_STATE: BmadWaveState = { epic: null, epicId: null, wave: null
 // ── Events (things that happened) ───────────────
 
 type SupervisorEvent =
-	| { type: "heartbeat"; paneAlive: boolean; claudeRunning: boolean; outputHash: string; output: string; now: number }
+	| { type: "heartbeat"; paneAlive: boolean; claudeRunning: boolean; outputHash: string; output: string; screen: ScreenState | null; now: number }
 	| { type: "start"; directory: string; flags: string; helperScript: string; task: string | null; now: number }
 	| { type: "stop"; kill: boolean; now: number }
 	| { type: "pause"; now: number }
@@ -286,26 +286,49 @@ function reduce(
 				break;
 			}
 
-			// 4. Silence
+			// 4. Silence & smart nudging (screen-state-aware)
 			const silence = now - s.lastOutputAt;
+			const activity = event.screen?.activity || "unknown";
 
+			// Don't transition to silent if orchestrator is actively working
 			if (s.phase === "running" && silence > config.silenceThresholdMs) {
-				transition("silent", `no output for ${Math.round(silence / 1000)}s`);
+				if (activity === "thinking" || activity === "tool_calling" || activity === "working") {
+					// Active work detected — reset silence timer, don't nudge
+					log(`silence ${Math.round(silence / 1000)}s but activity=${activity}, skipping`);
+				} else {
+					transition("silent", `no output for ${Math.round(silence / 1000)}s (activity=${activity})`);
+				}
 			}
 
 			if (s.phase === "silent" && s.nudgeCount < config.maxNudgesBeforeRestart) {
+				// Don't nudge if screen shows active work
+				if (activity === "thinking" || activity === "tool_calling" || activity === "working") {
+					transition("running", `screen shows activity=${activity}`);
+					s.nudgeCount = 0;
+					break;
+				}
+
+				// Don't nudge if no meaningful task
+				const task = registry?.session?.task;
+				if (!task || task.length < 10) {
+					log(`silent but no real task (${task || "none"}), skipping nudge`);
+					break;
+				}
+
 				s.nudgeCount++;
 				s.totalNudges++;
-				transition("nudging", `auto-nudge #${s.nudgeCount}`);
+				transition("nudging", `auto-nudge #${s.nudgeCount} (activity=${activity})`);
 
+				// Context-aware nudge messages
+				const errorCtx = event.screen?.errorDetected ? ` Error detected: ${event.screen.errorDetected.slice(0, 80)}` : "";
 				const nudgeMsg = s.nudgeCount === 1
-					? "continue"
+					? `Continue working on: ${task}.${errorCtx}`
 					: s.nudgeCount === 2
-					? "You appear to be stalled. Check your current phase and continue with the next step."
-					: "SUPERVISOR: You have been silent for an extended period. Resume the orchestrator loop immediately. If stuck, skip the current task and continue.";
+					? `SUPERVISOR: You have been idle for ${Math.round(silence / 1000)}s. Resume working on: ${task}. If stuck, skip and move to the next step.${errorCtx}`
+					: `SUPERVISOR FINAL WARNING: Resume immediately or you will be restarted. Task: ${task}${errorCtx}`;
 
 				fx.push({ type: "send_keys", paneId: layout.orchestratorPaneId, text: nudgeMsg });
-				fx.push({ type: "log_devlog", entry: `### [${new Date(now).toISOString()}] NUDGE #${s.nudgeCount}\n- Silence: ${Math.round(silence / 1000)}s\n- Message: ${nudgeMsg.slice(0, 80)}` });
+				fx.push({ type: "log_devlog", entry: `### [${new Date(now).toISOString()}] NUDGE #${s.nudgeCount}\n- Silence: ${Math.round(silence / 1000)}s\n- Activity: ${activity}\n- Message: ${nudgeMsg.slice(0, 100)}` });
 				fx.push({ type: "schedule", delayMs: 5000, event: { type: "nudge_settled", now: now + 5000 } });
 				fx.push({ type: "persist_state" });
 				break;
@@ -553,6 +576,82 @@ function paneClaudeRunning(paneId: string): boolean {
 	return /[✓◆❯]|claude>|╭─|│ >|Thinking|Tool |⏺|waiting for|permission/i.test(output);
 }
 
+
+// ── Screen State (parsed from cmux read-screen) ─────
+
+type OrchestratorActivity = "idle" | "working" | "thinking" | "tool_calling" | "error" | "waiting_input" | "completed" | "unknown";
+
+interface ScreenState {
+	activity: OrchestratorActivity;
+	claudeRunning: boolean;
+	promptVisible: boolean;
+	errorDetected: string | null;
+	milestone: string | null;      // "pr_created", "tests_passed", "branch_created", etc.
+	lastToolCall: string | null;   // "Edit", "Write", "Bash", etc.
+	tokenCount: number | null;
+	rawLines: string;
+}
+
+function parseScreen(paneId: string): ScreenState {
+	const raw = exec(`cmux read-screen --surface "${paneId}" --lines 20 2>/dev/null`, 5000);
+	const result: ScreenState = {
+		activity: "unknown",
+		claudeRunning: false,
+		promptVisible: false,
+		errorDetected: null,
+		milestone: null,
+		lastToolCall: null,
+		tokenCount: null,
+		rawLines: raw,
+	};
+
+	if (!raw) return result;
+
+	// Claude running detection (existing logic, expanded)
+	result.claudeRunning = /[✓◆❯○]|claude>|╭─|│ >|Thinking|Tool |⏺|waiting for|permission|Working/i.test(raw);
+
+	// Prompt visible = Claude idle, waiting for user input
+	result.promptVisible = /^\s*[❯○]\s*$/m.test(raw) || /^\s*[❯○]\s*▊?\s*$/m.test(raw);
+
+	// Token count from footer
+	const tokenMatch = raw.match(/(\d[\d,]+)\s*tokens?/i);
+	if (tokenMatch) result.tokenCount = parseInt(tokenMatch[1].replace(/,/g, ""), 10);
+
+	// Activity detection (priority order — first match wins)
+	if (/Error:|FAIL|panic|Traceback|ERR!|FATAL|Unhandled|exception/i.test(raw)) {
+		result.activity = "error";
+		const errMatch = raw.match(/(Error:.*|FAIL.*|panic:.*|Traceback.*)/i);
+		result.errorDetected = errMatch ? errMatch[1].slice(0, 120) : "unknown error";
+	} else if (/⠋|⠙|⠹|⠸|⠼|⠴|⠦|⠧|⠇|⠏|Working|Thinking/i.test(raw)) {
+		result.activity = "thinking";
+	} else if (/Tool:\s*(Edit|Write|Read|Bash|Grep|Glob|Agent)/i.test(raw)) {
+		result.activity = "tool_calling";
+		const toolMatch = raw.match(/Tool:\s*(\w+)/i);
+		result.lastToolCall = toolMatch ? toolMatch[1] : null;
+	} else if (/⏺.*\.(ts|js|tsx|jsx|py|sh|md|json|yaml|yml)/i.test(raw)) {
+		result.activity = "working";
+	} else if (result.promptVisible) {
+		result.activity = "idle";
+	} else if (result.claudeRunning) {
+		result.activity = "working";
+	}
+
+	// Milestone detection
+	if (/gh pr create|Pull request created|pr create/i.test(raw)) {
+		result.milestone = "pr_created";
+	} else if (/All tests passed|✓.*tests?|Tests.*passed|npm test.*ok/i.test(raw)) {
+		result.milestone = "tests_passed";
+	} else if (/git checkout -b|git switch -c|branch.*created/i.test(raw)) {
+		result.milestone = "branch_created";
+	} else if (/git commit|committed|\[\w+ [a-f0-9]+\]/i.test(raw)) {
+		result.milestone = "committed";
+	} else if (/latch|DONE|completed.*story|story.*done/i.test(raw)) {
+		result.milestone = "task_completed";
+	}
+
+	return result;
+}
+
 function paneCapture(paneId: string, lines = 30): string {
 	// cmux read-screen returns clean text (no ANSI stripping needed)
 	return exec(`cmux read-screen --surface "${paneId}" --lines ${lines} 2>/dev/null`, 5000);
@@ -632,6 +731,7 @@ export default function (pi: ExtensionAPI) {
 					// No INC-005 copy-mode workaround — cmux has no scroll/copy mode
 					const escaped = fx.text.replace(/'/g, "'\\''");
 					exec(`cmux send --surface "${fx.paneId}" '${escaped}' 2>/dev/null`, 5000);
+					exec(`cmux send-key --surface "${fx.paneId}" Enter 2>/dev/null`, 5000);
 					break;
 				}
 				case "send_control":
@@ -737,15 +837,16 @@ export default function (pi: ExtensionAPI) {
 	function heartbeatProbe(): void {
 		const orchPane = layout.orchestratorPaneId;
 		const alive = paneExists(orchPane);
-		const running = alive ? paneClaudeRunning(orchPane) : false;
-		const output = alive ? paneCapture(orchPane, 20) : "";
+		const screen = alive ? parseScreen(orchPane) : null;
+		const output = screen?.rawLines || "";
 
 		dispatch({
 			type: "heartbeat",
 			paneAlive: alive,
-			claudeRunning: running,
+			claudeRunning: screen?.claudeRunning || false,
 			outputHash: simpleHash(output),
 			output,
+			screen,
 			now: Date.now(),
 		});
 	}
@@ -916,6 +1017,7 @@ export default function (pi: ExtensionAPI) {
 			const cmd = `cd "${directory}" && export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}`;
 			const escaped = cmd.replace(/'/g, "'\\''");
 			exec(`cmux send --surface "${paneId}" '${escaped}' 2>/dev/null`, 5000);
+			exec(`cmux send-key --surface "${paneId}" Enter 2>/dev/null`, 5000);
 			exec(`cmux rename-tab --surface "${paneId}" "${name}" 2>/dev/null`);
 			layout.workerPanes.push({ name, paneId, directory });
 			return paneId;
@@ -923,12 +1025,14 @@ export default function (pi: ExtensionAPI) {
 
 		// Split above the last worker (cmux new-split up)
 		const topPaneId = layout.workerPanes[layout.workerPanes.length - 1].paneId;
-		const newPaneId = exec(`cmux new-split up --surface "${topPaneId}" 2>/dev/null`);
+		const newPaneRaw = exec(`cmux new-split up --surface "${topPaneId}" 2>/dev/null`);
+		const newPaneId = newPaneRaw.match(/surface:\d+/)?.[0] || newPaneRaw;
 		if (!newPaneId) return null;
 
 		const cmd = `cd "${directory}" && export ORCHY_SESSION_NAME=${name} && unset CLAUDECODE && claude ${flags}`;
 		const escaped = cmd.replace(/'/g, "'\\''");
 		exec(`cmux send --surface "${newPaneId}" '${escaped}' 2>/dev/null`, 5000);
+		exec(`cmux send-key --surface "${newPaneId}" Enter 2>/dev/null`, 5000);
 		exec(`cmux rename-tab --surface "${newPaneId}" "${name}" 2>/dev/null`);
 		layout.workerPanes.push({ name, paneId: newPaneId, directory });
 		return newPaneId;
@@ -1070,6 +1174,7 @@ export default function (pi: ExtensionAPI) {
 				setTimeout(() => {
 					const escaped = initial_prompt.replace(/'/g, "'\\''");
 					exec(`cmux send --surface "${layout.orchestratorPaneId}" '${escaped}' 2>/dev/null`, 5000);
+					exec(`cmux send-key --surface "${layout.orchestratorPaneId}" Enter 2>/dev/null`, 5000);
 				}, 15000);
 			}
 
@@ -1469,6 +1574,7 @@ export default function (pi: ExtensionAPI) {
 
 					const escaped = fullPrompt.replace(/'/g, "'\\''");
 					exec(`cmux send --surface "${w.paneId}" '${escaped}' 2>/dev/null`, 5000);
+					exec(`cmux send-key --surface "${w.paneId}" Enter 2>/dev/null`, 5000);
 					logActivity("bmad_wave_prompt_sent", { workerName, storyId: story.id, latchFile });
 				}
 
@@ -1713,6 +1819,7 @@ export default function (pi: ExtensionAPI) {
 			setTimeout(() => {
 				const escaped = effectivePrompt.replace(/'/g, "'\\''");
 				exec(`cmux send --surface "${paneId}" '${escaped}' 2>/dev/null`, 5000);
+				exec(`cmux send-key --surface "${paneId}" Enter 2>/dev/null`, 5000);
 				logActivity("bmad_merge_prompt_sent", { mergeWorkerName, waveId: wave.id, paneId });
 			}, 15000);
 

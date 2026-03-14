@@ -112,6 +112,7 @@ spawn_worker() {
         # First worker: use the existing workers surface
         local pane_id="$workers_base_pane"
         cmux send --surface "$pane_id" "cd '$directory' && export ORCHY_SESSION_NAME=$name && unset CLAUDECODE && claude $flags" 2>/dev/null
+        cmux send-key --surface "$pane_id" Enter 2>/dev/null || true
         cmux rename-tab --surface "$pane_id" "$name" 2>/dev/null || true
         _add_worker_to_layout "$name" "$pane_id" "$directory"
         echo "Worker '$name' started in surface $pane_id (first worker, right side)"
@@ -126,7 +127,7 @@ print(wp[-1]['paneId'] if wp else '')
 " 2>/dev/null)
 
         local new_pane
-        new_pane=$(cmux new-split up --surface "$last_pane" 2>/dev/null)
+        new_pane=$(cmux new-split up --surface "$last_pane" 2>/dev/null | grep -o 'surface:[0-9]*')
 
         if [ -z "$new_pane" ]; then
             echo "ERROR: Failed to split surface for worker '$name'"
@@ -134,6 +135,7 @@ print(wp[-1]['paneId'] if wp else '')
         fi
 
         cmux send --surface "$new_pane" "cd '$directory' && export ORCHY_SESSION_NAME=$name && unset CLAUDECODE && claude $flags" 2>/dev/null
+        cmux send-key --surface "$new_pane" Enter 2>/dev/null || true
         cmux rename-tab --surface "$new_pane" "$name" 2>/dev/null || true
         _add_worker_to_layout "$name" "$new_pane" "$directory"
         echo "Worker '$name' started in surface $new_pane (worker #$((count + 1)), top of right side)"
@@ -159,8 +161,9 @@ dispatch_worker() {
     # Clear latch before dispatching
     rm -f "/tmp/orchy-${name}.latch" 2>/dev/null
 
-    # cmux send takes raw text — no shell escaping gymnastics
+    # cmux send types text, send-key Enter submits it
     cmux send --surface "$pane_id" "$prompt" 2>/dev/null
+    cmux send-key --surface "$pane_id" Enter 2>/dev/null || true
     echo "Dispatched to '$name' ($pane_id)"
 }
 
