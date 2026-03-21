@@ -70,9 +70,9 @@ Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + cont
 | Wait for signal | `cmux wait-for "signal-name" --timeout 1800` |
 | Signal done | `cmux wait-for -S "signal-name"` |
 | Notify | `cmux notify --title "Title" --body "Body"` |
-| Set status | `cmux set-status <key> "value" --icon hammer` |
-| Set progress | `cmux set-progress 0.5 --label "Story 1.3"` |
-| Log | `cmux log --level info --source orchestrator "message"` |
+| Set status | `cmux set-status <key> "value" --icon hammer --workspace "$ORCH_WORKSPACE"` |
+| Set progress | `cmux set-progress 0.5 --label "Story 1.3" --workspace "$ORCH_WORKSPACE"` |
+| Log | `cmux log --level info --source orchestrator "message" --workspace "$ORCH_WORKSPACE"` |
 | Browser open | `cmux browser open http://localhost:3000` |
 | Browser screenshot | `cmux browser screenshot --out /tmp/e2e.png` |
 | Browser snapshot | `cmux browser snapshot --interactive` |

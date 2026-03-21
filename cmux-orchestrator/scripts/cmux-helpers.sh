@@ -12,6 +12,7 @@
 # --- Config ---
 MAX_WORKERS=${MAX_WORKERS:-8}
 DEFAULT_TIMEOUT=${DEFAULT_TIMEOUT:-1800}  # 30 min
+ORCH_WORKSPACE=${ORCH_WORKSPACE:-${CMUX_WORKSPACE_ID:-""}}  # Capture at source-time
 
 # --- Colors ---
 RED='\033[0;31m'
@@ -22,10 +23,10 @@ PURPLE='\033[0;35m'
 NC='\033[0m'
 
 # --- Logging ---
-log_info()    { echo -e "${BLUE}[orch]${NC} $1"; cmux log --level info --source orchestrator -- "$1" 2>/dev/null; }
-log_success() { echo -e "${GREEN}[orch]${NC} $1"; cmux log --level info --source orchestrator -- "$1" 2>/dev/null; }
-log_warn()    { echo -e "${YELLOW}[orch]${NC} $1"; cmux log --level warn --source orchestrator -- "$1" 2>/dev/null; }
-log_error()   { echo -e "${RED}[orch]${NC} $1"; cmux log --level error --source orchestrator -- "$1" 2>/dev/null; }
+log_info()    { echo -e "${BLUE}[orch]${NC} $1"; cmux log --level info --source orchestrator --workspace "$ORCH_WORKSPACE" -- "$1" 2>/dev/null; }
+log_success() { echo -e "${GREEN}[orch]${NC} $1"; cmux log --level info --source orchestrator --workspace "$ORCH_WORKSPACE" -- "$1" 2>/dev/null; }
+log_warn()    { echo -e "${YELLOW}[orch]${NC} $1"; cmux log --level warn --source orchestrator --workspace "$ORCH_WORKSPACE" -- "$1" 2>/dev/null; }
+log_error()   { echo -e "${RED}[orch]${NC} $1"; cmux log --level error --source orchestrator --workspace "$ORCH_WORKSPACE" -- "$1" 2>/dev/null; }
 
 # --- Checks ---
 
@@ -88,8 +89,8 @@ spawn_worker() {
     # Start Claude Code with the signal env var
     cmux send --surface "$surface_ref" "cd ${project_dir} && ORCHY_SIGNAL=${signal} claude --dangerously-skip-permissions\n"
 
-    # Update sidebar
-    cmux set-status "$worker_name" "starting" --icon hammer --color "#ff9500" 2>/dev/null
+    # Update sidebar — target orchestrator workspace
+    cmux set-status "$worker_name" "starting" --icon hammer --color "#ff9500" --workspace "$ORCH_WORKSPACE" 2>/dev/null
 
     log_info "Spawned $worker_name in $surface_ref (signal: $signal)"
 
@@ -177,8 +178,8 @@ close_worker() {
     # Force close the surface
     cmux close-surface --surface "$surface_ref" 2>/dev/null
 
-    # Clean sidebar
-    cmux clear-status "$worker_name" 2>/dev/null
+    # Clean sidebar — target orchestrator workspace
+    cmux clear-status "$worker_name" --workspace "$ORCH_WORKSPACE" 2>/dev/null
 
     log_info "Closed worker: $worker_name ($surface_ref)"
 }
@@ -247,6 +248,6 @@ update_progress() {
     if [ "$total" -gt 0 ]; then
         local ratio
         ratio=$(echo "scale=2; $completed / $total" | bc)
-        cmux set-progress "$ratio" --label "$label" 2>/dev/null
+        cmux set-progress "$ratio" --label "$label" --workspace "$ORCH_WORKSPACE" 2>/dev/null
     fi
 }

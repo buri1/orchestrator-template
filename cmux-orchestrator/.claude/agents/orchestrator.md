@@ -73,12 +73,16 @@ cmux send --surface "$SURFACE_REF" "cd <project-dir> && ORCHY_SIGNAL=${SIGNAL} c
 # Wait for Claude to initialize (watch for the prompt)
 sleep 8
 
-# Send the task prompt
+# Send the task prompt — IMPORTANT: ensure \n at end to submit!
 cmux send --surface "$SURFACE_REF" "<task prompt>\n"
 
-# Update sidebar
-cmux set-status "$WORKER_NAME" "working" --icon hammer --color "#ff9500"
-cmux log --source orchestrator "Spawned $WORKER_NAME for story <id>"
+# Verify prompt was submitted (press Enter if needed)
+sleep 1
+cmux send-key --surface "$SURFACE_REF" Enter
+
+# Update sidebar — ALWAYS use --workspace "$ORCH_WORKSPACE"
+cmux set-status "$WORKER_NAME" "working" --icon hammer --color "#ff9500" --workspace "$ORCH_WORKSPACE"
+cmux log --source orchestrator "Spawned $WORKER_NAME for story <id>" --workspace "$ORCH_WORKSPACE"
 ```
 
 ### READ — Wait for Completion (EVENT-DRIVEN)
@@ -107,8 +111,8 @@ PR_URL=$(echo "$OUTPUT" | grep -oP 'https://github.com/[^ ]+/pull/\d+' | head -1
 
 ```bash
 cmux close-surface --surface "$SURFACE_REF"
-cmux clear-status "$WORKER_NAME"
-cmux log --source orchestrator "Closed $WORKER_NAME"
+cmux clear-status "$WORKER_NAME" --workspace "$ORCH_WORKSPACE"
+cmux log --source orchestrator "Closed $WORKER_NAME" --workspace "$ORCH_WORKSPACE"
 ```
 
 ---
@@ -179,6 +183,7 @@ SIGNAL="agent-worker-${STORY_ID}-done"
 cmux send --surface "$SURFACE" "cd $TARGET_DIR && ORCHY_SIGNAL=$SIGNAL claude --dangerously-skip-permissions\n"
 sleep 8
 cmux send --surface "$SURFACE" "<task>\n"
+sleep 1 && cmux send-key --surface "$SURFACE" Enter  # Ensure prompt is submitted
 cmux wait-for "$SIGNAL" --timeout 1800  # Returns INSTANTLY when agent finishes
 ```
 
@@ -253,6 +258,7 @@ Path: `<target-project-dir>/_bmad/orchestrator-state.json`
 {
   "version": "4.0",
   "mode": "cmux",
+  "orch_workspace": "<CMUX_WORKSPACE_ID at startup>",
   "project": {
     "name": "<project-name>",
     "dir": "<absolute-path>",
@@ -298,19 +304,21 @@ Path: `<target-project-dir>/_bmad/orchestrator-state.json`
 
 ## 7. SIDEBAR METADATA
 
-Keep the cmux sidebar updated throughout the loop:
+**CRITICAL**: ALL sidebar commands MUST include `--workspace "$ORCH_WORKSPACE"` to target the orchestrator's workspace. Without this flag, status pills leak into whatever workspace is currently focused.
+
+`ORCH_WORKSPACE` is captured at startup from `$CMUX_WORKSPACE_ID` and stored in state.
 
 ```bash
 # Overall progress
-cmux set-progress 0.43 --label "3/7 stories done"
+cmux set-progress 0.43 --label "3/7 stories done" --workspace "$ORCH_WORKSPACE"
 
 # Per-worker status
-cmux set-status "worker-1.3" "implementing" --icon hammer --color "#ff9500"
-cmux set-status "worker-1.4" "PR ready" --icon checkmark --color "#34c759"
+cmux set-status "worker-1.3" "implementing" --icon hammer --color "#ff9500" --workspace "$ORCH_WORKSPACE"
+cmux set-status "worker-1.4" "PR ready" --icon checkmark --color "#34c759" --workspace "$ORCH_WORKSPACE"
 
 # Log events
-cmux log --level info --source orchestrator "Story 1.3: PR #42 created"
-cmux log --level error --source orchestrator "Story 1.5: build failed, respawning"
+cmux log --level info --source orchestrator "Story 1.3: PR #42 created" --workspace "$ORCH_WORKSPACE"
+cmux log --level error --source orchestrator "Story 1.5: build failed, respawning" --workspace "$ORCH_WORKSPACE"
 
 # Notifications at key moments
 cmux notify --title "Sprint Progress" --body "Story 1.3 merged! 4/7 done."
@@ -391,6 +399,8 @@ Append to `<target-project-dir>/_bmad/devlog.md`:
 
 6. **State is survival**: Write state after every phase change.
 
-7. **Sidebar is your dashboard**: Keep `set-status`, `set-progress`, and `log` updated so the user sees live progress in the cmux sidebar.
+7. **Sidebar is your dashboard**: Keep `set-status`, `set-progress`, and `log` updated so the user sees live progress in the cmux sidebar. **ALWAYS use `--workspace "$ORCH_WORKSPACE"`** to target the orchestrator workspace — never omit this flag or status pills will leak into the user's focused workspace.
+
+9. **Prompt submission**: After `cmux send`, always follow up with `sleep 1 && cmux send-key --surface "$SURFACE_REF" Enter` to ensure the prompt is actually submitted. Large prompts can get pasted without the trailing newline being processed.
 
 8. **AUTO_MODE means AUTO**: When enabled, the loop runs continuously. Skip roadblocks, log them, keep going.
