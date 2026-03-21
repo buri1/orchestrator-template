@@ -59,12 +59,42 @@ The core pattern is simple — treat agents as CRUD resources:
 
 ### CREATE — Spawn a Worker
 
+#### Worker Naming Convention
+
+Every worker gets a structured name for traceability and debugging:
+
+```
+W<wave>_<worker#>_<story-id>_<short-desc>_<HHmm>
+```
+
+**Examples:**
+- `W1_1_1.3_homepage_0845`
+- `W2_3_2.1_auth-flow_1422`
+- `W1_2_fix-1.3_lint-errors_0912`
+
+Components:
+- `W<wave>` — Wave number (W0=setup, W1=first batch, W2=second, etc.)
+- `<worker#>` — Sequential worker number within the wave (1, 2, 3...)
+- `<story-id>` — Story ID or `fix-<story-id>` for fix workers
+- `<short-desc>` — 1-3 word kebab-case feature description
+- `<HHmm>` — Spawn time (24h format)
+
 ```bash
+# Build the structured worker name
+WAVE_NR=1
+WORKER_NR=1
+STORY_ID="1.3"
+SHORT_DESC="homepage"
+SPAWN_TIME=$(date +%H%M)
+WORKER_NAME="W${WAVE_NR}_${WORKER_NR}_${STORY_ID}_${SHORT_DESC}_${SPAWN_TIME}"
+
 # Split a new visible pane
 SURFACE_REF=$(cmux new-split right --json | jq -r '.surface_ref // .surface_id')
 
+# Rename the tab to the structured name
+cmux rename-tab --surface "$SURFACE_REF" "$WORKER_NAME" 2>/dev/null
+
 # Set a unique signal name for this worker
-WORKER_NAME="worker-<story-id>"
 SIGNAL="agent-${WORKER_NAME}-done"
 
 # Start Claude Code with the stop hook that signals completion
@@ -290,12 +320,15 @@ Path: `<target-project-dir>/_bmad/orchestrator-state.json`
 **workers** array entry:
 ```json
 {
-  "name": "worker-1.3",
+  "name": "W1_1_1.3_homepage_0845",
   "surface_ref": "surface:5",
-  "signal": "agent-worker-1.3-done",
+  "signal": "agent-W1_1_1.3_homepage_0845-done",
   "story_id": "1.3",
+  "wave": 1,
+  "worker_nr": 1,
+  "short_desc": "homepage",
   "type": "dev",
-  "spawned_at": "2026-03-20T21:00:00Z",
+  "spawned_at": "2026-03-20T08:45:00Z",
   "status": "running"
 }
 ```

@@ -52,9 +52,36 @@ Each agent gets **complete filesystem isolation** via git worktrees.
 
 ### CREATE — Spawn a Worker in Isolated Worktree
 
+#### Worker Naming Convention
+
+Every worker gets a structured name for traceability and debugging:
+
+```
+W<wave>_<worker#>_<story-id>_<short-desc>_<HHmm>
+```
+
+**Examples:**
+- `W1_1_1.3_homepage_0845` — Wave 1, worker 1, story 1.3, homepage feature, spawned 08:45
+- `W2_3_2.1_auth-flow_1422` — Wave 2, worker 3, story 2.1, auth flow, spawned 14:22
+- `W1_2_fix-1.3_lint-errors_0912` — Fix worker for story 1.3
+
+Components:
+- `W<wave>` — Wave number (W0=setup, W1=first batch, W2=second, etc.)
+- `<worker#>` — Sequential worker number within the wave (1, 2, 3...)
+- `<story-id>` — Story ID or `fix-<story-id>` for fix workers
+- `<short-desc>` — 1-3 word kebab-case feature description
+- `<HHmm>` — Spawn time (24h format)
+
 ```bash
-# 1. Create the git worktree with a new branch
-WORKER_NAME="worker-<story-id>"
+# 1. Build the structured worker name
+WAVE_NR=1
+WORKER_NR=1
+STORY_ID="1.3"
+SHORT_DESC="homepage"
+SPAWN_TIME=$(date +%H%M)
+WORKER_NAME="W${WAVE_NR}_${WORKER_NR}_${STORY_ID}_${SHORT_DESC}_${SPAWN_TIME}"
+
+# 2. Create the git worktree with a new branch
 BRANCH="feature/<story-id>-<slug>"
 WORKTREE_DIR="$HOME/.cmux/worktrees/$(basename $TARGET_DIR)/$BRANCH"
 
@@ -89,7 +116,7 @@ fi
 cmux new-workspace --cwd "$WORKTREE_DIR"
 sleep 0.5
 WORKSPACE_REF=$(cmux list-workspaces --json 2>/dev/null | jq -r '.[-1].workspace_ref // .[-1].id')
-cmux rename-workspace --workspace "$WORKSPACE_REF" "W: $WORKER_NAME"
+cmux rename-workspace --workspace "$WORKSPACE_REF" "$WORKER_NAME"
 
 # 5. Get the surface ref of the new workspace's terminal
 SURFACE_REF=$(cmux tree --workspace "$WORKSPACE_REF" --json 2>/dev/null | jq -r '.. | .surface_ref? // empty' | head -1)
@@ -305,15 +332,18 @@ Path: `<target-project-dir>/_bmad/orchestrator-state.json`
 **workers** array entry (extended with worktree info):
 ```json
 {
-  "name": "worker-1.3",
+  "name": "W1_1_1.3_homepage_0845",
   "workspace_ref": "workspace:7",
   "surface_ref": "surface:12",
-  "signal": "agent-worker-1.3-done",
+  "signal": "agent-W1_1_1.3_homepage_0845-done",
   "story_id": "1.3",
+  "wave": 1,
+  "worker_nr": 1,
+  "short_desc": "homepage",
   "branch": "feature/1.3-portal-homepage",
   "worktree_dir": "/Users/buraksmac/.cmux/worktrees/lagerlink/feature/1.3-portal-homepage",
   "type": "dev",
-  "spawned_at": "2026-03-21T08:00:00Z",
+  "spawned_at": "2026-03-21T08:45:00Z",
   "status": "running"
 }
 ```

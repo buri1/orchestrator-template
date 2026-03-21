@@ -46,9 +46,23 @@ check_gh_auth() {
     return 0
 }
 
+# --- Worker Naming ---
+# Usage: make_worker_name <wave_nr> <worker_nr> <story_id> <short_desc>
+# Returns: W<wave>_<worker#>_<story-id>_<short-desc>_<HHmm>
+make_worker_name() {
+    local wave_nr=$1
+    local worker_nr=$2
+    local story_id=$3
+    local short_desc=$4
+    local spawn_time=$(date +%H%M)
+    echo "W${wave_nr}_${worker_nr}_${story_id}_${short_desc}_${spawn_time}"
+}
+
 # --- CREATE: Spawn a Worker ---
 # Usage: spawn_worker <worker_name> <project_dir> [direction]
 # Sets:  LAST_SURFACE_REF, LAST_SIGNAL
+# Worker name should follow convention: W<wave>_<worker#>_<story-id>_<short-desc>_<HHmm>
+# Use make_worker_name() to generate it.
 spawn_worker() {
     local worker_name=$1
     local project_dir=$2
