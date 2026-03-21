@@ -97,18 +97,14 @@ cmux rename-tab --surface "$SURFACE_REF" "$WORKER_NAME" 2>/dev/null
 # Set a unique signal name for this worker
 SIGNAL="agent-${WORKER_NAME}-done"
 
-# Start Claude Code with the stop hook that signals completion
-cmux send --surface "$SURFACE_REF" "cd <project-dir> && ORCHY_SIGNAL=${SIGNAL} claude --dangerously-skip-permissions\n"
+# Write the task prompt to a temp file (avoids shell escaping issues)
+PROMPT_FILE="/tmp/${WORKER_NAME}-prompt.md"
+cat > "$PROMPT_FILE" << 'PROMPT_EOF'
+<task prompt content here>
+PROMPT_EOF
 
-# Wait for Claude to initialize (watch for the prompt)
-sleep 8
-
-# Send the task prompt — IMPORTANT: ensure \n at end to submit!
-cmux send --surface "$SURFACE_REF" "<task prompt>\n"
-
-# Verify prompt was submitted (press Enter if needed)
-sleep 1
-cmux send-key --surface "$SURFACE_REF" Enter
+# Start Claude with prompt via file — single command, no escaping issues
+cmux send --surface "$SURFACE_REF" "cd <project-dir> && ORCHY_SIGNAL=${SIGNAL} claude --dangerously-skip-permissions -p \"\$(cat ${PROMPT_FILE})\"\n"
 
 # Update sidebar — ALWAYS use --workspace "$ORCH_WORKSPACE"
 cmux set-status "$WORKER_NAME" "working" --icon hammer --color "#ff9500" --workspace "$ORCH_WORKSPACE"
@@ -209,11 +205,14 @@ For each story in the epic, execute these phases IN ORDER:
 
 # NEW (cmux — event-driven, instant):
 SURFACE=$(cmux new-split right --json | jq -r '.surface_ref')
-SIGNAL="agent-worker-${STORY_ID}-done"
-cmux send --surface "$SURFACE" "cd $TARGET_DIR && ORCHY_SIGNAL=$SIGNAL claude --dangerously-skip-permissions\n"
-sleep 8
-cmux send --surface "$SURFACE" "<task>\n"
-sleep 1 && cmux send-key --surface "$SURFACE" Enter  # Ensure prompt is submitted
+SIGNAL="agent-${WORKER_NAME}-done"
+
+# Write prompt to file, then send single command
+cat > "/tmp/${WORKER_NAME}-prompt.md" << 'PROMPT_EOF'
+<task content>
+PROMPT_EOF
+
+cmux send --surface "$SURFACE" "cd $TARGET_DIR && ORCHY_SIGNAL=$SIGNAL claude --dangerously-skip-permissions -p \"\$(cat /tmp/${WORKER_NAME}-prompt.md)\"\n"
 cmux wait-for "$SIGNAL" --timeout 1800  # Returns INSTANTLY when agent finishes
 ```
 
@@ -418,11 +417,88 @@ Append to `<target-project-dir>/_bmad/devlog.md`:
 
 ---
 
-## 11. CRITICAL REMINDERS
+## 11. CMUX SEND — CORRECT SYNTAX (CRITICAL)
+
+**This section exists because of real production incidents. Read it carefully.**
+
+### The ONLY correct way to send commands:
+
+```bash
+cmux send --surface "$SURFACE_REF" 'your command here\n'
+```
+
+- Text is a **positional argument** (after flags), NOT a `--text` flag
+- `\n` at the end = **Enter key**. This is how you submit.
+- There is NO `--text` flag. There is NO `--enter` flag. There is NO `--keys` flag on `cmux send`.
+- For key presses use `cmux send-key --surface "$SURFACE_REF" Enter`
+
+### WRONG (will corrupt the shell):
+```bash
+# ALL OF THESE ARE WRONG:
+cmux send --surface surface:42 --text "command" --enter     # --text and --enter don't exist
+cmux send --surface surface:42 --keys ctrl+c                # --keys doesn't exist on send
+cmux send --surface surface:42 "command"                    # Missing \n = never submits
+```
+
+### Prompt delivery for workers:
+
+For long prompts, ALWAYS write to a file first, then send a short command:
+
+```bash
+# 1. Write prompt to a temp file
+cat > /tmp/worker-prompt.md << 'PROMPT_EOF'
+Your task: implement story 1.3...
+PROMPT_EOF
+
+# 2. Send a SHORT command that reads the file
+cmux send --surface "$SURFACE_REF" 'cd /path/to/project && ORCHY_SIGNAL=agent-W1_1_1.3_homepage_0845-done claude --dangerously-skip-permissions -p "$(cat /tmp/worker-prompt.md)"\n'
+```
+
+**Why file-based prompts:** Long inline prompts with quotes, newlines, and special chars break shell escaping inside `cmux send`. The file approach avoids all escaping issues.
+
+### Shell corruption recovery:
+
+If a shell gets stuck in `dquote>` or `quote>` state:
+```bash
+# Close the corrupted surface entirely
+cmux close-surface --surface "$SURFACE_REF"
+
+# Create a fresh one
+SURFACE_REF=$(cmux new-split right --json | jq -r '.surface_ref // .surface_id')
+```
+
+**NEVER try to recover a corrupted shell** with Ctrl+C or empty sends — it makes it worse. Just close and recreate.
+
+---
+
+## 12. CONTEXT MANAGEMENT (CRITICAL)
+
+The orchestrator's context grows with every tool call result. At >150k tokens, each action has 5-15 seconds overhead. This MUST be managed proactively.
+
+### Rules:
+
+1. **Compact after every wave**: Run `/compact` after each batch of workers completes and results are processed.
+
+2. **Minimize tool output**: Always pipe through `tail` or `jq` to limit output size:
+   ```bash
+   git push origin branch 2>&1 | tail -3           # Not full push output
+   gh pr list --json number --jq '.[0].number'      # Not full PR JSON
+   cmux read-screen --surface "$SURFACE_REF" --lines 15  # Not --lines 100
+   ```
+
+3. **State file is your memory**: After compaction, re-read `_bmad/orchestrator-state.json` to recover context. Don't rely on conversation history.
+
+4. **Never use `sleep` + `read-screen` as polling**: Use `cmux wait-for` exclusively. Background `sleep && read-screen` tasks waste context AND are unreliable.
+
+5. **NEVER fall back to the Agent tool**: The orchestrator ALWAYS uses cmux for spawning workers. The built-in Agent tool is NOT an alternative. If cmux commands fail, fix the cmux command — don't switch tools.
+
+---
+
+## 13. CRITICAL REMINDERS
 
 1. **Workers are VISIBLE**: Every agent runs in a pane you can SEE. This is not headless. The user watches agents work in real-time.
 
-2. **Event-driven, NEVER polling**: Use `cmux wait-for` for completion. NEVER `sleep` in a loop. NEVER poll with `read-screen` on an interval.
+2. **Event-driven, NEVER polling**: Use `cmux wait-for` for completion. NEVER `sleep` in a loop. NEVER poll with `read-screen` on an interval. NEVER run background `sleep 30 && read-screen` tasks.
 
 3. **Workers are the developers**: You NEVER touch code. Workers write code, run builds, create PRs.
 
@@ -432,8 +508,10 @@ Append to `<target-project-dir>/_bmad/devlog.md`:
 
 6. **State is survival**: Write state after every phase change.
 
-7. **Sidebar is your dashboard**: Keep `set-status`, `set-progress`, and `log` updated so the user sees live progress in the cmux sidebar. **ALWAYS use `--workspace "$ORCH_WORKSPACE"`** to target the orchestrator workspace — never omit this flag or status pills will leak into the user's focused workspace.
-
-9. **Prompt submission**: After `cmux send`, always follow up with `sleep 1 && cmux send-key --surface "$SURFACE_REF" Enter` to ensure the prompt is actually submitted. Large prompts can get pasted without the trailing newline being processed.
+7. **Sidebar targeting**: ALL `set-status`, `set-progress`, `log` calls MUST include `--workspace "$ORCH_WORKSPACE"`.
 
 8. **AUTO_MODE means AUTO**: When enabled, the loop runs continuously. Skip roadblocks, log them, keep going.
+
+9. **cmux send syntax**: Text as positional arg, `\n` for Enter. NO `--text`, NO `--enter`, NO `--keys` flags. Write long prompts to files first.
+
+10. **Context hygiene**: Compact after every wave. Pipe tool output through `tail`/`jq`. Keep under 100k tokens.

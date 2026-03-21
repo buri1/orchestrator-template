@@ -121,17 +121,15 @@ cmux rename-workspace --workspace "$WORKSPACE_REF" "$WORKER_NAME"
 # 5. Get the surface ref of the new workspace's terminal
 SURFACE_REF=$(cmux tree --workspace "$WORKSPACE_REF" --json 2>/dev/null | jq -r '.. | .surface_ref? // empty' | head -1)
 
-# 6. Start Claude Code with signal env var
+# 6. Write the task prompt to a temp file (avoids shell escaping issues)
 SIGNAL="agent-${WORKER_NAME}-done"
-cmux send --workspace "$WORKSPACE_REF" --surface "$SURFACE_REF" "ORCHY_SIGNAL=${SIGNAL} claude --dangerously-skip-permissions\n"
-sleep 8
+PROMPT_FILE="/tmp/${WORKER_NAME}-prompt.md"
+cat > "$PROMPT_FILE" << 'PROMPT_EOF'
+<task prompt content here>
+PROMPT_EOF
 
-# 7. Send task prompt
-cmux send --workspace "$WORKSPACE_REF" --surface "$SURFACE_REF" "<task prompt>\n"
-
-# 8. Verify prompt was submitted (press Enter if needed)
-sleep 1
-cmux send-key --workspace "$WORKSPACE_REF" --surface "$SURFACE_REF" Enter
+# 7. Start Claude with prompt via file — single command, no escaping issues
+cmux send --workspace "$WORKSPACE_REF" --surface "$SURFACE_REF" "ORCHY_SIGNAL=${SIGNAL} claude --dangerously-skip-permissions -p \"\$(cat ${PROMPT_FILE})\"\n"
 
 # 9. Update sidebar — ALWAYS use --workspace "$ORCH_WORKSPACE"
 cmux set-status "$WORKER_NAME" "working" --icon hammer --color "#ff9500" --workspace "$ORCH_WORKSPACE"
@@ -419,24 +417,103 @@ Same as v4.0 — append to `<target-project-dir>/_bmad/devlog.md`.
 
 ---
 
-## 11. CRITICAL REMINDERS
+## 11. CMUX SEND — CORRECT SYNTAX (CRITICAL)
+
+**This section exists because of real production incidents. Read it carefully.**
+
+### The ONLY correct way to send commands:
+
+```bash
+cmux send --workspace "$WORKSPACE_REF" --surface "$SURFACE_REF" 'your command here\n'
+```
+
+- Text is a **positional argument** (after flags), NOT a `--text` flag
+- `\n` at the end = **Enter key**. This is how you submit.
+- There is NO `--text` flag. There is NO `--enter` flag. There is NO `--keys` flag on `cmux send`.
+- For key presses use `cmux send-key --surface "$SURFACE_REF" Enter`
+
+### WRONG (will corrupt the shell):
+```bash
+# ALL OF THESE ARE WRONG:
+cmux send --surface surface:42 --text "command" --enter     # --text and --enter don't exist
+cmux send --surface surface:42 --keys ctrl+c                # --keys doesn't exist on send
+cmux send --surface surface:42 "command"                    # Missing \n = never submits
+```
+
+### Prompt delivery for workers:
+
+For long prompts, ALWAYS write to a file first, then send a short command:
+
+```bash
+# 1. Write prompt to a temp file
+cat > /tmp/worker-prompt.md << 'PROMPT_EOF'
+Your task: implement story 1.3...
+PROMPT_EOF
+
+# 2. Send a SHORT command that reads the file
+cmux send --workspace "$WORKSPACE_REF" --surface "$SURFACE_REF" 'cd /path/to/worktree && ORCHY_SIGNAL=agent-W1_1_1.3_homepage_0845-done claude --dangerously-skip-permissions -p "$(cat /tmp/worker-prompt.md)"\n'
+```
+
+**Why file-based prompts:** Long inline prompts with quotes, newlines, and special chars break shell escaping inside `cmux send`. The file approach avoids all escaping issues.
+
+### Shell corruption recovery:
+
+If a shell gets stuck in `dquote>` or `quote>` state:
+```bash
+# Close the corrupted workspace entirely
+cmux close-workspace --workspace "$WORKSPACE_REF"
+
+# Create a fresh workspace in the same worktree
+cmux new-workspace --cwd "$WORKTREE_DIR"
+```
+
+**NEVER try to recover a corrupted shell** with Ctrl+C or empty sends — it makes it worse. Just close and recreate.
+
+---
+
+## 12. CONTEXT MANAGEMENT (CRITICAL)
+
+The orchestrator's context grows with every tool call result. At >150k tokens, each action has 5-15 seconds overhead. This MUST be managed proactively.
+
+### Rules:
+
+1. **Compact after every wave**: Run `/compact` after each batch of workers completes and results are processed.
+
+2. **Minimize tool output**: Always pipe through `tail` or `jq` to limit output size:
+   ```bash
+   git push origin branch 2>&1 | tail -3           # Not full push output
+   gh pr list --json number --jq '.[0].number'      # Not full PR JSON
+   cmux read-screen --workspace "$WS" --surface "$SF" --lines 15  # Not --lines 100
+   ```
+
+3. **State file is your memory**: After compaction, re-read `_bmad/orchestrator-state.json` to recover context. Don't rely on conversation history.
+
+4. **Never use `sleep` + `read-screen` as polling**: Use `cmux wait-for` exclusively. Background `sleep && read-screen` tasks waste context AND are unreliable.
+
+5. **NEVER fall back to the Agent tool**: The orchestrator ALWAYS uses cmux for spawning workers. The built-in Agent tool is NOT an alternative. If cmux commands fail, fix the cmux command — don't switch tools.
+
+---
+
+## 13. CRITICAL REMINDERS
 
 1. **Each worker = own workspace + own worktree**: Full filesystem isolation. No git conflicts possible.
 
-2. **Event-driven, NEVER polling**: Use `cmux wait-for` for completion.
+2. **Event-driven, NEVER polling**: Use `cmux wait-for` for completion. NEVER `sleep` in a loop. NEVER poll with `read-screen` on an interval. NEVER run background `sleep 30 && read-screen` tasks.
 
 3. **Workers are the developers**: You NEVER touch code.
 
-4. **Worktrees must be cleaned up**: Always `git worktree remove` after merge. Stale worktrees waste disk and cause confusion.
+4. **Worktrees must be cleaned up**: Always `git worktree remove` after merge.
 
-5. **node_modules symlink**: Symlink from main project to avoid duplicate installs. If a worker needs different deps, run `pnpm install` in the worktree.
+5. **node_modules symlink**: Symlink from main project to avoid duplicate installs.
 
-6. **Stop hook per worktree**: Each worktree needs the Stop hook installed in its `.claude/settings.local.json`. The CREATE step handles this.
+6. **Stop hook per worktree**: Each worktree needs the Stop hook in `.claude/settings.local.json`. The CREATE step handles this.
 
-7. **Sidebar is your dashboard**: Each workspace tab = one worker. Branch name visible. Status pills show progress.
+7. **Sidebar targeting**: ALL `set-status`, `set-progress`, `log` calls MUST include `--workspace "$ORCH_WORKSPACE"`.
 
-8. **Do NOT checkout branches in worktrees**: Each worktree IS the branch. Workers should never run `git checkout`.
+8. **Do NOT checkout branches in worktrees**: Each worktree IS the branch.
 
-9. **Workspace targeting**: ALL `set-status`, `set-progress`, `log` calls MUST include `--workspace "$ORCH_WORKSPACE"`. Omitting this flag causes status pills to leak into the user's currently focused workspace.
+9. **cmux send syntax**: Text as positional arg, `\n` for Enter. NO `--text`, NO `--enter`, NO `--keys` flags. Write long prompts to files first.
 
-10. **Prompt submission**: After `cmux send`, always follow up with `sleep 1 && cmux send-key Enter` to ensure the prompt is actually submitted. Large prompts can get pasted without the trailing newline being processed.
+10. **Context hygiene**: Compact after every wave. Pipe tool output through `tail`/`jq`. Keep under 100k tokens.
+
+11. **AUTO_MODE means AUTO**: When enabled, the loop runs continuously. Skip roadblocks, log them, keep going.
