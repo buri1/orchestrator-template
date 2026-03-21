@@ -1,0 +1,11 @@
+{
+  "source_url": "https://github.com/alexfazio/hermes-fly",
+  "source_title": "alexfazio/hermes-fly",
+  "catalogue_path": "research/catalogue/infrastructure/hermes-fly.md",
+  "ingested_at": "2026-03-12T20:45:00Z",
+  "discovered_urls": [
+    "https://github.com/NousResearch/hermes-agent",
+    "https://fly.io",
+    "https://openrouter.ai/api/v1/models"
+  ]
+}

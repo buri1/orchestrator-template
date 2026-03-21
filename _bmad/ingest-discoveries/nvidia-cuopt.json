@@ -1,0 +1,29 @@
+{
+  "discovery_date": "2026-03-19",
+  "source": "direct_research",
+  "source_url": "https://www.nvidia.com/en-us/ai-data-science/products/cuopt/",
+  "tool_name": "NVIDIA cuOpt",
+  "one_liner": "GPU-accelerated decision optimization engine for MILP, LP, QP, and vehicle routing — logistics/supply-chain focus, not software agent orchestration.",
+  "category": "infrastructure",
+  "repository": "https://github.com/NVIDIA/cuopt",
+  "homepage": "https://www.nvidia.com/en-us/ai-data-science/products/cuopt/",
+  "license": "Apache-2.0",
+  "language": "C++/Python",
+  "publisher": "NVIDIA",
+  "publisher_type": "enterprise",
+  "relevance_score": 2,
+  "novelty_score": 7,
+  "actionable_score": 1,
+  "what": "NVIDIA cuOpt is a GPU-accelerated optimization solver for mixed-integer linear programming (MILP), linear programming (LP), quadratic programming (QP), and vehicle routing problems (VRP). It uses GPU parallelism to evaluate millions of solution candidates simultaneously, delivering near real-time solutions for large-scale problems with millions of variables and constraints. Open-sourced under Apache 2.0, integrable via PIP, Docker, Conda, and solver interfaces (AMPL, CVXPY, PuLP, GAMSPy).",
+  "verdict": "SKIP",
+  "reasoning": "cuOpt solves a fundamentally different problem domain than our orchestrator. It excels at physical-world optimization: vehicle routing, supply chain logistics, workforce shift scheduling, production planning, and quantitative finance. Our orchestrator manages 2-6 Claude Code sub-agents via tmux sessions with git worktree isolation — this is a coordination/delegation problem, not a constraint satisfaction problem with millions of variables. Our scheduling is trivially simple: pick next GitHub issue, spawn agent, monitor completion, review PR. There is no combinatorial explosion that warrants GPU-accelerated solvers. Even NVIDIA's own agentic AI demos use cuOpt as a downstream tool called BY agents (e.g., LLM generates JSON query for cuOpt to optimize delivery routes), not as an agent orchestration layer. The only theoretical overlap — 'workforce and task scheduling' — applies to problems like airline crew scheduling with thousands of employees, regulatory constraints, and shift rotations, not 6 coding agents processing a linear issue backlog. Simple priority queues and round-robin assignment remain optimal for our scale and problem type.",
+  "key_insight": "cuOpt is impressive tech (solved 4 previously unsolved MIPLIB benchmarks, 120x speedup over CPU solvers for logistics routing) but its problem domain (physical-world combinatorial optimization) has zero overlap with software agent orchestration. Would only become relevant if we scaled to hundreds of agents with complex interdependency constraints — and even then, simpler graph-based schedulers would likely suffice.",
+  "comparison_notes": {
+    "vs_lthread_orchestrator": "Completely different domains. cuOpt optimizes constraint-heavy mathematical problems (routing, scheduling with millions of variables). L-Thread orchestrates a handful of coding agents through a linear task pipeline. No overlap.",
+    "vs_simple_scheduling": "cuOpt shines at 10,000+ variable problems with complex constraints. For <10 agents with simple dependencies, a priority queue or round-robin is both simpler and more appropriate."
+  },
+  "tags": ["gpu", "optimization", "milp", "routing", "logistics", "supply-chain", "nvidia"],
+  "priority": "none",
+  "ingest_model": "opus",
+  "ingest_depth": "standard"
+}

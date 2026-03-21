@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/BenjaminDEKR/status/2007842172666560983",
+  "source_title": "AI Factory: Claude Code Agents Build Apps Overnight",
+  "catalogue_path": "research/catalogue/posts/2026-01/benjamindekr-ai-factory-claude-code-agents-overnight.md",
+  "ingested_at": "2026-03-18T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://x.com/BenjaminDEKR",
+      "context": "Benjamin De Kraker's profile — find the AI Factory repo/guide/video details",
+      "suggested_type": "article",
+      "relevance_hint": "Kanban-style agent pipeline (Idea->Research->Architecture->Coding->Testing) mirrors our L-Thread orchestrator; worker documents pattern worth studying; 339 replies likely contain implementation details"
+    }
+  ]
+}

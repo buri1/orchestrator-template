@@ -1,0 +1,17 @@
+{
+  "source_url": "https://x.com/maestro__dev/status/2031399412073644399",
+  "ingested_at": "2026-03-21",
+  "catalogue_path": "research/catalogue/posts/2026-03/maestro-dev-automate-testing.md",
+  "type": "post",
+  "discoveries": [
+    {
+      "url": "https://github.com/mobile-dev-inc/maestro",
+      "name": "Maestro",
+      "type": "tool",
+      "description": "Cross-platform E2E testing framework for iOS, Android, and web apps. Visual IDE (Maestro Studio Desktop) with element inspector, action recording, and MaestroGPT AI assistant. OSS CLI + free Studio; paid cloud for parallel execution. Used by Microsoft, Meta, Uber, Amazon, Disney, Stripe.",
+      "relevance": 4,
+      "suggested_action": "/tool-catalogue https://github.com/mobile-dev-inc/maestro (low priority — only relevant if mobile enters scope)",
+      "tags": ["e2e-testing", "mobile-testing", "web-testing", "ui-automation", "cross-platform"]
+    }
+  ]
+}

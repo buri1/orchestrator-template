@@ -1,4 +1,6 @@
-# Manaflow (cmux)
+# Manaflow (old web platform)
+
+> **SUPERSEDED: This entry describes the old Manaflow web platform. The team pivoted to [cmux](./cmux.md) -- a native macOS terminal with 5.3K stars. See the [cmux entry](./cmux.md) for the current product.**
 
 > **Open source Claude Code web/Codex Cloud/Devin alternative — spawns multiple coding agent CLIs in parallel with isolated VS Code workspaces.**
 

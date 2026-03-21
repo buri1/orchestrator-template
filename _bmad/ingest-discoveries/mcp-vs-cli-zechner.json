@@ -1,0 +1,68 @@
+{
+  "ingest_date": "2026-03-12",
+  "source_url": "https://mariozechner.at/posts/2025-08-15-mcp-vs-cli/",
+  "title": "MCP vs CLI: Benchmarking Tools for Coding Agents",
+  "author": "Mario Zechner (Pi Agent creator)",
+  "catalogue_entry": "research/catalogue/articles/2025-08/mcp-vs-cli-benchmarking-tools-coding-agents.md",
+  "relevance_score": 9,
+  "signal": "HIGH",
+  "key_discoveries": [
+    {
+      "id": "DISC-001",
+      "title": "MCP bypasses Haiku malicious-command detection — 35-55x token savings",
+      "detail": "CLI tools trigger Claude Code's bash security scanner (claude-3-5-haiku) on every invocation. 10 CLI runs consumed 1.3-2M Haiku tokens. 10 MCP runs consumed ~35K Haiku tokens. MCP bypasses the bash tool entirely, eliminating the security-check round trip. Architecturally significant for cost modeling of Pi supervisor tool calls.",
+      "action": "Factor Haiku bypass into MCP vs bash-tool cost models in Pi supervisor; prefer MCP for high-frequency tool calls"
+    },
+    {
+      "id": "DISC-002",
+      "title": "Single-tool MCP pattern (one tool, action parameter) — validated empirically",
+      "detail": "terminalcp exposes one MCP tool with an 'action' parameter covering start/stop/stdin/stdout/stream/list/version commands. Zechner cites the (now-removed) Anthropic docs warning about tool count limits degrading agent performance. Our pi-mcp-adapter already uses this pattern — this is independent empirical validation.",
+      "action": "Enforce single-tool MCP design pattern for all new Pi extensions; audit existing tools for consolidation opportunities"
+    },
+    {
+      "id": "DISC-003",
+      "title": "terminalcp — PTY-based tmux alternative with MCP + CLI, by Pi Agent creator",
+      "detail": "terminalcp uses node-pty + xterm.js for PTY emulation, runs as a persistent daemon, communicates via Unix socket. It is architecturally similar to pi-interactive-shell but with both MCP and CLI interfaces. Cleanly handles TUI apps (debuggers, REPLs, vim, htop). GitHub: https://github.com/badlogic/terminalcp",
+      "action": "Catalogue terminalcp as a Pi ecosystem tool; evaluate as complement/replacement for our tmux dependency in Pi supervisor"
+    },
+    {
+      "id": "DISC-004",
+      "title": "screen fails on TUI tasks — avoid for interactive TUI agent control",
+      "detail": "GNU screen scored 0/10 on the OpenCode TUI model-switching task. It cannot handle the interactive dialog navigation required by modern TUIs. tmux, terminalcp MCP, and terminalcp CLI all scored 100%. Avoid screen for any agent task requiring TUI interaction.",
+      "action": "Remove screen from consideration in any terminal control architecture; prefer tmux or PTY-native solutions"
+    },
+    {
+      "id": "DISC-005",
+      "title": "tmux wins on simple tasks, MCP wins on complex TUI tasks",
+      "detail": "For LLDB debug and Python REPL (simple), tmux is cheapest ($0.373-$0.716 avg) due to training data familiarity. For OpenCode TUI navigation (complex), terminalcp MCP saves 39% over tmux ($0.671 vs $1.105 avg). The crossover point is task complexity / back-and-forth frequency.",
+      "action": "Use tmux for simple terminal tasks; consider MCP-based PTY tool for complex multi-step TUI interactions"
+    },
+    {
+      "id": "DISC-006",
+      "title": "Eval framework pattern — Claude as judge for agent output analysis",
+      "detail": "Zechner's eval framework: (1) spawn fresh Claude Code per run with clean config, (2) capture full ANSI terminal stream, (3) Claude Code reads outputs and judges success/failure/improvements per tool, (4) second pass ranks all tools with analysis. Each run costs ~$0.37-$1.47. Framework can run in parallel.",
+      "action": "Adopt this eval pattern for benchmarking our own Pi supervisor tool configurations; reusable for future agent tool comparisons"
+    }
+  ],
+  "tools_to_catalogue": [
+    {
+      "name": "terminalcp",
+      "url": "https://github.com/badlogic/terminalcp",
+      "category": "Pi Ecosystem / Infrastructure",
+      "priority": "medium",
+      "reason": "By Pi Agent creator; PTY-based tmux alternative with MCP+CLI; single-tool MCP design pattern; handles TUI apps (debuggers, REPLs); potential tmux dependency replacement"
+    }
+  ],
+  "articles_to_ingest": [
+    {
+      "url": "https://eugeneyan.com",
+      "reason": "Eugene Yan's eval blog referenced by Zechner as gold standard for agent evaluation methodology",
+      "priority": "low"
+    }
+  ],
+  "impact_on_current_architecture": {
+    "pi_supervisor": "Haiku bypass means MCP tools should be preferred over bash tool calls for high-frequency operations; update cost models",
+    "pi_mcp_adapter": "Validates existing single-tool design; terminalcp is a clean reference implementation to study",
+    "tmux_dependency": "terminalcp is a cleaner alternative for TUI-heavy agent tasks; worth tracking for Phase 2+ migration"
+  }
+}

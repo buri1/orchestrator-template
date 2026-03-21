@@ -1,0 +1,30 @@
+{
+  "discovery_date": "2026-03-14",
+  "source": "direct_search",
+  "source_url": "https://github.com/standardagents/dmux",
+  "tool_name": "dmux",
+  "one_liner": "A dev agent multiplexer for git worktrees and coding agents — parallel agents with tmux and worktrees.",
+  "category": "orchestration-platforms",
+  "catalogue_path": "research/catalogue/orchestration-platforms/dmux.md",
+  "repository": "https://github.com/standardagents/dmux",
+  "homepage": "https://dmux.ai",
+  "stars": 1161,
+  "license": "MIT",
+  "language": "TypeScript",
+  "publisher": "Justin Schroeder (@jpschroeder) + Standard Agents org",
+  "publisher_type": "startup",
+  "relevance_score": 9,
+  "novelty_score": 8,
+  "actionable_score": 9,
+  "key_insight": "Most feature-complete tmux+worktree agent multiplexer: HTTP REST API + SSE for programmatic control, LLM-powered status detection (parallel model racing), AI-assisted merge conflict resolution, 11-agent registry with typed prompt transport abstraction, 11 lifecycle hooks with 3-tier resolution, native macOS Swift helper, multi-merge orchestrator",
+  "comparison_notes": {
+    "vs_agent_of_empires": "Same tmux+worktree substrate, but dmux has HTTP API (AoE has none), LLM status detection (AoE uses regex), 11 agents (AoE has 8), AI merge resolution (AoE has basic merge), TypeScript vs Rust",
+    "vs_ntm": "Both tmux-based, but dmux has worktree isolation (NTM does not), HTTP API (NTM has robot-mode CLI), merge system (NTM has none), broader agent support (11 vs 3)",
+    "vs_cmux": "dmux uses tmux as substrate (like us), cmux replaces tmux. dmux is MIT, cmux is AGPL. dmux has HTTP API, cmux has socket API. Different tools: dmux is tmux-native, cmux is post-tmux",
+    "vs_lthread_orchestrator": "dmux is human-driven TUI + API, L-Thread is headless autonomous orchestrator. dmux handles pane management, L-Thread handles task routing and agent coordination. Complementary: use dmux as pane layer, L-Thread as orchestration layer"
+  },
+  "tags": ["tmux", "worktree", "multi-agent", "http-api", "merge-orchestration", "lifecycle-hooks", "status-detection", "typescript", "tui"],
+  "priority": "high",
+  "ingest_model": "opus",
+  "ingest_depth": "deep"
+}

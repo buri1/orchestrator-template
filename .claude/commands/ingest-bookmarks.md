@@ -46,6 +46,8 @@ This JSON file has the structure:
 
 Build a Set of already-ingested URLs from the `ingested` keys. You'll use this to skip duplicates.
 
+**If the ledger has fewer than 50 entries**, it likely hasn't been backfilled. Warn the user: "Ledger looks sparse (N entries). Run the backfill first to avoid re-ingesting existing catalogue entries. Continue anyway?" This prevents the false-positive problem of missing dedup data.
+
 ## Step 2: Collect URLs for This Cycle
 
 ### Cycle 1: Read Browser Bookmarks
@@ -117,9 +119,10 @@ For cycles after the first, instead of reading browser bookmarks, read all `.jso
 
 ## Step 3: Filter Against Ledger
 
+The ledger is the **authoritative dedup source** (backfilled from all catalogue entries). Do NOT fall back to grepping INDEX.md — the ledger is comprehensive.
+
 For each collected URL:
 - If the URL exists in the ledger's `ingested` keys → **SKIP (already ingested)**
-- If the URL exists in `research/catalogue/INDEX.md` → **SKIP (already catalogued)**
 - Otherwise → **NEW**
 
 ### Resolve t.co shortlinks
@@ -269,6 +272,115 @@ After all agents complete, update `_bmad/ingest-ledger.json`:
 4. Write the updated ledger back
 
 **CRITICAL**: Only add entries for URLs that were successfully ingested. Failed ones should NOT be added so they get retried.
+
+## Step 7.5: Move Bookmarks to LLM-INGEST-DONE
+
+After updating the ledger, move SUCCESSFULLY ingested bookmarks from `LLM-INGEST` to `LLM-INGEST-DONE` in both Chrome and Comet bookmark files. This prevents re-processing on future runs.
+
+Run this Python script via Bash for EACH browser (Chrome and Comet):
+
+```python
+python3 -c "
+import json, sys, os
+from datetime import datetime
+
+browser = sys.argv[1]  # 'Chrome' or 'Comet'
+urls_to_move = json.loads(sys.argv[2])  # list of successfully ingested URLs
+
+if browser == 'Chrome':
+    path = os.path.expanduser('~/Library/Application Support/Google/Chrome/Default/Bookmarks')
+elif browser == 'Comet':
+    path = os.path.expanduser('~/Library/Application Support/Comet/Default/Bookmarks')
+else:
+    sys.exit(1)
+
+if not os.path.exists(path):
+    print(f'{browser}: bookmark file not found, skipping')
+    sys.exit(0)
+
+with open(path, 'r') as f:
+    data = json.load(f)
+
+url_set = set(urls_to_move)
+
+def find_folder(node, name):
+    if node.get('name') == name and node.get('type') == 'folder':
+        return node
+    for child in node.get('children', []):
+        result = find_folder(child, name)
+        if result:
+            return result
+    return None
+
+def find_parent_of(node, name):
+    for child in node.get('children', []):
+        if child.get('name') == name:
+            return node
+        result = find_parent_of(child, name)
+        if result:
+            return result
+    return None
+
+# Find LLM-INGEST folder
+root = data['roots']['bookmark_bar']
+ingest_folder = find_folder(root, 'LLM-INGEST')
+if not ingest_folder:
+    print(f'{browser}: LLM-INGEST folder not found')
+    sys.exit(0)
+
+# Find or create LLM-INGEST-DONE as sibling
+parent = find_parent_of(root, 'LLM-INGEST') or root
+done_folder = find_folder(root, 'LLM-INGEST-DONE')
+if not done_folder:
+    max_id = 0
+    def find_max_id(n):
+        global max_id
+        nid = int(n.get('id', '0'))
+        if nid > max_id: max_id = nid
+        for c in n.get('children', []): find_max_id(c)
+    find_max_id(data['roots']['bookmark_bar'])
+    find_max_id(data['roots'].get('other', {}))
+    done_folder = {
+        'children': [],
+        'date_added': str(int(datetime.now().timestamp() * 1000000) + 11644473600000000),
+        'date_last_used': '0',
+        'date_modified': '0',
+        'id': str(max_id + 1),
+        'name': 'LLM-INGEST-DONE',
+        'type': 'folder'
+    }
+    # Insert right after LLM-INGEST
+    idx = next((i for i, c in enumerate(parent['children']) if c.get('name') == 'LLM-INGEST'), -1)
+    if idx >= 0:
+        parent['children'].insert(idx + 1, done_folder)
+    else:
+        parent['children'].append(done_folder)
+
+# Move matching bookmarks
+moved = 0
+remaining = []
+for child in ingest_folder.get('children', []):
+    if child.get('type') == 'url' and child.get('url') in url_set:
+        done_folder['children'].append(child)
+        moved += 1
+    else:
+        remaining.append(child)
+
+ingest_folder['children'] = remaining
+
+with open(path, 'w') as f:
+    json.dump(data, f, indent=3)
+
+print(f'{browser}: moved {moved} bookmarks to LLM-INGEST-DONE')
+" "$BROWSER" "$URLS_JSON"
+```
+
+Pass the list of successfully ingested URLs as a JSON array. Run for Chrome first, then Comet.
+
+**Edge cases**:
+- If Chrome/Comet is actively writing bookmarks at the same moment, the write could conflict. This is rare and acceptable — the next run will retry.
+- If LLM-INGEST-DONE doesn't exist, the script creates it as a sibling of LLM-INGEST.
+- Only move URLs that were in THIS browser's LLM-INGEST folder (a URL from Comet shouldn't be moved in Chrome).
 
 ## Step 8: Synthesis (if depth > current cycle)
 

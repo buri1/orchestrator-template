@@ -1,0 +1,35 @@
+{
+  "source_url": "https://github.com/bidewio/better-openclaw",
+  "source_title": "bidewio/better-openclaw",
+  "catalogue_path": "research/catalogue/infrastructure/better-openclaw.md",
+  "ingested_at": "2026-03-12T20:00:00Z",
+  "cross_refs": [
+    "research/catalogue/orchestration-platforms/openclaw.md"
+  ],
+  "discovered_urls": [
+    {
+      "url": "https://github.com/bidewio/better-openclaw/tree/main/packages/mcp",
+      "context": "MCP server package exposing 12 infrastructure generation tools (list-services, suggest-services, resolve-dependencies, generate-stack, add-service, remove-service etc.) via stdio transport; usable from Claude Desktop, Cursor, Claude Code",
+      "suggested_type": "tool",
+      "relevance_hint": "Agent-driven Docker Compose scaffolding via MCP; install with npx -y @better-openclaw/mcp; most immediately usable surface for SaaS factory infra standup"
+    },
+    {
+      "url": "https://github.com/bidewio/better-openclaw/tree/main/packages/core",
+      "context": "Core package: Zod schemas, 94-service registry (pinned images, ports, health checks, resource limits, dependency declarations), dependency resolver, docker-compose composer, validators",
+      "suggested_type": "article",
+      "relevance_hint": "Community-maintained catalogue of pinned Docker images for 94 AI/infra services — useful reference when evaluating toolchain components without manual Docker Hub research"
+    },
+    {
+      "url": "https://github.com/bidewio/better-openclaw/blob/main/SKILL.md",
+      "context": "OpenClaw SKILL.md capability manifest for the better-openclaw agent, describing 12 MCP tools across Discovery/Composition/Generation categories with full input/output schemas",
+      "suggested_type": "article",
+      "relevance_hint": "Reference implementation of OpenClaw's SKILL.md format with MCP server integration; compare against our .claude/agents/*.md format for cross-harness portability patterns"
+    },
+    {
+      "url": "https://bidew.io",
+      "context": "Publisher organization behind better-openclaw; bachir@bidew.io; building supplementary tooling for the OpenClaw ecosystem",
+      "suggested_type": "post",
+      "relevance_hint": "Nascent publisher to watch — building the infrastructure generation layer for OpenClaw ecosystem; potential source for more OpenClaw-adjacent tooling"
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_run": "2026-03-12T12:11:50.226950+00:00",
+  "last_run": "2026-03-21T09:21:15.016902+00:00",
   "ingested": {
     "https://thenewstack.io/agentic-knowledge-base-patterns/": {
       "source": "manual",
@@ -56,6 +56,1456 @@
       "source": "manual",
       "ingested_at": "2026-03-12T12:00:00Z",
       "catalogue_path": "research/catalogue/posts/2026-03/omarsar0-agents-md-dont-scale-codified-context.md"
+    },
+    "https://x.com/dotta": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/practitioners/dotta.md"
+    },
+    "https://x.com/elvissun": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/practitioners/elvis-sun.md"
+    },
+    "https://x.com/GeoffreyHuntley": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/practitioners/geoffrey-huntley.md"
+    },
+    "https://youtube.com/@IndyDevDan": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/practitioners/indydevdan.md"
+    },
+    "https://x.com/badlogicgames": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/practitioners/mario-zechner.md"
+    },
+    "https://x.com/steipete": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/practitioners/steipete.md"
+    },
+    "https://steve-yegge.medium.com/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/practitioners/steve-yegge.md"
+    },
+    "https://x.com/AnthropicAI/status/2024210035480678724": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-02/anthropicai-measuring-agent-autonomy.md"
+    },
+    "https://x.com/LLMJunky/status/2024152021436121220": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-02/llmjunky-codex-multi-agent-playbook-setup-guide.md"
+    },
+    "https://x.com/LLMJunky/status/2027032974202421336": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-02/llmjunky-codex-multi-agent-playbook-swarms-lvl1.md"
+    },
+    "https://x.com/nummanali/status/2023513148288905508": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-02/nummanali-you-can-be-a-civilian-scientist.md"
+    },
+    "https://x.com/RLanceMartin/status/2027450018513490419": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-02/rlancemartin-give-claude-a-computer-ptc.md"
+    },
+    "https://x.com/trq212/status/2027463795355095314": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-02/trq212-lessons-building-claude-code-seeing-like-agent.md"
+    },
+    "https://x.com/trq212/status/2024574133011673516": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-02/trq212-prompt-caching-is-everything.md"
+    },
+    "https://x.com/affaanmustafa/status/2030716164817711140": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/affaanmustafa-ecc-v1-8-0-agent-harness.md"
+    },
+    "https://x.com/aratahikaru0/status/2029619413692170358": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/aratahikaru0-oss-cowork-clones.md"
+    },
+    "https://x.com/ctatedev/status/2030100369506709691": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/ctatedev-generative-ui-mcp-apps.md"
+    },
+    "https://x.com/elvissun/status/2025920521871716562": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/elvissun-openclaw-codex-claude-agent-swarm-setup.md"
+    },
+    "https://x.com/GeoffreyHuntley/status/2030683143360119292": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/geoffreyhuntley-embedded-software-factory-rad-is-back.md"
+    },
+    "https://x.com/hasantoxr/status/2025161888456474851": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/hasantoxr-alibaba-zvec-vector-database.md"
+    },
+    "https://x.com/ihtesham2005/status/2031262495386775868": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/ihtesham2005-alibaba-page-agent.md"
+    },
+    "https://x.com/oliverhenry/status/2030394095399588145": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/oliverhenry-personal-ai-agent-changes-life.md"
+    },
+    "https://x.com/omarsar0/status/2027770787659464812": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/omarsar0-agents-md-dont-scale-codified-context.md"
+    },
+    "https://x.com/omarsar0/status/2030771811705872435": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/omarsar0-opendev-81-page-cli-coding-agent-architecture.md"
+    },
+    "https://x.com/swyx/status/2029616716440011046": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/swyx-oss-cowork-clones-thread.md"
+    },
+    "https://x.com/BenjaminDEKR/status/2007842172666560983": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/benjamindekr-ai-factory-claude-code-agents-overnight.md"
+    },
+    "https://x.com/LLMJunky/status/2014521564864110669": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/llmjunky-codex-subagents-deep-dive.md"
+    },
+    "https://x.com/maverickecom/status/2009720121695363166": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/maverickecom-ai-content-factory-tiktok-shop.md"
+    },
+    "https://x.com/mckaywrigley/status/2010901209293734295": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/mckaywrigley-oss-cowork-claude-agent-sdk.md"
+    },
+    "https://x.com/NicerInPerson/status/2014989679796347375": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/nicerinperson-claude-code-swarms-unlock.md"
+    },
+    "https://x.com/nummanali/status/2007586417094844517": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/nummanali-cc-mirror-glm-minimax-coding.md"
+    },
+    "https://x.com/parcadei/status/2009509238259732584": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/parcadei-code-intelligence-92-percent-token-reduction.md"
+    },
+    "https://x.com/trq212/status/2014480496013803643": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-01/trq212-tasks-replacing-todowrite-claude-code.md"
+    },
+    "https://www.99ravens.agency": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/99ravens.md"
+    },
+    "https://github.com/ShengranHu/ADAS": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/adas.md"
+    },
+    "https://github.com/vercel-labs/agent-browser": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/agent-browser.md"
+    },
+    "https://agent-flywheel.com/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/agent-flywheel.md"
+    },
+    "https://github.com/fynnfluegge/agtx": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/agtx.md"
+    },
+    "https://github.com/Aider-AI/aider": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/aider.md"
+    },
+    "https://ampcode.com/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/amp-code.md"
+    },
+    "https://github.com/augmentcode": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/augment-code.md"
+    },
+    "https://github.com/AutoMaker-Org/automaker": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/automaker.md"
+    },
+    "https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/autonomous-coding-demo.md"
+    },
+    "https://github.com/BoundaryML/baml": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/baml.md"
+    },
+    "https://github.com/disler/bowser": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/bowser.md"
+    },
+    "https://github.com/neiii/bridle": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/bridle.md"
+    },
+    "https://broomie.org": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/broomie.md"
+    },
+    "https://github.com/anthropics/claude-code": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/claude-agent-sdk.md"
+    },
+    "https://github.com/mikekelly/claude-sneakpeek": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/claude-sneakpeek.md"
+    },
+    "https://github.com/cline/cline": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/cline-cli.md"
+    },
+    "https://github.com/CodebuffAI/codebuff": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/codebuff.md"
+    },
+    "https://github.com/moazbuilds/CodeMachine-CLI": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/codemachine-cli.md"
+    },
+    "https://github.com/coderabbitai/ai-pr-reviewer": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/coderabbit.md"
+    },
+    "https://github.com/am-will/codex-skills": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/codex-skills.md"
+    },
+    "https://github.blog/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/copilot-sdk.md"
+    },
+    "https://github.com/agno-agi/dash": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/dash.md"
+    },
+    "https://github.com/langchain-ai/deepagents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/deep-agents.md"
+    },
+    "https://github.com/stanfordnlp/dspy": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/dspy.md"
+    },
+    "https://github.com/affaan-m/everything-claude-code": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/everything-claude-code.md"
+    },
+    "https://github.com/google-gemini/gemini-cli": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/gemini-cli.md"
+    },
+    "https://github.com/block/goose": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/stripe-minions.md"
+    },
+    "https://github.com/nearai/ironclaw": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/ironclaw.md"
+    },
+    "https://github.com/Kilo-Org/kilocode": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/kilo-code.md"
+    },
+    "https://github.com/ghuntley/loom": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/loom.md"
+    },
+    "https://github.com/mannaandpoem/OpenManus": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/manus-ai.md"
+    },
+    "https://github.com/apps/mendral-app": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/mendral.md"
+    },
+    "https://github.com/saeed-vayghan/mitra": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/mitra.md"
+    },
+    "https://github.com/hewliyang/office-agents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/office-agents.md"
+    },
+    "https://github.com/Yeachan-Heo/oh-my-claudecode": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/oh-my-claudecode.md"
+    },
+    "https://github.com/code-yeongyu/oh-my-openagent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/oh-my-opencode.md"
+    },
+    "https://github.com/openai/codex": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/openai-codex.md"
+    },
+    "https://github.com/anomalyco/opencode": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/opencode.md"
+    },
+    "https://github.com/opendev-to/opendev": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/opendev.md"
+    },
+    "https://github.com/Fission-AI/OpenSpec": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/openspec.md"
+    },
+    "https://github.com/jayminwest/overstory": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/overstory.md"
+    },
+    "https://github.com/alibaba/page-agent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/page-agent.md"
+    },
+    "https://github.com/MervinPraison/PraisonAI": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/praisonai.md"
+    },
+    "https://github.com/QwenLM/Qwen-Agent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/qwen-agent.md"
+    },
+    "https://github.com/RamainHQ/Ramain-Releases": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/ramain.md"
+    },
+    "https://github.com/simonw/rodney": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/rodney.md"
+    },
+    "https://github.com/RooCodeInc/Roo-Code": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/roo-code.md"
+    },
+    "https://github.com/rohitg00/skillkit": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/skillkit.md"
+    },
+    "https://github.com/github/spec-kit": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/spec-kit.md"
+    },
+    "https://github.com/obra/superpowers": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/superpowers.md"
+    },
+    "https://github.com/am-will/swarms": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/swarms-codex.md"
+    },
+    "https://github.com/verdentAI": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/verdent.md"
+    },
+    "https://github.com/can1357/oh-my-pi": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/oh-my-pi.md"
+    },
+    "https://github.com/Dicklesworthstone/pi_agent_rust": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/pi-subagent-orchestration-skill.md"
+    },
+    "https://github.com/qualisero/pi-agent-scip": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-agent-scip.md"
+    },
+    "https://github.com/tmustier/pi-agent-teams": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-agent-teams.md"
+    },
+    "https://github.com/badlogic/pi-mono": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-agent.md"
+    },
+    "https://github.com/baochunli/pi-collaborating-agents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-collaborating-agents.md"
+    },
+    "https://github.com/nicobailon/pi-foreground-chains": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-foreground-chains.md"
+    },
+    "https://github.com/nicobailon/pi-interactive-shell": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-interactive-shell.md"
+    },
+    "https://github.com/nicobailon/pi-mcp-adapter": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-mcp-adapter.md"
+    },
+    "https://github.com/nicobailon/pi-messenger": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-messenger.md"
+    },
+    "https://github.com/pasky/pi-side-agents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-side-agents.md"
+    },
+    "https://github.com/nicobailon/pi-subagents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-subagents.md"
+    },
+    "https://github.com/nicobailon/pi-web-access": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-harnesses/pi/pi-web-access.md"
+    },
+    "https://github.com/mikekelly/AgentK": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/agent-k.md"
+    },
+    "https://github.com/rinadelph/Agent-MCP": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/agent-mcp.md"
+    },
+    "https://github.com/njbrake/agent-of-empires": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/agent-of-empires.md"
+    },
+    "https://github.com/karpathy/agenthub": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/agenthub-karpathy.md"
+    },
+    "https://github.com/ygivenx/agenthub": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/agenthub-ygivenx.md"
+    },
+    "https://github.com/microsoft/autogen": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/autogen.md"
+    },
+    "https://github.com/Kibrom1/BridgeMind": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/bridgemcp.md"
+    },
+    "https://github.com/nwiizo/ccswarm": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/ccswarm.md"
+    },
+    "https://github.com/ComposioHQ/composio": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/composio.md"
+    },
+    "https://github.com/conductor-oss/conductor": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/conductor.md"
+    },
+    "https://github.com/crewAIInc/crewAI": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/crew-ai.md"
+    },
+    "https://github.com/langgenius/dify": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/dify.md"
+    },
+    "https://github.com/standardagents/dmux": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/dmux.md"
+    },
+    "https://github.com/aeitroc/Droid-CLI-Orchestrator": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/droid-cli-orchestrator.md"
+    },
+    "https://github.com/SALT-NLP/DyLAN": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/dylan.md"
+    },
+    "https://github.com/elizaOS/eliza": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/elizaos.md"
+    },
+    "https://github.com/flyteorg/flyte": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/union.md"
+    },
+    "https://github.com/steveyegge/gastown": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/gas-town.md"
+    },
+    "https://github.com/FSoft-AI4Code/HyperAgent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/hyperagent.md"
+    },
+    "https://github.com/inngest/inngest": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/inngest.md"
+    },
+    "https://github.com/langchain-ai/langgraph": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/langgraph.md"
+    },
+    "https://github.com/Dicklesworthstone/mcp_agent_mail": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/mcp-agent-mail.md"
+    },
+    "https://github.com/n8n-io/n8n": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/n8n.md"
+    },
+    "https://github.com/Dicklesworthstone/ntm": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/ntm.md"
+    },
+    "https://github.com/NVlabs/ToolOrchestra": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/nvidia-orchestrator-8b.md"
+    },
+    "https://github.com/openai/openai-agents-python": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/openai-agents-sdk.md"
+    },
+    "https://github.com/openclaw/openclaw": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/openclaw.md"
+    },
+    "https://github.com/paperclipai/paperclip": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/paperclip.md"
+    },
+    "https://github.com/PrefectHQ/prefect": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/prefect.md"
+    },
+    "https://github.com/AgentWorkforce/relay": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/relay-app.md"
+    },
+    "https://github.com/Kocoro-lab/Shannon": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/shannon.md"
+    },
+    "https://github.com/kyegomez/swarms": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/swarms.md"
+    },
+    "https://github.com/temporalio/temporal": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/temporal.md"
+    },
+    "https://github.com/warpdotdev/Warp": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/warp-oz.md"
+    },
+    "https://ghuntley.com/six-month-recap": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-06/six-month-recap-ai-productivity.md"
+    },
+    "https://ghuntley.com/multi-boxing": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-01/multi-boxing-llms.md"
+    },
+    "https://ghuntley.com/oh-fuck": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-01/oh-fuck-moment-in-time.md"
+    },
+    "https://ghuntley.com/agent/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-08/how-to-build-a-coding-agent-workshop.md"
+    },
+    "https://mariozechner.at/posts/2025-08-15-mcp-vs-cli/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-08/mcp-vs-cli-benchmarking-tools-coding-agents.md"
+    },
+    "https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-09/effective-context-engineering-for-ai-agents.md"
+    },
+    "https://scale.com/blog/swe-bench-pro": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-09/swebench-pro-raising-the-bar-for-agentic-coding.md"
+    },
+    "https://openai.com/index/openai-contract-data-agent/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-09/turning-contracts-into-searchable-data-openai.md"
+    },
+    "https://manus.im/blog/Context-Engineering-for-AI-Agents-Lessons-from-Building-Manus": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-07/context-engineering-for-agents-manus.md"
+    },
+    "https://ghuntley.com/ralph": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-07/ralph-wiggum-agent-loop.md"
+    },
+    "https://simonwillison.net/guides/agentic-engineering-patterns/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/agentic-engineering-patterns.md"
+    },
+    "https://minimaxir.com/2026/02/ai-agent-coding/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/ai-agent-coding-skeptic-tries-agent-coding.md"
+    },
+    "https://blog.oguzhanatalay.com/architecting-multi-agent-ai-fleet-single-vps": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/architecting-multi-agent-ai-fleet-single-vps.md"
+    },
+    "https://openai.com/index/beyond-rate-limits/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/beyond-rate-limits-scaling-codex-sora.md"
+    },
+    "https://openai.com/index/harness-engineering/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/harness-engineering-codex-agent-centric-world.md"
+    },
+    "https://www.anthropic.com/research/measuring-agent-autonomy": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/measuring-ai-agent-autonomy-in-practice.md"
+    },
+    "https://stripe.dev/blog/minions-stripes-one-shot-end-to-end-coding-agents-part-2": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/minions-stripes-one-shot-coding-agents-part-2.md"
+    },
+    "https://ghuntley.com/real/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/software-dev-costs-less-than-minimum-wage.md"
+    },
+    "https://openai.com/index/unlocking-the-codex-harness/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-02/unlocking-the-codex-harness-app-server.md"
+    },
+    "https://ghuntley.com/papercuts": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-12/llm-weights-vs-papercuts-of-corporate.md"
+    },
+    "https://latentpatterns.com/principles": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/ai-native-software-development-principles.md"
+    },
+    "https://docs.anthropic.com/en/docs/build-with-claude/context-windows/context-compaction": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/anthropic-compaction-api.md"
+    },
+    "https://autonomee.ai/telegram-bot-course/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/autonomee-telegram-bot-claude-code.md"
+    },
+    "https://www.opensourceprojects.dev/post/8d2991ca-b78b-4cbd-8fb6-ccc19b4f2ad6": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/build-secure-web-scrapers.md"
+    },
+    "https://arxiv.org/abs/2603.05344": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/building-ai-coding-agents-for-terminal-opendev.md"
+    },
+    "https://nvidianews.nvidia.com/news/ai-agents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/nvidia-ai-agents-gtc-2026.md"
+    },
+    "https://www.theaiassembly.org/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/the-ai-assembly-autonomous-agent-governance.md"
+    },
+    "https://docs.anthropic.com/en/docs/build-with-claude/tool-use/tool-search": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-03/tool-search-api-deferred-tool-loading.md"
+    },
+    "https://hamel.dev/blog/posts/prompt/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2024-02/fuck-you-show-me-the-prompt.md"
+    },
+    "https://ghuntley.com/screwed": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-02/dear-student-ai-screwed-unless-action.md"
+    },
+    "https://ghuntley.com/dothings": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-02/future-belongs-to-people-who-do-things.md"
+    },
+    "https://ghuntley.com/stdlib": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-02/reusable-prompt-standard-library.md"
+    },
+    "https://www.humanlayer.dev/blog/12-factor-agents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-04/12-factor-agents.md"
+    },
+    "https://ghuntley.com/redlining": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-04/redlining-context-window-clipping.md"
+    },
+    "https://ghuntley.com/subagents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-04/subagents-context-window-as-ram.md"
+    },
+    "https://ghuntley.com/specs/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-03/specs-driven-development-groundhog.md"
+    },
+    "https://ghuntley.com/pressure": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-01/dont-waste-your-back-pressure.md"
+    },
+    "https://ghuntley.com/loop": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-01/everything-is-a-ralph-loop.md"
+    },
+    "https://openai.com/index/inside-our-in-house-data-agent/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2026-01/inside-openai-in-house-data-agent.md"
+    },
+    "https://www.anthropic.com/engineering/advanced-tool-use": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-11/advanced-tool-use.md"
+    },
+    "https://newsletter.posthog.com/p/collaboration-sucks": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/articles/2025-11/collaboration-sucks.md"
+    },
+    "https://www.youtube.com/watch?v=99Kxkemj1g8&t=17552s": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-03/aaron-cleric-building-production-agents.md"
+    },
+    "https://www.youtube.com/watch?v=99Kxkemj1g8": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-03/zach-lloyd-agent-orchestration-at-scale.md"
+    },
+    "https://www.youtube.com/watch?v=ak6bGRYm6Uk": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-03/felix-tay-ai-corporate-zombies-business-automation.md"
+    },
+    "https://www.youtube.com/watch?v=SC5EI2_Sgvw": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-03/jonas-joerg-ai-engineering-podcast.md"
+    },
+    "https://www.youtube.com/watch?v=owmJyKVu5f8": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-03/simon-willison-agentic-engineering-pragmatic-summit.md"
+    },
+    "https://www.youtube.com/watch?v=wkqPQiPt4oc": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-03/thought2action-multi-agent-system-sold-to-bank.md"
+    },
+    "https://github.com/Arize-ai/phoenix": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/arize-phoenix.md"
+    },
+    "https://github.com/assailai/ares-agent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/assail.md"
+    },
+    "https://github.com/braintrustdata": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/braintrust.md"
+    },
+    "https://github.com/ryoppippi/ccusage": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/ccusage.md"
+    },
+    "https://cleric.ai": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/cleric.md"
+    },
+    "https://github.com/steipete/CodexBar": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/codexbar.md"
+    },
+    "https://factoryfloor.dev": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/factory-floor.md"
+    },
+    "https://github.com/langfuse/langfuse": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/langfuse.md"
+    },
+    "https://github.com/comet-ml/opik": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/opik.md"
+    },
+    "https://github.com/simonw/showboat": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/observability/showboat.md"
+    },
+    "https://github.com/humanlayer/12-factor-agents": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/12-factor-agents.md"
+    },
+    "https://github.com/a2aproject/A2A": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/a2a-protocol.md"
+    },
+    "https://github.com/aaif": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/aaif.md"
+    },
+    "https://github.com/i-am-bee/acp": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/acp.md"
+    },
+    "https://github.com/agentsmd/agents.md": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/agents-md.md"
+    },
+    "https://github.com/agent-network-protocol/AgentNetworkProtocol": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/anp.md"
+    },
+    "https://github.com/VoltAgent/awesome-agent-skills": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/awesome-agent-skills.md"
+    },
+    "https://github.com/NousResearch/hermes-function-calling": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/hermes-function-calling.md"
+    },
+    "https://github.com/muratcankoylan/Agent-Skills-for-Context-Engineering": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/koylan-skills.md"
+    },
+    "https://github.com/openai/skills": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/openai-skills.md"
+    },
+    "https://github.com/agentskills/agentskills": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/openskills.md"
+    },
+    "https://github.com/phuryn/pm-skills": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/pm-skills.md"
+    },
+    "https://github.com/coinbase/x402": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-protocols/x402.md"
+    },
+    "https://github.com/withgraphite": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/code-intelligence/graphite.md"
+    },
+    "https://github.com/facebook/pyrefly": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/code-intelligence/pyrefly.md"
+    },
+    "https://github.com/semgrep/semgrep": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/code-intelligence/semgrep.md"
+    },
+    "https://github.com/coinbase/agentkit": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-economy/coinbase-agentic-wallets.md"
+    },
+    "https://eips.ethereum.org/EIPS/eip-8004": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-economy/erc-8004.md"
+    },
+    "https://github.com/airweave-ai/airweave": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/airweave.md"
+    },
+    "https://github.com/GoogleCloudPlatform/generative-ai/tree/main/gemini/agents/always-on-memory-agent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/always-on-memory-agent.md"
+    },
+    "https://github.com/steveyegge/beads": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/beads.md"
+    },
+    "https://github.com/Dicklesworthstone/cass_memory_system": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/cass-memory-system.md"
+    },
+    "https://github.com/Dicklesworthstone/coding_agent_session_search": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/cass.md"
+    },
+    "https://github.com/topoteretes/cognee": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/cognee.md"
+    },
+    "https://github.com/Compresr-ai/Context-Gateway": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/context-gateway.md"
+    },
+    "https://github.com/upstash/context7": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/context7.md"
+    },
+    "https://github.com/dolthub/dolt": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/dolt.md"
+    },
+    "https://github.com/letta-ai/letta": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/letta.md"
+    },
+    "https://github.com/mem0ai/mem0": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/mem0.md"
+    },
+    "https://github.com/LastPieceAI/OneContext": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/onecontext.md"
+    },
+    "https://github.com/21st-dev/1Code": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/1code.md"
+    },
+    "https://github.com/accomplish-ai/accomplish": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/accomplish.md"
+    },
+    "https://github.com/iOfficeAI/AionUi": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/aionui.md"
+    },
+    "https://github.com/manaflow-ai/cmux": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/cmux.md"
+    },
+    "https://github.com/CommanderApp/commander": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/commander.md"
+    },
+    "https://github.com/ComposioHQ/open-claude-cowork": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/composio-open-claude-cowork.md"
+    },
+    "https://www.conductor.build/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/conductor-build.md"
+    },
+    "https://github.com/imjszhang/Deepseek-Cowork": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/deepseek-cowork.md"
+    },
+    "https://github.com/eigent-ai/eigent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/eigent.md"
+    },
+    "https://github.com/generalaction/emdash": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/emdash.md"
+    },
+    "https://factory.ai": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/factory-ide.md"
+    },
+    "https://github.com/ImGoodBai/goodable": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/goodable.md"
+    },
+    "https://github.com/openkursar/hello-halo": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/hello-halo.md"
+    },
+    "https://github.com/humanlayer/humanlayer": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/humanlayer.md"
+    },
+    "https://github.com/coollabsio/jean": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/jean.md"
+    },
+    "https://github.com/vercel-labs/json-render": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/json-render.md"
+    },
+    "https://github.com/kirodotdev/Kiro": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/kiro.md"
+    },
+    "https://github.com/kuse-ai/kuse_cowork": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/kuse-cowork.md"
+    },
+    "https://github.com/ctate/manaflow": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/manaflow.md"
+    },
+    "https://github.com/multica-ai/multica": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/multica.md"
+    },
+    "https://github.com/DevAgentForge/Claude-Cowork": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/open-claude-cowork.md"
+    },
+    "https://github.com/anomalyco/opentui": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/opentui.md"
+    },
+    "https://github.com/different-ai/openwork": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/openwork.md"
+    },
+    "https://github.com/proliferate-ai/proliferate": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/proliferate.md"
+    },
+    "https://github.com/aidenybai/react-grab": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/react-grab.md"
+    },
+    "https://github.com/pingdotgg/t3code": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/t3code.md"
+    },
+    "https://github.com/BloopAI/vibe-kanban": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/developer-gui/vibe-kanban.md"
+    },
+    "https://github.com/badrisnarayanan/antigravity-claude-proxy": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/antigravity-claude-proxy.md"
+    },
+    "https://github.com/lbjlaq/Antigravity-Manager": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/antigravity-manager.md"
+    },
+    "https://github.com/ArcadeAI/arcade-mcp": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/arcade-dev.md"
+    },
+    "https://github.com/bidewio/better-openclaw": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/better-openclaw.md"
+    },
+    "https://github.com/microsoft/BitNet": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/bitnet.md"
+    },
+    "https://github.com/daytonaio/daytona": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/daytona.md"
+    },
+    "https://github.com/dbos-inc/dbos-transact-ts": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/dbos.md"
+    },
+    "https://github.com/Dicklesworthstone/destructive_command_guard": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/destructive-command-guard.md"
+    },
+    "https://github.com/e2b-dev/E2B": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/e2b.md"
+    },
+    "https://github.com/espressif/esp-csi": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/esp-csi.md"
+    },
+    "https://github.com/IT-BAER/gemini-api-proxy": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/gemini-api-proxy.md"
+    },
+    "https://github.com/alexfazio/hermes-fly": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/hermes-fly.md"
+    },
+    "https://github.com/hyperbrowserai/HyperAgent": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/hyperbrowser.md"
+    },
+    "https://github.com/Dillpickleschmidt/hyprflow": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/hyprflow.md"
+    },
+    "https://github.com/BerriAI/litellm": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/litellm.md"
+    },
+    "https://github.com/pydantic/monty": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/monty.md"
+    },
+    "https://github.com/morphllm": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/morphllm.md"
+    },
+    "https://github.com/NVIDIA/OpenShell": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/nvidia-nemoclaw.md"
+    },
+    "https://www.orthogonal.com/": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/orthogonal.md"
+    },
+    "https://github.com/terminal-use": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/terminal-use.md"
+    },
+    "https://github.com/triggerdotdev/trigger.dev": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/trigger-dev.md"
+    },
+    "https://github.com/automazeio/vibeproxy": {
+      "source": "backfill",
+      "ingested_at": "2026-03-21T00:00:00Z",
+      "catalogue_path": "research/catalogue/infrastructure/vibeproxy.md"
+    },
+    "https://factoryfloor.dev/about": {
+      "source": "chrome",
+      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/factory-floor-tracking-autonomous-software-factories.md"
+    },
+    "https://latentpatterns.com/courses/software-design-and-systems/structural-design-patterns/adapter-decorator-and-facade": {
+      "source": "chrome",
+      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/latent-patterns-adapter-decorator-facade.md"
+    },
+    "https://huggingface.co/collections/HumeAI/tada": {
+      "source": "chrome",
+      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
+      "catalogue_path": "research/catalogue/infrastructure/humeai-tada.md"
+    },
+    "https://www.youtube.com/watch?v=0OdR8rRMz3I": {
+      "source": "chrome",
+      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-03/wifi-can-see-you-csi-sensing.md"
+    },
+    "https://www.youtube.com/watch?v=0p8o7AeHDzg": {
+      "source": "chrome",
+      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-03/bilawal-sidhu-gods-eye-4d-monitoring-geospatial.md"
+    },
+    "https://github.com/neurosnap/zmx": {
+      "source": "chrome",
+      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
+      "catalogue_path": "research/catalogue/infrastructure/zmx.md"
+    },
+    "https://x.com/maestro__dev/status/2031399412073644399": {
+      "source": "comet",
+      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/maestro-dev-automate-testing.md"
+    },
+    "https://medium.com/@visrow/spec-driven-development-is-eating-software-engineering-a-map-of-30-agentic-coding-frameworks-6ac0b5e2b484": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/spec-driven-development-30-agentic-frameworks.md"
+    },
+    "https://github.com/langchain-ai/open-swe": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/open-swe.md"
+    },
+    "https://blog.langchain.com/introducing-langsmith-sandboxes-secure-code-execution-for-agents/": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/langsmith-sandboxes-secure-code-execution.md"
+    },
+    "https://developers.googleblog.com/en/developers-guide-to-ai-agent-protocols/": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/google-developers-guide-ai-agent-protocols.md"
+    },
+    "https://x.com/GoogleCloudTech/status/2033953579824758855": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/googlecloudtech-5-adk-skill-design-patterns.md"
+    },
+    "https://x.com/rohanpaul_ai/status/2033878126758138314": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/rohanpaul-alibaba-opensandbox.md"
+    },
+    "https://x.com/i/status/2034831968463200359": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/theo-t3-code-supports-claude.md"
+    },
+    "https://x.com/i/status/2034751230975651988": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/calebdw-opencode-claude-max-proxy.md"
+    },
+    "https://x.com/i/status/2034735318952464737": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/0oastro-cliproxyapi.md"
+    },
+    "https://x.com/i/status/2034761016320696565": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/trq212-claude-code-channels-telegram-discord.md"
+    },
+    "https://github.com/anthropics/claude-plugins-official": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/infrastructure/claude-plugins-official.md"
+    },
+    "https://air.dev/": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/developer-gui/jetbrains-air.md"
+    },
+    "https://randomlabs.ai/blog/slate": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T08:30:13.439904+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/random-labs-slate.md"
+    },
+    "https://www.youtube.com/watch?v=BEYEWw1Mkmw": {
+      "source": "whatsapp",
+      "ingested_at": "2026-03-21T09:21:15.016902+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-03/open-models-runtime-harness-langchain-nvidia.md"
     }
   }
 }

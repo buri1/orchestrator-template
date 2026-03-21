@@ -1,0 +1,25 @@
+{
+  "source_url": "https://x.com/i/status/2034831968463200359",
+  "ingested_at": "2026-03-21",
+  "catalogue_path": "research/catalogue/posts/2026-03/theo-t3-code-supports-claude.md",
+  "type": "post",
+  "author": "@theo (Theo Browne)",
+  "title": "T3 Code Now Supports Claude (Claude Code CLI Integration)",
+  "relevance": 6,
+  "discoveries": [
+    {
+      "type": "tool",
+      "name": "T3 Code",
+      "url": "https://github.com/pingdotgg/t3code",
+      "stars": 6900,
+      "license": "MIT",
+      "language": "TypeScript",
+      "description": "Minimal web GUI for coding agents — supports Codex and Claude Code CLI. Desktop app with 1,070 commits, 25 releases, 932 forks. Multi-harness frontend pattern.",
+      "suggested_ingest": "/tool-catalogue https://github.com/pingdotgg/t3code",
+      "category": "developer-gui",
+      "priority": "medium"
+    }
+  ],
+  "key_insight": "T3 Code represents the emerging 'GUI wrapper over agent CLI' pattern — same category as cmux, manaflow, and Cowork clones. Theo's massive reach (393K views) accelerates Claude Code adoption among TypeScript/Next.js developers.",
+  "tags": ["developer-gui", "claude-code", "codex", "multi-harness", "open-source", "theo"]
+}

@@ -1,0 +1,29 @@
+{
+  "discovery_date": "2026-03-21",
+  "source": "whatsapp",
+  "source_url": "https://x.com/calebdw/status/2034751230975651988",
+  "tool_name": "opencode-claude-max-proxy",
+  "one_liner": "Proxy that bridges Claude Max subscription to OpenCode via Agent SDK PreToolUse hook interception, preserving multi-model routing.",
+  "category": "posts",
+  "catalogue_path": "research/catalogue/posts/2026-03/calebdw-opencode-claude-max-proxy.md",
+  "repository": "https://github.com/rynfar/opencode-claude-max-proxy",
+  "homepage": null,
+  "stars": 314,
+  "license": "MIT",
+  "language": "TypeScript",
+  "publisher": "@calebdw (Caleb White) sharing @rynfar's project",
+  "publisher_type": "individual",
+  "relevance_score": 7,
+  "novelty_score": 7,
+  "actionable_score": 5,
+  "key_insight": "PreToolUse hook + maxTurns:1 interception pattern enables Claude Max subscription proxying to third-party IDEs while preserving multi-model agent routing. Validates Claude Max arbitrage strategy (18-36x cost advantage). 223 bookmarks vs 162 likes (1.38:1 ratio) signals strong practitioner save-for-later intent.",
+  "comparison_notes": {
+    "vs_cc_mirror": "CC Mirror brings other models INTO Claude Code UX; this proxy takes Claude Max subscription OUT to OpenCode. Opposite direction, same arbitrage motivation.",
+    "vs_litellm": "LiteLLM is a general model router/proxy; opencode-claude-max-proxy is specifically a Claude Max subscription bridge. LiteLLM addresses the 378x pricing spread, this addresses the subscription-vs-API cost gap.",
+    "vs_our_setup": "We use Claude Code natively with Claude Max — no proxy needed. But the PreToolUse hook interception pattern is reusable for building custom routing layers."
+  },
+  "tags": ["claude-max", "proxy", "opencode", "agent-sdk", "pretooluse-hook", "multi-model", "arbitrage", "typescript", "bun"],
+  "priority": "medium",
+  "ingest_model": "opus",
+  "ingest_depth": "standard"
+}

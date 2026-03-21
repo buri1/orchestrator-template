@@ -1,0 +1,57 @@
+{
+  "source_url": "https://github.com/neurosnap/zmx",
+  "discovered_at": "2026-03-21T12:00:00Z",
+  "source_type": "chrome",
+  "catalogue_path": "research/catalogue/infrastructure/zmx.md",
+  "title": "zmx — Session persistence for terminal processes",
+  "category": "infrastructure",
+  "relevance_score": 7,
+  "novelty_score": 7,
+  "actionable_score": 5,
+  "key_discoveries": [
+    {
+      "pattern": "zmx-run-command-injection",
+      "description": "zmx run <name> <cmd> is a proper command injection API (not keystroke simulation like tmux send-keys). Supports stdin piping: echo 'cmd' | zmx r <name>. Cleaner abstraction for programmatic agent control.",
+      "applicable_to": ["orchestrator-tmux-layer", "agent-spawning"]
+    },
+    {
+      "pattern": "zmx-wait-native-sync",
+      "description": "zmx wait <name>... blocks until session tasks complete, eliminating polling loops. Supports waiting on multiple sessions simultaneously. Our orchestrator currently polls tmux capture-pane — this pattern is superior.",
+      "applicable_to": ["orchestrator-loop", "agent-monitoring"]
+    },
+    {
+      "pattern": "zmx-history-full-scrollback",
+      "description": "zmx history <name> dumps FULL scrollback as plain text, VT escape sequences, or HTML. Replaces tmux capture-pane's limited buffer. HTML mode enables rich agent forensics and telemetry.",
+      "applicable_to": ["agent-telemetry", "devlog"]
+    },
+    {
+      "pattern": "daemon-per-session-isolation",
+      "description": "One daemon per session vs tmux's single server. A crash in one agent session doesn't take down all others. Better fault isolation for multi-agent orchestration.",
+      "applicable_to": ["orchestrator-reliability", "crash-recovery"]
+    },
+    {
+      "pattern": "session-prefix-namespacing",
+      "description": "ZMX_SESSION_PREFIX env var namespaces all operations, enabling multiple orchestrator instances without session name collisions. Cleaner than tmux session naming conventions.",
+      "applicable_to": ["multi-project-orchestration"]
+    },
+    {
+      "pattern": "libghostty-vt-state-restoration",
+      "description": "Uses Ghostty's terminal state machine as a passive observer to restore full terminal state on reattach (cursor, colors, scrollback). Superior to tmux's approach for agent forensics when reattaching to inspect what happened.",
+      "applicable_to": ["agent-debugging", "session-recovery"]
+    }
+  ],
+  "tags": ["session-persistence", "terminal", "zig", "ghostty", "tmux-alternative", "detach-reattach", "unix-sockets"],
+  "publisher": {
+    "name": "Eric Bower",
+    "github": "neurosnap",
+    "org": "pico.sh"
+  },
+  "metrics": {
+    "stars": 1048,
+    "forks": 50,
+    "version": "0.4.2",
+    "license": "MIT",
+    "language": "Zig",
+    "open_issues": 19
+  }
+}

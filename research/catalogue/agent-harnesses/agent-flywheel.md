@@ -5,6 +5,7 @@
 | Field | Value |
 |-------|-------|
 | Category | ⚙️ Agent Harnesses |
+| Website | [agent-flywheel.com](https://agent-flywheel.com/) |
 | Repository | [Dicklesworthstone/agentic_coding_flywheel_setup](https://github.com/Dicklesworthstone/agentic_coding_flywheel_setup) |
 | GitHub Stars | 1,237 (as of 2026-03-08) |
 | Publisher | Jeffrey Emanuel — solo developer, PE/hedge fund consulting background |
@@ -37,7 +38,7 @@ Agent Flywheel is a comprehensive ecosystem that turns a fresh Ubuntu VPS into a
 
 The real substance is not the installer script but the 16 core tools and 13 supporting utilities that form a self-reinforcing "flywheel" — the more you use them, the more the system learns and accelerates. The creator claims shipping 20,000+ lines of production Go code in a single day using this setup. The architecture supports 6+ parallel agents with 3+ hours of autonomous operation through a combination of task graph analysis (BV/Beads Viewer), inter-agent messaging (Agent Mail), session search (CASS), and procedural memory (CM).
 
-The ecosystem is opinionated about infrastructure: dedicated VPS ($40-56/mo), Claude Max + ChatGPT Pro subscriptions ($400-600/mo total), and Ubuntu as the OS. It's designed for throwaway environments with passwordless sudo, which is the opposite of our gov/DSGVO compliance posture but makes sense for its target audience.
+The ecosystem is opinionated about infrastructure: dedicated VPS ($40-56/mo), Claude Max + ChatGPT Pro subscriptions ($400-600/mo total), and Ubuntu as the OS. It's designed for throwaway environments with passwordless sudo, which is the opposite of our gov/DSGVO compliance posture but makes sense for its target audience. The marketing site (agent-flywheel.com) positions the full stack at $440-656/mo and includes an interactive "onboard" tutorial that guides users from Linux basics through complete agentic workflows after the 13-step installation.
 
 ---
 

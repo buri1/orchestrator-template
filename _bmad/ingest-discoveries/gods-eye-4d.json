@@ -1,0 +1,51 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=0p8o7AeHDzg",
+  "source_type": "talk",
+  "ingested_at": "2026-03-21T00:00:00Z",
+  "catalogue_path": "research/catalogue/talks/2026-03/bilawal-sidhu-gods-eye-4d-monitoring-geospatial.md",
+  "title": "Ex-Google PM Builds God's Eye to Monitor Iran in 4D",
+  "speaker": "Bilawal Sidhu",
+  "relevance_score": 4,
+  "discoveries": [
+    {
+      "type": "pattern",
+      "name": "AI Agent Swarm for Real-Time OSINT Collection",
+      "description": "Sidhu deployed an AI agent swarm to autonomously capture open-source intelligence signals (satellite passes, ADS-B, AIS, GPS jamming) during Operation Epic Fury in real-time. Multi-source autonomous data collection and correlation by agents.",
+      "relevance": 5,
+      "tags": ["agent-swarm", "osint", "data-collection", "real-time"]
+    },
+    {
+      "type": "thesis",
+      "name": "The Intelligence Monopoly Is Over",
+      "description": "Commercial satellite constellations + public data feeds + browser-based visualization = solo builders can now produce intelligence products that previously required nation-state infrastructure. Mirrors the broader AI democratization thesis.",
+      "relevance": 4,
+      "tags": ["democratization", "solo-builder", "geospatial", "osint"]
+    },
+    {
+      "type": "pattern",
+      "name": "Temporal Correlation Reveals Operational Intent",
+      "description": "The intelligence value is not in any single data source but in sequencing and correlating multiple feeds on a unified timeline. When open feeds are time-aligned, the sequence of actions reveals intent. Applicable to agent observability and devlog correlation.",
+      "relevance": 5,
+      "tags": ["data-fusion", "temporal-analysis", "observability", "correlation"]
+    },
+    {
+      "type": "tool",
+      "name": "WorldView",
+      "description": "Browser-based geospatial command center fusing satellite orbits, ADS-B, AIS, GPS interference, CCTV, and night vision/FLIR onto a 3D globe. Built in 3 days by solo developer with 6 years Google Maps experience. Public launch planned April 2026.",
+      "relevance": 3,
+      "tags": ["geospatial", "visualization", "browser", "cesiumjs", "osint"]
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://www.spatialintelligence.ai/p/the-intelligence-monopoly-is-over",
+      "title": "The Intelligence Monopoly Is Over (Substack)",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.spatialintelligence.ai/p/i-built-a-spy-satellite-simulator",
+      "title": "I Built a Spy Satellite Simulator in a Browser (Substack)",
+      "suggested_ingest": "/ingest-article"
+    }
+  ]
+}

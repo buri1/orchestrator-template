@@ -1,0 +1,49 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=0OdR8rRMz3I",
+  "title": "Your WiFi Can See You. Here's How.",
+  "type": "talk",
+  "author": "Bilawal Sidhu",
+  "date": "2026-03-17",
+  "catalogue_path": "research/catalogue/talks/2026-03/wifi-can-see-you-csi-sensing.md",
+  "relevance": 6,
+  "actionable": 4,
+  "ingested_at": "2026-03-21",
+  "cross_references": [
+    {
+      "catalogue_path": "research/catalogue/infrastructure/esp-csi.md",
+      "relationship": "implementation_layer",
+      "notes": "ESP-CSI is the hardware toolkit for building the WiFi CSI sensing capabilities discussed in this talk. The talk provides the capability roadmap (motion->pose->ID) and commercial context that ESP-CSI implements."
+    }
+  ],
+  "discoveries": [
+    {
+      "type": "tool",
+      "name": "RuView",
+      "url": "https://github.com/ruvnet/RuView",
+      "why": "WiFi DensePose open-source implementation with 37K+ stars; signal processing + presence detection + pose estimation; higher-level starting point vs raw ESP-CSI",
+      "suggested_ingest": "/tool-catalogue"
+    },
+    {
+      "type": "tool",
+      "name": "WiFi-CSI-Human-Pose-Detection",
+      "url": "https://github.com/euaziel/WiFi-CSI-Human-Pose-Detection",
+      "why": "Human pose estimation using WiFi CSI and deep learning; camera-free sensing through walls",
+      "suggested_ingest": "/tool-catalogue"
+    },
+    {
+      "type": "article",
+      "name": "Through-Wall Imaging based on WiFi CSI (arXiv)",
+      "url": "https://arxiv.org/abs/2401.17417",
+      "why": "Academic paper with technical depth on through-wall imaging via CSI",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "type": "article",
+      "name": "WiFi CSI Deep Dive (coffee.link)",
+      "url": "https://coffee.link/your-wifi-can-see-you/",
+      "why": "Comprehensive companion article covering LatentCSI, WiKI-Eve attacks, regulatory landscape, and commercial ecosystem details",
+      "suggested_ingest": "/ingest-article"
+    }
+  ],
+  "key_insight": "WiFi CSI sensing is a 3-step capability ladder (motion detection -> pose estimation -> person identification) already shipping in 30M+ homes. IEEE 802.11bf standardizes it. Every major chipmaker implementing. Total privacy regulatory vacuum. Cross-domain bridge for agent physical-world awareness via ESP32 ($5/node) -> MQTT/HTTP -> orchestrator event pipeline."
+}

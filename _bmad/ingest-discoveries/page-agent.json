@@ -1,0 +1,27 @@
+{
+  "source_url": "https://x.com/ihtesham2005/status/2031262495386775868",
+  "source_title": "Alibaba Open-Sources Page Agent: In-Page GUI Agent for Natural Language Web Control",
+  "catalogue_path": "research/catalogue/posts/2026-03/ihtesham2005-alibaba-page-agent.md",
+  "tool_catalogue_path": "research/catalogue/agent-harnesses/page-agent.md",
+  "ingested_at": "2026-03-12T21:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/alibaba/page-agent",
+      "context": "Primary repo for Page Agent — in-page JavaScript GUI agent by Alibaba; 5,795 stars (MIT); TypeScript; text-based DOM manipulation + BYOK LLM; zero backend required; catalogued as agent-harnesses/page-agent.md",
+      "suggested_type": "tool",
+      "relevance_hint": "7/10 relevance — strongest SaaS factory application: drop-in AI copilot for any web app in 3 lines of code. BYOK + antigravity proxy compatible. No orchestration value, but high delivery value for gov SaaS client-facing features."
+    },
+    {
+      "url": "https://alibaba.github.io/page-agent/docs/introduction/overview",
+      "context": "Official Page Agent documentation — integration patterns, model configuration (DashScope/Qwen native + OpenAI-compatible BYOK), Chrome extension setup, human-in-the-loop UI customization",
+      "suggested_type": "article",
+      "relevance_hint": "Worth ingesting if we decide to evaluate Page Agent for SaaS factory integration — practical integration patterns and HITL UI docs are the most actionable sections"
+    },
+    {
+      "url": "https://github.com/browser-use/browser-use",
+      "context": "Acknowledged ancestor of Page Agent in README — DOM processing components and prompts derived from browser-use (MIT, Gregor Zunic). Server-side counterpart to Page Agent's client-side approach.",
+      "suggested_type": "tool",
+      "relevance_hint": "Not yet in catalogue; server-side browser automation with Python; lower priority than Page Agent for our zero-infra stack but worth a pass if we need server-controlled web interaction"
+    }
+  ]
+}

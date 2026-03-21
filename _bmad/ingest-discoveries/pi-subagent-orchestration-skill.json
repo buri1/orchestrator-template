@@ -1,0 +1,18 @@
+{
+  "discovered": "2026-03-14",
+  "source": "manual",
+  "url": "https://lobehub.com/bg/skills/dicklesworthstone-pi_agent_rust-pi-subagent-orchestration",
+  "github": "https://github.com/Dicklesworthstone/pi_agent_rust",
+  "title": "Pi Subagent Orchestration Skill (LobeHub Marketplace)",
+  "category": "agent-protocols",
+  "entry_path": "research/catalogue/agent-protocols/pi-subagent-orchestration-skill.md",
+  "stars": 574,
+  "language": "Rust",
+  "license": "NOASSERTION",
+  "relevance": 5,
+  "novelty": 4,
+  "actionable": 3,
+  "user_note": null,
+  "key_insight": "Orchestration patterns packaged as distributable marketplace skill — signal that orchestration knowledge is becoming a commodity",
+  "status": "catalogued"
+}

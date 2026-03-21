@@ -1,0 +1,17 @@
+{
+  "discovered": "2026-03-14",
+  "source": "manual",
+  "url": "https://github.com/espressif/esp-csi",
+  "title": "ESP-CSI — WiFi Channel State Information Applications by Espressif",
+  "category": "infrastructure",
+  "entry_path": "research/catalogue/infrastructure/esp-csi.md",
+  "stars": 1141,
+  "language": "Shell/C",
+  "license": "Apache-2.0",
+  "relevance": 5,
+  "novelty": 9,
+  "actionable": 3,
+  "user_note": "THIS CAN BE THE FOUNDATION FOR CRAZY AGENT RELATED APPS CROSS DOMAIN INTEGRATION",
+  "key_insight": "Turns $5 WiFi chips into non-contact environmental sensors for physical-world agent awareness; DSGVO-friendly alternative to camera surveillance",
+  "status": "catalogued"
+}

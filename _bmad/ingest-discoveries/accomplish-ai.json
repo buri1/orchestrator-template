@@ -1,0 +1,32 @@
+{
+  "source_url": "https://accomplish.ai/",
+  "source_title": "Accomplish - AI Desktop Agent with Built-In Intelligence",
+  "catalogue_path": "research/catalogue/developer-gui/accomplish.md",
+  "ingested_at": "2026-03-12T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/accomplish-ai/accomplish",
+      "context": "Primary GitHub repository — MIT licensed, Electron+React+OpenCode CLI",
+      "suggested_type": "tool",
+      "relevance_hint": "Already catalogued; study AGENTS.md at repo root and Skills system for workflow macro patterns"
+    },
+    {
+      "url": "https://accomplish.ai/blog/announcing_accomplish",
+      "context": "Official launch blog post — Accomplish (formerly Openwork) public launch announcement",
+      "suggested_type": "article",
+      "relevance_hint": "Founding narrative and distribution strategy rationale; useful for SaaS factory launch template research"
+    },
+    {
+      "url": "https://github.com/accomplish-ai/accomplish/blob/main/AGENTS.md",
+      "context": "AGENTS.md shipped with Accomplish — consumer desktop agent adopting the convention",
+      "suggested_type": "article",
+      "relevance_hint": "Evidence of AGENTS.md spread beyond developer tools into consumer apps; validate our own AGENTS.md adoption"
+    },
+    {
+      "url": "https://github.com/konstantinosbotonakis/accomplish-ai",
+      "context": "Personal fork by presumed founder Konstantinos Botonakis — may have additional experimental branches",
+      "suggested_type": "tool",
+      "relevance_hint": "Check for unreleased features or architecture experiments not yet merged to org repo"
+    }
+  ]
+}

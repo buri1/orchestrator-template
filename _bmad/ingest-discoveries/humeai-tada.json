@@ -1,0 +1,10 @@
+{
+  "url": "https://huggingface.co/collections/HumeAI/tada",
+  "title": "TADA — HumeAI Text-Acoustic Dual Alignment TTS",
+  "type": "tool",
+  "category": "infrastructure",
+  "catalogue_path": "research/catalogue/infrastructure/humeai-tada.md",
+  "relevance_score": 2,
+  "ingested_at": "2026-03-21",
+  "discovered_urls": []
+}

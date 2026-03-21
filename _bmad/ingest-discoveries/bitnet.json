@@ -1,0 +1,27 @@
+{
+  "tool": "BitNet.cpp",
+  "url": "https://github.com/microsoft/BitNet",
+  "ingested_at": "2026-03-12",
+  "category": "infrastructure",
+  "stars": 32000,
+  "publisher": "Microsoft Research",
+  "license": "MIT",
+  "relevance": 5,
+  "novelty": 8,
+  "actionable": 3,
+  "catalogue_path": "research/catalogue/infrastructure/bitnet.md",
+  "summary": "Official inference runtime for 1-bit (ternary) LLMs trained under the BitNet b1.58 scheme. Lossless CPU inference: 2.37x-6.17x speedup and 71.9-82.2% energy reduction on x86. Can run 100B-parameter models at 5-7 tok/s on consumer CPUs. MIT license. Flagship model: BitNet-b1.58-2B-4T (2.4B params, trained on 4T tokens). GPU support added May 2025.",
+  "key_insight": "Ternary-weight models trained from scratch (not post-training compression) achieve lossless inference at a fraction of float compute cost — viable local inference tier for cheap sub-agent tasks once model quality matures.",
+  "action_items": [
+    "Monitor BitNet-b1.58-2B-4T quality benchmarks on code/reasoning tasks — threshold for Tier 1 Scribe micro-report use case",
+    "Consider as Phase 3+ local provider tier in antigravity proxy (zero-cost, zero-latency for sub-agent structured extraction)",
+    "Relevant talking point for gov client on-prem deployments: MIT, no API dependency, consumer hardware"
+  ],
+  "cross_refs": [
+    "infrastructure/litellm.md",
+    "infrastructure/antigravity-claude-proxy.md",
+    "infrastructure/antigravity-manager.md"
+  ],
+  "phase": "Phase 3+",
+  "tags": ["local-inference", "1-bit-llm", "quantization", "edge", "microsoft", "cpu-inference", "model-routing"]
+}

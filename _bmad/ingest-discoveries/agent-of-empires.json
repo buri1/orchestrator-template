@@ -1,0 +1,34 @@
+{
+  "source_url": "https://github.com/njbrake/agent-of-empires",
+  "source_title": "Agent of Empires (AoE) — Claude Code, OpenCode, Codex CLI, Gemini CLI, Pi.dev session manager via tmux and git Worktrees",
+  "catalogue_path": "research/catalogue/orchestration-platforms/agent-of-empires.md",
+  "ingested_at": "2026-03-12T00:00:00Z",
+  "relevance_score": 9,
+  "verdict": "HIGH — directly validates and productizes our tmux+worktree architecture in Rust; three patterns (remain-on-exit, status detection, per-repo hooks) are immediately actionable",
+  "discovered_urls": [
+    {
+      "url": "https://clawhub.ai/njbrake/aoe",
+      "title": "ClawHub — agent tools registry (new platform signal)",
+      "relevance": 6,
+      "notes": "AoE has a ClawHub profile. ClawHub appears to be an emerging AI agent tools registry — worth tracking as a discovery surface for future catalogue entries. Not yet ingested."
+    },
+    {
+      "url": "https://www.agent-of-empires.com/docs/guides/worktrees",
+      "title": "AoE Worktree Guide — parallel agents on different branches",
+      "relevance": 8,
+      "notes": "Official AoE documentation for the bare repo + worktree workflow. Contains concrete setup patterns for parallel multi-agent branch isolation. Worth reading before implementing Phase 2 worktree improvements."
+    },
+    {
+      "url": "https://www.agent-of-empires.com/docs/guides/repo-config",
+      "title": "AoE Repo Config & Hooks Guide — per-project settings and automation",
+      "relevance": 8,
+      "notes": "Documents the .aoe/config.toml lifecycle hooks system (before_agent_start, after_agent_stop). Direct reference for redesigning our .bmad/scripts/ approach."
+    },
+    {
+      "url": "https://github.com/asheshgoplani/agent-deck",
+      "title": "agent-deck — Go + Bubble Tea agent session manager (AoE's inspiration)",
+      "relevance": 5,
+      "notes": "AoE README credits agent-deck as inspiration. Go + Bubble Tea TUI stack vs AoE's Rust. May have different architectural patterns worth comparing. Not yet ingested."
+    }
+  ]
+}
