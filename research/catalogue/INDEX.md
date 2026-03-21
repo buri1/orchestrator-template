@@ -5,7 +5,7 @@
 **Last updated:** 2026-03-21
 **Total entries:** 344 (176 tools, 7 practitioners, 81 reference docs, 39 articles, 16 talks, 29 posts)
 **Templates:** [Tool](./_TEMPLATE.md) | [Practitioner](./_TEMPLATE-PRACTITIONER.md) | [Article](./_TEMPLATE-ARTICLE.md) | [Talk](./_TEMPLATE-TALK.md) | [Post](./_TEMPLATE-POST.md)
-**Views:** [Chronological Timeline](./TIMELINE.md) | [Interactive UI](./catalogue-explorer.html)
+**Views:** [Chronological Timeline](./TIMELINE.md) | [Interactive UI](./catalogue-explorer.html) | [Adoptable Patterns Backlog](./ADOPTABLE-PATTERNS.md)
 
 ---
 

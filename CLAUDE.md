@@ -92,6 +92,7 @@ Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + cont
 | `/roadblock-recovery` | Handle stuck agents |
 | `/e2e-screenshots` | E2E screenshot capture workflow |
 | `/ui-review` | UI review via Chrome DevTools |
+| `/research-librarian` | Activate the Research Librarian for catalogue curation and ingestion |
 
 ## tmux Quick Reference
 
