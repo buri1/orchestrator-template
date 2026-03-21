@@ -58,25 +58,50 @@ Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + cont
 - Always check state before spawning agents to avoid duplicates
 - Write state after EVERY phase transition
 
+## cmux Send Syntax (CRITICAL)
+
+```bash
+# CORRECT — text as positional arg, \n = Enter:
+cmux send --surface <ref> 'your command here\n'
+
+# WRONG — these flags do NOT exist:
+cmux send --text "..." --enter        # BROKEN
+cmux send --keys ctrl+c               # BROKEN
+```
+
+For long prompts: write to file, send `claude -p "$(cat file)"`. See agent docs for details.
+
+## Worker Naming Convention
+
+```
+W<wave>_<worker#>_<story-id>_<short-desc>_<HHmm>
+```
+Example: `W1_1_1.3_homepage_0845`
+
+## Context Management
+
+- `/compact` after every wave — keep under 100k tokens
+- Pipe output: `git push 2>&1 | tail -3`, `gh pr list --json number --jq '.[0].number'`
+- NEVER use `sleep` + `read-screen` polling — ALWAYS `cmux wait-for`
+- NEVER fall back to Agent tool — ALWAYS use cmux
+
 ## cmux Quick Reference
 
 | Action | Command |
 |--------|---------|
 | Split pane | `cmux new-split right` |
-| Send text | `cmux send --surface <ref> "text\n"` |
-| Send key | `cmux send-key --surface <ref> enter` |
-| Read output | `cmux read-screen --surface <ref> --scrollback --lines 50` |
+| Send text | `cmux send --surface <ref> 'command\n'` |
+| Send key | `cmux send-key --surface <ref> Enter` |
+| Read output | `cmux read-screen --surface <ref> --lines 15` |
 | Close pane | `cmux close-surface --surface <ref>` |
 | Wait for signal | `cmux wait-for "signal-name" --timeout 1800` |
 | Signal done | `cmux wait-for -S "signal-name"` |
 | Notify | `cmux notify --title "Title" --body "Body"` |
 | Set status | `cmux set-status <key> "value" --icon hammer --workspace "$ORCH_WORKSPACE"` |
-| Set progress | `cmux set-progress 0.5 --label "Story 1.3" --workspace "$ORCH_WORKSPACE"` |
-| Log | `cmux log --level info --source orchestrator "message" --workspace "$ORCH_WORKSPACE"` |
+| Set progress | `cmux set-progress 0.5 --label "text" --workspace "$ORCH_WORKSPACE"` |
+| Log | `cmux log --source orchestrator "msg" --workspace "$ORCH_WORKSPACE"` |
 | Browser open | `cmux browser open http://localhost:3000` |
 | Browser screenshot | `cmux browser screenshot --out /tmp/e2e.png` |
-| Browser snapshot | `cmux browser snapshot --interactive` |
-| Pipe output | `cmux pipe-pane --surface <ref> --command "cat > /tmp/agent-output.log"` |
 
 ## Orchestrator Loop
 
