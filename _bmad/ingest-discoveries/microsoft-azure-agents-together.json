@@ -1,0 +1,14 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=EXoIFK8viVM",
+  "source_title": "How Do Agents Work Together? - Microsoft Azure",
+  "catalogue_path": "research/catalogue/talks/2026-03/microsoft-azure-how-agents-work-together.md",
+  "ingested_at": "2026-03-22T18:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/microsoft/agent-framework",
+      "context": "Microsoft Agent Framework — converges AutoGen and Semantic Kernel into unified SDK",
+      "suggested_type": "tool",
+      "relevance_hint": "Major framework convergence; public preview; study architecture patterns"
+    }
+  ]
+}

@@ -8,7 +8,7 @@
 |-------|-------|
 | Type | Living Backlog |
 | Created | 2026-03-21 |
-| Last Updated | 2026-03-21 (testing section added) |
+| Last Updated | 2026-03-22 (Wave 2-3 synthesis + Jensen Huang GTC panel patterns) |
 | Status | Active — append new patterns as they're discovered |
 
 ---
@@ -112,6 +112,54 @@ Always send `q` before `tmux send-keys` to exit copy mode.
 **Implementation**: Update orchestrator agent prompt's tmux quick reference: all `send-keys` commands should be preceded by `tmux send-keys -t <name> q 2>/dev/null;` as a defensive no-op.
 **Priority**: High — trivial fix, prevents silent nudge failures.
 
+#### ccusage — Zero-Install Token & Cost Tracking
+**Source**: [observability/ccusage.md](./observability/ccusage.md) | [ryoppippi/ccusage](https://github.com/ryoppippi/ccusage) (11.3K stars, MIT)
+Zero-install Claude Max usage analytics from local JSONL conversation files. Per-session tracking, 5-hour billing window awareness, `--json` export for dashboards.
+**Implementation**: `npx ccusage@latest` — immediate results. Baseline KPI: cost per merged PR. Phase 2: integrate `@ccusage/mcp` into orchestrator for auto-throttling.
+**Priority**: High — zero cost, 2-minute install, validates the 18-36x cost arbitrage claim.
+
+#### Beads — Agent-Native Work Tracking with Dependency Graphs
+**Source**: [agent-memory/beads.md](./agent-memory/beads.md) | [steveyegge/beads](https://github.com/steveyegge/beads) (18.5K stars, MIT, Go)
+Persistent issue tracker optimized for AI agents. `bd ready` returns unblocked tasks. Hash-based IDs (`bd-a1b2`) prevent merge conflicts. Semantic compaction summarizes closed tasks. Atomic claiming (`bd update --claim`) prevents duplicate work. JSONL-in-git storage (`.beads/beads.jsonl`). Claude plugin included.
+**Implementation**: `go install github.com/steveyegge/beads/cmd/bd@latest && bd init`. Replace orchestrator GET_NEXT_TASK with `bd ready`. Workers create sub-tasks with `bd create`. Orchestrator marks done with `bd update --status done`.
+**Priority**: High — solves the "50 First Dates" amnesia problem. Most aligned tool to our zero-infra philosophy.
+
+#### remain-on-exit — tmux Pane Crash Forensics
+**Source**: [orchestration-platforms/agent-of-empires.md](./orchestration-platforms/agent-of-empires.md) | [njbrake/agent-of-empires](https://github.com/njbrake/agent-of-empires) (1.1K stars, MIT, Rust)
+Single tmux flag: `tmux set-option -t "$PANE" remain-on-exit on`. Crashed panes stay open for forensics instead of vanishing. Zero performance cost.
+**Implementation**: Add to worker spawn step (1 line). Pairs with Worker Death Verification (2.3) for a complete crash lifecycle.
+**Priority**: High — trivial implementation, immediate value for debugging.
+
+#### DCG — Destructive Command Guard
+**Source**: [infrastructure/destructive-command-guard.md](./infrastructure/destructive-command-guard.md) | [Dicklesworthstone/destructive_command_guard](https://github.com/Dicklesworthstone/destructive_command_guard) (MIT)
+SIMD-accelerated PreToolUse hook that blocks destructive commands (`git push --force`, `rm -rf /`, `npm publish`). Sub-millisecond overhead. 49+ security packs. Fail-open design (blocks known-bad, allows everything else).
+**Implementation**: `claude hook install dcg` or `--easy-mode` installer (2 minutes). Every spawned agent gets deterministic safety from day 1.
+**Priority**: High — catches what prompts miss. Deterministic safety net for the 70% side of the 70/30 split.
+
+#### Hallucination Guard — Zero Tool Call Rejection (from GSD 2)
+**Source**: [agent-harnesses/gsd-2.md](./agent-harnesses/gsd-2.md) | [gsd-build/gsd-2](https://github.com/gsd-build/gsd-2) (2.6K stars, MIT, Pi SDK)
+Workers that complete with zero tool calls are rejected as fabricated. Agent produced a detailed summary without writing any code — previously costing ~$25 per milestone in wasted inference.
+**Implementation**: After worker signals done (`cmux wait-for` / `capture-pane`), verify `gh pr diff` shows actual file changes. If PR is empty or branch has no new commits beyond the base, reject and re-spawn. ~10 LOC in orchestrator REVIEW step.
+**Priority**: High — prevents the most expensive silent failure mode (fake completions that pass review because the summary sounds plausible).
+
+#### Merge Anchor Verification (from GSD 2)
+**Source**: [agent-harnesses/gsd-2.md](./agent-harnesses/gsd-2.md) | [gsd-build/gsd-2](https://github.com/gsd-build/gsd-2) (2.6K stars, MIT, Pi SDK)
+Before deleting a worktree/branch, verify the code is actually present on the integration branch. Prevents orphaning commits when squash-merge produces an empty diff.
+**Implementation**: Before `git worktree remove` (cmux v4.1) or `tmux kill-window` + branch cleanup (v3), run `git log main --oneline | grep "<merge-commit>"` or `git branch --contains <last-commit-hash>`. If not found, preserve the branch and log a warning.
+**Priority**: High — trivial check, prevents irreversible code loss on edge-case merge failures.
+
+#### Verification Command Auto-Fix Retries (from GSD 2)
+**Source**: [agent-harnesses/gsd-2.md](./agent-harnesses/gsd-2.md) | [gsd-build/gsd-2](https://github.com/gsd-build/gsd-2) (2.6K stars, MIT, Pi SDK)
+Configured verification commands (lint, test, build) run after every task. Failures trigger auto-fix retries with a diagnostic prompt before the agent can advance. Auto-discovered checks from `package.json` run in advisory mode (warn but don't block on pre-existing errors).
+**Implementation**: Extend PreCompletionChecklist (Section 2.1) with retry loop: run checks → if fail, inject "fix these errors" prompt → re-run checks → max N retries → if still failing, escalate. Configurable via `verification_commands`, `verification_auto_fix`, `verification_max_retries`.
+**Priority**: High — formalizes Back Pressure Hierarchy (3.1) as a deterministic retry gate, not just a prompt instruction.
+
+#### Adaptive Roadmap Reassessment (from GSD 2)
+**Source**: [agent-harnesses/gsd-2.md](./agent-harnesses/gsd-2.md) | [gsd-build/gsd-2](https://github.com/gsd-build/gsd-2) (2.6K stars, MIT, Pi SDK)
+After each slice/story completes, the roadmap is reassessed against new information. Slices can be reordered, added, or removed. The plan evolves based on what the agent learned during execution.
+**Implementation**: After each story is Done, orchestrator reads remaining stories in the epic and asks: "Given what was learned in this story, should the remaining stories be reordered or modified?" Update epic file if needed.
+**Priority**: Medium — valuable for longer sprints (5+ stories) where early stories reveal architectural changes.
+
 ### 2.2 MEDIUM PRIORITY — Next Sprint
 
 #### Autonomous Context Compression (from LangChain/NVIDIA talk)
@@ -145,6 +193,54 @@ Before compaction, run a "memory flush" step that promotes durable information i
 **Implementation**: Already partially implemented via `orchestrator-handoff.sh`. Formalize: the hook should extract (1) current task state, (2) worker assignments, (3) any decisions made this cycle into the state JSON.
 **Priority**: Medium — improves compaction survival.
 
+#### Progressive Escalation — 4-Tier Watchdog
+**Source**: [agent-harnesses/overstory.md](./agent-harnesses/overstory.md) | [jayminwest/overstory](https://github.com/jayminwest/overstory) (791 stars, MIT, TS/Bun)
+Replace binary "nudge or kill" with a graduated response: (1) warn — log the stall, (2) nudge — inject "you appear stuck" text, (3) AI triage — one-shot diagnostic prompt, (4) hard kill — terminate and respawn. 60-second time-gating between tiers prevents restart storms.
+**Implementation**: ~30 LOC in orchestrator wait loop. Extends existing nudge logic with formal escalation state machine.
+**Priority**: Medium — eliminates the restart storm failure mode.
+
+#### ZFC Principle — Observable State Overrides Stored State
+**Source**: [agent-harnesses/overstory.md](./agent-harnesses/overstory.md), Pi Orchestrator SYNTHESIS Q2
+Observable state (tmux pane liveness + PID check) ALWAYS overrides stored state JSON. If the registry says "running" but `tmux has-session` fails, force transition to "crashed." Never trust stored state over reality.
+**Implementation**: ~15 LOC in state reconciliation step at orchestrator startup and before each phase transition.
+**Priority**: Medium — eliminates stale state bugs that caused ghost worker issues.
+
+#### Three-State Agent Status
+**Source**: [agent-harnesses/broomie.md](./agent-harnesses/broomie.md) | [broomie-ai/broomie](https://github.com/broomie-ai/broomie) (MIT)
+Workers report `working` / `blocked` / `help` status via structured output. Orchestrator prioritizes attention: `help` > `blocked` > `working`. Status parsed from worker screen output or latch files.
+**Implementation**: Add status parsing to `read_worker_output`. Workers include status tag in prompt: "If you are stuck, output `STATUS: blocked <reason>`."
+**Priority**: Medium — enables smarter orchestrator attention allocation.
+
+#### Semgrep MCP — Inline SAST During Code Generation
+**Source**: [code-intelligence/semgrep.md](./code-intelligence/semgrep.md) | [semgrep/semgrep](https://github.com/semgrep/semgrep) (14K stars, LGPL-2.1/MIT)
+MCP server (`uvx semgrep-mcp`) gives agents inline access to 5,000+ security rules across 30+ languages. Zero-config for local use. Custom rules for orchestrator-specific anti-patterns.
+**Implementation**: Install MCP server, add to `.claude/settings.json`. Agent scans code inline while writing — catches XSS, SQL injection, secrets before PR creation.
+**Priority**: Medium — zero-cost quality gate for the 70% deterministic side.
+
+#### Beads + Orchestrator Deep Integration
+**Source**: [agent-memory/beads.md](./agent-memory/beads.md), [orchestration-platforms/mcp-agent-mail.md](./orchestration-platforms/mcp-agent-mail.md)
+Full migration of task tracking from `orchestrator-state.json` to Beads. `bd ready` replaces manual task selection. `bd update --claim` provides atomic task locking. Bead IDs (`bd-123`) serve as shared thread identifiers with MCP Agent Mail for inter-agent messaging.
+**Implementation**: 1-2 days. Phase B of Beads integration plan (see SYNTHESIS-REPORT.md section 5).
+**Priority**: Medium — depends on successful Phase A trial.
+
+#### CASS Memory System — Cognitive Memory with Confidence Decay
+**Source**: [agent-memory/cass-memory-system.md](./agent-memory/cass-memory-system.md) | [Dicklesworthstone/cass_memory_system](https://github.com/Dicklesworthstone/cass_memory_system) (268 stars, TS/Bun)
+3-layer cognitive memory: episodic (raw session logs) → working (structured diary) → procedural (distilled rules with 90-day confidence decay). Deterministic curation (LLM extracts, code curates). 4x harmful multiplier biases toward safety. MCP integration via `cm context`.
+**Implementation**: 2-3 days setup. `cm onboard` against accumulated session history.
+**Priority**: Medium — compound value increases over time.
+
+#### dmux HTTP API — Programmatic tmux Management
+**Source**: [orchestration-platforms/dmux.md](./orchestration-platforms/dmux.md) | [standardagents/dmux](https://github.com/standardagents/dmux) (1.2K stars, MIT, TypeScript)
+HTTP REST API + SSE streaming replaces raw `tmux send-keys` / `capture-pane`. Agent Registry with typed prompt transport abstraction. 11 lifecycle hooks with 3-tier resolution (team > local > global). Two-phase merge with AI conflict resolution.
+**Implementation**: `npm install -g dmux`. 1-2 days migration from raw tmux commands.
+**Priority**: Medium — strongest candidate as programmatic substrate beneath L-Thread Orchestrator.
+
+#### Langfuse Self-Hosted — LLM Observability & Trust Artifacts
+**Source**: [observability/langfuse.md](./observability/langfuse.md) | [langfuse/langfuse](https://github.com/langfuse/langfuse) (22.8K stars, MIT, TS)
+Full-stack LLM tracing (traces, spans, scores, sessions) with ClickHouse backend. Self-hosted via Docker = DSGVO compliant. Cost tracking per trace validates Claude Max arbitrage. Session grouping maps to L-Thread workers. OpenTelemetry-native.
+**Implementation**: `docker compose up`. 2 hours setup. Phase 2 graduation when scaling past 10 agents.
+**Priority**: Medium — government client trust artifact. Enables Judgment SLOs.
+
 ### 2.3 LOW PRIORITY — Track for Later
 
 #### Thread-Based Episodic Memory (from Random Labs Slate)
@@ -175,7 +271,13 @@ After killing a worker, verify the process is actually dead. Don't trust "polite
 
 ## 3. Testing & Quality Patterns for Autonomous Agent Systems
 
-> **Context**: Comprehensive analysis from 5 parallel research agents (2026-03-21) covering: catalogue entries on testing, G. Huntley's methodology, IndyDevDan's principles, past orchestrator incidents, existing TEA infrastructure, and browser automation research. Goal: prevent the planning and testing failures that plagued previous sprints.
+> **Context**: Comprehensive analysis from 5 parallel research agents (2026-03-21, updated 2026-03-22) covering: catalogue entries on testing, G. Huntley's methodology, IndyDevDan's principles, past orchestrator incidents, existing TEA infrastructure, and browser automation research. Goal: prevent the planning and testing failures that plagued previous sprints.
+>
+> **Applies to both orchestrator modes:**
+> - **cmux v4.1** (ACTIVE) — event-driven via `cmux wait-for`, worktree-isolated workers, `cmux browser` for E2E, sidebar metadata for observability. Hook chain: SessionStart → PreCompact → Stop.
+> - **tmux v3** (LEGACY) — polling via `tmux capture-pane`, shared or worktree dirs, Chrome DevTools MCP for E2E. Hook chain: SessionStart → PreCompact.
+>
+> Implementation notes below include both `cmux:` and `tmux:` variants where commands differ.
 
 ### Evidence Base (Why This Matters)
 
@@ -205,14 +307,16 @@ Priority (strongest → weakest signal):
 2. Test Suites     — failing tests apply direct pressure to the generative loop
 3. Linters         — automated style/quality enforcement (ESLint, Biome, etc.)
 4. Build System    — agent reads errors, self-corrects iteratively
-5. UI Verification — Chrome/agent-browser E2E screenshots
+5. UI Verification — cmux browser / Chrome DevTools MCP / agent-browser E2E screenshots
 6. Git History     — previous commits as implicit guidance
 ```
 
 **Implementation for orchestrator**:
 - Worker agent prompts must enforce this stack top-down: typecheck → test → lint → build → E2E
 - If any layer fails, the worker loops on THAT layer before proceeding (not skip to next)
-- The orchestrator's REVIEW step should verify all 6 layers passed before accepting a PR
+- The orchestrator's REVIEW step (Phase 7 in both v3 and v4.1) should verify all 6 layers passed before accepting a PR
+- `cmux:` E2E via `cmux browser screenshot` (native, zero-config)
+- `tmux:` E2E via Chrome DevTools MCP or agent-browser CLI
 **Priority**: FOUNDATIONAL — this frames everything below.
 
 ### 3.2 FOUNDATIONAL — Specs as Source of Truth (G. Huntley)
@@ -276,21 +380,23 @@ We have 190+ testing knowledge files and 9 workflows sitting unused:
 
 **Priority**: High — zero implementation cost, just activation.
 
-### 3.5 HIGH PRIORITY — Replace Chrome DevTools MCP with agent-browser
+### 3.5 HIGH PRIORITY — E2E Browser Strategy (cmux browser / agent-browser / Chrome DevTools MCP)
 
-**Source**: [agent-harnesses/agent-browser.md](./agent-harnesses/agent-browser.md), [reference/browser-e2e-testing-tools.md](./reference/browser-e2e-testing-tools.md)
+**Source**: [agent-harnesses/agent-browser.md](./agent-harnesses/agent-browser.md), [reference/browser-e2e-testing-tools.md](./reference/browser-e2e-testing-tools.md), cmux-orchestrator v4.1 docs
 
-Vercel's agent-browser achieves **93% context reduction** via "Snapshot + Refs" — semantic locators (ARIA roles, text content) with compact element references (`@e1`, `@e2`) instead of full DOM/accessibility trees. Rust CLI + Node daemon architecture.
+**Current state by orchestrator mode:**
+- `cmux v4.1:` Native `cmux browser` integration — `cmux browser open`, `cmux browser screenshot`, `cmux browser eval`. Zero-config, already in the orchestrator loop (Phase 10 E2E_TEST). Lightweight but limited to screenshots + JS eval.
+- `tmux v3:` Chrome DevTools MCP — full DOM inspection but high token overhead, WebSocket instability (L-INC-013).
 
-**Capabilities**: 108+ commands — navigation, form interaction, network interception, screenshots, PDF generation, multi-tab, iframe, auth state persistence, mock API responses for deterministic E2E.
+**Upgrade path — agent-browser (Vercel):**
+Achieves **93% context reduction** via "Snapshot + Refs" — semantic locators (ARIA roles, text content) with compact element references (`@e1`, `@e2`) instead of full DOM/accessibility trees. Rust CLI + Node daemon architecture. 108+ commands — navigation, form interaction, network interception, screenshots, PDF generation, multi-tab, iframe, auth state persistence, mock API responses for deterministic E2E.
 
 **Implementation**:
-- Install agent-browser alongside Chrome DevTools MCP
-- Update E2E screenshot gate (`e2e-screenshots.md`) to use agent-browser commands
+- `cmux:` For basic screenshot gates, `cmux browser` is sufficient and already integrated. Upgrade to agent-browser when needing: form interaction testing, network mocking, auth persistence, or multi-page user flow validation.
+- `tmux:` Replace Chrome DevTools MCP with agent-browser (solves L-INC-013 instability + 93% context savings).
+- Both modes: Auth state persistence eliminates re-login overhead per test run. Network interception enables mocking external APIs for deterministic tests.
 - 93% context savings → enables 10 parallel agents within budget previously supporting 3
-- Auth state persistence eliminates re-login overhead per test run
-- Network interception enables mocking external APIs for deterministic tests
-**Priority**: High — single highest-impact testing infrastructure change.
+**Priority**: High for tmux (replaces fragile Chrome DevTools MCP). Medium for cmux (enhances already-working `cmux browser`).
 
 **Alternatives evaluated**:
 - **Rodney** (G. Huntley / Simon Willison): Go CLI + headless Chrome, 50+ commands, shell-native assertions (exit code 1), accessibility audit commands (`ax-tree`, `ax-find`). Zero infrastructure overhead but no context compression. Good for lightweight smoke tests.
@@ -340,9 +446,15 @@ Hook 3: ToolErrorMiddleware               — graceful error handling
 
 **Implementation for orchestrator**:
 - PR creation backstop: if worker exits without PR, orchestrator creates one from the branch
-- State file update backstop: always persist state after every phase transition (already in v3, formalize)
+- State file update backstop: always persist state after every phase transition
 - Devlog entry backstop: always record result even on failure
 - Escalation trigger: if quality dips (3+ review cycles), flag for human review
+
+**Existing hook chain by mode:**
+- `cmux v4.1:` 3-hook lifecycle already implemented — `session-start.sh` (inject state), `handoff.sh` (pre-compaction survival), `cmux-stop-hook.sh` (signal orchestrator via `cmux wait-for`). The Stop hook is the key innovation: event-driven completion detection, zero polling. Extend by adding quality checks inside Stop hook (verify PR exists, tests passed) before signaling completion.
+- `tmux v3:` 2-hook lifecycle — `session-start.sh`, `handoff.sh`. No Stop hook — relies on polling via `tmux capture-pane`. Worker completion detected by parsing output or checking `gh pr list`.
+
+**Gap analysis:** Both modes lack a **PreToolUse hook** for inline quality enforcement (linting on every file edit, blocking dangerous commands). This is where Pi Agent's 25+ lifecycle events or ECC's Plankton pattern would add value. Consider adding Claude Code's native PreToolUse hooks to worker `.claude/settings.local.json` for both modes.
 **Priority**: High — these are the deterministic safety nets that catch what prompts miss.
 
 ### 3.8 HIGH PRIORITY — Feature-Based Regression Suite
@@ -356,7 +468,9 @@ INC-014 and L-INC-014 both document the same failure: tasks marked Done without 
 **Implementation**:
 - After each story is Done + E2E verified, the worker writes a Playwright test covering the user flow
 - These tests accumulate in `e2e/` and run in CI on every PR
-- The orchestrator's REVIEW step checks: "Did the worker add/update the E2E test for this feature?"
+- The orchestrator's REVIEW step (Phase 7 in both v3/v4.1) checks: "Did the worker add/update the E2E test for this feature?"
+- `cmux v4.1:` Workers in isolated worktrees can run Playwright tests independently (no port conflicts). E2E gate uses `cmux browser` for screenshot verification, Playwright for automated regression.
+- `tmux v3:` Workers share filesystem — coordinate dev server port. E2E gate uses Chrome DevTools MCP.
 - TEA workflow `/bmad-tea-testarch-automate` generates these tests — ACTIVATE IT
 **Priority**: High — directly prevents the #1 recurring incident.
 
@@ -369,10 +483,12 @@ INC-014 and L-INC-014 both document the same failure: tasks marked Done without 
 Context windows are memory allocation: reading files = `malloc()`, there is no `free()`. If an agent's context becomes polluted (derailed, wrong path, accumulated errors), don't try to salvage — kill and restart fresh.
 
 **Implementation**:
-- Workers get ONE task. If stuck after 3 retry cycles, kill the window and re-spawn fresh
+- Workers get ONE task. If stuck after 3 retry cycles, kill and re-spawn fresh
 - The orchestrator NEVER sends a second task to the same worker context
 - If a test fails, the agent must confront the failure in a fresh context (the loop itself IS the error recovery)
-- Already aligned with v3 architecture (worker per tmux window) — formalize as a rule
+- `cmux v4.1:` Each worker gets its own workspace + worktree — kill via `cmux close-workspace` + `git worktree remove`. Clean isolation by design. Max 8 parallel workers.
+- `tmux v3:` Each worker gets its own tmux window — kill via `tmux kill-window`. Shared filesystem may leave artifacts; worktree variant mitigates this. Max ~3 parallel workers.
+- Both modes: Formalize as an absolute rule in the orchestrator agent prompt
 **Priority**: High — prevents context pollution cascades.
 
 ### 3.10 HIGH PRIORITY — Failure Domain Logging & Loop Observation
@@ -388,6 +504,8 @@ IndyDevDan's principle: **"Observability before scale"** — invest in tracing t
 - When an error recurs 3x, the response is NOT "test it better" but "fix the prompt/spec so the error becomes impossible"
 - Workers update their own instructions (AGENT.md pattern) with learned build/run commands
 - Rolling TODO list (`fix_plan.md`) survives context resets
+- `cmux v4.1:` Leverage sidebar observability — `cmux log --level error --source orchestrator "failure domain: <pattern>"` makes failure patterns visible in real-time. `cmux set-status` can flag workers hitting known failure domains.
+- `tmux v3:` Log to devlog.md + JSONL telemetry (already proven from Pi v2 era). No live sidebar.
 **Priority**: High — the meta-pattern that improves all other patterns over time.
 
 ### 3.11 MEDIUM PRIORITY — CodeRabbit Automated PR Review
@@ -473,7 +591,10 @@ OpenDev's 5-stage compaction thresholds:
 
 **Critical**: Files touched by agents survive compaction (artifact index pattern). Prevents losing track of what was changed.
 
-**Implementation**: Enhance `orchestrator-handoff.sh` with these thresholds. Currently we only have the 99% forced compaction.
+**Implementation**:
+- `cmux v4.1:` Enhance `handoff.sh` (PreCompact hook) with these thresholds. Currently outputs a survival briefing at compaction time. Add: artifact index (files touched), worker assignments, current phase. The sidebar metadata (`cmux set-progress`, `cmux set-status`) persists independently of context — provides external state recovery.
+- `tmux v3:` Enhance `orchestrator-handoff.sh` similarly. No sidebar — rely entirely on `orchestrator-tmux-state.json` + devlog for recovery.
+- Both: Currently only have the 99% forced compaction. Adding intermediate stages (70/80/85/90%) would catch issues earlier.
 **Priority**: Medium — prevents context loss in long sessions.
 
 ### 3.16 MEDIUM PRIORITY — Accessibility Testing (BITV 2.0)
@@ -491,8 +612,10 @@ Rodney's accessibility commands (`ax-tree`, `ax-find`, `ax-node`) enable BITV 2.
 
 When multiple workers create PRs simultaneously, merge conflicts are inevitable. Graphite's stacked PR pattern + merge queue solves this by sequencing dependent changes.
 
-**Implementation**: Evaluate when running 4+ parallel workers regularly. Current 2-3 worker limit makes this less urgent.
-**Priority**: Low — becomes High at 4+ parallel workers.
+**Implementation**:
+- `cmux v4.1:` Supports 8+ parallel workers with worktree isolation — merge conflicts become real at this scale. Graphite's merge queue would sequence PRs automatically. **Priority escalates to MEDIUM for cmux v4.1.**
+- `tmux v3:` Limited to ~3 parallel workers — merge conflicts rare. **Stays LOW for tmux v3.**
+**Priority**: Medium (cmux v4.1) / Low (tmux v3).
 
 ### 3.18 LOW PRIORITY — Shannon Autonomous Security Gate
 
@@ -535,7 +658,10 @@ Incidents directly caused by testing gaps:
 | L-INC-007 (XSS in markdown) | No security scanning | Shannon security gate (3.18) or CodeRabbit (3.11) |
 | L-INC-009 (N+1 queries) | No performance testing | NFR assessment workflow (3.14) |
 | L-INC-011 (Pagination broken) | No integration test for pagination | ATDD — failing test before code (3.4) |
-| L-INC-013 (Chrome DevTools instability) | Fragile E2E infrastructure | agent-browser replacement (3.5) |
+| L-INC-013 (Chrome DevTools instability) | Fragile E2E infrastructure | `cmux browser` (v4.1 native) or agent-browser (3.5) |
+| CMUX-BUG-01 (output format parsing) | Assumed bare result from cmux CLI | Deterministic output parsing + integration tests |
+| CMUX-BUG-02 (send without Enter) | cmux `send` ≠ tmux `send-keys` semantics | Fixed in 6820cf5: always follow with `cmux send-key Enter` |
+| CMUX-BUG-04 (cross-workspace targeting) | Missing `--workspace` scope | Fixed in 6820cf5: all sidebar commands scoped to `$ORCH_WORKSPACE` |
 | MAST taxonomy (1,642 traces) | 14 failure modes across 4 categories | Deterministic middleware hooks (3.7) |
 
 ### Sprint Activation Checklist
@@ -545,32 +671,328 @@ Incidents directly caused by testing gaps:
 - [ ] Run `/bmad-tea-testarch-ci` — scaffold CI quality pipeline
 - [ ] Write specs for every planned feature (3.2)
 - [ ] Define risk matrix for auto-ship vs manual review (3.12)
+- [ ] `cmux:` Verify Stop hook installed in target project's `.claude/settings.local.json`
+- [ ] `tmux:` Verify `run-tmux.sh` creates windows with `remain-on-exit on` (Section 2.1)
 
 **Every story**:
 - [ ] Run `/bmad-tea-testarch-atdd` — failing acceptance tests before code
 - [ ] Worker prompt includes "first run the tests" (3.4)
 - [ ] One task per context, kill on 3rd retry (3.9)
+- [ ] `cmux:` Worker spawned in isolated worktree + separate workspace
+- [ ] `tmux:` Worker spawned in dedicated window (worktree variant preferred)
 
 **Every PR**:
 - [ ] PreCompletionChecklist: tests pass, lint clean, git status clean (Section 2.1)
-- [ ] E2E screenshot gate with agent-browser (3.5)
+- [ ] E2E gate: `cmux browser screenshot` (v4.1) or Chrome DevTools MCP / agent-browser (v3) — (3.5)
 - [ ] Worker adds/updates Playwright regression test (3.8)
+- [ ] `cmux:` Sidebar shows worker status transition to "done" via Stop hook signal
 
 **Every epic completion**:
 - [ ] Run `/bmad-tea-testarch-trace` — requirements traceability (3.14)
 - [ ] Run `/bmad-tea-testarch-automate` — expand coverage gaps
 - [ ] Log failure domains to `_bmad/failure-domains.jsonl` (3.10)
+- [ ] `cmux:` Review sidebar logs for recurring error patterns
 - [ ] Update specs with lessons learned
+- [ ] `cmux:` Clean up stale worktrees: `git worktree list` + `git worktree prune`
 
 ---
 
-## 4. Appendix: Pattern Sources by Relevance
+## 5. Patterns from Wave 2-3 Catalogue Ingestion (2026-03-22)
+
+> **Synthesis of 100 patterns from 5 parallel analysis agents** scanning 33 catalogue entries across: LangChain context engineering, Vercel filesystem agents, NVIDIA enterprise security, GSD-2/Google ADK harnesses, and Siemens/Adobe/Atlassian industrial agents. After deduplication against Sections 2 and 3 above, **42 new patterns** survived (20 HIGH, 18 MEDIUM, 4 LOW).
+
+### 5.1 HIGH PRIORITY
+
+#### Event-Sourced Orchestration State (from T3 Code)
+**Source**: [developer-gui/t3code.md](./developer-gui/t3code.md) | T3 Code v0.2.77
+Replace imperative `orchestrator-tmux-state.json` mutation with append-only JSONL event log. Events: `worker.spawned`, `pr.created`, `pr.merged`, `e2e.passed`, `task.done`. Current state = fold over events. Crash recovery = replay log.
+**Implementation**: `_bmad/agent-activity.jsonl` is already halfway there. Formalize it as source of truth; derive state JSON from it.
+- `tmux v3:` Replace JSON writes with JSONL appends. State reconstruction in `session-start.sh`.
+- `cmux v4.1:` Same pattern. Event log feeds both state projection and dashboard.
+**Priority**: High — eliminates "state file corrupted" failures. Gives crash recovery and time-travel debugging for free.
+
+#### Decider + Projector / CQRS (from T3 Code)
+**Source**: [developer-gui/t3code.md](./developer-gui/t3code.md)
+Separate command validation (decider: command + state -> events) from state projection (projector: events -> state). Decider is a pure function that validates invariants (max workers, no duplicates) before emitting events.
+**Implementation**: ~20 command types in T3 Code map 1:1 to our loop phases. Implement as `decider.sh` that gates every action.
+**Priority**: High — makes orchestrator state transitions testable and auditable.
+
+#### CI Fix-Push Loop (from Ghostling/Hashimoto)
+**Source**: [agent-harnesses/ghostling.md](./agent-harnesses/ghostling.md) | mitchellh
+Dedicated CI-fixer agent that: watches `gh run watch`, reads `gh run view --log-failed`, fixes, pushes, loops until CI passes. Hashimoto: "the only way I stay sane."
+**Implementation**: After PR creation, spawn a specialized CI-fixer worker instead of running the full REVIEW-FIX cycle for lint/type/test failures.
+- `tmux v3:` Dedicated tmux window for CI fixing per PR.
+- `cmux v4.1:` Background workspace that auto-responds to CI events.
+**Priority**: High — CI failures are the most common blocker. Specialized agent handles them faster than general reviewer.
+
+#### Git-Based Checkpointing (from T3 Code)
+**Source**: [developer-gui/t3code.md](./developer-gui/t3code.md)
+Git commits as session checkpoints at orchestrator-defined milestones (task assigned, implementation done, PR created, review passed). Crashed workers resume from last checkpoint instead of restarting.
+**Implementation**: Workers commit at milestones. New worker on crash does `git log --oneline` to find checkpoint and continues.
+**Priority**: High — saves 30-60 minutes per crashed task by enabling resume-from-last-good-state.
+
+#### Three-Tier Progressive Compression (from LangChain)
+**Source**: [talks/2026-03/open-models-runtime-harness-langchain-nvidia.md](./talks/2026-03/open-models-runtime-harness-langchain-nvidia.md)
+Three tiers of increasing lossiness: (1) offload tool results >20K tokens to filesystem, (2) truncate old write/edit inputs at 85% fill, (3) only then summarize. Each tier defers to the cheapest mechanism first.
+**Implementation**: Tier 1 is free — add to worker CLAUDE.md: "Save large tool results to file, reference path." Tier 2: workers reference files by path. Tier 3: existing compaction. Complements Section 3.15's threshold stages.
+**Priority**: High — Tier 1 has zero information loss since full content stays on disk.
+
+#### Goal Drift Detection Post-Compaction (from LangChain)
+**Source**: [talks/2026-03/open-models-runtime-harness-langchain-nvidia.md](./talks/2026-03/open-models-runtime-harness-langchain-nvidia.md)
+After summarization, agents lose original intent — "the most insidious failure mode." Fix: re-inject the original task/sprint goal in `session-start.sh` after every compaction.
+**Implementation**: Current hook injects phase and state but NOT the original goal. Add: `ORIGINAL GOAL: <from state file>` + self-check instruction.
+- `tmux v3:` Add to `orchestrator-session-start.sh`.
+- `cmux v4.1:` Same hook + sidebar `cmux set-status` with goal summary.
+**Priority**: High — our hook injects WHAT (phase, PR number) but not WHY (original goal).
+
+#### Place Critical Instructions Early / Position Effect (from Chroma)
+**Source**: [articles/chroma-context-rot-llm-degradation.md](./articles/chroma-context-rot-llm-degradation.md)
+Accuracy highest for information near the beginning of context. Proven across 18 frontier models. Place task objective FIRST, then background.
+**Implementation**: Review `orchestrator-session-start.sh` output order. Lead with goal + immediate action, then supplementary details. Ensure worker prompts put task objective before background context.
+**Priority**: High — prompt reordering, zero code changes.
+
+#### Minimize Distractors in Context Assembly (from Chroma)
+**Source**: [articles/chroma-context-rot-llm-degradation.md](./articles/chroma-context-rot-llm-degradation.md)
+Semantically-related but irrelevant content compounds degradation multiplicatively across all 18 models tested. A worker given 3 paragraphs of unrelated features performs measurably worse.
+**Implementation**: Workers get ONLY task description, relevant file paths, and acceptance criteria. Strip sprint backlog, other workers' status, and orchestrator internals from worker prompts.
+**Priority**: High — scoping worker context is a prompt change, not an architectural change.
+
+#### On-Demand Context Loading (from Vercel)
+**Source**: [articles/vercel-agents-filesystems-bash.md](./articles/vercel-agents-filesystems-bash.md)
+Never front-load large contexts. Give workers the issue number and let them `gh issue view` + explore. Vercel achieved 75% cost reduction ($1.00 to $0.25/call).
+**Implementation**: Stop embedding full issue bodies in worker prompts. Provide WHAT + WHERE, not the full context. Workers that know HOW to find context survive compaction better than workers GIVEN context upfront.
+**Priority**: High — cost reduction proven at Vercel scale.
+
+#### Directory Conventions Documentation (from Vercel)
+**Source**: [articles/vercel-agents-filesystems-bash.md](./articles/vercel-agents-filesystems-bash.md)
+Add `## Directory Map` to CLAUDE.md listing every significant directory and its purpose. Agents waste 2-5 tool calls exploring structure they could have upfront.
+**Implementation**: 30 min. Add to CLAUDE.md: `_bmad/` = state, `research/catalogue/` = knowledge base, `.claude/` = agent config, etc.
+**Priority**: High — trivial to implement, immediate reduction in wasted tool calls.
+
+#### Out-of-Process Policy Enforcement (from NVIDIA OpenShell)
+**Source**: [infrastructure/nvidia-openshell.md](./infrastructure/nvidia-openshell.md)
+Enforce constraints at the environment level, not prompt level. Prompt injection can override prompt-level rules but cannot override filesystem ACLs. "Real security must be enforced at the environment level."
+**Implementation**: Use macOS `sandbox-exec` profiles or filesystem ACLs to restrict each tmux pane's process tree to its worktree. PF firewall rules for network egress. Our Rule 1 ("DU SCHREIBST NIEMALS CODE") is currently prompt-level only.
+- `tmux v3:` Script in `run-tmux.sh` when spawning workers.
+- `cmux v4.1:` Investigate Ghostty's process isolation capabilities.
+**Priority**: High — prompt-level rules are bypassable. Environment-level rules are not.
+
+#### Policy-as-Code (from ServiceNow + NVIDIA OpenShell)
+**Source**: [articles/servicenow-nvidia-governing-autonomous-workforce.md](./articles/servicenow-nvidia-governing-autonomous-workforce.md)
+Convert prose rules (CLAUDE.md "4 Absolute Rules") to machine-readable `agent-policy.yaml`. Machine-enforceable, version-controlled, testable.
+**Implementation**: Create `agent-policy.yaml` defining: `tools_denied`, `max_parallel_workers`, `e2e_required`, `auto_mode_source`. Orchestrator reads and enforces programmatically.
+**Priority**: High — low effort, converts the weakest enforcement form (prose) to the strongest (code).
+
+#### Runtime Action Logging for Post-Hoc Audit (from CrowdStrike + Cisco)
+**Source**: [articles/crowdstrike-nvidia-secure-agent-blueprint.md](./articles/crowdstrike-nvidia-secure-agent-blueprint.md)
+All agent actions logged in structured JSONL for forensic audit. Fields: `timestamp`, `worker_id`, `action_type`, `target_file`, `summary`.
+**Implementation**: Extend `capture-pane` polling to parse tool invocations and write to `_bmad/agent-actions.jsonl`. Devlog = human summary, action log = machine audit trail.
+**Priority**: High — low effort, answers "what exactly did worker-3 do between 14:00 and 14:30?"
+
+#### PageRank-Based Task Selection (from Beads Viewer)
+**Source**: [agent-harnesses/beads-viewer.md](./agent-harnesses/beads-viewer.md)
+Replace linear task picking with graph-theoretic dependency analysis. PageRank identifies tasks that unblock the most downstream work. `bv --robot-next --format toon` outputs token-optimized JSON.
+**Implementation**: Phase 1: GitHub Issues -> Beads JSONL adapter. Phase 2: `--robot-next` replaces GET_NEXT_TASK. Phase 3: `--robot-plan` drives parallel track allocation.
+**Priority**: High — a "medium" task blocking 15 others outranks a "high" task blocking zero.
+
+#### Parallel Track Planning (from Beads Viewer)
+**Source**: [agent-harnesses/beads-viewer.md](./agent-harnesses/beads-viewer.md)
+`bv --robot-plan` outputs groups of tasks that can safely run simultaneously (no inter-dependencies). Maps directly to multi-worker spawning.
+**Implementation**: Parse track-grouped JSON, spawn workers per independent track (up to max limit). Sequential tracks run after previous completes.
+**Priority**: High — we currently process stories sequentially even when they have no dependencies.
+
+#### Sliding-Window Stuck Detection (from GSD-2)
+**Source**: [agent-harnesses/gsd-2.md](./agent-harnesses/gsd-2.md)
+Track last N dispatch patterns. If the same pattern repeats 3+ times (including multi-step cycles A->B->A->B), inject diagnostic prompt. More sophisticated than time-based stuck detection.
+**Implementation**: During WAIT_FOR_PR, maintain sliding window of last 5 captured states. Pattern-match for repeated errors. Nudge on 3+ repetitions, kill+respawn on 10-minute stall.
+- `tmux v3:` Parse `tmux capture-pane` for repeated patterns.
+- `cmux v4.1:` Emit `stuck-detected` event from `cmux read-screen` pattern matching.
+**Priority**: High — catches fast-cycling doom loops that time-based detection misses.
+
+#### Progressive Skill Loading L1/L2/L3 (from Google ADK)
+**Source**: [agent-harnesses/google-adk.md](./agent-harnesses/google-adk.md)
+Three tiers: L1 (name + one-line, ~10 tokens), L2 (full instructions, ~200 tokens), L3 (reference docs, 1000+ tokens). Only L1 in initial context. L2/L3 load on-demand.
+**Implementation**: Restructure `.claude/commands/` with frontmatter. Orchestrator prompt only includes L1 for all skills. Example: `/tmux-recovery` L1 = "Recover crashed tmux sessions" (12 tokens vs ~500 for full content).
+**Priority**: High — directly reduces context waste in orchestrator prompt.
+
+#### Hallucination-Aware Input Sanitization (from Agentic Security Guide)
+**Source**: [posts/2026-03/affaanmustafa-shorthand-guide-agentic-security.md](./posts/2026-03/affaanmustafa-shorthand-guide-agentic-security.md)
+Every input channel (GitHub PRs, MCP responses, file contents) is a prompt injection surface. CVE-2025-59536 and CVE-2026-21852 are real Claude Code vulnerabilities.
+**Implementation**: Audit all MCP servers in `settings.json`. Remove MCPs that accept arbitrary external input. Run AgentShield scanner (`ecc-agentshield`) as one-time audit. Validate `/tmp/cmux.sock` inputs.
+**Priority**: High — workers with `--dangerously-skip-permissions` + prompt injection = full execution capability.
+
+#### Agent Skills as Executable Playbooks (from Siemens Fuse EDA)
+**Source**: [articles/2026-03/nvidia-gtc-industrial-eda-agent-partners.md](./articles/2026-03/nvidia-gtc-industrial-eda-agent-partners.md)
+Decompose complex stories into sequenced playbook steps with focused, minimal prompts per step. Workers load only the skill file relevant to their current step, not the entire project context.
+**Implementation**: Write `.md` playbook files per task type (`skills/implement-feature.md`, `skills/fix-bug.md`, `skills/review-pr.md`). Orchestrator selects and injects per worker.
+**Priority**: High — directly combats context window saturation, our #1 worker failure mode.
+
+#### Long-Running Loops with Persistent Isolation (from Adobe/NVIDIA)
+**Source**: [articles/2026-03/adobe-nvidia-partnership-agentic-workflows.md](./articles/2026-03/adobe-nvidia-partnership-agentic-workflows.md)
+Workers must be recoverable across orchestrator restarts (`tmux has-session` + state file recovery). Add per-worker token budgets to prevent runaway agents.
+**Implementation**: Add `token_budget` field to state per session. Estimate usage via output length heuristic. Kill workers exceeding budget. Re-attach to surviving workers on restart.
+**Priority**: High — worker persistence across orchestrator crashes is our #2 failure mode.
+
+#### Harness-Only Benchmarking / Isolate Harness vs Model Delta (from Jensen Huang GTC panel)
+**Source**: [talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md](./talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md)
+Harrison Chase demonstrated a 13.7-point benchmark improvement from harness changes alone (no model changes). Track merged PR quality metrics before/after prompt or harness changes, holding the model constant. Proves whether improvements come from harness engineering or model upgrades.
+**Implementation**: After each orchestrator prompt change, compare the next 5 PRs against the previous 5 on: review cycles needed, CI pass rate on first push, time-to-merge. Log to `_bmad/harness-benchmarks.jsonl`. Never change model AND harness simultaneously.
+**Priority**: High — without this, we can't attribute improvements and risk losing gains on prompt rewrites.
+
+### 5.2 MEDIUM PRIORITY
+
+#### Post-Training Specialist Scouting (from Jensen Huang GTC panel)
+**Source**: [talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md](./talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md)
+Jensen predicted post-training will dominate compute (pre-training shrinks from 90% to a fraction). Specialized post-trained models will beat frontier generalists on specific tasks. Distinct from Complexity Router (5.2) which routes for cost — this is about quality: a fine-tuned coding model may produce fewer review cycles than Opus on lint-fix or test-writing tasks.
+**Implementation**: Monthly check: scan HuggingFace Open LLM Leaderboard + SWE-bench for specialist models outperforming Opus on coding. Trial by spawning one worker with the specialist for 5 identical tasks alongside an Opus worker. Compare review cycles and CI pass rate. Note: Claude Max makes cost irrelevant; only route if quality improves.
+**Priority**: Medium — blocked until specialist models demonstrably beat Opus on our task types.
+
+#### Filesystem as Infinite External Memory (from LangChain + Harrison Chase)
+**Source**: [talks/2026-03/open-models-runtime-harness-langchain-nvidia.md](./talks/2026-03/open-models-runtime-harness-langchain-nvidia.md)
+Before any compaction, write full pre-compaction state to `_bmad/compaction-history/<timestamp>.md`. Makes compaction reversible — agent recovers full context from disk.
+**Implementation**: Extend `orchestrator-handoff.sh` to dump complete conversation summary before compacting. Add recovery instruction: "Check `_bmad/compaction-history/` for full pre-compaction records."
+**Priority**: Medium — safety net for aggressive compaction.
+
+#### Recent-10% Preservation Ratio (from LangChain)
+**Source**: [talks/2026-03/open-models-runtime-harness-langchain-nvidia.md](./talks/2026-03/open-models-runtime-harness-langchain-nvidia.md)
+Default compaction: retain most recent 10% verbatim, summarize preceding content into: (1) session intent, (2) artifacts created/modified, (3) current state, (4) next steps.
+**Implementation**: Modify compaction prompt to require structured summary format. Prevents vague summaries that cause goal drift.
+**Priority**: Medium — improves compaction quality over current default.
+
+#### Trace Analyzer Meta-Loop / Sleep-Time Compute (from LangChain + Harrison Chase)
+**Source**: [talks/2026-03/open-models-runtime-harness-langchain-nvidia.md](./talks/2026-03/open-models-runtime-harness-langchain-nvidia.md)
+After failed runs, capture full traces, spawn analysis agents, synthesize findings, propose harness changes. Similar to ML boosting — focus improvement on previous mistakes. "Send us a trace" replaces "show me the code."
+**Implementation**: Build a `/reflect` command that reads `_bmad/traces/` since last reflection, identifies patterns, proposes orchestrator prompt changes, writes to `_bmad/reflection/<date>.md`.
+**Priority**: Medium — creates supervised self-improvement loop.
+
+#### Complexity Router / Model Tiering (from Vercel + NVIDIA Enterprise)
+**Source**: [articles/vercel-knowledge-agents-without-embeddings.md](./articles/vercel-knowledge-agents-without-embeddings.md)
+Classify tasks by complexity; route simple tasks (lint fixes, typos) to cheaper models. All 13 enterprise implementations at GTC 2026 use frontier for orchestration + cheap for execution.
+**Implementation**: Heuristic on issue labels. NOTE: MEMORY.md says "Sonnet gets stuck, Opus only" — start with truly trivial tasks only. At Claude Max $200/mo cost is fixed, but pattern matters at API scale.
+**Priority**: Medium — test carefully given past Sonnet failures.
+
+#### Provider Adapter Registry (from T3 Code)
+**Source**: [developer-gui/t3code.md](./developer-gui/t3code.md)
+Define `WorkerAdapter` interface: `spawn(task)`, `sendPrompt(text)`, `captureOutput()`, `isAlive()`, `kill()`. Current tmux = `TmuxWorkerAdapter`. Enables future: `CmuxWorkerAdapter`, `DockerWorkerAdapter`, `SDKWorkerAdapter`.
+**Implementation**: Abstract tmux-specific code behind an interface. Orchestration loop stays unchanged when swapping runtimes.
+**Priority**: Medium — our orchestrator is currently hardcoded to tmux.
+
+#### Minimal Worker CLAUDE.md (from Ghostling/Hashimoto)
+**Source**: [agent-harnesses/ghostling.md](./agent-harnesses/ghostling.md)
+For focused tasks, minimal config (build instructions + 3 conventions) outperforms verbose multi-page config. Hashimoto's 10-line AGENTS.md produced "code I'd accept as a PR from a colleague."
+**Implementation**: Create task-specific mini-CLAUDE.md for workers. A lint-fix worker needs build commands and style rules, not the full orchestrator architecture.
+**Priority**: Medium — reduces context waste in workers.
+
+#### Pragmatic Quality Bar (from Ghostling/Hashimoto)
+**Source**: [agent-harnesses/ghostling.md](./agent-harnesses/ghostling.md)
+"If an engineer I worked with PRed all this, I would've accepted it." Stop REVIEW-FIX loop when: tests pass + lint clean + implements spec. Don't iterate for cosmetic elegance.
+**Implementation**: Define explicit "done" criteria per task type. Terminate review loop on quality criteria, not just max-cycle count.
+**Priority**: Medium — prevents burning 3 review cycles on cosmetic improvements.
+
+#### Intent-Aware Blast Radius Containment (from CrowdStrike)
+**Source**: [articles/crowdstrike-nvidia-secure-agent-blueprint.md](./articles/crowdstrike-nvidia-secure-agent-blueprint.md)
+Constrain damage radius, not capability. Workers do anything within their worktree but cannot touch other worktrees or main tree. Network: GitHub API + Anthropic API only.
+**Implementation**: Filesystem ACLs per worktree. Network egress filtering per process.
+- `tmux v3:` Script isolation in `run-tmux.sh`.
+- `cmux v4.1:` Extend workspace isolation with explicit deny rules.
+**Priority**: Medium — preserves full autonomy within bounded scope.
+
+#### Deny-by-Default Tool Access (from Cisco/NVIDIA)
+**Source**: [articles/cisco-nvidia-securing-enterprise-agents.md](./articles/cisco-nvidia-securing-enterprise-agents.md)
+Agents start with zero permissions; access explicitly granted per-tool. All MCP calls inspected at gateway level. Trust verified continuously.
+**Implementation**: Create tool whitelists per worker type (code-worker: Edit/Write/Bash; reviewer: Read/Bash only). Log all MCP invocations to audit trail.
+**Priority**: Medium — zero-trust model for agent tooling.
+
+#### Three-Layer Governance: Deploy / Operate / Comply (from ServiceNow)
+**Source**: [articles/servicenow-nvidia-governing-autonomous-workforce.md](./articles/servicenow-nvidia-governing-autonomous-workforce.md)
+Deploy: validate worktree, policy, credentials before spawn. Operate: poll every 30s, detect anomalies. Comply: verify PR, E2E, devlog after completion.
+**Implementation**: Formalize as three explicit gates in the orchestrator loop. We have partial implementations of all three — formalizing them creates a governance framework that scales.
+**Priority**: Medium — structures what we already partially do.
+
+#### Credential Injection via Environment Variables (from NVIDIA OpenShell)
+**Source**: [infrastructure/nvidia-openshell.md](./infrastructure/nvidia-openshell.md)
+Inject API keys via env vars at runtime, never write to filesystem. Each worker gets only needed credentials. Clear on window kill.
+**Implementation**: Modify `run-tmux.sh` to inject credentials via `tmux send-keys` exports. Never write `.env` inside worktrees.
+**Priority**: Medium — workers can currently read `.env`, `.git/config`, shell history.
+
+#### Proactive Issue Detection (from Amdocs/NVIDIA)
+**Source**: [articles/nvidia-enterprise-agent-architectures-gtc-2026.md](./articles/nvidia-enterprise-agent-architectures-gtc-2026.md)
+Background monitor agent that periodically scans for: failing CI, stale PRs, dependency vulnerabilities, test coverage regression. Creates GitHub issues automatically.
+**Implementation**: Spawn a persistent monitoring worker that runs scans and feeds discovered issues into the backlog. Transforms orchestrator from reactive to proactive.
+**Priority**: Medium — significant value increase for client work where uptime matters.
+
+#### Procedural Memory in Persistent Objects (from Palantir)
+**Source**: [articles/palantir-nvidia-enterprise-agents.md](./articles/palantir-nvidia-enterprise-agents.md)
+Project-scoped structured learnings from previous agent sessions. When a worker discovers a pattern (e.g., "this project uses Vitest not Jest"), it writes to procedural memory. Subsequent workers read at startup.
+**Implementation**: Create `worker-memory/` per project with JSONL entries: `{"pattern": "...", "learned_from": "issue-42", "confidence": "high"}`. Differs from CASS Memory (2.2) by being project-scoped and code-discovery-focused.
+**Priority**: Medium — reduces worker ramp-up time on recurring projects.
+
+#### Crash-Safe Task Closeout with Orphan Detection (from GSD-2)
+**Source**: [agent-harnesses/gsd-2.md](./agent-harnesses/gsd-2.md)
+On crash recovery, verify claimed phase outcomes actually happened. If state says "merging", check `gh pr list --state merged`. If state says "waiting_for_pr", check if worker window still exists.
+**Implementation**: Add outcome verification to `/tmux-recovery`. Don't trust state file — verify against observable reality (extends ZFC Principle from 2.2).
+**Priority**: Medium — catches state/reality divergence from mid-crash writes.
+
+#### Domain-Constrained Agent Grounding via Test Suites (from Dassault/NVIDIA)
+**Source**: [articles/2026-03/nvidia-gtc-industrial-eda-agent-partners.md](./articles/2026-03/nvidia-gtc-industrial-eda-agent-partners.md)
+Inject test suite results as a constraint BEFORE the worker starts coding. Run `npm test` in target project, include output in worker prompt as "current ground truth." Include TypeScript type definitions for files the worker will modify.
+**Implementation**: Before spawning worker, run `tsc --noEmit` + `npm test`, inject results. Worker prompt: "Your changes must not break these passing tests."
+**Priority**: Medium — workers that know the test suite write better code. #3 failure mode (breaking existing tests) addressed.
+
+#### Hybrid Retrieval for Agent Context (from Atlassian Rovo)
+**Source**: [articles/2026-03/atlassian-rovo-semantic-search-agents.md](./articles/2026-03/atlassian-rovo-semantic-search-agents.md)
+Combine structured signals (file recency via `git log`, issue labels, PR status) with keyword search to prioritize context injection. No embeddings needed — "hybrid" means structured signals weight alongside textual match. 26-40% retrieval quality uplift.
+**Implementation**: Before constructing worker prompts, read `git log --since` + issue metadata. Enrich prompt with recency-weighted context.
+**Priority**: Medium — reduces hallucination and stale-context bugs.
+
+#### Token-Optimized Tool Output (from Beads Viewer)
+**Source**: [agent-harnesses/beads-viewer.md](./agent-harnesses/beads-viewer.md)
+When piping CLI output into agent prompts, prefer compressed formats. `bv --format toon`, `gh pr diff --stat` first, `--patch` only if needed. Apply to own state files: compact read format for context injection.
+**Implementation**: Audit all tool outputs entering agent context. Prefer `--stat` over `--patch`, `--oneline` over verbose.
+**Priority**: Medium — context is zero-sum; every verbose token wastes reasoning budget.
+
+#### Consistency Hashing for State Drift Detection (from Beads Viewer)
+**Source**: [agent-harnesses/beads-viewer.md](./agent-harnesses/beads-viewer.md)
+Add `data_hash` to `orchestrator-tmux-state.json`. Workers verify they're operating on current state. If hash mismatch on PR review, re-read state.
+**Implementation**: Hash current epic + story states. Workers include hash in their result. Orchestrator rejects stale-state results.
+**Priority**: Medium — catches silent state drift deterministically.
+
+### 5.3 LOW PRIORITY
+
+#### Programmatic VT Parsing for Agent Output (from libghostty)
+**Source**: [developer-gui/libghostty.md](./developer-gui/libghostty.md)
+Use libghostty-vt (WASM or C FFI) to parse full VT stream. Distinguish "agent is thinking" from "agent is stuck" with certainty. Replaces heuristic pattern matching on captured text.
+**Implementation**: Build Node.js helper using libghostty-vt. Dramatically improves stuck-detection accuracy.
+**Priority**: Low — current heuristics work; this is an accuracy upgrade.
+
+#### L4 Autonomy Level Framing (from Synopsys/NVIDIA)
+**Source**: [articles/2026-03/nvidia-gtc-industrial-eda-agent-partners.md](./articles/2026-03/nvidia-gtc-industrial-eda-agent-partners.md)
+Redefine AUTO_MODE as autonomy levels: L3 = pause at roadblocks, L4 = skip and continue (current ENABLED), L5 = auto-merge without review. Industry-standard taxonomy from Samsung/TSMC.
+**Implementation**: Rename flag semantics. Documentation-only change. Useful for enterprise client pitches.
+**Priority**: Low — costs nothing, improves client communication.
+
+#### Four-Tier Agent Maturity Model (from Palantir AIP)
+**Source**: [articles/palantir-nvidia-enterprise-agents.md](./articles/palantir-nvidia-enterprise-agents.md)
+Maturity ladder: Tier 1 (manual, DONE), Tier 2 (single-issue workers, DONE), Tier 3 (orchestrator with state machine, IN PROGRESS), Tier 4 (event-driven, zero human initiation, FUTURE).
+**Implementation**: Use as internal roadmap vocabulary. "We're at Tier 3, targeting Tier 4" is more precise than "making it more automated."
+**Priority**: Low — planning/communication framework, not implementation.
+
+#### Agent-Buildable Terminal UIs via libghostty (from Hashimoto demo)
+**Source**: [posts/2026-03/mitchellh-libghostty-empty-repo-standalone-terminal.md](./posts/2026-03/mitchellh-libghostty-empty-repo-standalone-terminal.md)
+Empty repo to working terminal emulator using libghostty C API. Validates that agents can build custom terminal UIs. Future orchestrator dashboard could be libghostty-native.
+**Priority**: Low — cmux already covers our needs; this is a future capability signal.
+
+---
+
+## 6. Appendix: Pattern Sources by Relevance
 
 | Score | Count | Sources |
 |-------|-------|---------|
 | FOUNDATIONAL | 3 | Back Pressure Hierarchy (Huntley), Specs as Truth (Huntley), 70/30 Deterministic-LLM Boundary |
-| 9/10 | 6 | Agentic Engineering Patterns (Willison), Everything Claude Code, IndyDevDan practitioner profile, Browser E2E Testing Tools reference, Measuring AI Agent Autonomy (Anthropic), Claude Code Channels |
-| 8/10 | 7 | Superpowers (Jesse Vincent), SWE-Bench Pro, Google ADK Patterns, Google Agent Protocols, Random Labs Slate, LangChain/NVIDIA talk, Autonomous Coding Demo (Anthropic) |
-| 7/10 | 8 | agent-browser, Rodney, Bowser, zmx, Open-SWE, OpenSandbox, CLIProxyAPI, Claude Plugins |
+| 9/10 | 8 | Agentic Engineering Patterns (Willison), Everything Claude Code, IndyDevDan practitioner profile, Browser E2E Testing Tools reference, Measuring AI Agent Autonomy (Anthropic), Claude Code Channels, ccusage, Beads |
+| 8/10 | 11 | Superpowers (Jesse Vincent), SWE-Bench Pro, Google ADK Patterns, Google Agent Protocols, Random Labs Slate, LangChain/NVIDIA talk, Autonomous Coding Demo (Anthropic), DCG, Agent of Empires, Semgrep, Langfuse |
+| 7/10 | 12 | agent-browser, Rodney, Bowser, zmx, Open-SWE, OpenSandbox, CLIProxyAPI, Claude Plugins, Overstory, Broomie, dmux, CASS Memory System |
 | Testing infra | 9 | TEA framework (190+ knowledge files), 9 TEA workflows, 11 testing commands |
 | Incidents | 8+ | Pi INC-001–008, L-INC-001–015, CMUX-BUG-01–05, MAST taxonomy (1,642 traces) |
+| Synthesis | 30 | Full catalogue analysis (2026-03-21): 11 agents, 344 entries → SYNTHESIS-REPORT.md |
+| Wave 2-3 | 33 | LangChain context eng. (6), Vercel/Ghostty (7), NVIDIA enterprise security (7), GSD-2/ADK/security harnesses (6), Siemens/Adobe/Atlassian industrial (7) — 100 patterns analyzed, 42 new after dedup |

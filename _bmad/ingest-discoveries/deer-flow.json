@@ -1,0 +1,14 @@
+{
+  "source_url": "https://github.com/bytedance/deer-flow",
+  "source_title": "DeerFlow 2.0 - ByteDance SuperAgent Harness",
+  "catalogue_path": "research/catalogue/agent-harnesses/deer-flow.md",
+  "ingested_at": "2026-03-22T11:22:41Z",
+  "discovered_urls": [
+    {
+      "url": "https://deerflow.tech",
+      "context": "Official DeerFlow website with live demos",
+      "suggested_type": "article",
+      "relevance_hint": "Full product documentation and demo videos"
+    }
+  ]
+}
