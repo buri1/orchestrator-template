@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_run": "2026-03-22T11:53:16.995676+00:00",
+  "last_run": "2026-03-22T15:11:45.905016+00:00",
   "ingested": {
     "https://thenewstack.io/agentic-knowledge-base-patterns/": {
       "source": "manual",
@@ -1716,6 +1716,36 @@
       "source": "chrome",
       "ingested_at": "2026-03-22T11:54:29.531162+00:00",
       "catalogue_path": "SKIPPED: follow page, not content"
+    },
+    "https://x.com/Scobleizer/status/2035634518296830197": {
+      "source": "chrome",
+      "ingested_at": "2026-03-22T15:11:45.905016+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/scobleizer-jensen-huang-open-models-panel.md"
+    },
+    "https://x.com/ctatedev/status/2035063439001854227": {
+      "source": "chrome",
+      "ingested_at": "2026-03-22T15:11:45.905016+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/ctatedev-emulate-local-api-emulation.md"
+    },
+    "https://x.com/HuggingPapers/status/2035692629778739267": {
+      "source": "chrome",
+      "ingested_at": "2026-03-22T15:11:45.905016+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/huggingpapers-rednote-multimodal-ocr.md"
+    },
+    "https://x.com/yigitkonur/status/2035222232700789241": {
+      "source": "chrome",
+      "ingested_at": "2026-03-22T15:11:45.905016+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/yigitkonur-bettertouchtool-ai-agent-macos.md"
+    },
+    "https://grok.com/share/bGVnYWN5_96102d5b-cd59-4b98-85c8-b675c8c88ee7?rid=af30ab65-4c8b-4f83-8a8e-a283985c0b49": {
+      "source": "chrome",
+      "ingested_at": "2026-03-22T15:11:45.905016+00:00",
+      "catalogue_path": "SKIPPED:unfetchable-js-content-grok-share-link"
+    },
+    "https://x.com/jiqizhixin/status/2035728958533120014/photo/1": {
+      "source": "chrome",
+      "ingested_at": "2026-03-22T15:11:45.905016+00:00",
+      "catalogue_path": "SKIPPED:low-relevance-2-likes-diffusion-llm-survey"
     }
   }
 }

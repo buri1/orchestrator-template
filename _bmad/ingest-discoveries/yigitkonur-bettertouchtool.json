@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/yigitkonur/status/2035222232700789241",
+  "source_title": "BetterTouchTool's AI Agent for macOS Automation",
+  "catalogue_path": "research/catalogue/posts/2026-03/yigitkonur-bettertouchtool-ai-agent-macos.md",
+  "ingested_at": "2026-03-22T15:11:45Z",
+  "discovered_urls": [
+    {
+      "url": "https://folivora.ai/",
+      "context": "BetterTouchTool official site — has AI agent feature documentation",
+      "suggested_type": "tool",
+      "relevance_hint": "Established macOS automation tool with new AI agent capabilities"
+    }
+  ]
+}

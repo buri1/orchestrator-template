@@ -3,7 +3,7 @@
 > A categorized reference of all tools, frameworks, platforms, practitioners, articles, talks, and posts analyzed during research.
 
 **Last updated:** 2026-03-22
-**Total entries:** 393 (196 tools, 7 practitioners, 81 reference docs, 58 articles, 19 talks, 38 posts)
+**Total entries:** 398 (196 tools, 7 practitioners, 82 reference docs, 58 articles, 19 talks, 42 posts)
 **Templates:** [Tool](./_TEMPLATE.md) | [Practitioner](./_TEMPLATE-PRACTITIONER.md) | [Article](./_TEMPLATE-ARTICLE.md) | [Talk](./_TEMPLATE-TALK.md) | [Post](./_TEMPLATE-POST.md)
 **Views:** [Chronological Timeline](./TIMELINE.md) | [Interactive UI](./catalogue-explorer.html) | [Adoptable Patterns Backlog](./ADOPTABLE-PATTERNS.md)
 
@@ -471,6 +471,7 @@ Internal syntheses, landscape overviews, strategy documents, and architecture bl
 | [Agent Scale Production Examples](./reference/agent-scale-production-examples.md) | Gas Town 50 agents; enabling technologies for next 10x |
 | [Agent Marketplace Economy](./reference/agent-marketplace-economy.md) | ERC-8004, x402 payments, Moltlaunch marketplace |
 | [Agentic Finance Patterns](./reference/agentic-finance-patterns.md) | x402 payments, agentic wallets, autonomous trading |
+| [AP2 vs Stripe MPP Comparison](./reference/ap2-vs-stripe-mpp-comparison.md) | AP2 = authorization/trust layer (mandates); MPP = payment execution (HTTP 402); complementary stack for agent commerce |
 | [SaaS Factory Infrastructure](./reference/saas-factory-infrastructure.md) | Turborepo monorepo, MakerKit, $12 launch cost |
 | [Lead Gen Pipeline Architecture](./reference/lead-gen-pipeline-architecture.md) | 6-stage pipeline for DACH; EUR 171K Year 1 projection |
 | [Hormozi Framework Encoding](./reference/hormozi-framework-encoding.md) | 7-step Grand Slam Offer for marketing agents |
@@ -689,6 +690,10 @@ Internal syntheses, landscape overviews, strategy documents, and architecture bl
 | [@aiwithjainam — AI 60-Hour Workweek in 1 Hour](./posts/2026-03/aiwithjainam-ai-60-hour-workweek-1-hour.md) | 2026-03 | Productivity clickbait; no technical value |
 | [@doodlestein — Beads Viewer: PageRank-Based DAG Task Prioritization Demo](./posts/2026-03/doodlestein-beads-viewer-pagerank-dag-demo.md) | 2026-03-22 | Jeffrey Emanuel (Dicklesworthstone) demos beads_viewer: graph-aware TUI with PageRank-based dependency analysis, critical path highlighting, interactive DAG visualization; robot-mode JSON API for headless agent consumption; validates graph-theoretic task prioritization for orchestrators |
 | [@mitchellh — From Empty Repo to Standalone Terminal with libghostty](./posts/2026-03/mitchellh-libghostty-empty-repo-standalone-terminal.md) | 2026-03-21 | Hashimoto shows going from empty repo to functional terminal emulator using libghostty C API; "Ex minimo, infinita nascuntur"; validates libghostty-vt API accessibility; combined with Ghostling (100% agent-written), proves agents can build terminals from scratch; incremental over existing libghostty/Ghostling entries |
+| [@Scobleizer — Jensen Huang Interviews 10 Frontier AI CEOs on Open Models](./posts/2026-03/scobleizer-jensen-huang-open-models-panel.md) | 2026-03-22 | Scoble shares video of Jensen Huang interviewing 10 CEOs (Langchain, Perplexity, Cursor, Mistral, others) on open models at GTC 2026; cross-ref [talks/jensen-huang-panel](./talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md); 259 likes, 47 retweets |
+| [@ctatedev — Introducing emulate: Local API Emulation for CI Sandboxes](./posts/2026-03/ctatedev-emulate-local-api-emulation.md) | 2026-03-20 | emulate: mocks-free, stateful local API emulation for CI and no-network sandboxes; supports Vercel, GitHub, Google APIs with OAuth and app registration; by Chris Tate (manaflow, json-render); 711 likes, 30 replies |
+| [@HuggingPapers — RedNote Multimodal OCR: 3B-Parameter Document Parser](./posts/2026-03/huggingpapers-rednote-multimodal-ocr.md) | 2026-03-22 | RedNote releases 3B multimodal OCR model converting text, charts, diagrams, tables into Markdown/HTML/SVG/LaTeX; ranks second only to Gemini 3 Pro on OCR benchmarks; small enough for local deployment in agent pipelines |
+| [@yigitkonur — BetterTouchTool's AI Agent for macOS Automation](./posts/2026-03/yigitkonur-bettertouchtool-ai-agent-macos.md) | 2026-03-21 | BetterTouchTool (10+ years indie macOS utility) adds AI agent capabilities; integrates with various AI code models for desktop automation; desktop agent pattern joining Accomplish and computer-use APIs; 34 likes, 10 retweets |
 
 ---
 
