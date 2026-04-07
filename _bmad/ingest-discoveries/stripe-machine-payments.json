@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/stripe/status/2034257912973963374",
+  "source_title": "Stripe Introducing the Machine Payments Protocol",
+  "catalogue_path": "research/catalogue/posts/2026-03/stripe-machine-payments-protocol.md",
+  "ingested_at": "2026-03-22T11:22:41Z",
+  "discovered_urls": [
+    {
+      "url": "https://stripe.dev/blog/machine-payments-protocol",
+      "context": "Full Stripe blog post about Machine Payments Protocol (likely URL)",
+      "suggested_type": "article",
+      "relevance_hint": "Full protocol specification for machine-to-machine payments; directly relevant to SaaS factory and agent economy"
+    }
+  ]
+}

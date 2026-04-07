@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/doodlestein/status/2035483415613468858",
+  "source_title": "Jeffrey Emanuel demos Beads Viewer with PageRank-based DAG task prioritization",
+  "catalogue_path": "research/catalogue/posts/2026-03/doodlestein-beads-viewer-pagerank-dag-demo.md",
+  "ingested_at": "2026-03-22T18:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/Dicklesworthstone/beads_rust",
+      "context": "Part of Jeffrey Emanuel's 7-tool flywheel for agent coding",
+      "suggested_type": "tool",
+      "relevance_hint": "JSONL-based issue tracker with dependency graphs — data source for beads_viewer"
+    }
+  ]
+}

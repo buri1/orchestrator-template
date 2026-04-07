@@ -1,0 +1,21 @@
+{
+  "source_url": "https://x.com/i/status/2034735318952464737",
+  "source_title": "CLIProxyAPI: Route CLI Agents Through Proxy API",
+  "catalogue_path": "research/catalogue/posts/2026-03/0oastro-cliproxyapi.md",
+  "tool_catalogue_path": null,
+  "ingested_at": "2026-03-21T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/router-for-me/CLIProxyAPI",
+      "context": "Primary repo for CLIProxyAPI — Go proxy server providing OpenAI/Gemini/Claude/Codex-compatible API endpoints for CLI agents; 18.8K stars (MIT); multi-account load balancing, OAuth flows, streaming, function calling, multimodal; v6.8.55; 15+ derivative apps in ecosystem",
+      "suggested_type": "tool",
+      "relevance_hint": "7/10 relevance — formalizes the CLI-agent-through-proxy pattern that underpins Claude Max arbitrage economics. Multi-account round-robin load balancing directly applicable to parallel tmux agent spawns. Compare with LiteLLM (API-native) vs CLIProxyAPI (CLI-agent-native). Worth a dedicated infrastructure/cliproxyapi.md catalogue entry."
+    },
+    {
+      "url": "https://help.router-for.me/",
+      "context": "Official CLIProxyAPI documentation — management API, Go SDK for embedding, Docker deployment, YAML configuration, model mapping fallback routing",
+      "suggested_type": "article",
+      "relevance_hint": "Worth ingesting if we evaluate CLIProxyAPI for production deployment — management API and Go SDK docs are the most actionable sections for integration"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "source_url": "https://x.com/maverickecom/status/2009720121695363166",
+  "source_title": "Nano Banana + Fastmoss + Manus + Veo3 = AI Content Factory",
+  "catalogue_path": "research/catalogue/posts/2026-01/maverickecom-ai-content-factory-tiktok-shop.md",
+  "ingested_at": "2026-03-18T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.nanobanana.com",
+      "context": "AI image generation tool for UGC-style TikTok content",
+      "suggested_type": "tool",
+      "relevance_hint": "Part of $300/mo AI content factory stack; generates product images for TikTok Shop"
+    },
+    {
+      "url": "https://www.fastmoss.com",
+      "context": "TikTok Shop analytics and winning video scraping tool",
+      "suggested_type": "tool",
+      "relevance_hint": "Content research layer — identifies winning TikTok Shop videos for AI-powered recreation"
+    }
+  ]
+}

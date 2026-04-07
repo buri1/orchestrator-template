@@ -1,0 +1,32 @@
+{
+  "source_url": "https://x.com/trq212/status/2034761016320696565",
+  "source_title": "@trq212 — Claude Code Channels: Control Claude Code from Telegram and Discord via MCP",
+  "ingested_at": "2026-03-21",
+  "catalogue_path": "research/catalogue/posts/2026-03/trq212-claude-code-channels-telegram-discord.md",
+  "discoveries": [
+    {
+      "url": "https://github.com/anthropics/claude-plugins-official",
+      "title": "claude-plugins-official — Anthropic's official plugin repo for Claude Code channels",
+      "type": "tool",
+      "why": "Official Anthropic repo containing Telegram, Discord, and fakechat channel plugin source code. MCP-based plugin architecture for pushing events into Claude Code sessions. Directly relevant to our orchestrator — could build custom channel for orchestrator-to-agent messaging.",
+      "suggested_action": "/tool-catalogue https://github.com/anthropics/claude-plugins-official",
+      "priority": "high"
+    },
+    {
+      "url": "https://code.claude.com/docs/en/channels-reference",
+      "title": "Channels Reference — Build your own Claude Code channel",
+      "type": "article",
+      "why": "Protocol specification for building custom channels. Needed to build an orchestrator channel that pushes tasks into worker agents via MCP instead of tmux send-keys.",
+      "suggested_action": "/ingest-article https://code.claude.com/docs/en/channels-reference",
+      "priority": "high"
+    },
+    {
+      "url": "https://code.claude.com/docs/en/channels",
+      "title": "Claude Code Channels documentation",
+      "type": "reference",
+      "why": "Official docs page with full setup instructions, security model, enterprise controls, and comparison table. Already summarized in catalogue entry.",
+      "suggested_action": "reference-only",
+      "priority": "medium"
+    }
+  ]
+}

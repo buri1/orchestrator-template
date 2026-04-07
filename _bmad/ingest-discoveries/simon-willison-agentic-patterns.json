@@ -1,0 +1,25 @@
+{
+  "source_url": "https://simonwillison.net/guides/agentic-engineering-patterns/",
+  "source_title": "Agentic Engineering Patterns",
+  "catalogue_path": "research/catalogue/articles/2026-02/agentic-engineering-patterns.md",
+  "ingested_at": "2026-03-12T00:00:00Z",
+  "note": "Article was already fully catalogued in a prior session at the 2026-02 path. INDEX.md entry confirmed at line 518. No duplicate created.",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/simonw/showboat",
+      "title": "Showboat",
+      "type": "tool",
+      "relevance": 8,
+      "reason": "Willison's CLI tool for documenting agentic manual testing workflows. Three commands: showboat note (Markdown commentary), showboat exec (records commands with actual output — prevents agent fabrication of results), showboat image (screenshots). Directly relevant to our E2E testing gate (Rule #2). Novel pattern: tests and documentation produced simultaneously. 14 tagged posts on simonwillison.net.",
+      "suggested_ingest": "/tool-catalogue"
+    },
+    {
+      "url": "https://github.com/simonw/rodney",
+      "title": "Rodney",
+      "type": "tool",
+      "relevance": 7,
+      "reason": "Willison's CDP-based browser automation CLI purpose-built for coding agents. Install via uvx (zero-config). Provides screenshot, JS execution, scrolling, clicking, typing, accessibility tree. uvx --help pattern gives agents complete usage docs inline. Lightweight alternative to full Playwright for agent browser automation. 4 tagged posts on simonwillison.net.",
+      "suggested_ingest": "/tool-catalogue"
+    }
+  ]
+}

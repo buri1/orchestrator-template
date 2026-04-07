@@ -1,0 +1,50 @@
+{
+  "source_url": "https://blog.langchain.com/introducing-langsmith-sandboxes-secure-code-execution-for-agents/",
+  "source_type": "article",
+  "ingested_at": "2026-03-21",
+  "catalogue_path": "research/catalogue/articles/2026-03/langsmith-sandboxes-secure-code-execution.md",
+  "title": "Introducing LangSmith Sandboxes: Secure Code Execution for Agents",
+  "author": "LangChain Accounts",
+  "publication": "LangChain Blog",
+  "date": "2026-03-17",
+  "relevance": 5,
+  "actionable": 3,
+  "discoveries": [
+    {
+      "type": "pattern",
+      "name": "Auth Proxy for sandbox credential isolation",
+      "description": "Sandboxes access external services through an Authentication Proxy so secrets never touch the runtime. Same host-boundary injection pattern as Ironclaw WASM sandboxes.",
+      "phase": "3+",
+      "priority": "medium"
+    },
+    {
+      "type": "pattern",
+      "name": "MicroVM isolation for agent code execution",
+      "description": "Hardware-virtualized microVMs (not containers/namespaces) provide kernel-level isolation between agent sandboxes. Converging with NVIDIA OpenShell approach.",
+      "phase": "3+",
+      "priority": "medium"
+    },
+    {
+      "type": "pattern",
+      "name": "Warm sandbox pooling with autoscaling",
+      "description": "Pre-provisioned warm sandbox pools eliminate cold starts for agents. Automatic scaling as demand increases. WebSocket-based long-running sessions.",
+      "phase": "3+",
+      "priority": "low"
+    },
+    {
+      "type": "tool",
+      "name": "Open SWE",
+      "description": "LangChain's open-source SWE agent built on LangSmith Sandboxes. CI-style agent that clones repos, installs deps, runs tests before opening PRs.",
+      "url": "https://github.com/langchain-ai/open-swe",
+      "suggested_ingest": "/tool-catalogue"
+    },
+    {
+      "type": "article",
+      "name": "41% OpenClaw Skills Vulnerabilities",
+      "description": "ClawSecure research showing 41% of OpenClaw skills have security vulnerabilities -- motivating the need for sandbox isolation.",
+      "url": "https://www.clawsecure.ai/blog/41-percent-openclaw-skills-vulnerabilities",
+      "suggested_ingest": "/ingest-article"
+    }
+  ],
+  "tags": ["sandboxes", "secure-code-execution", "microvm", "agent-infrastructure", "langsmith", "auth-proxy", "docker", "autoscaling"]
+}

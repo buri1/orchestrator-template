@@ -1,0 +1,45 @@
+{
+  "source_url": "https://developers.googleblog.com/en/developers-guide-to-ai-agent-protocols/",
+  "source_type": "article",
+  "discovered_via": "whatsapp",
+  "ingested_at": "2026-03-21T00:00:00Z",
+  "catalogue_path": "research/catalogue/articles/2026-03/google-developers-guide-ai-agent-protocols.md",
+  "relevance": 8,
+  "discoveries": [
+    {
+      "name": "UCP (Universal Commerce Protocol)",
+      "type": "protocol",
+      "url": "https://ucp.dev/",
+      "why": "Standardized shopping lifecycle for agent commerce; typed checkout schemas across REST/MCP/A2A transport; discovery via /.well-known/ucp; relevant for SaaS Factory and Finance Agent commerce flows",
+      "suggested_action": "/tool-catalogue https://ucp.dev/"
+    },
+    {
+      "name": "AP2 (Agent Payments Protocol)",
+      "type": "protocol",
+      "url": "https://github.com/google-agentic-commerce/AP2",
+      "why": "Typed mandates (IntentMandate->PaymentMandate->PaymentReceipt) with cryptographic audit trails; most mature agent payment authorization model; relevant for Finance Agent autonomous spending; v0.1",
+      "suggested_action": "/tool-catalogue https://github.com/google-agentic-commerce/AP2"
+    },
+    {
+      "name": "A2UI (Agent-to-User Interface Protocol)",
+      "type": "protocol",
+      "url": "https://a2ui.org/",
+      "why": "18 safe component primitives for declarative agent UI composition; flat ID-ref component tree + separate data model; renderable by Lit/Flutter/Angular; A2UI Widget Builder for interactive composition",
+      "suggested_action": "/tool-catalogue https://a2ui.org/"
+    },
+    {
+      "name": "AG-UI (Agent-User Interaction Protocol)",
+      "type": "protocol",
+      "url": "https://docs.ag-ui.com/",
+      "why": "Standardized SSE event stream (TEXT_MESSAGE_CONTENT, TOOL_CALL_START, etc.) between agent backends and frontends; middleware approach eliminates custom event parsing; CopilotKit maintains it",
+      "suggested_action": "/tool-catalogue https://docs.ag-ui.com/"
+    },
+    {
+      "name": "Google ADK (Agent Development Kit)",
+      "type": "framework",
+      "url": "https://google.github.io/adk-docs/",
+      "why": "Google's protocol-native agent framework; first-class support for all 6 protocols (McpToolset, RemoteA2aAgent, to_a2a(), A2UI rendering, AG-UI middleware); Gemini-first but protocol-agnostic patterns",
+      "suggested_action": "/tool-catalogue https://google.github.io/adk-docs/"
+    }
+  ]
+}

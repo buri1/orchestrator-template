@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/i/status/2027770787659464812",
+  "source_title": "AGENTS.md Don't Scale Beyond Modest Codebases — Codified Context Paper",
+  "catalogue_path": "research/catalogue/posts/2026-03/omarsar0-agents-md-dont-scale-codified-context.md",
+  "ingested_at": "2026-03-12T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://arxiv.org/abs/2602.20478",
+      "context": "Central subject of the post — the 'Codified Context' paper documenting a three-tier agent memory architecture built during real development of a 108K-line C# distributed system over 283 sessions",
+      "suggested_type": "article",
+      "relevance_hint": "Most rigorous longitudinal production evidence for multi-file context engineering; three-tier memory model (hot constitution / domain-expert agents / cold-memory MCP retrieval) directly validates and extends our architecture; knowledge-to-code ratio of 24.2% is a concrete benchmark"
+    }
+  ]
+}

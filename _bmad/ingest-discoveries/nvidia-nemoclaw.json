@@ -1,0 +1,16 @@
+{
+  "url": "https://build.nvidia.com/nemoclaw",
+  "name": "NVIDIA NemoClaw + OpenShell",
+  "what": "NemoClaw is an open-source plugin that wraps OpenClaw agents in NVIDIA OpenShell, a sandboxed runtime for autonomous AI agents. OpenShell provides kernel-level sandboxing, out-of-process policy enforcement (filesystem/network/process/inference layers), and a privacy router that keeps sensitive data on local models while routing complex reasoning to cloud models. It supports Claude Code, Codex, and OpenClaw agents unmodified. Apache 2.0, alpha stage.",
+  "relevance": 7,
+  "verdict": "WATCH",
+  "reasoning": "OpenShell directly addresses a gap in our orchestrator: we run Claude Code sub-agents with --dangerously-skip-permissions in tmux, which means zero sandboxing. OpenShell could wrap each worker in a policy-enforced container with controlled filesystem/network access. However: (1) it's alpha software in single-player mode, not production-ready for multi-agent orchestration, (2) it runs as K3s-in-Docker which adds infra complexity vs our lightweight tmux approach, (3) it requires Docker Desktop on macOS which we already have but adds overhead per worker, (4) the privacy router is interesting but we're locked to Claude Max not API keys. Watch for beta/v1.0 — when it stabilizes, it could replace --dangerously-skip-permissions with proper sandboxing.",
+  "fetched_at": "2026-03-19T12:00:00Z",
+  "source_urls": [
+    "https://github.com/NVIDIA/OpenShell",
+    "https://github.com/NVIDIA/NemoClaw",
+    "https://nvidianews.nvidia.com/news/nvidia-announces-nemoclaw",
+    "https://developer.nvidia.com/blog/run-autonomous-self-evolving-agents-more-safely-with-nvidia-openshell/"
+  ],
+  "catalogue_path": "research/catalogue/infrastructure/nvidia-nemoclaw.md"
+}

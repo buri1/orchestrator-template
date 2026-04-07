@@ -1,0 +1,43 @@
+{
+  "epic": null,
+  "epicId": null,
+  "wave": null,
+  "completedWaves": [],
+  "humanCheckpoints": [
+    {
+      "reason": "Test notification — example only",
+      "ts": "2026-03-14T17:37:08.088Z",
+      "resolved": false
+    },
+    {
+      "reason": "Test notification 1 of 3",
+      "ts": "2026-03-14T17:37:54.657Z",
+      "resolved": false
+    },
+    {
+      "reason": "Test notification 2 of 3",
+      "ts": "2026-03-14T17:37:56.631Z",
+      "resolved": false
+    },
+    {
+      "reason": "Test notification 3 of 3",
+      "ts": "2026-03-14T17:37:59.016Z",
+      "resolved": false
+    },
+    {
+      "reason": "Random test alert: build pipeline thinks the moon is in retrograde",
+      "ts": "2026-03-14T17:40:39.005Z",
+      "resolved": false
+    },
+    {
+      "reason": "Random test warning: a rubber duck has requested architecture review",
+      "ts": "2026-03-14T17:40:41.621Z",
+      "resolved": false
+    },
+    {
+      "reason": "Random test error: coffee supply anomaly detected in staging",
+      "ts": "2026-03-14T17:40:48.695Z",
+      "resolved": false
+    }
+  ]
+}

@@ -1,0 +1,1334 @@
+# Talk: Agent Orchestration - Running Multiple Agents at Scale
+# Speaker: Zach Lloyd (Warp, Founder/CEO)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 04:07:22 - 04:34:42
+# Lines: 1327
+
+[04:07:22] &gt;&gt; Here we go. So folks, I'm going to bring
+[04:07:22] &gt;&gt; Here we go. So folks, I'm going to bring up our next speaker. I am excited. He's
+[04:07:25] up our next speaker. I am excited. He's
+[04:07:25] up our next speaker. I am excited. He's coming from the land of the Adobe
+[04:07:26] coming from the land of the Adobe
+[04:07:26] coming from the land of the Adobe architecture. Can you put your hands
+[04:07:29] architecture. Can you put your hands
+[04:07:29] architecture. Can you put your hands together for Zach, the founder and CEO
+[04:07:33] together for Zach, the founder and CEO
+[04:07:33] together for Zach, the founder and CEO of Warp? Let's hear it.
+[04:07:41] And Zach, you got any hot takes for us?
+[04:07:46] And Zach, you got any hot takes for us? &gt;&gt; You got a whole
+[04:07:48] &gt;&gt; You got a whole
+[04:07:48] &gt;&gt; You got a whole &gt;&gt; whole presentation of hot takes. This
+[04:07:49] &gt;&gt; whole presentation of hot takes. This
+[04:07:49] &gt;&gt; whole presentation of hot takes. This will be a hot take.
+[04:07:50] will be a hot take.
+[04:07:50] will be a hot take. &gt;&gt; There we go. Are you miked up or you
+[04:07:52] &gt;&gt; There we go. Are you miked up or you
+[04:07:52] &gt;&gt; There we go. Are you miked up or you want to use that mic? Use that mic.
+[04:07:54] want to use that mic? Use that mic.
+[04:07:54] want to use that mic? Use that mic. &gt;&gt; Yeah, perfect.
+[04:07:55] &gt;&gt; Yeah, perfect.
+[04:07:55] &gt;&gt; Yeah, perfect. &gt;&gt; I want to be able to do a demo. Will I
+[04:07:56] &gt;&gt; I want to be able to do a demo. Will I
+[04:07:56] &gt;&gt; I want to be able to do a demo. Will I be able to do that?
+[04:07:57] be able to do that?
+[04:07:57] be able to do that? &gt;&gt; All right, we'll try.
+[04:07:59] &gt;&gt; All right, we'll try.
+[04:07:59] &gt;&gt; All right, we'll try. &gt;&gt; Okay,
+[04:07:59] &gt;&gt; Okay,
+[04:07:59] &gt;&gt; Okay, &gt;&gt; I think we're going to do this.
+[04:08:01] &gt;&gt; I think we're going to do this.
+[04:08:01] &gt;&gt; I think we're going to do this. &gt;&gt; Okay.
+[04:08:03] &gt;&gt; Okay.
+[04:08:03] &gt;&gt; Okay. &gt;&gt; And you can give your talk while I
+[04:08:05] &gt;&gt; And you can give your talk while I
+[04:08:05] &gt;&gt; And you can give your talk while I figure this out. How's that sound?
+[04:08:06] figure this out. How's that sound?
+[04:08:06] figure this out. How's that sound? &gt;&gt; That sounds great.
+[04:08:08] &gt;&gt; That sounds great.
+[04:08:08] &gt;&gt; That sounds great. &gt;&gt; Um, yeah, this doesn't need to go on for
+[04:08:09] &gt;&gt; Um, yeah, this doesn't need to go on for
+[04:08:09] &gt;&gt; Um, yeah, this doesn't need to go on for a bit. So, I'll get started.
+[04:08:11] a bit. So, I'll get started.
+[04:08:11] a bit. So, I'll get started. &gt;&gt; Yeah. Don't share the
+[04:08:13] &gt;&gt; Yeah. Don't share the
+[04:08:13] &gt;&gt; Yeah. Don't share the things you don't want.
+[04:08:14] things you don't want.
+[04:08:14] things you don't want. &gt;&gt; We need an adapter.
+[04:08:15] &gt;&gt; We need an adapter.
+[04:08:15] &gt;&gt; We need an adapter. &gt;&gt; Okay.
+[04:08:16] &gt;&gt; Okay. &gt;&gt; Adapter.
+[04:08:18] &gt;&gt; Adapter.
+[04:08:18] &gt;&gt; Adapter. &gt;&gt; All right. Um, hi everyone. I am Zach. I
+[04:08:21] &gt;&gt; All right. Um, hi everyone. I am Zach. I
+[04:08:21] &gt;&gt; All right. Um, hi everyone. I am Zach. I am the founder and CEO of Warp. I'm
+[04:08:24] am the founder and CEO of Warp. I'm
+[04:08:24] am the founder and CEO of Warp. I'm excited to be here. Um, I'm Thank you.
+[04:08:29] excited to be here. Um, I'm Thank you.
+[04:08:29] excited to be here. Um, I'm Thank you. Uh, today I'm I'm going to talk about
+[04:08:31] Uh, today I'm I'm going to talk about
+[04:08:31] Uh, today I'm I'm going to talk about agent orchestration, which I think is a
+[04:08:34] agent orchestration, which I think is a
+[04:08:34] agent orchestration, which I think is a hot topic, an increasingly hot topic
+[04:08:36] hot topic, an increasingly hot topic
+[04:08:36] hot topic, an increasingly hot topic this year. This is how I do the slides.
+[04:08:38] this year. This is how I do the slides.
+[04:08:38] this year. This is how I do the slides. &gt;&gt; Yes, it is.
+[04:08:39] &gt;&gt; Yes, it is.
+[04:08:39] &gt;&gt; Yes, it is. &gt;&gt; Okay, cool. Um,
+[04:08:42] &gt;&gt; Okay, cool. Um,
+[04:08:42] &gt;&gt; Okay, cool. Um, I'm making a bold prediction that 2026
+[04:08:44] I'm making a bold prediction that 2026
+[04:08:44] I'm making a bold prediction that 2026 will be the year of agent orchestration.
+[04:08:46] will be the year of agent orchestration.
+[04:08:46] will be the year of agent orchestration. So, what does that mean? Um, let me
+[04:08:48] So, what does that mean? Um, let me
+[04:08:48] So, what does that mean? Um, let me start I guess with a little bit of I
+[04:08:50] start I guess with a little bit of I
+[04:08:50] start I guess with a little bit of I don't know if it's a story, it's more of
+[04:08:52] don't know if it's a story, it's more of
+[04:08:52] don't know if it's a story, it's more of a question, but the uh the way that we
+[04:08:55] a question, but the uh the way that we
+[04:08:55] a question, but the uh the way that we are working now at warp I assume this is
+[04:08:58] are working now at warp I assume this is
+[04:08:58] are working now at warp I assume this is true for a bunch of you is like
+[04:09:00] true for a bunch of you is like
+[04:09:00] true for a bunch of you is like increasingly running multiple agents at
+[04:09:02] increasingly running multiple agents at
+[04:09:02] increasingly running multiple agents at once and starting to run into the limits
+[04:09:04] once and starting to run into the limits
+[04:09:04] once and starting to run into the limits of like what our laptops can do. So for
+[04:09:09] of like what our laptops can do. So for
+[04:09:09] of like what our laptops can do. So for us, we have a codebase that's like
+[04:09:11] us, we have a codebase that's like
+[04:09:11] us, we have a codebase that's like million lines of Rust code. I have maybe
+[04:09:14] million lines of Rust code. I have maybe
+[04:09:14] million lines of Rust code. I have maybe four or five of these checked out on my
+[04:09:16] four or five of these checked out on my
+[04:09:16] four or five of these checked out on my laptop. I am running uh agents in them.
+[04:09:19] laptop. I am running uh agents in them.
+[04:09:19] laptop. I am running uh agents in them. Um typically we're running like warp's
+[04:09:21] Um typically we're running like warp's
+[04:09:21] Um typically we're running like warp's own agent but this is probably happening
+[04:09:23] own agent but this is probably happening
+[04:09:23] own agent but this is probably happening to people who are running cloud code or
+[04:09:24] to people who are running cloud code or
+[04:09:24] to people who are running cloud code or codeex. It's the same thing everywhere.
+[04:09:27] codeex. It's the same thing everywhere.
+[04:09:27] codeex. It's the same thing everywhere. Uh just like show hands are people is
+[04:09:30] Uh just like show hands are people is
+[04:09:30] Uh just like show hands are people is this a thing that's happening to other
+[04:09:31] this a thing that's happening to other
+[04:09:31] this a thing that's happening to other people or is this just us? So it's
+[04:09:33] people or is this just us? So it's
+[04:09:33] people or is this just us? So it's starting to starting to slowly happen.
+[04:09:35] starting to starting to slowly happen.
+[04:09:35] starting to starting to slowly happen. Um
+[04:09:38] Um
+[04:09:38] Um what is like driving the overall trend
+[04:09:40] what is like driving the overall trend
+[04:09:40] what is like driving the overall trend here? So, uh, there was an intro slide
+[04:09:44] here? So, uh, there was an intro slide
+[04:09:44] here? So, uh, there was an intro slide for me, but but I've been an engineer
+[04:09:46] for me, but but I've been an engineer
+[04:09:46] for me, but but I've been an engineer for over 20 years. I was a I used to be
+[04:09:49] for over 20 years. I was a I used to be
+[04:09:49] for over 20 years. I was a I used to be a principal engineer at Google. Most of
+[04:09:51] a principal engineer at Google. Most of
+[04:09:51] a principal engineer at Google. Most of my career has been spent writing code by
+[04:09:54] my career has been spent writing code by
+[04:09:54] my career has been spent writing code by hand. Like, literally, you know, what I
+[04:09:56] hand. Like, literally, you know, what I
+[04:09:56] hand. Like, literally, you know, what I would do every day is I would come in
+[04:09:57] would do every day is I would come in
+[04:09:58] would do every day is I would come in and I would open up a code editor, an
+[04:10:00] and I would open up a code editor, an
+[04:10:00] and I would open up a code editor, an IDE, and I would type code. And uh
+[04:10:03] IDE, and I would type code. And uh
+[04:10:03] IDE, and I would type code. And uh sometime last year uh I've totally
+[04:10:07] sometime last year uh I've totally
+[04:10:07] sometime last year uh I've totally switched the way that I'm working to be
+[04:10:08] switched the way that I'm working to be
+[04:10:08] switched the way that I'm working to be writing by prompt and I'm still you know
+[04:10:11] writing by prompt and I'm still you know
+[04:10:11] writing by prompt and I'm still you know even now I still ship software in warp
+[04:10:13] even now I still ship software in warp
+[04:10:13] even now I still ship software in warp but I haven't written code in the last
+[04:10:15] but I haven't written code in the last
+[04:10:15] but I haven't written code in the last six months. Um again show hands I assume
+[04:10:18] six months. Um again show hands I assume
+[04:10:18] six months. Um again show hands I assume everyone in here this is a very
+[04:10:19] everyone in here this is a very
+[04:10:19] everyone in here this is a very agentforward crowd is is this resonating
+[04:10:22] agentforward crowd is is this resonating
+[04:10:22] agentforward crowd is is this resonating with people this how you code. Um,
+[04:10:26] with people this how you code. Um,
+[04:10:26] with people this how you code. Um, and so from like a big picture
+[04:10:29] and so from like a big picture
+[04:10:29] and so from like a big picture perspective, I think sometime in 2025,
+[04:10:32] perspective, I think sometime in 2025,
+[04:10:32] perspective, I think sometime in 2025, uh, coding switched over from being, you
+[04:10:35] uh, coding switched over from being, you
+[04:10:35] uh, coding switched over from being, you know, you writing code by hand to, um,
+[04:10:39] know, you writing code by hand to, um,
+[04:10:39] know, you writing code by hand to, um, uh, to writing by prompt. And the way
+[04:10:41] uh, to writing by prompt. And the way
+[04:10:41] uh, to writing by prompt. And the way that I conceive of the prompting that
+[04:10:43] that I conceive of the prompting that
+[04:10:43] that I conceive of the prompting that most people are doing right now is
+[04:10:45] most people are doing right now is
+[04:10:45] most people are doing right now is interactive. And so what I mean by that
+[04:10:47] interactive. And so what I mean by that
+[04:10:48] interactive. And so what I mean by that is like if you want to fix a bug or
+[04:10:51] is like if you want to fix a bug or
+[04:10:51] is like if you want to fix a bug or implement a feature, you open up your
+[04:10:53] implement a feature, you open up your
+[04:10:53] implement a feature, you open up your terminal or maybe you open up uh your
+[04:10:55] terminal or maybe you open up uh your
+[04:10:55] terminal or maybe you open up uh your IDE and you start typing something like,
+[04:10:59] IDE and you start typing something like,
+[04:10:59] IDE and you start typing something like, you know, I want to fix this bug and
+[04:11:01] you know, I want to fix this bug and
+[04:11:01] you know, I want to fix this bug and then you pair with an agent while it
+[04:11:03] then you pair with an agent while it
+[04:11:03] then you pair with an agent while it does stuff. Um and then you might do
+[04:11:06] does stuff. Um and then you might do
+[04:11:06] does stuff. Um and then you might do that uh with a second agent or a third
+[04:11:08] that uh with a second agent or a third
+[04:11:08] that uh with a second agent or a third agent. And so um but the the key thing
+[04:11:11] agent. And so um but the the key thing
+[04:11:12] agent. And so um but the the key thing is like you're you're there you're
+[04:11:13] is like you're you're there you're
+[04:11:13] is like you're you're there you're guiding the agents and the agents are
+[04:11:15] guiding the agents and the agents are
+[04:11:15] guiding the agents and the agents are doing the work while you like have this
+[04:11:16] doing the work while you like have this
+[04:11:16] doing the work while you like have this conversation.
+[04:11:18] conversation.
+[04:11:18] conversation. Um but my hypothesis and a thing that
+[04:11:21] Um but my hypothesis and a thing that
+[04:11:21] Um but my hypothesis and a thing that we're working on at at warp and I guess
+[04:11:23] we're working on at at warp and I guess
+[04:11:23] we're working on at at warp and I guess maybe I should have introduced warp for
+[04:11:25] maybe I should have introduced warp for
+[04:11:25] maybe I should have introduced warp for people who aren't familiar. Warp is um
+[04:11:28] people who aren't familiar. Warp is um
+[04:11:28] people who aren't familiar. Warp is um it's like an agentic terminal. So it's a
+[04:11:30] it's like an agentic terminal. So it's a
+[04:11:30] it's like an agentic terminal. So it's a terminal that has agents built in but
+[04:11:32] terminal that has agents built in but
+[04:11:32] terminal that has agents built in but it's more than that. we're actually um
+[04:11:35] it's more than that. we're actually um
+[04:11:35] it's more than that. we're actually um moving into this, you know, the space of
+[04:11:38] moving into this, you know, the space of
+[04:11:38] moving into this, you know, the space of how do you how do you orchestrate agents
+[04:11:39] how do you how do you orchestrate agents
+[04:11:39] how do you how do you orchestrate agents that aren't tied to your terminal. Uh
+[04:11:41] that aren't tied to your terminal. Uh
+[04:11:41] that aren't tied to your terminal. Uh but the issues that we keep running into
+[04:11:44] but the issues that we keep running into
+[04:11:44] but the issues that we keep running into are things like literally it's the
+[04:11:45] are things like literally it's the
+[04:11:45] are things like literally it's the laptop capacity like if you're running a
+[04:11:48] laptop capacity like if you're running a
+[04:11:48] laptop capacity like if you're running a lot of agents. Uh but it's also like if
+[04:11:50] lot of agents. Uh but it's also like if
+[04:11:50] lot of agents. Uh but it's also like if you're running an engineering team or
+[04:11:53] you're running an engineering team or
+[04:11:53] you're running an engineering team or running a company, you you know all the
+[04:11:57] running a company, you you know all the
+[04:11:57] running a company, you you know all the agents that are running on like your
+[04:11:58] agents that are running on like your
+[04:11:58] agents that are running on like your engineers individual laptops, all of
+[04:12:00] engineers individual laptops, all of
+[04:12:00] engineers individual laptops, all of their work is kind of just happening in
+[04:12:03] their work is kind of just happening in
+[04:12:03] their work is kind of just happening in a place where um it's not visible like
+[04:12:07] a place where um it's not visible like
+[04:12:07] a place where um it's not visible like uh you can't see what your engineers are
+[04:12:09] uh you can't see what your engineers are
+[04:12:09] uh you can't see what your engineers are doing. So you don't have a sense of like
+[04:12:11] doing. So you don't have a sense of like
+[04:12:11] doing. So you don't have a sense of like how does agent adoption look like? You
+[04:12:13] how does agent adoption look like? You
+[04:12:13] how does agent adoption look like? You um you can't have a a clear view of like
+[04:12:16] um you can't have a a clear view of like
+[04:12:16] um you can't have a a clear view of like do you have security holes with your
+[04:12:17] do you have security holes with your
+[04:12:17] do you have security holes with your agents? Um, if agents are tied to your
+[04:12:21] agents? Um, if agents are tied to your
+[04:12:21] agents? Um, if agents are tied to your laptop, there's an issue that those
+[04:12:23] laptop, there's an issue that those
+[04:12:24] laptop, there's an issue that those agents can only run when your laptop is
+[04:12:25] agents can only run when your laptop is
+[04:12:25] agents can only run when your laptop is on and connected to the internet. So,
+[04:12:27] on and connected to the internet. So,
+[04:12:27] on and connected to the internet. So, there's all these sorts of problems that
+[04:12:30] there's all these sorts of problems that
+[04:12:30] there's all these sorts of problems that are brand new problems that are only
+[04:12:32] are brand new problems that are only
+[04:12:32] are brand new problems that are only occurring because we've moved to a spot
+[04:12:35] occurring because we've moved to a spot
+[04:12:35] occurring because we've moved to a spot where you can truly run multiple agents
+[04:12:37] where you can truly run multiple agents
+[04:12:37] where you can truly run multiple agents at once on your laptop.
+[04:12:39] at once on your laptop.
+[04:12:39] at once on your laptop. Um, so what's what's this solution to
+[04:12:43] Um, so what's what's this solution to
+[04:12:43] Um, so what's what's this solution to this? It's a picture of me on a on a
+[04:12:46] this? It's a picture of me on a on a
+[04:12:46] this? It's a picture of me on a on a horse. We did a commercial where I was
+[04:12:47] horse. We did a commercial where I was
+[04:12:47] horse. We did a commercial where I was on a horse. It was cool. Uh I think this
+[04:12:50] on a horse. It was cool. Uh I think this
+[04:12:50] on a horse. It was cool. Uh I think this the solution to this is is that
+[04:12:53] the solution to this is is that
+[04:12:53] the solution to this is is that companies and engineering teams over the
+[04:12:55] companies and engineering teams over the
+[04:12:55] companies and engineering teams over the next year are going to want to bring
+[04:12:59] next year are going to want to bring
+[04:12:59] next year are going to want to bring control to the chaos of like having
+[04:13:01] control to the chaos of like having
+[04:13:01] control to the chaos of like having multiple just like having everyone run
+[04:13:03] multiple just like having everyone run
+[04:13:03] multiple just like having everyone run all of their coding own coding agents on
+[04:13:05] all of their coding own coding agents on
+[04:13:05] all of their coding own coding agents on their laptops. Um
+[04:13:08] their laptops. Um
+[04:13:08] their laptops. Um and they're going to want to do this in
+[04:13:09] and they're going to want to do this in
+[04:13:09] and they're going to want to do this in a way that doesn't ruin the productivity
+[04:13:11] a way that doesn't ruin the productivity
+[04:13:11] a way that doesn't ruin the productivity gains. So you know it's it's awesome
+[04:13:15] gains. So you know it's it's awesome
+[04:13:15] gains. So you know it's it's awesome right now that like developers are
+[04:13:16] right now that like developers are
+[04:13:16] right now that like developers are trying out all these new tools. They're
+[04:13:17] trying out all these new tools. They're
+[04:13:17] trying out all these new tools. They're trying out cloud code tools like warp
+[04:13:19] trying out cloud code tools like warp
+[04:13:19] trying out cloud code tools like warp codeex etc. Um but it also is is
+[04:13:23] codeex etc. Um but it also is is
+[04:13:23] codeex etc. Um but it also is is creating an untenable situation and it's
+[04:13:25] creating an untenable situation and it's
+[04:13:25] creating an untenable situation and it's also just a limiter on productivity. So
+[04:13:29] also just a limiter on productivity. So
+[04:13:30] also just a limiter on productivity. So you know
+[04:13:31] you know
+[04:13:31] you know my prediction is this year there will be
+[04:13:34] my prediction is this year there will be
+[04:13:34] my prediction is this year there will be solutions for this. There's one other
+[04:13:36] solutions for this. There's one other
+[04:13:36] solutions for this. There's one other big important reason besides just the um
+[04:13:39] big important reason besides just the um
+[04:13:39] big important reason besides just the um the issue of like you're hitting laptop
+[04:13:41] the issue of like you're hitting laptop
+[04:13:41] the issue of like you're hitting laptop limits. It's also that
+[04:13:44] limits. It's also that
+[04:13:44] limits. It's also that uh the actual like types of tasks that
+[04:13:47] uh the actual like types of tasks that
+[04:13:47] uh the actual like types of tasks that you want these agents to do require them
+[04:13:51] you want these agents to do require them
+[04:13:51] you want these agents to do require them uh to run for longer and also
+[04:13:54] uh to run for longer and also
+[04:13:54] uh to run for longer and also potentially require them to like you
+[04:13:57] potentially require them to like you
+[04:13:57] potentially require them to like you know run for um you know run as teams
+[04:14:00] know run for um you know run as teams
+[04:14:00] know run for um you know run as teams not just run as individual agents. And
+[04:14:03] not just run as individual agents. And
+[04:14:03] not just run as individual agents. And so for this there's there's like two
+[04:14:04] so for this there's there's like two
+[04:14:04] so for this there's there's like two classes of things that we're going to
+[04:14:07] classes of things that we're going to
+[04:14:07] classes of things that we're going to want to fix this year. One is just like
+[04:14:09] want to fix this year. One is just like
+[04:14:09] want to fix this year. One is just like long singlethreaded agents uh that are
+[04:14:12] long singlethreaded agents uh that are
+[04:14:12] long singlethreaded agents uh that are doing hard tasks. And if you're you know
+[04:14:14] doing hard tasks. And if you're you know
+[04:14:14] doing hard tasks. And if you're you know if you're an engineer working on a hard
+[04:14:16] if you're an engineer working on a hard
+[04:14:16] if you're an engineer working on a hard coding task right now with an agent you
+[04:14:18] coding task right now with an agent you
+[04:14:18] coding task right now with an agent you probably are you know you're probably
+[04:14:20] probably are you know you're probably
+[04:14:20] probably are you know you're probably sometimes hitting issues where the agent
+[04:14:22] sometimes hitting issues where the agent
+[04:14:22] sometimes hitting issues where the agent um you know exceeds its context window.
+[04:14:25] um you know exceeds its context window.
+[04:14:25] um you know exceeds its context window. Maybe you compact your agent context. it
+[04:14:28] Maybe you compact your agent context. it
+[04:14:28] Maybe you compact your agent context. it starts to forget stuff and so you need
+[04:14:30] starts to forget stuff and so you need
+[04:14:30] starts to forget stuff and so you need some sort of like primitives for doing
+[04:14:32] some sort of like primitives for doing
+[04:14:32] some sort of like primitives for doing longer harder tasks. And then the second
+[04:14:35] longer harder tasks. And then the second
+[04:14:35] longer harder tasks. And then the second thing that's going to happen this year
+[04:14:36] thing that's going to happen this year
+[04:14:36] thing that's going to happen this year is you're gonna actually have agents
+[04:14:38] is you're gonna actually have agents
+[04:14:38] is you're gonna actually have agents that are working together. Um and so
+[04:14:42] that are working together. Um and so
+[04:14:42] that are working together. Um and so you're going to have a class of tasks
+[04:14:44] you're going to have a class of tasks
+[04:14:44] you're going to have a class of tasks that are amendable to multiple to sorry
+[04:14:47] that are amendable to multiple to sorry
+[04:14:47] that are amendable to multiple to sorry to multiple agents working on them at
+[04:14:48] to multiple agents working on them at
+[04:14:48] to multiple agents working on them at once. So this is another thing that's
+[04:14:51] once. So this is another thing that's
+[04:14:51] once. So this is another thing that's happening right now and uh there needs
+[04:14:53] happening right now and uh there needs
+[04:14:53] happening right now and uh there needs to be infrastructure for it.
+[04:14:56] to be infrastructure for it.
+[04:14:56] to be infrastructure for it. So what are the use cases? Um so it's
+[04:15:01] So what are the use cases? Um so it's
+[04:15:01] So what are the use cases? Um so it's not just interactive coding tasks. One
+[04:15:04] not just interactive coding tasks. One
+[04:15:04] not just interactive coding tasks. One big use case this year that's going to
+[04:15:05] big use case this year that's going to
+[04:15:05] big use case this year that's going to become more and more common is
+[04:15:07] become more and more common is
+[04:15:07] become more and more common is automations that are built using agents.
+[04:15:09] automations that are built using agents.
+[04:15:09] automations that are built using agents. And so think of this as
+[04:15:13] And so think of this as
+[04:15:13] And so think of this as um like every time we do a warp release
+[04:15:15] um like every time we do a warp release
+[04:15:15] um like every time we do a warp release for instance, an agent looks at our
+[04:15:17] for instance, an agent looks at our
+[04:15:17] for instance, an agent looks at our codebase and it looks at our
+[04:15:18] codebase and it looks at our
+[04:15:18] codebase and it looks at our documentation and it comes up with a PR
+[04:15:21] documentation and it comes up with a PR
+[04:15:22] documentation and it comes up with a PR document uh sorry to update the
+[04:15:23] document uh sorry to update the
+[04:15:23] document uh sorry to update the documentation based on what's in the
+[04:15:25] documentation based on what's in the
+[04:15:25] documentation based on what's in the latest release. Or there's another class
+[04:15:28] latest release. Or there's another class
+[04:15:28] latest release. Or there's another class of automation which is like um we have a
+[04:15:31] of automation which is like um we have a
+[04:15:31] of automation which is like um we have a agent that runs on a timer every week.
+[04:15:34] agent that runs on a timer every week.
+[04:15:34] agent that runs on a timer every week. It looks for uh feature flags that are
+[04:15:38] It looks for uh feature flags that are
+[04:15:38] It looks for uh feature flags that are basically guarding dead code that we're
+[04:15:40] basically guarding dead code that we're
+[04:15:40] basically guarding dead code that we're never going to turn off. And so it it
+[04:15:42] never going to turn off. And so it it
+[04:15:42] never going to turn off. And so it it can remove those. And so if you're
+[04:15:44] can remove those. And so if you're
+[04:15:44] can remove those. And so if you're running an engineering team or if you're
+[04:15:46] running an engineering team or if you're
+[04:15:46] running an engineering team or if you're an individual engineer, you're going to
+[04:15:47] an individual engineer, you're going to
+[04:15:47] an individual engineer, you're going to want the ability this year to build
+[04:15:49] want the ability this year to build
+[04:15:49] want the ability this year to build these kinds of automations, which is
+[04:15:52] these kinds of automations, which is
+[04:15:52] these kinds of automations, which is another reason you're going to want
+[04:15:53] another reason you're going to want
+[04:15:53] another reason you're going to want coding agents off of your laptops.
+[04:15:58] On top of that, there's like agents are
+[04:16:00] On top of that, there's like agents are a new programming primitive. And what I
+[04:16:04] a new programming primitive. And what I
+[04:16:04] a new programming primitive. And what I mean by this is that if you're an app
+[04:16:06] mean by this is that if you're an app
+[04:16:06] mean by this is that if you're an app builder, uh whether you're building
+[04:16:08] builder, uh whether you're building
+[04:16:08] builder, uh whether you're building internal apps or you're building
+[04:16:11] internal apps or you're building
+[04:16:11] internal apps or you're building customerf facing apps, you're going to
+[04:16:13] customerf facing apps, you're going to
+[04:16:13] customerf facing apps, you're going to actually want to be able to add agents
+[04:16:15] actually want to be able to add agents
+[04:16:15] actually want to be able to add agents into those. So um you know, I I'll show
+[04:16:19] into those. So um you know, I I'll show
+[04:16:19] into those. So um you know, I I'll show you an example of an app uh that we've
+[04:16:22] you an example of an app uh that we've
+[04:16:22] you an example of an app uh that we've built internally at Warp where we triage
+[04:16:24] built internally at Warp where we triage
+[04:16:24] built internally at Warp where we triage our GitHub issues. And it's it's
+[04:16:26] our GitHub issues. And it's it's
+[04:16:26] our GitHub issues. And it's it's interesting. It's not like it's not an
+[04:16:29] interesting. It's not like it's not an
+[04:16:29] interesting. It's not like it's not an automation. and it's an app, but within
+[04:16:31] automation. and it's an app, but within
+[04:16:31] automation. and it's an app, but within the app you can launch agents to do
+[04:16:33] the app you can launch agents to do
+[04:16:33] the app you can launch agents to do certain types of tasks. And so there's
+[04:16:37] certain types of tasks. And so there's
+[04:16:37] certain types of tasks. And so there's all these use cases again where you're
+[04:16:39] all these use cases again where you're
+[04:16:39] all these use cases again where you're going to want to basically take the
+[04:16:41] going to want to basically take the
+[04:16:41] going to want to basically take the coding agents that everyone in here is
+[04:16:43] coding agents that everyone in here is
+[04:16:44] coding agents that everyone in here is using all the time, whether again it's
+[04:16:45] using all the time, whether again it's
+[04:16:45] using all the time, whether again it's like cloud code or codeex or warps
+[04:16:47] like cloud code or codeex or warps
+[04:16:47] like cloud code or codeex or warps coding agent or whatever, and you're
+[04:16:50] coding agent or whatever, and you're
+[04:16:50] coding agent or whatever, and you're going to want to be able to program
+[04:16:51] going to want to be able to program
+[04:16:51] going to want to be able to program those to run off of your laptop. That's
+[04:16:54] those to run off of your laptop. That's
+[04:16:54] those to run off of your laptop. That's the theme. uh I know I called it
+[04:16:56] the theme. uh I know I called it
+[04:16:56] the theme. uh I know I called it orchestration and and orchestration is
+[04:16:58] orchestration and and orchestration is
+[04:16:58] orchestration and and orchestration is part of it but I think actually you know
+[04:17:00] part of it but I think actually you know
+[04:17:00] part of it but I think actually you know the other big part is just moving to the
+[04:17:02] the other big part is just moving to the
+[04:17:02] the other big part is just moving to the cloud.
+[04:17:05] So if you want to do this type of
+[04:17:08] So if you want to do this type of workflow where you're working with
+[04:17:10] workflow where you're working with
+[04:17:10] workflow where you're working with coding agents and you're not, you know,
+[04:17:12] coding agents and you're not, you know,
+[04:17:12] coding agents and you're not, you know, stuck to your laptop, um you might think
+[04:17:16] stuck to your laptop, um you might think
+[04:17:16] stuck to your laptop, um you might think that you just want to build this
+[04:17:18] that you just want to build this
+[04:17:18] that you just want to build this yourself. And there's a bunch of, you
+[04:17:21] yourself. And there's a bunch of, you
+[04:17:21] yourself. And there's a bunch of, you know, there's a bunch of primitives out
+[04:17:22] know, there's a bunch of primitives out
+[04:17:22] know, there's a bunch of primitives out there um that let you run agents in
+[04:17:26] there um that let you run agents in
+[04:17:26] there um that let you run agents in cloud sandboxes. And that is one of the
+[04:17:28] cloud sandboxes. And that is one of the
+[04:17:28] cloud sandboxes. And that is one of the primitives that you need. Um, and if
+[04:17:32] primitives that you need. Um, and if
+[04:17:32] primitives that you need. Um, and if you're, you know, if you're a company,
+[04:17:33] you're, you know, if you're a company,
+[04:17:33] you're, you know, if you're a company, actually several companies have been in
+[04:17:35] actually several companies have been in
+[04:17:35] actually several companies have been in the news recently, like launching their
+[04:17:37] the news recently, like launching their
+[04:17:37] the news recently, like launching their own internal agent orchestration
+[04:17:39] own internal agent orchestration
+[04:17:39] own internal agent orchestration systems. I think Stripe launched one
+[04:17:42] systems. I think Stripe launched one
+[04:17:42] systems. I think Stripe launched one called Minions. Uh, I think Ramp
+[04:17:44] called Minions. Uh, I think Ramp
+[04:17:44] called Minions. Uh, I think Ramp launched one. Um, you might find that
+[04:17:47] launched one. Um, you might find that
+[04:17:47] launched one. Um, you might find that you you want to build this and that's a
+[04:17:48] you you want to build this and that's a
+[04:17:48] you you want to build this and that's a reasonable thing I think for a company
+[04:17:51] reasonable thing I think for a company
+[04:17:51] reasonable thing I think for a company or an organization of a certain size.
+[04:17:54] or an organization of a certain size.
+[04:17:54] or an organization of a certain size. Um, but you also might find that you
+[04:17:57] Um, but you also might find that you
+[04:17:57] Um, but you also might find that you don't want to spend the time building
+[04:17:58] don't want to spend the time building
+[04:17:58] don't want to spend the time building all this scaffolding for running agents
+[04:18:00] all this scaffolding for running agents
+[04:18:00] all this scaffolding for running agents in the cloud. And if you don't like this
+[04:18:04] in the cloud. And if you don't like this
+[04:18:04] in the cloud. And if you don't like this is a I mean uh I I'll kind of talk
+[04:18:07] is a I mean uh I I'll kind of talk
+[04:18:07] is a I mean uh I I'll kind of talk through I think what the primitives are
+[04:18:09] through I think what the primitives are
+[04:18:09] through I think what the primitives are that you want to sort of be able to use
+[04:18:11] that you want to sort of be able to use
+[04:18:11] that you want to sort of be able to use off the shelf. And I I'll talk a little
+[04:18:13] off the shelf. And I I'll talk a little
+[04:18:13] off the shelf. And I I'll talk a little bit about a product that Warp launched
+[04:18:14] bit about a product that Warp launched
+[04:18:14] bit about a product that Warp launched in this space, but I'm not I don't want
+[04:18:16] in this space, but I'm not I don't want
+[04:18:16] in this space, but I'm not I don't want to spend too much time on our own
+[04:18:17] to spend too much time on our own
+[04:18:17] to spend too much time on our own products. Um
+[04:18:19] products. Um
+[04:18:20] products. Um but what are the primitives and what
+[04:18:22] but what are the primitives and what
+[04:18:22] but what are the primitives and what would it take if you wanted to build
+[04:18:25] would it take if you wanted to build
+[04:18:25] would it take if you wanted to build cloud agents yourself? So I think the
+[04:18:27] cloud agents yourself? So I think the
+[04:18:27] cloud agents yourself? So I think the primitives are things like um
+[04:18:30] primitives are things like um
+[04:18:30] primitives are things like um environments. So you need some place
+[04:18:33] environments. So you need some place
+[04:18:33] environments. So you need some place uh that defines like what the agent has
+[04:18:37] uh that defines like what the agent has
+[04:18:37] uh that defines like what the agent has access to. So this is like what's the
+[04:18:39] access to. So this is like what's the
+[04:18:39] access to. So this is like what's the tool chain, what's the uh what code does
+[04:18:42] tool chain, what's the uh what code does
+[04:18:42] tool chain, what's the uh what code does it have access to? You need hosting. Um,
+[04:18:46] it have access to? You need hosting. Um,
+[04:18:46] it have access to? You need hosting. Um, so these agents need to run on computers
+[04:18:48] so these agents need to run on computers
+[04:18:48] so these agents need to run on computers somewhere in the cloud. And there's a
+[04:18:49] somewhere in the cloud. And there's a
+[04:18:49] somewhere in the cloud. And there's a bunch of things like maybe Daytona or
+[04:18:52] bunch of things like maybe Daytona or
+[04:18:52] bunch of things like maybe Daytona or E2B or Docker sandboxes or namespace.
+[04:18:55] E2B or Docker sandboxes or namespace.
+[04:18:55] E2B or Docker sandboxes or namespace. These are ones that we use. Um, you're
+[04:18:58] These are ones that we use. Um, you're
+[04:18:58] These are ones that we use. Um, you're going to want some ability to get
+[04:18:59] going to want some ability to get
+[04:18:59] going to want some ability to get visibility into what the agents are
+[04:19:01] visibility into what the agents are
+[04:19:01] visibility into what the agents are doing. Um, and so there's there is
+[04:19:03] doing. Um, and so there's there is
+[04:19:03] doing. Um, and so there's there is actually a bunch to build here. I think
+[04:19:05] actually a bunch to build here. I think
+[04:19:06] actually a bunch to build here. I think you definitely if you're going to build
+[04:19:07] you definitely if you're going to build
+[04:19:07] you definitely if you're going to build a system like this want to build it so
+[04:19:09] a system like this want to build it so
+[04:19:10] a system like this want to build it so that there's still a human in the loop.
+[04:19:13] that there's still a human in the loop.
+[04:19:13] that there's still a human in the loop. And what I mean by that is like if um I
+[04:19:17] And what I mean by that is like if um I
+[04:19:17] And what I mean by that is like if um I mean I think it's obvious what I mean
+[04:19:18] mean I think it's obvious what I mean
+[04:19:18] mean I think it's obvious what I mean it's like you want the ability to see
+[04:19:20] it's like you want the ability to see
+[04:19:20] it's like you want the ability to see what these agents are doing when they
+[04:19:21] what these agents are doing when they
+[04:19:22] what these agents are doing when they run in the cloud. Uh even if they're
+[04:19:23] run in the cloud. Uh even if they're
+[04:19:24] run in the cloud. Uh even if they're running as part of automations or app
+[04:19:25] running as part of automations or app
+[04:19:25] running as part of automations or app backends so that you can uh you can
+[04:19:28] backends so that you can uh you can
+[04:19:28] backends so that you can uh you can guide them you can step in if they only
+[04:19:31] guide them you can step in if they only
+[04:19:31] guide them you can step in if they only do 80% of the work and make sure that
+[04:19:33] do 80% of the work and make sure that
+[04:19:33] do 80% of the work and make sure that you finish it off correctly.
+[04:19:36] you finish it off correctly.
+[04:19:36] you finish it off correctly. So we we just launched a product called
+[04:19:39] So we we just launched a product called
+[04:19:39] So we we just launched a product called Oz which I'll demo in a bit which you
+[04:19:43] Oz which I'll demo in a bit which you
+[04:19:43] Oz which I'll demo in a bit which you can think of as kind of like you know
+[04:19:45] can think of as kind of like you know
+[04:19:45] can think of as kind of like you know Versel for cloud agents or Superbase for
+[04:19:47] Versel for cloud agents or Superbase for
+[04:19:47] Versel for cloud agents or Superbase for cloud agents where we're trying to make
+[04:19:49] cloud agents where we're trying to make
+[04:19:49] cloud agents where we're trying to make it super easy uh for developers and
+[04:19:53] it super easy uh for developers and
+[04:19:53] it super easy uh for developers and development teams to move these
+[04:19:55] development teams to move these
+[04:19:55] development teams to move these workflows off of their laptop. Um the
+[04:19:59] workflows off of their laptop. Um the
+[04:19:59] workflows off of their laptop. Um the primitives I think this is interesting
+[04:20:02] primitives I think this is interesting
+[04:20:02] primitives I think this is interesting whether you use Oz or not are like you
+[04:20:05] whether you use Oz or not are like you
+[04:20:05] whether you use Oz or not are like you want a great coding agent. Um
+[04:20:08] want a great coding agent. Um
+[04:20:08] want a great coding agent. Um uh or I actually think you want multiple
+[04:20:10] uh or I actually think you want multiple
+[04:20:10] uh or I actually think you want multiple great coding agents. So one of the
+[04:20:12] great coding agents. So one of the
+[04:20:12] great coding agents. So one of the things that we're working on with Oz is
+[04:20:14] things that we're working on with Oz is
+[04:20:14] things that we're working on with Oz is the ability to run any agent harness. Uh
+[04:20:17] the ability to run any agent harness. Uh
+[04:20:17] the ability to run any agent harness. Uh the harnesses have different pros and
+[04:20:18] the harnesses have different pros and
+[04:20:18] the harnesses have different pros and cons.
+[04:20:20] cons.
+[04:20:20] cons. You want something uh called like
+[04:20:22] You want something uh called like
+[04:20:22] You want something uh called like tracking. We we call this feature of Oz
+[04:20:24] tracking. We we call this feature of Oz
+[04:20:24] tracking. We we call this feature of Oz autotracking where no matter where you
+[04:20:27] autotracking where no matter where you
+[04:20:27] autotracking where no matter where you launch an Oz coding agent and how you
+[04:20:29] launch an Oz coding agent and how you
+[04:20:29] launch an Oz coding agent and how you launch it, you get a link to what it's
+[04:20:32] launch it, you get a link to what it's
+[04:20:32] launch it, you get a link to what it's doing um and all the like artifacts of
+[04:20:38] doing um and all the like artifacts of
+[04:20:38] doing um and all the like artifacts of the agent run are automatically
+[04:20:40] the agent run are automatically
+[04:20:40] the agent run are automatically recorded. So if you want um to go back
+[04:20:43] recorded. So if you want um to go back
+[04:20:43] recorded. So if you want um to go back and see what an agent did, uh if you
+[04:20:46] and see what an agent did, uh if you
+[04:20:46] and see what an agent did, uh if you want to see how it reasoned, you get
+[04:20:49] want to see how it reasoned, you get
+[04:20:49] want to see how it reasoned, you get that information.
+[04:20:51] that information.
+[04:20:51] that information. You want handoff. So this is about human
+[04:20:53] You want handoff. So this is about human
+[04:20:53] You want handoff. So this is about human in the loop. So if an agent is, you
+[04:20:56] in the loop. So if an agent is, you
+[04:20:56] in the loop. So if an agent is, you know, working uh in a cloud system and
+[04:20:58] know, working uh in a cloud system and
+[04:20:58] know, working uh in a cloud system and it can get only 80% of the way there and
+[04:21:01] it can get only 80% of the way there and
+[04:21:01] it can get only 80% of the way there and you want an engineer to pick up what it
+[04:21:03] you want an engineer to pick up what it
+[04:21:03] you want an engineer to pick up what it did, that should be easy. Uh I mentioned
+[04:21:06] did, that should be easy. Uh I mentioned
+[04:21:06] did, that should be easy. Uh I mentioned earlier, you want some sort of
+[04:21:07] earlier, you want some sort of
+[04:21:07] earlier, you want some sort of environment definition and hosting. And
+[04:21:09] environment definition and hosting. And
+[04:21:09] environment definition and hosting. And then I think the final thing that you
+[04:21:11] then I think the final thing that you
+[04:21:11] then I think the final thing that you want if you're building a system like
+[04:21:12] want if you're building a system like
+[04:21:12] want if you're building a system like this is that you want it to be fully
+[04:21:14] this is that you want it to be fully
+[04:21:14] this is that you want it to be fully programmable.
+[04:21:16] programmable.
+[04:21:16] programmable. Uh, and so what I mean by that is like
+[04:21:18] Uh, and so what I mean by that is like
+[04:21:18] Uh, and so what I mean by that is like you should be able to
+[04:21:21] you should be able to
+[04:21:21] you should be able to launch agents via API or SDK or CLI. You
+[04:21:25] launch agents via API or SDK or CLI. You
+[04:21:26] launch agents via API or SDK or CLI. You should be able to configure
+[04:21:26] should be able to configure
+[04:21:26] should be able to configure environments. You should be able to pull
+[04:21:29] environments. You should be able to pull
+[04:21:29] environments. You should be able to pull artifacts. You should be able to pull
+[04:21:30] artifacts. You should be able to pull
+[04:21:30] artifacts. You should be able to pull conversation history. Um, and you should
+[04:21:34] conversation history. Um, and you should
+[04:21:34] conversation history. Um, and you should do that not just for like human
+[04:21:36] do that not just for like human
+[04:21:36] do that not just for like human programmers to use, but this is actually
+[04:21:39] programmers to use, but this is actually
+[04:21:39] programmers to use, but this is actually these are the building blocks that will
+[04:21:41] these are the building blocks that will
+[04:21:41] these are the building blocks that will allow agents to actually orchestrate
+[04:21:43] allow agents to actually orchestrate
+[04:21:43] allow agents to actually orchestrate each other. And so our approach here has
+[04:21:46] each other. And so our approach here has
+[04:21:46] each other. And so our approach here has been like, you know, build this all in a
+[04:21:48] been like, you know, build this all in a
+[04:21:48] been like, you know, build this all in a very programmer first way.
+[04:21:51] very programmer first way.
+[04:21:51] very programmer first way. So I'm going to switch over to doing
+[04:21:53] So I'm going to switch over to doing
+[04:21:53] So I'm going to switch over to doing some demos. Hopefully this will work. Uh
+[04:21:56] some demos. Hopefully this will work. Uh
+[04:21:56] some demos. Hopefully this will work. Uh where I show you, you know, what I what
+[04:21:58] where I show you, you know, what I what
+[04:21:58] where I show you, you know, what I what I think of as like orchestration in
+[04:22:00] I think of as like orchestration in
+[04:22:00] I think of as like orchestration in action and how it can be helpful. So let
+[04:22:03] action and how it can be helpful. So let
+[04:22:03] action and how it can be helpful. So let me switch here and figure out how to do
+[04:22:06] me switch here and figure out how to do
+[04:22:06] me switch here and figure out how to do the mic.
+[04:22:07] the mic.
+[04:22:07] the mic. &gt;&gt; That one works.
+[04:22:08] &gt;&gt; That one works.
+[04:22:08] &gt;&gt; That one works. &gt;&gt; This one will work. So should I
+[04:22:10] &gt;&gt; This one will work. So should I
+[04:22:10] &gt;&gt; This one will work. So should I &gt;&gt; turn this one off or Okay.
+[04:22:13] &gt;&gt; turn this one off or Okay.
+[04:22:13] &gt;&gt; turn this one off or Okay. &gt;&gt; All right.
+[04:22:14] &gt;&gt; All right. put this down here.
+[04:22:18] put this down here.
+[04:22:18] put this down here. Okay,
+[04:22:20] Okay,
+[04:22:20] Okay, cool. Um, yeah. So, I'm I'm gonna I'm
+[04:22:23] cool. Um, yeah. So, I'm I'm gonna I'm
+[04:22:23] cool. Um, yeah. So, I'm I'm gonna I'm going to show you a few different use
+[04:22:25] going to show you a few different use
+[04:22:25] going to show you a few different use cases here. Um, and and it's all about
+[04:22:29] cases here. Um, and and it's all about
+[04:22:29] cases here. Um, and and it's all about like agent orchestration. So, let me
+[04:22:31] like agent orchestration. So, let me
+[04:22:31] like agent orchestration. So, let me first start here.
+[04:22:34] first start here.
+[04:22:34] first start here. And for people who aren't familiar, this
+[04:22:36] And for people who aren't familiar, this
+[04:22:36] And for people who aren't familiar, this is warp. Warp is it's a terminal with
+[04:22:40] is warp. Warp is it's a terminal with
+[04:22:40] is warp. Warp is it's a terminal with agents built in. Uh the history of warp
+[04:22:42] agents built in. Uh the history of warp
+[04:22:42] agents built in. Uh the history of warp is we started off building a sort of
+[04:22:44] is we started off building a sort of
+[04:22:44] is we started off building a sort of modern terminal and then as uh you know
+[04:22:47] modern terminal and then as uh you know
+[04:22:47] modern terminal and then as uh you know as agents have become more and more
+[04:22:49] as agents have become more and more
+[04:22:49] as agents have become more and more popular we've built in features that
+[04:22:50] popular we've built in features that
+[04:22:50] popular we've built in features that just make it super easy to launch agents
+[04:22:53] just make it super easy to launch agents
+[04:22:53] just make it super easy to launch agents from directly within warp. Um within
+[04:22:56] from directly within warp. Um within
+[04:22:56] from directly within warp. Um within warp you know I can I can sort of use it
+[04:22:58] warp you know I can I can sort of use it
+[04:22:58] warp you know I can I can sort of use it as a terminal here. But what I actually
+[04:23:01] as a terminal here. But what I actually
+[04:23:01] as a terminal here. But what I actually want to show you is how you can um do
+[04:23:04] want to show you is how you can um do
+[04:23:04] want to show you is how you can um do multi- aent work. So I'll go here
+[04:23:09] multi- aent work. So I'll go here
+[04:23:09] multi- aent work. So I'll go here and I'll show you a project that I've
+[04:23:10] and I'll show you a project that I've
+[04:23:10] and I'll show you a project that I've been working on or actually someone from
+[04:23:12] been working on or actually someone from
+[04:23:12] been working on or actually someone from my team has been building which is we
+[04:23:15] my team has been building which is we
+[04:23:15] my team has been building which is we vibe coded our own version of Google
+[04:23:17] vibe coded our own version of Google
+[04:23:17] vibe coded our own version of Google Docs and this is this is the uh product
+[04:23:19] Docs and this is this is the uh product
+[04:23:19] Docs and this is this is the uh product that I used to I used to work on at
+[04:23:21] that I used to I used to work on at
+[04:23:21] that I used to I used to work on at Google so it's pretty fun to work on
+[04:23:23] Google so it's pretty fun to work on
+[04:23:23] Google so it's pretty fun to work on again uh we built this in a couple days
+[04:23:26] again uh we built this in a couple days
+[04:23:26] again uh we built this in a couple days um but it's it's pretty incomplete and
+[04:23:29] um but it's it's pretty incomplete and
+[04:23:29] um but it's it's pretty incomplete and so if you go over and look at our
+[04:23:31] so if you go over and look at our
+[04:23:31] so if you go over and look at our version of the spreadsheet here it can
+[04:23:33] version of the spreadsheet here it can
+[04:23:33] version of the spreadsheet here it can do simple formula formulas. So, it can
+[04:23:36] do simple formula formulas. So, it can
+[04:23:36] do simple formula formulas. So, it can do like a sum formula, but if you go
+[04:23:38] do like a sum formula, but if you go
+[04:23:38] do like a sum formula, but if you go over here and try and have it do uh an
+[04:23:41] over here and try and have it do uh an
+[04:23:41] over here and try and have it do uh an absolute value formula, it's actually
+[04:23:43] absolute value formula, it's actually
+[04:23:43] absolute value formula, it's actually not currently implemented. And so, what
+[04:23:46] not currently implemented. And so, what
+[04:23:46] not currently implemented. And so, what I'm able to do now, go back to warp
+[04:23:49] I'm able to do now, go back to warp
+[04:23:49] I'm able to do now, go back to warp here. Um, this will show you the use
+[04:23:52] here. Um, this will show you the use
+[04:23:52] here. Um, this will show you the use case of like being able to do multiple
+[04:23:54] case of like being able to do multiple
+[04:23:54] case of like being able to do multiple parallel agents in the cloud. So, I'm
+[04:23:56] parallel agents in the cloud. So, I'm
+[04:23:56] parallel agents in the cloud. So, I'm going to go over here and I will I'll
+[04:24:00] going to go over here and I will I'll
+[04:24:00] going to go over here and I will I'll first show you how like the regular
+[04:24:01] first show you how like the regular
+[04:24:01] first show you how like the regular agent works. So with the regular agent,
+[04:24:04] agent works. So with the regular agent,
+[04:24:04] agent works. So with the regular agent, I kind of just go into a new
+[04:24:06] I kind of just go into a new
+[04:24:06] I kind of just go into a new conversation here. I could be like um I
+[04:24:09] conversation here. I could be like um I
+[04:24:09] conversation here. I could be like um I could be like, you know, implement
+[04:24:13] all the formulas
+[04:24:17] all the formulas that are missing that start with the
+[04:24:20] that are missing that start with the
+[04:24:20] that are missing that start with the letter A.
+[04:24:24] And so this launches our interactive
+[04:24:26] And so this launches our interactive agent. And so in the old way of working,
+[04:24:29] agent. And so in the old way of working,
+[04:24:29] agent. And so in the old way of working, what I would do is if I wanted to do
+[04:24:31] what I would do is if I wanted to do
+[04:24:31] what I would do is if I wanted to do multiple of these at once, I might pop
+[04:24:33] multiple of these at once, I might pop
+[04:24:33] multiple of these at once, I might pop open another tab over here and basically
+[04:24:37] open another tab over here and basically
+[04:24:37] open another tab over here and basically do um let me copy this for a second.
+[04:24:42] do um let me copy this for a second.
+[04:24:42] do um let me copy this for a second. I might go over here and say implement
+[04:24:44] I might go over here and say implement
+[04:24:44] I might go over here and say implement all the formulas that start with the
+[04:24:45] all the formulas that start with the
+[04:24:46] all the formulas that start with the letter B. And I could do that, but I'm
+[04:24:48] letter B. And I could do that, but I'm
+[04:24:48] letter B. And I could do that, but I'm going to start to run into these limits
+[04:24:49] going to start to run into these limits
+[04:24:50] going to start to run into these limits of
+[04:24:51] of
+[04:24:51] of um you know, just like these laptop
+[04:24:53] um you know, just like these laptop
+[04:24:53] um you know, just like these laptop limits. So, the thing that we've built
+[04:24:56] limits. So, the thing that we've built
+[04:24:56] limits. So, the thing that we've built in that I think people are going to
+[04:24:57] in that I think people are going to
+[04:24:57] in that I think people are going to increasingly want is the ability here to
+[04:24:59] increasingly want is the ability here to
+[04:24:59] increasingly want is the ability here to do this directly in the cloud. So, I'll
+[04:25:02] do this directly in the cloud. So, I'll
+[04:25:02] do this directly in the cloud. So, I'll go here and this is instead of being a
+[04:25:05] go here and this is instead of being a
+[04:25:05] go here and this is instead of being a local conversation has the exact same um
+[04:25:07] local conversation has the exact same um
+[04:25:07] local conversation has the exact same um sort of UI, but this will launch it into
+[04:25:10] sort of UI, but this will launch it into
+[04:25:10] sort of UI, but this will launch it into the cloud. And so, I'll do this and I'll
+[04:25:13] the cloud. And so, I'll do this and I'll
+[04:25:13] the cloud. And so, I'll do this and I'll start this uh as a cloud job. Now,
+[04:25:15] start this uh as a cloud job. Now,
+[04:25:15] start this uh as a cloud job. Now, what's cool is I can actually just kind
+[04:25:17] what's cool is I can actually just kind
+[04:25:17] what's cool is I can actually just kind of go back here. You can see here this
+[04:25:19] of go back here. You can see here this
+[04:25:20] of go back here. You can see here this one is starting up and I can go back and
+[04:25:21] one is starting up and I can go back and
+[04:25:21] one is starting up and I can go back and look at it in a second. But you can also
+[04:25:24] look at it in a second. But you can also
+[04:25:24] look at it in a second. But you can also um here this one's going over here and
+[04:25:26] um here this one's going over here and
+[04:25:26] um here this one's going over here and doing the implementation which is cool.
+[04:25:29] doing the implementation which is cool.
+[04:25:29] doing the implementation which is cool. Uh I can also go ahead and over here
+[04:25:32] Uh I can also go ahead and over here
+[04:25:32] Uh I can also go ahead and over here launch the one that implements the the
+[04:25:35] launch the one that implements the the
+[04:25:35] launch the one that implements the the formulas that start with the letter C.
+[04:25:38] formulas that start with the letter C.
+[04:25:38] formulas that start with the letter C. Uh oops I didn't do this as a cloud
+[04:25:40] Uh oops I didn't do this as a cloud
+[04:25:40] Uh oops I didn't do this as a cloud agent. I meant to. So we go back here.
+[04:25:43] agent. I meant to. So we go back here.
+[04:25:43] agent. I meant to. So we go back here. I'll do this C.
+[04:25:46] I'll do this C.
+[04:25:46] I'll do this C. And I'll do this one again. I'll do it D
+[04:25:52] And I'll do this one again. I'll do it D
+[04:25:52] And I'll do this one again. I'll do it D and I'll do it again
+[04:25:55] and I'll do it again
+[04:25:55] and I'll do it again E. And so I'm not sure if you all are
+[04:25:58] E. And so I'm not sure if you all are
+[04:25:58] E. And so I'm not sure if you all are catching this, but what I'm able to do
+[04:26:00] catching this, but what I'm able to do
+[04:26:00] catching this, but what I'm able to do is just like massively multi-thread the
+[04:26:03] is just like massively multi-thread the
+[04:26:03] is just like massively multi-thread the work that I'm doing here by launching
+[04:26:05] work that I'm doing here by launching
+[04:26:05] work that I'm doing here by launching these agents into the cloud. And so this
+[04:26:07] these agents into the cloud. And so this
+[04:26:07] these agents into the cloud. And so this this is using Warp's built-in agent, but
+[04:26:10] this is using Warp's built-in agent, but
+[04:26:10] this is using Warp's built-in agent, but uh the thing that we're working towards
+[04:26:11] uh the thing that we're working towards
+[04:26:11] uh the thing that we're working towards is supporting this actually to work with
+[04:26:13] is supporting this actually to work with
+[04:26:13] is supporting this actually to work with any agent harness. So that if you're
+[04:26:15] any agent harness. So that if you're
+[04:26:15] any agent harness. So that if you're running a whole bunch of cloud codes or
+[04:26:16] running a whole bunch of cloud codes or
+[04:26:16] running a whole bunch of cloud codes or whatever and you just want to be able to
+[04:26:18] whatever and you just want to be able to
+[04:26:18] whatever and you just want to be able to launch them as a cloud, you can do it.
+[04:26:20] launch them as a cloud, you can do it.
+[04:26:20] launch them as a cloud, you can do it. So if we go and like look at one of
+[04:26:22] So if we go and like look at one of
+[04:26:22] So if we go and like look at one of these, I think the cool thing here, I
+[04:26:25] these, I think the cool thing here, I
+[04:26:25] these, I think the cool thing here, I think this is another thing that that
+[04:26:26] think this is another thing that that
+[04:26:26] think this is another thing that that you probably want with orchestration is
+[04:26:27] you probably want with orchestration is
+[04:26:27] you probably want with orchestration is like you get a view. You'll notice that
+[04:26:29] like you get a view. You'll notice that
+[04:26:29] like you get a view. You'll notice that looks identical to the one that's
+[04:26:32] looks identical to the one that's
+[04:26:32] looks identical to the one that's working uh locally. But uh if I go over
+[04:26:37] working uh locally. But uh if I go over
+[04:26:37] working uh locally. But uh if I go over here,
+[04:26:39] here,
+[04:26:39] here, this is going into the Oz web app. And
+[04:26:42] this is going into the Oz web app. And
+[04:26:42] this is going into the Oz web app. And this should give you a sense of what I I
+[04:26:44] this should give you a sense of what I I
+[04:26:44] this should give you a sense of what I I mean when I talk about orchestrating. I
+[04:26:46] mean when I talk about orchestrating. I
+[04:26:46] mean when I talk about orchestrating. I can see that all of these agent runs are
+[04:26:48] can see that all of these agent runs are
+[04:26:48] can see that all of these agent runs are actually being tracked now across the
+[04:26:50] actually being tracked now across the
+[04:26:50] actually being tracked now across the team. So this was launched locally. Um I
+[04:26:53] team. So this was launched locally. Um I
+[04:26:54] team. So this was launched locally. Um I launched it and you can see that this is
+[04:26:56] launched it and you can see that this is
+[04:26:56] launched it and you can see that this is like a run that was done by me. But I
+[04:26:59] like a run that was done by me. But I
+[04:26:59] like a run that was done by me. But I can also see in here all the other
+[04:27:01] can also see in here all the other
+[04:27:01] can also see in here all the other things that agents across my team are
+[04:27:03] things that agents across my team are
+[04:27:03] things that agents across my team are doing, which is super cool. So I can see
+[04:27:06] doing, which is super cool. So I can see
+[04:27:06] doing, which is super cool. So I can see something that my teammate Matthew was
+[04:27:07] something that my teammate Matthew was
+[04:27:07] something that my teammate Matthew was doing. I can see something that my
+[04:27:09] doing. I can see something that my
+[04:27:09] doing. I can see something that my teammate uh Ian was doing. And you can
+[04:27:12] teammate uh Ian was doing. And you can
+[04:27:12] teammate uh Ian was doing. And you can see actually the artifacts that these
+[04:27:14] see actually the artifacts that these
+[04:27:14] see actually the artifacts that these agents are creating as they go. So you
+[04:27:16] agents are creating as they go. So you
+[04:27:16] agents are creating as they go. So you can see that this one created a PR. And
+[04:27:19] can see that this one created a PR. And
+[04:27:19] can see that this one created a PR. And if I want, I could actually go in here
+[04:27:22] if I want, I could actually go in here
+[04:27:22] if I want, I could actually go in here and I'll open this up. I could see the
+[04:27:25] and I'll open this up. I could see the
+[04:27:25] and I'll open this up. I could see the work that he did. So to me, this is like
+[04:27:28] work that he did. So to me, this is like
+[04:27:28] work that he did. So to me, this is like super cool. It's it's almost like a
+[04:27:30] super cool. It's it's almost like a
+[04:27:30] super cool. It's it's almost like a Google Docs for agents type concept. Um,
+[04:27:33] Google Docs for agents type concept. Um,
+[04:27:33] Google Docs for agents type concept. Um, and I can see exactly what the record
+[04:27:36] and I can see exactly what the record
+[04:27:36] and I can see exactly what the record was of how this PR was produced. I can
+[04:27:38] was of how this PR was produced. I can
+[04:27:38] was of how this PR was produced. I can go here and actually look at the PR and
+[04:27:41] go here and actually look at the PR and
+[04:27:42] go here and actually look at the PR and um you know I can see that Ian made this
+[04:27:43] um you know I can see that Ian made this
+[04:27:44] um you know I can see that Ian made this and so he could also again these things
+[04:27:46] and so he could also again these things
+[04:27:46] and so he could also again these things don't have to be public but I'm running
+[04:27:49] don't have to be public but I'm running
+[04:27:49] don't have to be public but I'm running this in such a way that is public but
+[04:27:50] this in such a way that is public but
+[04:27:50] this in such a way that is public but it's all behind access control so your
+[04:27:53] it's all behind access control so your
+[04:27:53] it's all behind access control so your all of a sudden building with agents
+[04:27:54] all of a sudden building with agents
+[04:27:54] all of a sudden building with agents becomes a team sport. So this thing that
+[04:27:57] becomes a team sport. So this thing that
+[04:27:57] becomes a team sport. So this thing that I started locally implement missing
+[04:27:58] I started locally implement missing
+[04:27:58] I started locally implement missing formulas starting with E. Uh even though
+[04:28:03] formulas starting with E. Uh even though
+[04:28:03] formulas starting with E. Uh even though it looked like I was running this on my
+[04:28:04] it looked like I was running this on my
+[04:28:04] it looked like I was running this on my laptop, I can also
+[04:28:07] laptop, I can also
+[04:28:07] laptop, I can also update the like open this up here um on
+[04:28:10] update the like open this up here um on
+[04:28:10] update the like open this up here um on the web and see it working. And this
+[04:28:12] the web and see it working. And this
+[04:28:12] the web and see it working. And this will be the identical view to what I was
+[04:28:15] will be the identical view to what I was
+[04:28:15] will be the identical view to what I was doing here. I could open this on my
+[04:28:17] doing here. I could open this on my
+[04:28:17] doing here. I could open this on my phone which is super cool. And I could
+[04:28:19] phone which is super cool. And I could
+[04:28:19] phone which is super cool. And I could even steer it. So if I go over here and
+[04:28:21] even steer it. So if I go over here and
+[04:28:22] even steer it. So if I go over here and I'm like you know actually
+[04:28:25] I'm like you know actually
+[04:28:25] I'm like you know actually let's do E and F as the formulas
+[04:28:30] let's do E and F as the formulas
+[04:28:30] let's do E and F as the formulas um
+[04:28:32] um
+[04:28:32] um uh this should actually then adjust the
+[04:28:36] uh this should actually then adjust the
+[04:28:36] uh this should actually then adjust the task. So again it's like you could be
+[04:28:38] task. So again it's like you could be
+[04:28:38] task. So again it's like you could be away from your computer this is running
+[04:28:39] away from your computer this is running
+[04:28:39] away from your computer this is running in the cloud. So this is one use case of
+[04:28:42] in the cloud. So this is one use case of
+[04:28:42] in the cloud. So this is one use case of what I mean by orchestration. I think
+[04:28:43] what I mean by orchestration. I think
+[04:28:43] what I mean by orchestration. I think it's super cool. It's more like just as
+[04:28:45] it's super cool. It's more like just as
+[04:28:45] it's super cool. It's more like just as an individual, let me move these um uh
+[04:28:49] an individual, let me move these um uh
+[04:28:49] an individual, let me move these um uh tasks off of my laptop. Having these
+[04:28:51] tasks off of my laptop. Having these
+[04:28:51] tasks off of my laptop. Having these things in the cloud though opens up
+[04:28:53] things in the cloud though opens up
+[04:28:53] things in the cloud though opens up other possibilities. So, I'm going to
+[04:28:55] other possibilities. So, I'm going to
+[04:28:55] other possibilities. So, I'm going to I'm going to show you a a second use
+[04:28:56] I'm going to show you a a second use
+[04:28:56] I'm going to show you a a second use case. Um and I'll try and leave some
+[04:28:59] case. Um and I'll try and leave some
+[04:28:59] case. Um and I'll try and leave some time for questions if people have them.
+[04:29:01] time for questions if people have them.
+[04:29:01] time for questions if people have them. But a second use case is that you can
+[04:29:05] But a second use case is that you can
+[04:29:05] But a second use case is that you can actually define what we call um they're
+[04:29:09] actually define what we call um they're
+[04:29:09] actually define what we call um they're kind of like let's see if this maybe
+[04:29:11] kind of like let's see if this maybe
+[04:29:11] kind of like let's see if this maybe takes a second to load. live demo risk
+[04:29:14] takes a second to load. live demo risk
+[04:29:14] takes a second to load. live demo risk here. You can define uh what we call
+[04:29:16] here. You can define uh what we call
+[04:29:16] here. You can define uh what we call named agents. And so named agents are
+[04:29:19] named agents. And so named agents are
+[04:29:19] named agents. And so named agents are like repeated tasks. And the way that
+[04:29:22] like repeated tasks. And the way that
+[04:29:22] like repeated tasks. And the way that these work uh is pretty interesting in
+[04:29:24] these work uh is pretty interesting in
+[04:29:24] these work uh is pretty interesting in in Oz where you basically define a
+[04:29:27] in Oz where you basically define a
+[04:29:27] in Oz where you basically define a skill. And I know folks have been
+[04:29:29] skill. And I know folks have been
+[04:29:29] skill. And I know folks have been talking about skills today. Um any skill
+[04:29:33] talking about skills today. Um any skill
+[04:29:33] talking about skills today. Um any skill that's in any of your repos can become a
+[04:29:35] that's in any of your repos can become a
+[04:29:35] that's in any of your repos can become a thing that is like a repeatable
+[04:29:37] thing that is like a repeatable
+[04:29:38] thing that is like a repeatable automatable thing. So for instance, if
+[04:29:40] automatable thing. So for instance, if
+[04:29:40] automatable thing. So for instance, if you look through these skills, you can
+[04:29:41] you look through these skills, you can
+[04:29:42] you look through these skills, you can see here we have um we have a skill for
+[04:29:46] see here we have um we have a skill for
+[04:29:46] see here we have um we have a skill for analyzing customer feedback. Um we have
+[04:29:49] analyzing customer feedback. Um we have
+[04:29:49] analyzing customer feedback. Um we have a skill for fraud checking. Uh and these
+[04:29:54] a skill for fraud checking. Uh and these
+[04:29:54] a skill for fraud checking. Uh and these named agent runs become something that
+[04:29:56] named agent runs become something that
+[04:29:56] named agent runs become something that you can set up across your team. Uh you
+[04:29:58] you can set up across your team. Uh you
+[04:29:58] you can set up across your team. Uh you can set them up on a schedule which is
+[04:30:00] can set them up on a schedule which is
+[04:30:00] can set them up on a schedule which is cool. Um you can go ahead and look at
+[04:30:03] cool. Um you can go ahead and look at
+[04:30:03] cool. Um you can go ahead and look at the actual skill. And so this is all
+[04:30:05] the actual skill. And so this is all
+[04:30:05] the actual skill. And so this is all like from a version controlled skill
+[04:30:07] like from a version controlled skill
+[04:30:07] like from a version controlled skill file. And then you can go and see all of
+[04:30:10] file. And then you can go and see all of
+[04:30:10] file. And then you can go and see all of the runs that the skill actually um
+[04:30:13] the runs that the skill actually um
+[04:30:14] the runs that the skill actually um executed. So if I I could find a fraud
+[04:30:16] executed. So if I I could find a fraud
+[04:30:16] executed. So if I I could find a fraud run here.
+[04:30:18] run here.
+[04:30:18] run here. Um and again, I think the cool thing
+[04:30:21] Um and again, I think the cool thing
+[04:30:21] Um and again, I think the cool thing here is it's turning
+[04:30:23] here is it's turning
+[04:30:23] here is it's turning it's turning agents from a solo
+[04:30:25] it's turning agents from a solo
+[04:30:25] it's turning agents from a solo individual laptop sport into a team
+[04:30:28] individual laptop sport into a team
+[04:30:28] individual laptop sport into a team thing where you can see everything
+[04:30:30] thing where you can see everything
+[04:30:30] thing where you can see everything that's going on across your team. And so
+[04:30:32] that's going on across your team. And so
+[04:30:32] that's going on across your team. And so these these skill-based agents can be
+[04:30:34] these these skill-based agents can be
+[04:30:34] these these skill-based agents can be scheduled. So this one, I don't know
+[04:30:37] scheduled. So this one, I don't know
+[04:30:37] scheduled. So this one, I don't know exactly how often it's running, but it's
+[04:30:39] exactly how often it's running, but it's
+[04:30:39] exactly how often it's running, but it's something that runs on its own. Um, it
+[04:30:41] something that runs on its own. Um, it
+[04:30:41] something that runs on its own. Um, it also will produce PRs and uh, so that's
+[04:30:45] also will produce PRs and uh, so that's
+[04:30:45] also will produce PRs and uh, so that's one of the cool things about it being a
+[04:30:46] one of the cool things about it being a
+[04:30:46] one of the cool things about it being a coding agent is it uses the coding
+[04:30:49] coding agent is it uses the coding
+[04:30:49] coding agent is it uses the coding context to do its work. Um, I'll show
+[04:30:51] context to do its work. Um, I'll show
+[04:30:51] context to do its work. Um, I'll show you one final use case and then maybe
+[04:30:53] you one final use case and then maybe
+[04:30:54] you one final use case and then maybe I'll I'll answer some questions. But
+[04:30:57] I'll I'll answer some questions. But
+[04:30:57] I'll I'll answer some questions. But there's another use case that I think is
+[04:30:59] there's another use case that I think is
+[04:30:59] there's another use case that I think is interesting and important which is the
+[04:31:01] interesting and important which is the
+[04:31:01] interesting and important which is the ability to use agents um as like an
+[04:31:05] ability to use agents um as like an
+[04:31:05] ability to use agents um as like an intelligence feature that you put into
+[04:31:07] intelligence feature that you put into
+[04:31:08] intelligence feature that you put into apps. And so this is an app that I
+[04:31:11] apps. And so this is an app that I
+[04:31:11] apps. And so this is an app that I built. It's called Powerfixer. It's open
+[04:31:13] built. It's called Powerfixer. It's open
+[04:31:13] built. It's called Powerfixer. It's open source so people want to play with it.
+[04:31:15] source so people want to play with it.
+[04:31:15] source so people want to play with it. It's a it's a tool that we use
+[04:31:17] It's a it's a tool that we use
+[04:31:17] It's a it's a tool that we use internally to triage GitHub issues at
+[04:31:18] internally to triage GitHub issues at
+[04:31:18] internally to triage GitHub issues at Warp. And so if I go in here, I can hit
+[04:31:22] Warp. And so if I go in here, I can hit
+[04:31:22] Warp. And so if I go in here, I can hit this issues view and I can see this is a
+[04:31:25] this issues view and I can see this is a
+[04:31:25] this issues view and I can see this is a this is a live view of like warp's
+[04:31:26] this is a live view of like warp's
+[04:31:26] this is a live view of like warp's GitHub issues. And um if anyone has done
+[04:31:31] GitHub issues. And um if anyone has done
+[04:31:31] GitHub issues. And um if anyone has done a bunch of issue triage, we have like
+[04:31:33] a bunch of issue triage, we have like
+[04:31:33] a bunch of issue triage, we have like thousands of issues here. Uh you know
+[04:31:35] thousands of issues here. Uh you know
+[04:31:35] thousands of issues here. Uh you know there's a set of repeatable problems
+[04:31:37] there's a set of repeatable problems
+[04:31:37] there's a set of repeatable problems that comes up. One is that I want uh to
+[04:31:40] that comes up. One is that I want uh to
+[04:31:40] that comes up. One is that I want uh to know if there are duplicates. And so
+[04:31:42] know if there are duplicates. And so
+[04:31:42] know if there are duplicates. And so what we have um Oz doing is
+[04:31:45] what we have um Oz doing is
+[04:31:45] what we have um Oz doing is automatically dduping every issue that
+[04:31:47] automatically dduping every issue that
+[04:31:47] automatically dduping every issue that gets filed. And again, I could go and I
+[04:31:49] gets filed. And again, I could go and I
+[04:31:49] gets filed. And again, I could go and I could just kind of see this like ddup
+[04:31:51] could just kind of see this like ddup
+[04:31:51] could just kind of see this like ddup run. But the other cool thing that I can
+[04:31:53] run. But the other cool thing that I can
+[04:31:54] run. But the other cool thing that I can do is like if I find an agent, sorry, if
+[04:31:56] do is like if I find an agent, sorry, if
+[04:31:56] do is like if I find an agent, sorry, if I find an issue as a triager that I want
+[04:31:58] I find an issue as a triager that I want
+[04:31:58] I find an issue as a triager that I want to directly fix, I can just from this
+[04:32:01] to directly fix, I can just from this
+[04:32:01] to directly fix, I can just from this TUI app that I built, um, launch an
+[04:32:04] TUI app that I built, um, launch an
+[04:32:04] TUI app that I built, um, launch an agent to do a fix for it. And so, um, I
+[04:32:08] agent to do a fix for it. And so, um, I
+[04:32:08] agent to do a fix for it. And so, um, I could add to the prompt. I don't have
+[04:32:09] could add to the prompt. I don't have
+[04:32:10] could add to the prompt. I don't have to, but this is all using that exact
+[04:32:12] to, but this is all using that exact
+[04:32:12] to, but this is all using that exact same infrastructure. So that when I
+[04:32:14] same infrastructure. So that when I
+[04:32:14] same infrastructure. So that when I launch this agent to do the fix again,
+[04:32:17] launch this agent to do the fix again,
+[04:32:17] launch this agent to do the fix again, you get something that is um tracked
+[04:32:20] you get something that is um tracked
+[04:32:20] you get something that is um tracked across your team. So this will take a
+[04:32:22] across your team. So this will take a
+[04:32:22] across your team. So this will take a second to to spin up, but this also
+[04:32:24] second to to spin up, but this also
+[04:32:24] second to to spin up, but this also would show up in this same tracking
+[04:32:26] would show up in this same tracking
+[04:32:26] would show up in this same tracking location. Um so let me just step back
+[04:32:30] location. Um so let me just step back
+[04:32:30] location. Um so let me just step back for one second. So the let me grab the
+[04:32:33] for one second. So the let me grab the
+[04:32:33] for one second. So the let me grab the mic actually.
+[04:32:35] mic actually.
+[04:32:35] mic actually. Is this working? Cool. So yeah, the the
+[04:32:37] Is this working? Cool. So yeah, the the
+[04:32:37] Is this working? Cool. So yeah, the the way to think about what we've built here
+[04:32:40] way to think about what we've built here
+[04:32:40] way to think about what we've built here and the way that we're approaching this
+[04:32:41] and the way that we're approaching this
+[04:32:41] and the way that we're approaching this is like it's a set of APIs for running
+[04:32:44] is like it's a set of APIs for running
+[04:32:44] is like it's a set of APIs for running and managing agents in the cloud. And
+[04:32:47] and managing agents in the cloud. And
+[04:32:47] and managing agents in the cloud. And the sort of next step for it is like it
+[04:32:51] the sort of next step for it is like it
+[04:32:51] the sort of next step for it is like it lets people who are trying to build
+[04:32:53] lets people who are trying to build
+[04:32:53] lets people who are trying to build multi- aent systems where the agents
+[04:32:54] multi- aent systems where the agents
+[04:32:54] multi- aent systems where the agents talk to each other have the right set of
+[04:32:57] talk to each other have the right set of
+[04:32:57] talk to each other have the right set of primitives to do that. So the the next
+[04:32:59] primitives to do that. So the the next
+[04:32:59] primitives to do that. So the the next big thing that we're going to do on this
+[04:33:00] big thing that we're going to do on this
+[04:33:00] big thing that we're going to do on this is not just like these like oneoff agent
+[04:33:03] is not just like these like oneoff agent
+[04:33:03] is not just like these like oneoff agent runs in the cloud. It's more like how do
+[04:33:05] runs in the cloud. It's more like how do
+[04:33:05] runs in the cloud. It's more like how do you go from a concrete plan for a hard
+[04:33:09] you go from a concrete plan for a hard
+[04:33:09] you go from a concrete plan for a hard task that might benefit from multiple
+[04:33:11] task that might benefit from multiple
+[04:33:11] task that might benefit from multiple agents to using all of these same APIs
+[04:33:14] agents to using all of these same APIs
+[04:33:14] agents to using all of these same APIs to like coordinate sorry coordinate
+[04:33:16] to like coordinate sorry coordinate
+[04:33:16] to like coordinate sorry coordinate those agents to accomplish that task. So
+[04:33:19] those agents to accomplish that task. So
+[04:33:19] those agents to accomplish that task. So anyhow, let me let me stop there and I
+[04:33:21] anyhow, let me let me stop there and I
+[04:33:21] anyhow, let me let me stop there and I think we're just about time and if folks
+[04:33:23] think we're just about time and if folks
+[04:33:23] think we're just about time and if folks have any questions I'd be happy to
+[04:33:25] have any questions I'd be happy to
+[04:33:25] have any questions I'd be happy to answer them. One question. Cool. Just
+[04:33:27] answer them. One question. Cool. Just
+[04:33:27] answer them. One question. Cool. Just one question.
+[04:33:30] one question.
+[04:33:30] one question. Yep.
+[04:33:32] Yep.
+[04:33:32] Yep. Here
+[04:33:34] Here
+[04:33:34] Here we go. So, everybody can hear you.
+[04:33:38] we go. So, everybody can hear you.
+[04:33:38] we go. So, everybody can hear you. &gt;&gt; Um, have you tried GitHub agents? Uh,
+[04:33:42] &gt;&gt; Um, have you tried GitHub agents? Uh,
+[04:33:42] &gt;&gt; Um, have you tried GitHub agents? Uh, they run effectively the same kind of
+[04:33:45] they run effectively the same kind of
+[04:33:45] they run effectively the same kind of thing as cloud code in the cloud? I
+[04:33:47] thing as cloud code in the cloud? I
+[04:33:47] thing as cloud code in the cloud? I haven't used them much myself, but I'm
+[04:33:49] haven't used them much myself, but I'm
+[04:33:49] haven't used them much myself, but I'm just curious if that how that compares
+[04:33:51] just curious if that how that compares
+[04:33:51] just curious if that how that compares to what you're doing.
+[04:33:52] to what you're doing.
+[04:33:52] to what you're doing. &gt;&gt; I I I've used them a little bit. Similar
+[04:33:55] &gt;&gt; I I I've used them a little bit. Similar
+[04:33:55] &gt;&gt; I I I've used them a little bit. Similar idea. Um I think uh yeah I couldn't do
+[04:33:59] idea. Um I think uh yeah I couldn't do
+[04:33:59] idea. Um I think uh yeah I couldn't do like a feature byfeature comparison of
+[04:34:01] like a feature byfeature comparison of
+[04:34:01] like a feature byfeature comparison of them but it's the same general principle
+[04:34:03] them but it's the same general principle
+[04:34:03] them but it's the same general principle I think you're going to see with a lot
+[04:34:05] I think you're going to see with a lot
+[04:34:05] I think you're going to see with a lot of uh people who are working on agents
+[04:34:07] of uh people who are working on agents
+[04:34:07] of uh people who are working on agents of like how do you make it easy to have
+[04:34:09] of like how do you make it easy to have
+[04:34:09] of like how do you make it easy to have these things on the cloud. the specific
+[04:34:12] these things on the cloud. the specific
+[04:34:12] these things on the cloud. the specific areas that we're we're focusing on to
+[04:34:14] areas that we're we're focusing on to
+[04:34:14] areas that we're we're focusing on to maybe really lean into are like how do
+[04:34:16] maybe really lean into are like how do
+[04:34:16] maybe really lean into are like how do you make these programmatic especially
+[04:34:18] you make these programmatic especially
+[04:34:18] you make these programmatic especially if you're um what we're finding when we
+[04:34:21] if you're um what we're finding when we
+[04:34:21] if you're um what we're finding when we talk to a lot of companies is like uh
+[04:34:23] talk to a lot of companies is like uh
+[04:34:23] talk to a lot of companies is like uh the existing systems for doing this tend
+[04:34:25] the existing systems for doing this tend
+[04:34:25] the existing systems for doing this tend to be very rigid like you have to set up
+[04:34:27] to be very rigid like you have to set up
+[04:34:27] to be very rigid like you have to set up a docker environment and like run it on
+[04:34:28] a docker environment and like run it on
+[04:34:28] a docker environment and like run it on your you know in some cloud host and so
+[04:34:31] your you know in some cloud host and so
+[04:34:31] your you know in some cloud host and so we're really trying to lean into like
+[04:34:33] we're really trying to lean into like
+[04:34:33] we're really trying to lean into like you can bring the agent into your own
+[04:34:35] you can bring the agent into your own
+[04:34:35] you can bring the agent into your own infrastructure and still get a bunch of
+[04:34:37] infrastructure and still get a bunch of
+[04:34:37] infrastructure and still get a bunch of these uh tracking features Cool.
+[04:34:42] &gt;&gt; Thank you so much.

@@ -1,0 +1,346 @@
+# Talk: Lightning Talk: Agent Infrastructure Challenges
+# Speaker: Milan Williams (Simgrip)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 05:00:32 - 05:06:51
+# Lines: 339
+
+[05:00:32] So, thank you so much again. Next, we
+[05:00:32] So, thank you so much again. Next, we have Milan Williams from Simgrip. If
+[05:00:35] have Milan Williams from Simgrip. If
+[05:00:35] have Milan Williams from Simgrip. If anybody have any questions for Aaron, uh
+[05:00:37] anybody have any questions for Aaron, uh
+[05:00:37] anybody have any questions for Aaron, uh you can grab her afterward. She's
+[05:00:38] you can grab her afterward. She's
+[05:00:38] you can grab her afterward. She's sitting over there. Let's give her a
+[05:00:41] sitting over there. Let's give her a
+[05:00:42] sitting over there. Let's give her a warm welcome.
+[05:00:49] Sweet.
+[05:00:54] &gt;&gt; Awesome. Hi everyone. I'm Milan
+[05:00:56] &gt;&gt; Awesome. Hi everyone. I'm Milan Williams. Uh I'm a Oh, can you hear me?
+[05:00:58] Williams. Uh I'm a Oh, can you hear me?
+[05:00:58] Williams. Uh I'm a Oh, can you hear me? Oh, perfect. Thank you.
+[05:01:02] Oh, perfect. Thank you.
+[05:01:02] Oh, perfect. Thank you. Got it. Um I'm Milan Williams. I'm a
+[05:01:04] Got it. Um I'm Milan Williams. I'm a
+[05:01:04] Got it. Um I'm Milan Williams. I'm a product manager at SEGRP. Uh Segrep
+[05:01:07] product manager at SEGRP. Uh Segrep
+[05:01:07] product manager at SEGRP. Uh Segrep builds fast developer first security
+[05:01:09] builds fast developer first security
+[05:01:09] builds fast developer first security tools um that are used by hundreds of
+[05:01:11] tools um that are used by hundreds of
+[05:01:11] tools um that are used by hundreds of engineering teams. Um my day-to-day at
+[05:01:13] engineering teams. Um my day-to-day at
+[05:01:13] engineering teams. Um my day-to-day at SGrep is really about how to make
+[05:01:15] SGrep is really about how to make
+[05:01:15] SGrep is really about how to make security something that developers like
+[05:01:17] security something that developers like
+[05:01:17] security something that developers like you all are excited to use. Um so in the
+[05:01:21] you all are excited to use. Um so in the
+[05:01:21] you all are excited to use. Um so in the last 12 months my job has changed a lot.
+[05:01:24] last 12 months my job has changed a lot.
+[05:01:24] last 12 months my job has changed a lot. Uh as you all have seen today uh AI is
+[05:01:26] Uh as you all have seen today uh AI is
+[05:01:26] Uh as you all have seen today uh AI is taking on a whole new world when it
+[05:01:27] taking on a whole new world when it
+[05:01:28] taking on a whole new world when it comes to uh code generation. It's not
+[05:01:30] comes to uh code generation. It's not
+[05:01:30] comes to uh code generation. It's not just suggesting a few lines of code.
+[05:01:33] just suggesting a few lines of code.
+[05:01:33] just suggesting a few lines of code. It's now hundreds of thousands of lines
+[05:01:35] It's now hundreds of thousands of lines
+[05:01:35] It's now hundreds of thousands of lines of code that are mostly generated via
+[05:01:37] of code that are mostly generated via
+[05:01:37] of code that are mostly generated via these long-standing mostly autonomous
+[05:01:40] these long-standing mostly autonomous
+[05:01:40] these long-standing mostly autonomous sessions. Um, and with that shift comes
+[05:01:43] sessions. Um, and with that shift comes
+[05:01:43] sessions. Um, and with that shift comes a pretty massive change in how security
+[05:01:45] a pretty massive change in how security
+[05:01:45] a pretty massive change in how security is thought of. Agents are writing code,
+[05:01:48] is thought of. Agents are writing code,
+[05:01:48] is thought of. Agents are writing code, but they're also running shell commands.
+[05:01:51] but they're also running shell commands.
+[05:01:51] but they're also running shell commands. They're touching your file system.
+[05:01:53] They're touching your file system.
+[05:01:53] They're touching your file system. They're doing all these actions with
+[05:01:54] They're doing all these actions with
+[05:01:54] They're doing all these actions with elevated credentials and whatever access
+[05:01:56] elevated credentials and whatever access
+[05:01:56] elevated credentials and whatever access you've decided to give them. And when
+[05:01:59] you've decided to give them. And when
+[05:01:59] you've decided to give them. And when something goes wrong, unfortunately,
+[05:02:02] something goes wrong, unfortunately,
+[05:02:02] something goes wrong, unfortunately, um, most people have really little idea
+[05:02:05] um, most people have really little idea
+[05:02:05] um, most people have really little idea of what an agent is doing underneath the
+[05:02:07] of what an agent is doing underneath the
+[05:02:07] of what an agent is doing underneath the hood. Uh, in the vast majority of cases
+[05:02:09] hood. Uh, in the vast majority of cases
+[05:02:09] hood. Uh, in the vast majority of cases that I've seen with our customers, the
+[05:02:11] that I've seen with our customers, the
+[05:02:11] that I've seen with our customers, the root cause is pretty obvious. It's that
+[05:02:14] root cause is pretty obvious. It's that
+[05:02:14] root cause is pretty obvious. It's that most of us, myself included, spent what,
+[05:02:17] most of us, myself included, spent what,
+[05:02:17] most of us, myself included, spent what, maybe five minutes, maybe 10, about 6
+[05:02:19] maybe five minutes, maybe 10, about 6
+[05:02:19] maybe five minutes, maybe 10, about 6 months ago, two years ago, setting up
+[05:02:21] months ago, two years ago, setting up
+[05:02:21] months ago, two years ago, setting up their agent and then never really
+[05:02:23] their agent and then never really
+[05:02:23] their agent and then never really stopped again after that to think about
+[05:02:25] stopped again after that to think about
+[05:02:26] stopped again after that to think about all the access that we handed over. And
+[05:02:28] all the access that we handed over. And
+[05:02:28] all the access that we handed over. And so in this very short talk, I want to
+[05:02:30] so in this very short talk, I want to
+[05:02:30] so in this very short talk, I want to give you three very practical tips that
+[05:02:31] give you three very practical tips that
+[05:02:32] give you three very practical tips that you can set up this afternoon to make
+[05:02:34] you can set up this afternoon to make
+[05:02:34] you can set up this afternoon to make sure that if you go viral on Twitter,
+[05:02:35] sure that if you go viral on Twitter,
+[05:02:35] sure that if you go viral on Twitter, it's for what you built and not for
+[05:02:37] it's for what you built and not for
+[05:02:37] it's for what you built and not for getting hacked.
+[05:02:39] getting hacked.
+[05:02:39] getting hacked. Cool. Uh the first tip there is uh
+[05:02:41] Cool. Uh the first tip there is uh
+[05:02:41] Cool. Uh the first tip there is uh minimally scoped permissions. So before
+[05:02:44] minimally scoped permissions. So before
+[05:02:44] minimally scoped permissions. So before you even prompt or set up any single
+[05:02:47] you even prompt or set up any single
+[05:02:47] you even prompt or set up any single line of code, stop and ask yourself what
+[05:02:49] line of code, stop and ask yourself what
+[05:02:49] line of code, stop and ask yourself what does the agent actually need access to?
+[05:02:51] does the agent actually need access to?
+[05:02:51] does the agent actually need access to? Um most of us wouldn't hand a new intern
+[05:02:54] Um most of us wouldn't hand a new intern
+[05:02:54] Um most of us wouldn't hand a new intern all of our production systems on day
+[05:02:56] all of our production systems on day
+[05:02:56] all of our production systems on day one. And my view is that we should
+[05:02:58] one. And my view is that we should
+[05:02:58] one. And my view is that we should provide the same guardrails to agents.
+[05:03:00] provide the same guardrails to agents.
+[05:03:00] provide the same guardrails to agents. What's on the screen is instructions for
+[05:03:02] What's on the screen is instructions for
+[05:03:02] What's on the screen is instructions for GitHub specifically, but you should know
+[05:03:04] GitHub specifically, but you should know
+[05:03:04] GitHub specifically, but you should know that every major source code manager and
+[05:03:07] that every major source code manager and
+[05:03:07] that every major source code manager and cloud provider gives you the ability to
+[05:03:09] cloud provider gives you the ability to
+[05:03:09] cloud provider gives you the ability to downscope your access tokens. So if you
+[05:03:11] downscope your access tokens. So if you
+[05:03:11] downscope your access tokens. So if you can avoid it in all costs, please don't
+[05:03:13] can avoid it in all costs, please don't
+[05:03:13] can avoid it in all costs, please don't use your personal token or anything that
+[05:03:15] use your personal token or anything that
+[05:03:15] use your personal token or anything that is an admin level access. Create
+[05:03:17] is an admin level access. Create
+[05:03:17] is an admin level access. Create something that's scoped to what you
+[05:03:18] something that's scoped to what you
+[05:03:18] something that's scoped to what you actually need the agent to do. The best
+[05:03:20] actually need the agent to do. The best
+[05:03:20] actually need the agent to do. The best case, let's say the agent just gets
+[05:03:22] case, let's say the agent just gets
+[05:03:22] case, let's say the agent just gets confused or worst case it gets hijacked
+[05:03:24] confused or worst case it gets hijacked
+[05:03:24] confused or worst case it gets hijacked through a prompt injection or something
+[05:03:25] through a prompt injection or something
+[05:03:26] through a prompt injection or something worse. Um, your blast radius is only
+[05:03:28] worse. Um, your blast radius is only
+[05:03:28] worse. Um, your blast radius is only limited to the repo and environment that
+[05:03:30] limited to the repo and environment that
+[05:03:30] limited to the repo and environment that you've given it, not everything in your
+[05:03:31] you've given it, not everything in your
+[05:03:31] you've given it, not everything in your system.
+[05:03:33] system.
+[05:03:33] system. The second one uh is uh setup logging.
+[05:03:36] The second one uh is uh setup logging.
+[05:03:36] The second one uh is uh setup logging. It's not the most exciting thing, but
+[05:03:38] It's not the most exciting thing, but
+[05:03:38] It's not the most exciting thing, but trust me on this one when I say in every
+[05:03:40] trust me on this one when I say in every
+[05:03:40] trust me on this one when I say in every postmortem I've been in, the first
+[05:03:42] postmortem I've been in, the first
+[05:03:42] postmortem I've been in, the first question is always the same, which is
+[05:03:44] question is always the same, which is
+[05:03:44] question is always the same, which is just what happened. And if you don't
+[05:03:45] just what happened. And if you don't
+[05:03:45] just what happened. And if you don't have a record, it is very very difficult
+[05:03:47] have a record, it is very very difficult
+[05:03:48] have a record, it is very very difficult to figure out what the agent did, where
+[05:03:49] to figure out what the agent did, where
+[05:03:49] to figure out what the agent did, where it went wrong, and how to prevent it
+[05:03:51] it went wrong, and how to prevent it
+[05:03:51] it went wrong, and how to prevent it from happening again. Um, I do have to
+[05:03:53] from happening again. Um, I do have to
+[05:03:53] from happening again. Um, I do have to give kudos to Cloud Code. They do a
+[05:03:55] give kudos to Cloud Code. They do a
+[05:03:55] give kudos to Cloud Code. They do a really good job out of the box here. Um,
+[05:03:56] really good job out of the box here. Um,
+[05:03:56] really good job out of the box here. Um, if you look in your uh projects folder,
+[05:03:58] if you look in your uh projects folder,
+[05:03:58] if you look in your uh projects folder, you can see every single session and all
+[05:04:01] you can see every single session and all
+[05:04:01] you can see every single session and all the actions that happened. Um, you can
+[05:04:03] the actions that happened. Um, you can
+[05:04:03] the actions that happened. Um, you can also get more structured logs if you
+[05:04:04] also get more structured logs if you
+[05:04:04] also get more structured logs if you want to pipe it to your SIM or any other
+[05:04:06] want to pipe it to your SIM or any other
+[05:04:06] want to pipe it to your SIM or any other security tooling that you have. Um, for
+[05:04:08] security tooling that you have. Um, for
+[05:04:08] security tooling that you have. Um, for any other tooling though, um, there's
+[05:04:10] any other tooling though, um, there's
+[05:04:10] any other tooling though, um, there's not a lot here. So, I'm sure the rest of
+[05:04:12] not a lot here. So, I'm sure the rest of
+[05:04:12] not a lot here. So, I'm sure the rest of the industry will catch up over time,
+[05:04:14] the industry will catch up over time,
+[05:04:14] the industry will catch up over time, but, um, I think other folks talk about
+[05:04:16] but, um, I think other folks talk about
+[05:04:16] but, um, I think other folks talk about it today, but most agents have some
+[05:04:18] it today, but most agents have some
+[05:04:18] it today, but most agents have some concept of hooks that are built in or
+[05:04:21] concept of hooks that are built in or
+[05:04:21] concept of hooks that are built in or scripts that are guaranteed to run after
+[05:04:23] scripts that are guaranteed to run after
+[05:04:23] scripts that are guaranteed to run after every single agent action, no matter no
+[05:04:26] every single agent action, no matter no
+[05:04:26] every single agent action, no matter no matter what. It's a deterministic part
+[05:04:28] matter what. It's a deterministic part
+[05:04:28] matter what. It's a deterministic part of the product. Um, I've put together a
+[05:04:30] of the product. Um, I've put together a
+[05:04:30] of the product. Um, I've put together a simple one here that's on the screen
+[05:04:31] simple one here that's on the screen
+[05:04:31] simple one here that's on the screen that just shows um, it logs every single
+[05:04:33] that just shows um, it logs every single
+[05:04:34] that just shows um, it logs every single shell command that cursor runs with the
+[05:04:35] shell command that cursor runs with the
+[05:04:36] shell command that cursor runs with the timestamp associated with it. So, it's
+[05:04:38] timestamp associated with it. So, it's
+[05:04:38] timestamp associated with it. So, it's just four lines. It's really simple. Um,
+[05:04:40] just four lines. It's really simple. Um,
+[05:04:40] just four lines. It's really simple. Um, if you're on a team, you can distribute
+[05:04:41] if you're on a team, you can distribute
+[05:04:41] if you're on a team, you can distribute it via an MD MDM. Um, just that way
+[05:04:44] it via an MD MDM. Um, just that way
+[05:04:44] it via an MD MDM. Um, just that way every developer has it automatically,
+[05:04:45] every developer has it automatically,
+[05:04:45] every developer has it automatically, but just some way so you have a record
+[05:04:47] but just some way so you have a record
+[05:04:47] but just some way so you have a record of everything that happened. So, you
+[05:04:49] of everything that happened. So, you
+[05:04:49] of everything that happened. So, you know, um, if things do go wrong, you
+[05:04:51] know, um, if things do go wrong, you
+[05:04:51] know, um, if things do go wrong, you have uh, some some proof points to go
+[05:04:53] have uh, some some proof points to go
+[05:04:53] have uh, some some proof points to go back to. Obviously, you can make this
+[05:04:55] back to. Obviously, you can make this
+[05:04:55] back to. Obviously, you can make this way more advanced depending on your own
+[05:04:56] way more advanced depending on your own
+[05:04:56] way more advanced depending on your own security posture and what you need, but
+[05:04:59] security posture and what you need, but
+[05:04:59] security posture and what you need, but it really doesn't need to be
+[05:04:59] it really doesn't need to be
+[05:05:00] it really doesn't need to be sophisticated in order to be useful if
+[05:05:02] sophisticated in order to be useful if
+[05:05:02] sophisticated in order to be useful if something does go wrong.
+[05:05:04] something does go wrong.
+[05:05:04] something does go wrong. And then the last one I've got for you,
+[05:05:06] And then the last one I've got for you,
+[05:05:06] And then the last one I've got for you, great. Let's say your agent has built
+[05:05:08] great. Let's say your agent has built
+[05:05:08] great. Let's say your agent has built something awesome. It's generated
+[05:05:09] something awesome. It's generated
+[05:05:09] something awesome. It's generated thousands and thousands of lines of
+[05:05:11] thousands and thousands of lines of
+[05:05:11] thousands and thousands of lines of code. One thing you need to be aware of
+[05:05:13] code. One thing you need to be aware of
+[05:05:13] code. One thing you need to be aware of is how do you know if that code is
+[05:05:14] is how do you know if that code is
+[05:05:14] is how do you know if that code is secure? Um manual code review is
+[05:05:16] secure? Um manual code review is
+[05:05:16] secure? Um manual code review is probably not going to scale with uh long
+[05:05:18] probably not going to scale with uh long
+[05:05:18] probably not going to scale with uh long running sessions. There are lots of
+[05:05:20] running sessions. There are lots of
+[05:05:20] running sessions. There are lots of options for code scanning um for
+[05:05:22] options for code scanning um for
+[05:05:22] options for code scanning um for enforcing vulnerabilities and for just
+[05:05:24] enforcing vulnerabilities and for just
+[05:05:24] enforcing vulnerabilities and for just good coding practices. Um there are
+[05:05:26] good coding practices. Um there are
+[05:05:26] good coding practices. Um there are language specific llinters like gok um
+[05:05:29] language specific llinters like gok um
+[05:05:29] language specific llinters like gok um claude has their own built-in security
+[05:05:30] claude has their own built-in security
+[05:05:30] claude has their own built-in security review bot. Really you can take your
+[05:05:32] review bot. Really you can take your
+[05:05:32] review bot. Really you can take your pick. Um I work at SEGRP and I
+[05:05:34] pick. Um I work at SEGRP and I
+[05:05:34] pick. Um I work at SEGRP and I specifically work on our MCP server. Um
+[05:05:37] specifically work on our MCP server. Um
+[05:05:37] specifically work on our MCP server. Um what we've built integrates with all the
+[05:05:39] what we've built integrates with all the
+[05:05:39] what we've built integrates with all the major coding agents. It integrates with
+[05:05:40] major coding agents. It integrates with
+[05:05:40] major coding agents. It integrates with cursor, with cloud code, windsurf,
+[05:05:42] cursor, with cloud code, windsurf,
+[05:05:42] cursor, with cloud code, windsurf, whatever you like. Um I think it's a
+[05:05:44] whatever you like. Um I think it's a
+[05:05:44] whatever you like. Um I think it's a great tool for this because um in most
+[05:05:47] great tool for this because um in most
+[05:05:47] great tool for this because um in most engineering orgs today, uh it's pretty
+[05:05:49] engineering orgs today, uh it's pretty
+[05:05:50] engineering orgs today, uh it's pretty rare that every developer is using the
+[05:05:51] rare that every developer is using the
+[05:05:51] rare that every developer is using the exact same agent. Someone's using
+[05:05:53] exact same agent. Someone's using
+[05:05:53] exact same agent. Someone's using cursor, cloud code, another third thing.
+[05:05:56] cursor, cloud code, another third thing.
+[05:05:56] cursor, cloud code, another third thing. Um, SEM grip is a really great way to
+[05:05:58] Um, SEM grip is a really great way to
+[05:05:58] Um, SEM grip is a really great way to provide a deterministic set of security
+[05:06:00] provide a deterministic set of security
+[05:06:00] provide a deterministic set of security checks that run regardless of what end
+[05:06:02] checks that run regardless of what end
+[05:06:02] checks that run regardless of what end agent someone is using. It runs totally
+[05:06:04] agent someone is using. It runs totally
+[05:06:04] agent someone is using. It runs totally automatically. It runs on every single
+[05:06:06] automatically. It runs on every single
+[05:06:06] automatically. It runs on every single line that the agent generates. So, you
+[05:06:08] line that the agent generates. So, you
+[05:06:08] line that the agent generates. So, you don't have to opt in or try to remember
+[05:06:09] don't have to opt in or try to remember
+[05:06:10] don't have to opt in or try to remember to run it. It's totally free and the
+[05:06:11] to run it. It's totally free and the
+[05:06:11] to run it. It's totally free and the docs are on the screen.
+[05:06:14] docs are on the screen.
+[05:06:14] docs are on the screen. Cool. That's my quick takeaway. So,
+[05:06:16] Cool. That's my quick takeaway. So,
+[05:06:16] Cool. That's my quick takeaway. So, three simple things. Downscope your
+[05:06:18] three simple things. Downscope your
+[05:06:18] three simple things. Downscope your credentials before you start. It takes 2
+[05:06:20] credentials before you start. It takes 2
+[05:06:20] credentials before you start. It takes 2 minutes and can save you from a really
+[05:06:21] minutes and can save you from a really
+[05:06:21] minutes and can save you from a really bad day. Um, wire up an audit trail with
+[05:06:24] bad day. Um, wire up an audit trail with
+[05:06:24] bad day. Um, wire up an audit trail with hooks. That way doesn't need need to be
+[05:06:26] hooks. That way doesn't need need to be
+[05:06:26] hooks. That way doesn't need need to be sophisticated, but it'll be uh save you
+[05:06:28] sophisticated, but it'll be uh save you
+[05:06:28] sophisticated, but it'll be uh save you from knowing what's went on in your
+[05:06:30] from knowing what's went on in your
+[05:06:30] from knowing what's went on in your system. And number three, scan the
+[05:06:32] system. And number three, scan the
+[05:06:32] system. And number three, scan the product before it ships. There's lots of
+[05:06:34] product before it ships. There's lots of
+[05:06:34] product before it ships. There's lots of free options, but give some grip a try.
+[05:06:36] free options, but give some grip a try.
+[05:06:36] free options, but give some grip a try. That's it.
+[05:06:42] &gt;&gt; We have time for two questions. Anybody?
+[05:06:51] If not, uh, let's give her a welcome

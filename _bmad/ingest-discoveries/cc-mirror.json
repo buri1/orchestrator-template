@@ -1,0 +1,20 @@
+{
+  "source_url": "https://x.com/nummanali/status/2007586417094844517",
+  "source_title": "CC Mirror: GLM 4.7 and MiniMax M2.1 for Claude Code UX",
+  "catalogue_path": "research/catalogue/posts/2026-01/nummanali-cc-mirror-glm-minimax-coding.md",
+  "ingested_at": "2026-03-18T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.npmjs.com/package/cc-mirror",
+      "context": "CC Mirror npm package — npx cc-mirror to run",
+      "suggested_type": "tool",
+      "relevance_hint": "Model-agnostic Claude Code interface for GLM 4.7 and MiniMax M2.1; evaluate for cost-optimized worker agents; strong /tool-catalogue candidate"
+    },
+    {
+      "url": "https://github.com/nummanali/cc-mirror",
+      "context": "Likely GitHub repo for CC Mirror (inferred from author handle)",
+      "suggested_type": "tool",
+      "relevance_hint": "Study prompt engineering for alternative models and tool preconfiguration approach"
+    }
+  ]
+}

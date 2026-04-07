@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/i/status/2025161888456474851",
+  "source_title": "Alibaba Drops Zvec: In-Process Vector DB That Replaces Pinecone, Chroma, Weaviate",
+  "catalogue_path": "research/catalogue/posts/2026-03/hasantoxr-alibaba-zvec-vector-database.md",
+  "ingested_at": "2026-03-12T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/alibaba/zvec",
+      "context": "Primary project repository for Zvec, the in-process vector DB discussed in the post",
+      "suggested_type": "tool",
+      "relevance_hint": "8.9K stars, Apache 2.0, built on Alibaba's Proxima engine; potential zero-infra agent memory/RAG backend; supports dense+sparse+hybrid search; runs on edge devices"
+    }
+  ]
+}

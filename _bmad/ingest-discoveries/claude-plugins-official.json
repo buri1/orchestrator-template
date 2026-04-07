@@ -1,0 +1,54 @@
+{
+  "source_url": "https://github.com/anthropics/claude-plugins-official",
+  "title": "Claude Plugins Official",
+  "type": "tool",
+  "category": "infrastructure",
+  "catalogue_path": "research/catalogue/infrastructure/claude-plugins-official.md",
+  "ingested_at": "2026-03-21",
+  "source_channel": "whatsapp",
+  "relevance": 7,
+  "actionable": 8,
+  "novelty": 6,
+  "publisher": "Anthropic",
+  "stars": 13700,
+  "license": "Per-plugin",
+  "tech_stack": ["TypeScript", "Python", "Bun", "MCP", "Shell"],
+  "discoveries": [
+    {
+      "id": "discord-channel-plugin",
+      "finding": "Discord plugin exposes 5 MCP tools (reply, react, edit_message, fetch_messages, download_attachment) for bidirectional agent-to-human messaging. Pairing flow + allowlist access control. Bun + TypeScript MCP server.",
+      "actionable": true,
+      "priority": "high",
+      "use_case": "Install for remote overnight agent monitoring and control from phone"
+    },
+    {
+      "id": "telegram-channel-plugin",
+      "finding": "Telegram plugin exposes 3 MCP tools (reply, react, edit_message). More limited than Discord (no fetch_messages, no historical attachments). Photos auto-downloaded on arrival.",
+      "actionable": true,
+      "priority": "medium",
+      "use_case": "Secondary alert channel for critical agent events (crashes, PR failures)"
+    },
+    {
+      "id": "channels-flag-pattern",
+      "finding": "Claude Code --channels flag enables messaging platform integration. Channel plugins register as MCP servers and forward inbound messages as channel events. Multiple instances via STATE_DIR env vars.",
+      "actionable": true,
+      "priority": "high",
+      "use_case": "Core mechanism for remote agent control — one bot per orchestrator session"
+    },
+    {
+      "id": "plugin-system-architecture",
+      "finding": "Official Claude Code plugin format: plugin.json (metadata) + .mcp.json (MCP config) + commands/ + agents/ + skills/. 32 internal + 15 external plugins. Install via /plugin install or GUI discovery.",
+      "actionable": true,
+      "priority": "medium",
+      "use_case": "Build custom orchestration plugin exposing tmux session management as MCP tools"
+    },
+    {
+      "id": "lsp-plugin-collection",
+      "finding": "12 LSP integrations (TypeScript, Python, Rust, Go, C#, Java, Kotlin, Ruby, PHP, Lua, Swift, C/C++) as official plugins. Agents can opt into language server features.",
+      "actionable": false,
+      "priority": "low",
+      "use_case": "Reference only — agents handle their own tooling"
+    }
+  ],
+  "key_takeaway": "Discord plugin is the immediate win for remote agent monitoring/control. Install today with --channels flag for overnight autonomous operations. Telegram as secondary alert channel. Plugin system structure is the canonical Claude Code extensibility model."
+}

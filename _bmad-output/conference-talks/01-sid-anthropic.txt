@@ -1,0 +1,1598 @@
+# Talk: Fireside Chat with Sid from Anthropic - Claude Code, AI Development
+# Speaker: Sid (Anthropic)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 00:15:44 - 00:45:54
+# Lines: 1591
+
+[00:15:44] let's get a big round of applause for Sid from Anthropic. Get up here, man.
+[00:15:52] All right. So, I've got all kinds of
+[00:15:54] All right. So, I've got all kinds of questions for you. I know that my friend
+[00:15:57] questions for you. I know that my friend
+[00:15:57] questions for you. I know that my friend Janette told me, he told me, "Hey, make
+[00:16:01] Janette told me, he told me, "Hey, make
+[00:16:01] Janette told me, he told me, "Hey, make sure that it is actually Wait, can we
+[00:16:04] sure that it is actually Wait, can we
+[00:16:04] sure that it is actually Wait, can we set the mood real fast?" AV team, you
+[00:16:07] set the mood real fast?" AV team, you
+[00:16:07] set the mood real fast?" AV team, you all can, can you throw up? There we go.
+[00:16:09] all can, can you throw up? There we go.
+[00:16:09] all can, can you throw up? There we go. That's what I like. Thank you.
+[00:16:13] That's what I like. Thank you.
+[00:16:13] That's what I like. Thank you. So, if you thought this was going to be
+[00:16:15] So, if you thought this was going to be
+[00:16:15] So, if you thought this was going to be like professional in any way, think
+[00:16:18] like professional in any way, think
+[00:16:18] like professional in any way, think again. Huh? I think hopefully you all
+[00:16:20] again. Huh? I think hopefully you all
+[00:16:20] again. Huh? I think hopefully you all are feeling the vibe. My friend Janique
+[00:16:23] are feeling the vibe. My friend Janique
+[00:16:23] are feeling the vibe. My friend Janique told me, he said, "Oh, so it's like a
+[00:16:25] told me, he said, "Oh, so it's like a
+[00:16:25] told me, he said, "Oh, so it's like a highlevel fireside chat." And I said,
+[00:16:27] highlevel fireside chat." And I said,
+[00:16:27] highlevel fireside chat." And I said, "No, we're going deep. Sid is not about
+[00:16:29] "No, we're going deep. Sid is not about
+[00:16:29] "No, we're going deep. Sid is not about to stay high level with me. If at any
+[00:16:32] to stay high level with me. If at any
+[00:16:32] to stay high level with me. If at any point you want more from what Sid just
+[00:16:35] point you want more from what Sid just
+[00:16:35] point you want more from what Sid just as just said, just say go deeper." And
+[00:16:39] as just said, just say go deeper." And
+[00:16:39] as just said, just say go deeper." And this is a bit of a social experiment. So
+[00:16:41] this is a bit of a social experiment. So
+[00:16:41] this is a bit of a social experiment. So if it turns out to be a show,
+[00:16:43] if it turns out to be a show,
+[00:16:43] if it turns out to be a show, I'm sorry. However, we're going to pass
+[00:16:46] I'm sorry. However, we're going to pass
+[00:16:46] I'm sorry. However, we're going to pass around a mic later on too, so that you
+[00:16:48] around a mic later on too, so that you
+[00:16:48] around a mic later on too, so that you all have the chance to ask it any
+[00:16:51] all have the chance to ask it any
+[00:16:51] all have the chance to ask it any questions that you may. All right, let's
+[00:16:53] questions that you may. All right, let's
+[00:16:53] questions that you may. All right, let's start with this being ambitious with AI
+[00:16:55] start with this being ambitious with AI
+[00:16:55] start with this being ambitious with AI these days. How much can one person
+[00:16:58] these days. How much can one person
+[00:16:58] these days. How much can one person actually do and where are the
+[00:17:00] actually do and where are the
+[00:17:00] actually do and where are the boundaries?
+[00:17:01] boundaries?
+[00:17:01] boundaries? &gt;&gt; Yeah, sure. First of all, thanks for
+[00:17:03] &gt;&gt; Yeah, sure. First of all, thanks for
+[00:17:03] &gt;&gt; Yeah, sure. First of all, thanks for having me. This is this has been a
+[00:17:04] having me. This is this has been a
+[00:17:04] having me. This is this has been a blast. Uh but I think that that's a very
+[00:17:07] blast. Uh but I think that that's a very
+[00:17:07] blast. Uh but I think that that's a very interesting question because how much
+[00:17:09] interesting question because how much
+[00:17:09] interesting question because how much can one person really do changes every 2
+[00:17:11] can one person really do changes every 2
+[00:17:11] can one person really do changes every 2 months with a new model release. Uh so I
+[00:17:13] months with a new model release. Uh so I
+[00:17:14] months with a new model release. Uh so I think you have to constantly recalibrate
+[00:17:16] think you have to constantly recalibrate
+[00:17:16] think you have to constantly recalibrate how much can you really do and it's
+[00:17:17] how much can you really do and it's
+[00:17:17] how much can you really do and it's quite tough because like by the time
+[00:17:19] quite tough because like by the time
+[00:17:19] quite tough because like by the time you're really used to exploring the
+[00:17:20] you're really used to exploring the
+[00:17:20] you're really used to exploring the boundaries and edges of one one model
+[00:17:22] boundaries and edges of one one model
+[00:17:22] boundaries and edges of one one model the next model's already here. So I
+[00:17:25] the next model's already here. So I
+[00:17:25] the next model's already here. So I think most people constantly
+[00:17:27] think most people constantly
+[00:17:27] think most people constantly underestimate like how much they can
+[00:17:29] underestimate like how much they can
+[00:17:29] underestimate like how much they can really do.
+[00:17:29] really do.
+[00:17:29] really do. &gt;&gt; Yeah. Um for me personally, I've been
+[00:17:32] &gt;&gt; Yeah. Um for me personally, I've been
+[00:17:32] &gt;&gt; Yeah. Um for me personally, I've been constantly surprised by how much I can
+[00:17:35] constantly surprised by how much I can
+[00:17:35] constantly surprised by how much I can do. I think I can safely say like
+[00:17:36] do. I think I can safely say like
+[00:17:36] do. I think I can safely say like looking back at my career and the
+[00:17:38] looking back at my career and the
+[00:17:38] looking back at my career and the projects that I've done, uh those
+[00:17:40] projects that I've done, uh those
+[00:17:40] projects that I've done, uh those projects usually about four to five
+[00:17:43] projects usually about four to five
+[00:17:43] projects usually about four to five people took like 3 months each. Uh
+[00:17:45] people took like 3 months each. Uh
+[00:17:45] people took like 3 months each. Uh everything included like infrastructure,
+[00:17:47] everything included like infrastructure,
+[00:17:47] everything included like infrastructure, back end, front end. I think those
+[00:17:50] back end, front end. I think those
+[00:17:50] back end, front end. I think those projects can now be like one person
+[00:17:51] projects can now be like one person
+[00:17:51] projects can now be like one person projects for a few weeks. Um so it's
+[00:17:55] projects for a few weeks. Um so it's
+[00:17:55] projects for a few weeks. Um so it's it's it's really like my the thing I say
+[00:17:59] it's it's really like my the thing I say
+[00:17:59] it's it's really like my the thing I say to everyone is like be more ambitious
+[00:18:01] to everyone is like be more ambitious
+[00:18:01] to everyone is like be more ambitious with what you can do. Uh if you if you
+[00:18:04] with what you can do. Uh if you if you
+[00:18:04] with what you can do. Uh if you if you think you you need another person to
+[00:18:06] think you you need another person to
+[00:18:06] think you you need another person to come join you or if you need an expert
+[00:18:07] come join you or if you need an expert
+[00:18:07] come join you or if you need an expert you know infra expert as you said to to
+[00:18:09] you know infra expert as you said to to
+[00:18:09] you know infra expert as you said to to run your Kubernetes cluster for six
+[00:18:11] run your Kubernetes cluster for six
+[00:18:11] run your Kubernetes cluster for six concurrent users uh you you can do it
+[00:18:14] concurrent users uh you you can do it
+[00:18:14] concurrent users uh you you can do it yourself.
+[00:18:15] yourself.
+[00:18:15] yourself. &gt;&gt; So what can we not do right now? Where
+[00:18:17] &gt;&gt; So what can we not do right now? Where
+[00:18:17] &gt;&gt; So what can we not do right now? Where should we be thinking about like not
+[00:18:19] should we be thinking about like not
+[00:18:19] should we be thinking about like not trying to push the boundary?
+[00:18:21] trying to push the boundary?
+[00:18:22] trying to push the boundary? uh I I think you can do everything. Uh
+[00:18:24] uh I I think you can do everything. Uh
+[00:18:24] uh I I think you can do everything. Uh the only thing that that it falls apart
+[00:18:27] the only thing that that it falls apart
+[00:18:27] the only thing that that it falls apart is really reliability, right? So I think
+[00:18:29] is really reliability, right? So I think
+[00:18:29] is really reliability, right? So I think in my in my view today's systems,
+[00:18:31] in my in my view today's systems,
+[00:18:32] in my in my view today's systems, today's models where they are today, uh
+[00:18:34] today's models where they are today, uh
+[00:18:34] today's models where they are today, uh they can pretty much do anything that
+[00:18:36] they can pretty much do anything that
+[00:18:36] they can pretty much do anything that you can you set them to the only problem
+[00:18:39] you can you set them to the only problem
+[00:18:39] you can you set them to the only problem is with some tasks that are more
+[00:18:43] is with some tasks that are more
+[00:18:43] is with some tasks that are more complex, uh the reliability is not
+[00:18:45] complex, uh the reliability is not
+[00:18:45] complex, uh the reliability is not there. So you may have to steer the
+[00:18:47] there. So you may have to steer the
+[00:18:47] there. So you may have to steer the model. You may have to point it towards
+[00:18:49] model. You may have to point it towards
+[00:18:49] model. You may have to point it towards resources or you may have to tell it to
+[00:18:52] resources or you may have to tell it to
+[00:18:52] resources or you may have to tell it to read a doc or like fetch something from
+[00:18:55] read a doc or like fetch something from
+[00:18:55] read a doc or like fetch something from uh from your like uh uh from your doc
+[00:18:57] uh from your like uh uh from your doc
+[00:18:57] uh from your like uh uh from your doc server. Um but it can do it right. So I
+[00:19:02] server. Um but it can do it right. So I
+[00:19:02] server. Um but it can do it right. So I think the thing the the way to think
+[00:19:03] think the thing the the way to think
+[00:19:03] think the thing the the way to think about this is like how reliably can an
+[00:19:05] about this is like how reliably can an
+[00:19:05] about this is like how reliably can an agent do task X? Uh and that differs
+[00:19:08] agent do task X? Uh and that differs
+[00:19:08] agent do task X? Uh and that differs from task to task. Um yeah. So
+[00:19:13] from task to task. Um yeah. So
+[00:19:13] from task to task. Um yeah. So verification has always been a
+[00:19:16] verification has always been a
+[00:19:16] verification has always been a interesting one and being able to know
+[00:19:19] interesting one and being able to know
+[00:19:19] interesting one and being able to know without me as a human going and clicking
+[00:19:21] without me as a human going and clicking
+[00:19:21] without me as a human going and clicking through does this stuff work that I just
+[00:19:23] through does this stuff work that I just
+[00:19:23] through does this stuff work that I just told it to do. Have you found any tricks
+[00:19:26] told it to do. Have you found any tricks
+[00:19:26] told it to do. Have you found any tricks there?
+[00:19:27] there?
+[00:19:27] there? &gt;&gt; Uh I think optimizing your stack for
+[00:19:30] &gt;&gt; Uh I think optimizing your stack for
+[00:19:30] &gt;&gt; Uh I think optimizing your stack for verification is really helpful. Uh like
+[00:19:32] verification is really helpful. Uh like
+[00:19:32] verification is really helpful. Uh like &gt;&gt; how do we do that?
+[00:19:33] &gt;&gt; how do we do that?
+[00:19:33] &gt;&gt; how do we do that? &gt;&gt; Like one example that comes to mind is
+[00:19:35] &gt;&gt; Like one example that comes to mind is
+[00:19:35] &gt;&gt; Like one example that comes to mind is like uh a lot of companies use remote
+[00:19:37] like uh a lot of companies use remote
+[00:19:37] like uh a lot of companies use remote dev environments. Uh and I think
+[00:19:39] dev environments. Uh and I think
+[00:19:39] dev environments. Uh and I think Enthropic has also started to use some
+[00:19:41] Enthropic has also started to use some
+[00:19:41] Enthropic has also started to use some of these. Uh and when we first started
+[00:19:43] of these. Uh and when we first started
+[00:19:43] of these. Uh and when we first started using them, uh what became really tricky
+[00:19:45] using them, uh what became really tricky
+[00:19:45] using them, uh what became really tricky was uh verification using using browser
+[00:19:49] was uh verification using using browser
+[00:19:49] was uh verification using using browser agents, right? So cloud code has a
+[00:19:51] agents, right? So cloud code has a
+[00:19:51] agents, right? So cloud code has a /chrome plugin where it can like open up
+[00:19:53] /chrome plugin where it can like open up
+[00:19:53] /chrome plugin where it can like open up your chrome or you can use playrite or
+[00:19:54] your chrome or you can use playrite or
+[00:19:54] your chrome or you can use playrite or whatever other MCP server to to use
+[00:19:57] whatever other MCP server to to use
+[00:19:57] whatever other MCP server to to use that. Um but as soon as you use a remote
+[00:19:59] that. Um but as soon as you use a remote
+[00:19:59] that. Um but as soon as you use a remote dev environment like that breaks, right?
+[00:20:01] dev environment like that breaks, right?
+[00:20:01] dev environment like that breaks, right? Because you now you don't have a a
+[00:20:03] Because you now you don't have a a
+[00:20:03] Because you now you don't have a a Chrome instance running on your on your
+[00:20:04] Chrome instance running on your on your
+[00:20:04] Chrome instance running on your on your on your dev instance uh on your dev
+[00:20:06] on your dev instance uh on your dev
+[00:20:06] on your dev instance uh on your dev server. Uh so the first thing we did was
+[00:20:09] server. Uh so the first thing we did was
+[00:20:09] server. Uh so the first thing we did was we changed that so that there's like a a
+[00:20:11] we changed that so that there's like a a
+[00:20:11] we changed that so that there's like a a proxy that proxies to your local laptop
+[00:20:14] proxy that proxies to your local laptop
+[00:20:14] proxy that proxies to your local laptop opens up chrome there and gives clot
+[00:20:15] opens up chrome there and gives clot
+[00:20:15] opens up chrome there and gives clot code access to that chrome.
+[00:20:17] code access to that chrome.
+[00:20:17] code access to that chrome. &gt;&gt; So it's uh I mean that's for like that's
+[00:20:19] &gt;&gt; So it's uh I mean that's for like that's
+[00:20:19] &gt;&gt; So it's uh I mean that's for like that's a simple thing for like UI stuff but u
+[00:20:22] a simple thing for like UI stuff but u
+[00:20:22] a simple thing for like UI stuff but u the other thing that's really helpful is
+[00:20:23] the other thing that's really helpful is
+[00:20:23] the other thing that's really helpful is giving clot access to your log server.
+[00:20:25] giving clot access to your log server.
+[00:20:26] giving clot access to your log server. So data dog or GCP logging or or things
+[00:20:28] So data dog or GCP logging or or things
+[00:20:28] So data dog or GCP logging or or things like that like anything that you can see
+[00:20:31] like that like anything that you can see
+[00:20:31] like that like anything that you can see as a as an engineer uh and you can use
+[00:20:33] as a as an engineer uh and you can use
+[00:20:33] as a as an engineer uh and you can use to verify whether something's working.
+[00:20:35] to verify whether something's working.
+[00:20:35] to verify whether something's working. cloud can do that too if you can use if
+[00:20:38] cloud can do that too if you can use if
+[00:20:38] cloud can do that too if you can use if you can give it the the tools to uh to
+[00:20:41] you can give it the the tools to uh to
+[00:20:41] you can give it the the tools to uh to access those things.
+[00:20:42] access those things.
+[00:20:42] access those things. &gt;&gt; Now working on teams I know there's a
+[00:20:44] &gt;&gt; Now working on teams I know there's a
+[00:20:44] &gt;&gt; Now working on teams I know there's a lot of folks that have come with a team
+[00:20:46] lot of folks that have come with a team
+[00:20:46] lot of folks that have come with a team or are here and
+[00:20:50] or are here and
+[00:20:50] or are here and are trying to figure out the most
+[00:20:52] are trying to figure out the most
+[00:20:52] are trying to figure out the most optimal way of having the right amount
+[00:20:56] optimal way of having the right amount
+[00:20:56] optimal way of having the right amount of I I know governance is kind of a
+[00:20:59] of I I know governance is kind of a
+[00:20:59] of I I know governance is kind of a boring word but when do I make a skill
+[00:21:03] boring word but when do I make a skill
+[00:21:03] boring word but when do I make a skill ready for the whole team? when is it
+[00:21:05] ready for the whole team? when is it
+[00:21:05] ready for the whole team? when is it just for me? When do I use a rule? When
+[00:21:08] just for me? When do I use a rule? When
+[00:21:08] just for me? When do I use a rule? When am I trying to say, "Hey, this is how we
+[00:21:10] am I trying to say, "Hey, this is how we
+[00:21:10] am I trying to say, "Hey, this is how we optimize prompts." Like, how have you
+[00:21:13] optimize prompts." Like, how have you
+[00:21:13] optimize prompts." Like, how have you and your team been able to really figure
+[00:21:16] and your team been able to really figure
+[00:21:16] and your team been able to really figure out the best ways to disseminate the
+[00:21:19] out the best ways to disseminate the
+[00:21:19] out the best ways to disseminate the knowledge across the team?
+[00:21:23] knowledge across the team?
+[00:21:23] knowledge across the team? &gt;&gt; Uh, yeah, this is something that comes
+[00:21:24] &gt;&gt; Uh, yeah, this is something that comes
+[00:21:24] &gt;&gt; Uh, yeah, this is something that comes up a lot. Um, and I think the answer to
+[00:21:27] up a lot. Um, and I think the answer to
+[00:21:27] up a lot. Um, and I think the answer to this is really let everyone do whatever
+[00:21:30] this is really let everyone do whatever
+[00:21:30] this is really let everyone do whatever they want and go as fast as they want
+[00:21:32] they want and go as fast as they want
+[00:21:32] they want and go as fast as they want and quite quite quickly patterns would
+[00:21:35] and quite quite quickly patterns would
+[00:21:35] and quite quite quickly patterns would will emerge for like what what skills
+[00:21:37] will emerge for like what what skills
+[00:21:37] will emerge for like what what skills are being used, what plugins are being
+[00:21:38] are being used, what plugins are being
+[00:21:38] are being used, what plugins are being used, uh, what is resonating and what's
+[00:21:41] used, uh, what is resonating and what's
+[00:21:41] used, uh, what is resonating and what's not.
+[00:21:41] not.
+[00:21:42] not. &gt;&gt; Um, and you know this this is it is an
+[00:21:45] &gt;&gt; Um, and you know this this is it is an
+[00:21:45] &gt;&gt; Um, and you know this this is it is an exploratory journey. um you know as the
+[00:21:48] exploratory journey. um you know as the
+[00:21:48] exploratory journey. um you know as the models are getting better uh maybe you
+[00:21:50] models are getting better uh maybe you
+[00:21:50] models are getting better uh maybe you have to simplify your skills now right
+[00:21:52] have to simplify your skills now right
+[00:21:52] have to simplify your skills now right because you know the models can infer
+[00:21:54] because you know the models can infer
+[00:21:54] because you know the models can infer things from your codebase and you don't
+[00:21:56] things from your codebase and you don't
+[00:21:56] things from your codebase and you don't have to explicitly tell them so this is
+[00:21:58] have to explicitly tell them so this is
+[00:21:58] have to explicitly tell them so this is going to be constantly changing it's not
+[00:22:00] going to be constantly changing it's not
+[00:22:00] going to be constantly changing it's not like you have one set of skills that
+[00:22:02] like you have one set of skills that
+[00:22:02] like you have one set of skills that you're using now and your team can use
+[00:22:04] you're using now and your team can use
+[00:22:04] you're using now and your team can use that for the next year like your team
+[00:22:05] that for the next year like your team
+[00:22:05] that for the next year like your team can probably use that for the next few
+[00:22:07] can probably use that for the next few
+[00:22:07] can probably use that for the next few months
+[00:22:08] months
+[00:22:08] months &gt;&gt; um so one thing that's worked really
+[00:22:09] &gt;&gt; um so one thing that's worked really
+[00:22:10] &gt;&gt; um so one thing that's worked really well for for companies that that we work
+[00:22:12] well for for companies that that we work
+[00:22:12] well for for companies that that we work with is just having some sort of like um
+[00:22:15] with is just having some sort of like um
+[00:22:15] with is just having some sort of like um uh a plug-in marketplace. Uh, and then
+[00:22:18] uh a plug-in marketplace. Uh, and then
+[00:22:18] uh a plug-in marketplace. Uh, and then just tracking the number of uses or
+[00:22:21] just tracking the number of uses or
+[00:22:21] just tracking the number of uses or downloads for each plug-in and how often
+[00:22:23] downloads for each plug-in and how often
+[00:22:23] downloads for each plug-in and how often they're being used. Um, and that's like
+[00:22:25] they're being used. Um, and that's like
+[00:22:25] they're being used. Um, and that's like a pretty clear signal on like what's
+[00:22:27] a pretty clear signal on like what's
+[00:22:27] a pretty clear signal on like what's working and what's not working. Um, team
+[00:22:30] working and what's not working. Um, team
+[00:22:30] working and what's not working. Um, team governance in general though is is an
+[00:22:32] governance in general though is is an
+[00:22:32] governance in general though is is an interesting topic.
+[00:22:33] interesting topic.
+[00:22:33] interesting topic. &gt;&gt; Before we go down that route, more on
+[00:22:35] &gt;&gt; Before we go down that route, more on
+[00:22:35] &gt;&gt; Before we go down that route, more on that skills.
+[00:22:36] that skills.
+[00:22:36] that skills. &gt;&gt; Yeah.
+[00:22:37] &gt;&gt; Yeah.
+[00:22:37] &gt;&gt; Yeah. &gt;&gt; Is it all skills? Is that the main thing
+[00:22:39] &gt;&gt; Is it all skills? Is that the main thing
+[00:22:39] &gt;&gt; Is it all skills? Is that the main thing that you're doing? You're not doing any
+[00:22:40] that you're doing? You're not doing any
+[00:22:40] that you're doing? You're not doing any kind of like cuz there's a lot of knobs
+[00:22:43] kind of like cuz there's a lot of knobs
+[00:22:43] kind of like cuz there's a lot of knobs you can fiddle with, right? But skills
+[00:22:46] you can fiddle with, right? But skills
+[00:22:46] you can fiddle with, right? But skills tend to get you the most bang for your
+[00:22:48] tend to get you the most bang for your
+[00:22:48] tend to get you the most bang for your buck.
+[00:22:49] buck.
+[00:22:49] buck. &gt;&gt; Uh it's a combination of skills and MCP
+[00:22:52] &gt;&gt; Uh it's a combination of skills and MCP
+[00:22:52] &gt;&gt; Uh it's a combination of skills and MCP servers and then um kind of like
+[00:22:57] servers and then um kind of like
+[00:22:57] servers and then um kind of like you know memory systems that people
+[00:22:59] you know memory systems that people
+[00:22:59] you know memory systems that people create for themselves. Um and I think
+[00:23:01] create for themselves. Um and I think
+[00:23:01] create for themselves. Um and I think skills are interesting because
+[00:23:03] skills are interesting because
+[00:23:03] skills are interesting because essentially they're just like context
+[00:23:04] essentially they're just like context
+[00:23:04] essentially they're just like context blobs, right? They're just like bags of
+[00:23:05] blobs, right? They're just like bags of
+[00:23:05] blobs, right? They're just like bags of context. You can dump anything inside
+[00:23:07] context. You can dump anything inside
+[00:23:07] context. You can dump anything inside them. Um they're like a more
+[00:23:09] them. Um they're like a more
+[00:23:09] them. Um they're like a more generalizable version of cloud MD or
+[00:23:11] generalizable version of cloud MD or
+[00:23:11] generalizable version of cloud MD or agent MD files in some ways, right? So
+[00:23:13] agent MD files in some ways, right? So
+[00:23:13] agent MD files in some ways, right? So it's like um they and more and more
+[00:23:17] it's like um they and more and more
+[00:23:17] it's like um they and more and more we're seeing that the the all the models
+[00:23:19] we're seeing that the the all the models
+[00:23:19] we're seeing that the the all the models need are like access to the right tools
+[00:23:21] need are like access to the right tools
+[00:23:21] need are like access to the right tools which is MCP servers and instructions
+[00:23:23] which is MCP servers and instructions
+[00:23:23] which is MCP servers and instructions for how to use those tools and where to
+[00:23:25] for how to use those tools and where to
+[00:23:25] for how to use those tools and where to find information that it it's not that
+[00:23:27] find information that it it's not that
+[00:23:27] find information that it it's not that that is not easy to infer and both of
+[00:23:29] that is not easy to infer and both of
+[00:23:30] that is not easy to infer and both of those things can be accomplished with uh
+[00:23:32] those things can be accomplished with uh
+[00:23:32] those things can be accomplished with uh skills and MCP servers. So yeah, I think
+[00:23:34] skills and MCP servers. So yeah, I think
+[00:23:34] skills and MCP servers. So yeah, I think uh a lot of the a lot of the like the
+[00:23:37] uh a lot of the a lot of the like the
+[00:23:37] uh a lot of the a lot of the like the you know the cool like harnesses and the
+[00:23:38] you know the cool like harnesses and the
+[00:23:38] you know the cool like harnesses and the complicated harnesses that people are
+[00:23:40] complicated harnesses that people are
+[00:23:40] complicated harnesses that people are building can just boil down to these two
+[00:23:41] building can just boil down to these two
+[00:23:41] building can just boil down to these two things.
+[00:23:43] things.
+[00:23:43] things. &gt;&gt; Any harnesses you have seen that have
+[00:23:45] &gt;&gt; Any harnesses you have seen that have
+[00:23:46] &gt;&gt; Any harnesses you have seen that have been very interesting and you want to
+[00:23:47] been very interesting and you want to
+[00:23:47] been very interesting and you want to shout out right now since you mentioned
+[00:23:49] shout out right now since you mentioned
+[00:23:49] shout out right now since you mentioned it.
+[00:23:50] it.
+[00:23:50] it. &gt;&gt; Uh
+[00:23:51] &gt;&gt; Uh
+[00:23:51] &gt;&gt; Uh &gt;&gt; I know I put you on the spot. I didn't
+[00:23:53] &gt;&gt; I know I put you on the spot. I didn't
+[00:23:53] &gt;&gt; I know I put you on the spot. I didn't preempt you with that question. No. Uh I
+[00:23:56] preempt you with that question. No. Uh I
+[00:23:56] preempt you with that question. No. Uh I think well I I haven't experimented with
+[00:23:59] think well I I haven't experimented with
+[00:23:59] think well I I haven't experimented with a lot of like open source ones recently
+[00:24:01] a lot of like open source ones recently
+[00:24:01] a lot of like open source ones recently but one concept that really appeals to
+[00:24:03] but one concept that really appeals to
+[00:24:03] but one concept that really appeals to me is uh kind of having this concept
+[00:24:05] me is uh kind of having this concept
+[00:24:05] me is uh kind of having this concept like adversarial agents. Um so
+[00:24:09] like adversarial agents. Um so
+[00:24:09] like adversarial agents. Um so essentially the the idea is that you you
+[00:24:11] essentially the the idea is that you you
+[00:24:11] essentially the the idea is that you you tell one agent to do something and then
+[00:24:14] tell one agent to do something and then
+[00:24:14] tell one agent to do something and then you tell another agent to critique it.
+[00:24:15] you tell another agent to critique it.
+[00:24:16] you tell another agent to critique it. Uh and this can you can kind of go as
+[00:24:17] Uh and this can you can kind of go as
+[00:24:17] Uh and this can you can kind of go as far as you want with this. So you can
+[00:24:19] far as you want with this. So you can
+[00:24:19] far as you want with this. So you can even once you've built something you
+[00:24:21] even once you've built something you
+[00:24:21] even once you've built something you tell one agent to review it and then you
+[00:24:23] tell one agent to review it and then you
+[00:24:23] tell one agent to review it and then you tell the other agent to critique the
+[00:24:24] tell the other agent to critique the
+[00:24:24] tell the other agent to critique the review. Um, and so it's I think this
+[00:24:28] review. Um, and so it's I think this
+[00:24:28] review. Um, and so it's I think this goes pretty far and I think harnesses
+[00:24:29] goes pretty far and I think harnesses
+[00:24:29] goes pretty far and I think harnesses that are kind of doing this uh are quite
+[00:24:32] that are kind of doing this uh are quite
+[00:24:32] that are kind of doing this uh are quite effective. Uh, the thing is you don't
+[00:24:34] effective. Uh, the thing is you don't
+[00:24:34] effective. Uh, the thing is you don't need a harness for this. Again, you can
+[00:24:35] need a harness for this. Again, you can
+[00:24:35] need a harness for this. Again, you can just have a skill. Uh, and as the models
+[00:24:38] just have a skill. Uh, and as the models
+[00:24:38] just have a skill. Uh, and as the models get better, um, you know, it kind of
+[00:24:40] get better, um, you know, it kind of
+[00:24:40] get better, um, you know, it kind of takes away the the custom boilerplate
+[00:24:43] takes away the the custom boilerplate
+[00:24:43] takes away the the custom boilerplate code you're building for for the
+[00:24:44] code you're building for for the
+[00:24:44] code you're building for for the harnesses.
+[00:24:46] harnesses.
+[00:24:46] harnesses. you bring up a great point which is
+[00:24:50] you bring up a great point which is
+[00:24:50] you bring up a great point which is running agents in parallel and I try so
+[00:24:53] running agents in parallel and I try so
+[00:24:53] running agents in parallel and I try so hard but by the time one agent is done
+[00:24:57] hard but by the time one agent is done
+[00:24:57] hard but by the time one agent is done or one agent is up and running and then
+[00:24:59] or one agent is up and running and then
+[00:24:59] or one agent is up and running and then I get the second one up and then the
+[00:25:01] I get the second one up and then the
+[00:25:01] I get the second one up and then the third one the first one's already it's
+[00:25:02] third one the first one's already it's
+[00:25:02] third one the first one's already it's like done already and so I've been
+[00:25:04] like done already and so I've been
+[00:25:04] like done already and so I've been having the hardest time really figuring
+[00:25:07] having the hardest time really figuring
+[00:25:07] having the hardest time really figuring out where to leverage that. How are you
+[00:25:09] out where to leverage that. How are you
+[00:25:10] out where to leverage that. How are you doing it? Because that is one of the
+[00:25:11] doing it? Because that is one of the
+[00:25:11] doing it? Because that is one of the things where you see your boy Boris is
+[00:25:13] things where you see your boy Boris is
+[00:25:13] things where you see your boy Boris is like run more in parallel. And I'm like,
+[00:25:16] like run more in parallel. And I'm like,
+[00:25:16] like run more in parallel. And I'm like, I'm trying here.
+[00:25:19] I'm trying here.
+[00:25:19] I'm trying here. I can't figure it out. How have you been
+[00:25:21] I can't figure it out. How have you been
+[00:25:21] I can't figure it out. How have you been doing it? And what do you got for us?
+[00:25:23] doing it? And what do you got for us?
+[00:25:23] doing it? And what do you got for us? &gt;&gt; I guess having ADHD is a good thing,
+[00:25:25] &gt;&gt; I guess having ADHD is a good thing,
+[00:25:25] &gt;&gt; I guess having ADHD is a good thing, right? Like that that probably helps the
+[00:25:28] right? Like that that probably helps the
+[00:25:28] right? Like that that probably helps the most. But um it's it's hard. It's really
+[00:25:32] most. But um it's it's hard. It's really
+[00:25:32] most. But um it's it's hard. It's really hard. Uh keeping track of all the
+[00:25:34] hard. Uh keeping track of all the
+[00:25:34] hard. Uh keeping track of all the different streams of work that you're
+[00:25:35] different streams of work that you're
+[00:25:35] different streams of work that you're doing is really hard. Uh personally I I
+[00:25:39] doing is really hard. Uh personally I I
+[00:25:39] doing is really hard. Uh personally I I try to make it a little bit easier on
+[00:25:40] try to make it a little bit easier on
+[00:25:40] try to make it a little bit easier on myself. Like I have a system for my work
+[00:25:42] myself. Like I have a system for my work
+[00:25:42] myself. Like I have a system for my work trees and then I have a system for like
+[00:25:43] trees and then I have a system for like
+[00:25:43] trees and then I have a system for like my remote sessions. Uh and the way I do
+[00:25:46] my remote sessions. Uh and the way I do
+[00:25:46] my remote sessions. Uh and the way I do it is like my I have five predefined
+[00:25:49] it is like my I have five predefined
+[00:25:49] it is like my I have five predefined work trees on my local laptop. Um and I
+[00:25:53] work trees on my local laptop. Um and I
+[00:25:53] work trees on my local laptop. Um and I have some like magic Apple scripts. Uh
+[00:25:56] have some like magic Apple scripts. Uh
+[00:25:56] have some like magic Apple scripts. Uh it's kind of it's kind of silly, but I
+[00:25:57] it's kind of it's kind of silly, but I
+[00:25:57] it's kind of it's kind of silly, but I have some kind magic Apple scripts where
+[00:25:59] have some kind magic Apple scripts where
+[00:25:59] have some kind magic Apple scripts where like I can uh I use Alfred, which is
+[00:26:01] like I can uh I use Alfred, which is
+[00:26:02] like I can uh I use Alfred, which is like the um um the search uh the search
+[00:26:05] like the um um the search uh the search
+[00:26:05] like the um um the search uh the search thing and I have a few commands where uh
+[00:26:07] thing and I have a few commands where uh
+[00:26:07] thing and I have a few commands where uh I'll say like work tree one and it opens
+[00:26:09] I'll say like work tree one and it opens
+[00:26:09] I'll say like work tree one and it opens up a new iterm window with three tabs.
+[00:26:12] up a new iterm window with three tabs.
+[00:26:12] up a new iterm window with three tabs. Uh it creates a new branch for me uh you
+[00:26:15] Uh it creates a new branch for me uh you
+[00:26:15] Uh it creates a new branch for me uh you know gets on the get gets cloud code set
+[00:26:17] know gets on the get gets cloud code set
+[00:26:17] know gets on the get gets cloud code set up there. Uh and then as I'm working it
+[00:26:20] up there. Uh and then as I'm working it
+[00:26:20] up there. Uh and then as I'm working it also goes and changes the the tab the
+[00:26:23] also goes and changes the the tab the
+[00:26:23] also goes and changes the the tab the window name and the tab name for the tab
+[00:26:25] window name and the tab name for the tab
+[00:26:25] window name and the tab name for the tab that I'm working on. So if I have five
+[00:26:28] that I'm working on. So if I have five
+[00:26:28] that I'm working on. So if I have five work trees I basically have five iter
+[00:26:29] work trees I basically have five iter
+[00:26:29] work trees I basically have five iter windows each on their uh own branch
+[00:26:33] windows each on their uh own branch
+[00:26:33] windows each on their uh own branch which is named appropriately and each
+[00:26:35] which is named appropriately and each
+[00:26:35] which is named appropriately and each with a window title that is uh named
+[00:26:37] with a window title that is uh named
+[00:26:37] with a window title that is uh named appropriately. And so it's a little bit
+[00:26:39] appropriately. And so it's a little bit
+[00:26:39] appropriately. And so it's a little bit easier for me to keep track of what's
+[00:26:41] easier for me to keep track of what's
+[00:26:41] easier for me to keep track of what's where. But it's still hard. I mean it's,
+[00:26:43] where. But it's still hard. I mean it's,
+[00:26:43] where. But it's still hard. I mean it's, you know, he's kind of like constantly
+[00:26:45] you know, he's kind of like constantly
+[00:26:45] you know, he's kind of like constantly like uh shifting between uh between
+[00:26:47] like uh shifting between uh between
+[00:26:47] like uh shifting between uh between terminals or between windows. Um and the
+[00:26:51] terminals or between windows. Um and the
+[00:26:51] terminals or between windows. Um and the other thing that's that kind of makes
+[00:26:53] other thing that's that kind of makes
+[00:26:53] other thing that's that kind of makes this even more complex is is like remote
+[00:26:55] this even more complex is is like remote
+[00:26:55] this even more complex is is like remote sessions. So like I've started using
+[00:26:56] sessions. So like I've started using
+[00:26:56] sessions. So like I've started using cloud code on the web a lot more. Um so
+[00:26:59] cloud code on the web a lot more. Um so
+[00:27:00] cloud code on the web a lot more. Um so and and I use it from my phone. So like
+[00:27:01] and and I use it from my phone. So like
+[00:27:01] and and I use it from my phone. So like any anytime I have an idea or if I'm
+[00:27:03] any anytime I have an idea or if I'm
+[00:27:03] any anytime I have an idea or if I'm like talking to you and then this
+[00:27:04] like talking to you and then this
+[00:27:04] like talking to you and then this conversation and I think of something,
+[00:27:05] conversation and I think of something,
+[00:27:05] conversation and I think of something, I'll just like go back and just like be
+[00:27:07] I'll just like go back and just like be
+[00:27:07] I'll just like go back and just like be like, "Hey, like build me this." Um, and
+[00:27:09] like, "Hey, like build me this." Um, and
+[00:27:10] like, "Hey, like build me this." Um, and it's it doesn't oneshot everything, but
+[00:27:12] it's it doesn't oneshot everything, but
+[00:27:12] it's it doesn't oneshot everything, but it's it's a great it's a great way to
+[00:27:14] it's it's a great it's a great way to
+[00:27:14] it's it's a great it's a great way to just like in increase agency by just
+[00:27:18] just like in increase agency by just
+[00:27:18] just like in increase agency by just telling your agents to do something and
+[00:27:21] telling your agents to do something and
+[00:27:21] telling your agents to do something and then you can come back to it and review
+[00:27:22] then you can come back to it and review
+[00:27:22] then you can come back to it and review that code and it just spur if nothing
+[00:27:24] that code and it just spur if nothing
+[00:27:24] that code and it just spur if nothing else it just spurns more ideas. Mhm.
+[00:27:27] else it just spurns more ideas. Mhm.
+[00:27:27] else it just spurns more ideas. Mhm. &gt;&gt; So at any point in time I have about
+[00:27:29] &gt;&gt; So at any point in time I have about
+[00:27:29] &gt;&gt; So at any point in time I have about like 5 to 10 like cloud code on the like
+[00:27:32] like 5 to 10 like cloud code on the like
+[00:27:32] like 5 to 10 like cloud code on the like web sessions running uh doing random
+[00:27:35] web sessions running uh doing random
+[00:27:35] web sessions running uh doing random things random ideas uh that I've had
+[00:27:37] things random ideas uh that I've had
+[00:27:37] things random ideas uh that I've had through the day and then I have about
+[00:27:39] through the day and then I have about
+[00:27:39] through the day and then I have about five work trees uh on my local laptop.
+[00:27:41] five work trees uh on my local laptop.
+[00:27:41] five work trees uh on my local laptop. So that's that's kind of what my session
+[00:27:43] So that's that's kind of what my session
+[00:27:43] So that's that's kind of what my session my setup looks like but it's hard like I
+[00:27:45] my setup looks like but it's hard like I
+[00:27:45] my setup looks like but it's hard like I struggle with just too many things
+[00:27:47] struggle with just too many things
+[00:27:47] struggle with just too many things happening at the same time too. So some
+[00:27:49] happening at the same time too. So some
+[00:27:49] happening at the same time too. So some organization there is useful. I'll ask
+[00:27:52] organization there is useful. I'll ask
+[00:27:52] organization there is useful. I'll ask the audience. Has anyone felt like they
+[00:27:55] the audience. Has anyone felt like they
+[00:27:55] the audience. Has anyone felt like they fully have gotten the parallel agents
+[00:27:58] fully have gotten the parallel agents
+[00:27:58] fully have gotten the parallel agents down yet? Anybody with their hand? I Oh,
+[00:28:01] down yet? Anybody with their hand? I Oh,
+[00:28:01] down yet? Anybody with their hand? I Oh, I like it. All right. Later we'll chat.
+[00:28:05] I like it. All right. Later we'll chat.
+[00:28:05] I like it. All right. Later we'll chat. Maybe we can do a podcast. That's
+[00:28:07] Maybe we can do a podcast. That's
+[00:28:07] Maybe we can do a podcast. That's perfect. So, okay. I cut you off when it
+[00:28:10] perfect. So, okay. I cut you off when it
+[00:28:10] perfect. So, okay. I cut you off when it comes to the governance piece, right?
+[00:28:13] comes to the governance piece, right?
+[00:28:13] comes to the governance piece, right? Tell me more.
+[00:28:15] Tell me more.
+[00:28:15] Tell me more. &gt;&gt; Uh, yeah. governance is
+[00:28:19] &gt;&gt; Uh, yeah. governance is
+[00:28:19] &gt;&gt; Uh, yeah. governance is so I think what we're seeing now is like
+[00:28:20] so I think what we're seeing now is like
+[00:28:20] so I think what we're seeing now is like with with agents and with cloud code
+[00:28:23] with with agents and with cloud code
+[00:28:23] with with agents and with cloud code like the number of PRs that someone like
+[00:28:25] like the number of PRs that someone like
+[00:28:25] like the number of PRs that someone like that the average person on the team uh
+[00:28:27] that the average person on the team uh
+[00:28:27] that the average person on the team uh submits and merges is kind of going up
+[00:28:31] submits and merges is kind of going up
+[00:28:31] submits and merges is kind of going up exponentially. Um and a lot of things
+[00:28:34] exponentially. Um and a lot of things
+[00:28:34] exponentially. Um and a lot of things kind of happen when when you know when
+[00:28:36] kind of happen when when you know when
+[00:28:36] kind of happen when when you know when something like this kind of sudden shift
+[00:28:39] something like this kind of sudden shift
+[00:28:39] something like this kind of sudden shift uh takes place in a small compressed
+[00:28:41] uh takes place in a small compressed
+[00:28:41] uh takes place in a small compressed amount of time. Uh and the most
+[00:28:42] amount of time. Uh and the most
+[00:28:42] amount of time. Uh and the most unexpected thing that happens is like CI
+[00:28:45] unexpected thing that happens is like CI
+[00:28:45] unexpected thing that happens is like CI fails. I don't I don't know if people
+[00:28:46] fails. I don't I don't know if people
+[00:28:46] fails. I don't I don't know if people over here have experienced this, but
+[00:28:48] over here have experienced this, but
+[00:28:48] over here have experienced this, but like if you have just that many more PRs
+[00:28:50] like if you have just that many more PRs
+[00:28:50] like if you have just that many more PRs kind of going into your system, your CI
+[00:28:52] kind of going into your system, your CI
+[00:28:52] kind of going into your system, your CI systems are overloaded. Uh so you have
+[00:28:54] systems are overloaded. Uh so you have
+[00:28:54] systems are overloaded. Uh so you have to kind of like scale those out. Uh I
+[00:28:56] to kind of like scale those out. Uh I
+[00:28:56] to kind of like scale those out. Uh I don't know if I think GitHub has has
+[00:28:58] don't know if I think GitHub has has
+[00:28:58] don't know if I think GitHub has has been having a bunch of outages recently
+[00:29:00] been having a bunch of outages recently
+[00:29:00] been having a bunch of outages recently too. So like GitHub has been failing. Um
+[00:29:03] too. So like GitHub has been failing. Um
+[00:29:03] too. So like GitHub has been failing. Um and I think they put out a stat that
+[00:29:05] and I think they put out a stat that
+[00:29:05] and I think they put out a stat that like on average they're getting seeing
+[00:29:06] like on average they're getting seeing
+[00:29:06] like on average they're getting seeing like 40% more PRs uh a day or something
+[00:29:09] like 40% more PRs uh a day or something
+[00:29:09] like 40% more PRs uh a day or something like that, which is crazy. M
+[00:29:10] like that, which is crazy. M
+[00:29:10] like that, which is crazy. M &gt;&gt; um so
+[00:29:13] &gt;&gt; um so
+[00:29:13] &gt;&gt; um so the other thing that happens is like as
+[00:29:15] the other thing that happens is like as
+[00:29:15] the other thing that happens is like as people can do more like it's more
+[00:29:17] people can do more like it's more
+[00:29:17] people can do more like it's more important that your product has a vision
+[00:29:19] important that your product has a vision
+[00:29:19] important that your product has a vision that you're building towards uh because
+[00:29:21] that you're building towards uh because
+[00:29:21] that you're building towards uh because if everyone's sprinting you want to make
+[00:29:22] if everyone's sprinting you want to make
+[00:29:22] if everyone's sprinting you want to make sure everyone's sprinting in the right
+[00:29:24] sure everyone's sprinting in the right
+[00:29:24] sure everyone's sprinting in the right direction. Um reviews become an
+[00:29:27] direction. Um reviews become an
+[00:29:27] direction. Um reviews become an interesting part of the cycle like um
+[00:29:29] interesting part of the cycle like um
+[00:29:29] interesting part of the cycle like um how do you keep up with the volume of
+[00:29:31] how do you keep up with the volume of
+[00:29:31] how do you keep up with the volume of reviews coming into your system? um you
+[00:29:34] reviews coming into your system? um you
+[00:29:34] reviews coming into your system? um you know how do you make sure that everyone
+[00:29:35] know how do you make sure that everyone
+[00:29:35] know how do you make sure that everyone on the team is aligned for how what is
+[00:29:38] on the team is aligned for how what is
+[00:29:38] on the team is aligned for how what is the future direction of the product um
+[00:29:41] the future direction of the product um
+[00:29:42] the future direction of the product um so I think we're still grappling with
+[00:29:43] so I think we're still grappling with
+[00:29:43] so I think we're still grappling with all of these things uh the number of
+[00:29:45] all of these things uh the number of
+[00:29:45] all of these things uh the number of like bugs that your system has also
+[00:29:47] like bugs that your system has also
+[00:29:47] like bugs that your system has also increases just because I I think at some
+[00:29:50] increases just because I I think at some
+[00:29:50] increases just because I I think at some level the base failure rate per PR
+[00:29:52] level the base failure rate per PR
+[00:29:52] level the base failure rate per PR remains about constant so if you just
+[00:29:55] remains about constant so if you just
+[00:29:55] remains about constant so if you just have like you know 5x more PRs going
+[00:29:57] have like you know 5x more PRs going
+[00:29:57] have like you know 5x more PRs going into your system and your failure rate
+[00:29:58] into your system and your failure rate
+[00:29:58] into your system and your failure rate is about the same you can expect a lot
+[00:30:00] is about the same you can expect a lot
+[00:30:00] is about the same you can expect a lot more bugs and a lot more like um
+[00:30:03] more bugs and a lot more like um
+[00:30:03] more bugs and a lot more like um incidents kind of that that start to
+[00:30:05] incidents kind of that that start to
+[00:30:05] incidents kind of that that start to happen. So there's a lot of things to to
+[00:30:07] happen. So there's a lot of things to to
+[00:30:07] happen. So there's a lot of things to to still figure out and we're still in the
+[00:30:08] still figure out and we're still in the
+[00:30:08] still figure out and we're still in the process of figuring it out right now. Um
+[00:30:11] process of figuring it out right now. Um
+[00:30:11] process of figuring it out right now. Um but
+[00:30:13] but
+[00:30:13] but I think like you my personal perspective
+[00:30:16] I think like you my personal perspective
+[00:30:16] I think like you my personal perspective and and our team is quite divided on
+[00:30:18] and and our team is quite divided on
+[00:30:18] and and our team is quite divided on this to be honest. But my personal
+[00:30:19] this to be honest. But my personal
+[00:30:19] this to be honest. But my personal perspective is that you kind of have to
+[00:30:22] perspective is that you kind of have to
+[00:30:22] perspective is that you kind of have to offload more to cloud. So we rely really
+[00:30:25] offload more to cloud. So we rely really
+[00:30:25] offload more to cloud. So we rely really heavily on uh claude
+[00:30:28] heavily on uh claude
+[00:30:28] heavily on uh claude reviewing our code in our like on
+[00:30:31] reviewing our code in our like on
+[00:30:31] reviewing our code in our like on GitHub, right? So every time we submit a
+[00:30:33] GitHub, right? So every time we submit a
+[00:30:33] GitHub, right? So every time we submit a PR um there's like a custom kind of
+[00:30:36] PR um there's like a custom kind of
+[00:30:36] PR um there's like a custom kind of harness with using cloud code uh that
+[00:30:39] harness with using cloud code uh that
+[00:30:39] harness with using cloud code uh that reviews the PR three different ways. Uh
+[00:30:41] reviews the PR three different ways. Uh
+[00:30:41] reviews the PR three different ways. Uh it has like some measure of like
+[00:30:43] it has like some measure of like
+[00:30:43] it has like some measure of like confidence intervals for the bugs it
+[00:30:45] confidence intervals for the bugs it
+[00:30:45] confidence intervals for the bugs it finds so that it's not too noisy so that
+[00:30:47] finds so that it's not too noisy so that
+[00:30:47] finds so that it's not too noisy so that you know got to do a lot of tuning
+[00:30:48] you know got to do a lot of tuning
+[00:30:48] you know got to do a lot of tuning there. Um and what we find is that like
+[00:30:52] there. Um and what we find is that like
+[00:30:52] there. Um and what we find is that like cloud reviews our PRs really really
+[00:30:53] cloud reviews our PRs really really
+[00:30:53] cloud reviews our PRs really really well. um you know it ends up finding a
+[00:30:56] well. um you know it ends up finding a
+[00:30:56] well. um you know it ends up finding a lot of bugs that would have slipped
+[00:30:57] lot of bugs that would have slipped
+[00:30:58] lot of bugs that would have slipped through u and the human burden of like
+[00:31:01] through u and the human burden of like
+[00:31:01] through u and the human burden of like okay I got to scrutinize each line to
+[00:31:02] okay I got to scrutinize each line to
+[00:31:02] okay I got to scrutinize each line to see every edge case like that is reduced
+[00:31:05] see every edge case like that is reduced
+[00:31:06] see every edge case like that is reduced uh and then what the humans in the loop
+[00:31:07] uh and then what the humans in the loop
+[00:31:07] uh and then what the humans in the loop are then doing is like making sure that
+[00:31:10] are then doing is like making sure that
+[00:31:10] are then doing is like making sure that um you know the from a product and taste
+[00:31:12] um you know the from a product and taste
+[00:31:12] um you know the from a product and taste perspective uh the PR is kind of
+[00:31:14] perspective uh the PR is kind of
+[00:31:14] perspective uh the PR is kind of accomplishing what we what we wanted to
+[00:31:16] accomplishing what we what we wanted to
+[00:31:16] accomplishing what we what we wanted to accomplish. So um it it's also about
+[00:31:18] accomplish. So um it it's also about
+[00:31:18] accomplish. So um it it's also about like giving each member of your team
+[00:31:20] like giving each member of your team
+[00:31:20] like giving each member of your team just more agency in terms of um you know
+[00:31:25] just more agency in terms of um you know
+[00:31:25] just more agency in terms of um you know what they're what they can affect right
+[00:31:27] what they're what they can affect right
+[00:31:27] what they're what they can affect right like everyone is kind of a mini owner of
+[00:31:29] like everyone is kind of a mini owner of
+[00:31:29] like everyone is kind of a mini owner of of the whole product itself. uh like
+[00:31:32] of the whole product itself. uh like
+[00:31:32] of the whole product itself. uh like you're no longer just a front-end
+[00:31:33] you're no longer just a front-end
+[00:31:34] you're no longer just a front-end engineer or a backend engineer or
+[00:31:35] engineer or a backend engineer or
+[00:31:35] engineer or a backend engineer or infraineer like you're everyone's a
+[00:31:38] infraineer like you're everyone's a
+[00:31:38] infraineer like you're everyone's a product engineer, right? You're
+[00:31:39] product engineer, right? You're
+[00:31:39] product engineer, right? You're ultimately building a product for people
+[00:31:41] ultimately building a product for people
+[00:31:41] ultimately building a product for people to use and the most important thing is
+[00:31:43] to use and the most important thing is
+[00:31:43] to use and the most important thing is that the product that the users like
+[00:31:44] that the product that the users like
+[00:31:44] that the product that the users like your product and they and it's useful
+[00:31:47] your product and they and it's useful
+[00:31:47] your product and they and it's useful for them. Um and so everyone has to
+[00:31:49] for them. Um and so everyone has to
+[00:31:49] for them. Um and so everyone has to approach everything they're doing from
+[00:31:51] approach everything they're doing from
+[00:31:51] approach everything they're doing from that perspective and not from like a you
+[00:31:53] that perspective and not from like a you
+[00:31:53] that perspective and not from like a you know I'm going to pigeon hole myself
+[00:31:54] know I'm going to pigeon hole myself
+[00:31:54] know I'm going to pigeon hole myself into this one specific thing and just do
+[00:31:57] into this one specific thing and just do
+[00:31:57] into this one specific thing and just do that. So I think some of it is just like
+[00:31:58] that. So I think some of it is just like
+[00:31:58] that. So I think some of it is just like a cultural thing where like if everyone
+[00:32:00] a cultural thing where like if everyone
+[00:32:00] a cultural thing where like if everyone on the team has that ownership um then
+[00:32:04] on the team has that ownership um then
+[00:32:04] on the team has that ownership um then life becomes a lot easier. Um yeah I
+[00:32:08] life becomes a lot easier. Um yeah I
+[00:32:08] life becomes a lot easier. Um yeah I want to know what this custom harness
+[00:32:09] want to know what this custom harness
+[00:32:09] want to know what this custom harness is. I've heard the best tack for
+[00:32:12] is. I've heard the best tack for
+[00:32:12] is. I've heard the best tack for reviewing
+[00:32:13] reviewing
+[00:32:14] reviewing cloud code
+[00:32:16] cloud code
+[00:32:16] cloud code is you tell it hey codeex just went
+[00:32:20] is you tell it hey codeex just went
+[00:32:20] is you tell it hey codeex just went through this whole database or this
+[00:32:22] through this whole database or this
+[00:32:22] through this whole database or this whole codebase and introduced a bunch of
+[00:32:25] whole codebase and introduced a bunch of
+[00:32:25] whole codebase and introduced a bunch of bugs. Go find them. and then it will go
+[00:32:27] bugs. Go find them. and then it will go
+[00:32:27] bugs. Go find them. and then it will go back and will be on a tear.
+[00:32:30] back and will be on a tear.
+[00:32:30] back and will be on a tear. &gt;&gt; I've never tried that before to be
+[00:32:32] &gt;&gt; I've never tried that before to be
+[00:32:32] &gt;&gt; I've never tried that before to be honest, but uh it's it's not it's not
+[00:32:34] honest, but uh it's it's not it's not
+[00:32:34] honest, but uh it's it's not it's not it's using cloud code under the hood. So
+[00:32:36] it's using cloud code under the hood. So
+[00:32:36] it's using cloud code under the hood. So we actually have docs on like how you
+[00:32:38] we actually have docs on like how you
+[00:32:38] we actually have docs on like how you can use clot code in your CI systems and
+[00:32:40] can use clot code in your CI systems and
+[00:32:40] can use clot code in your CI systems and um and maybe even use remote sessions.
+[00:32:43] um and maybe even use remote sessions.
+[00:32:43] um and maybe even use remote sessions. Uh but it's it's just a long prompt
+[00:32:45] Uh but it's it's just a long prompt
+[00:32:45] Uh but it's it's just a long prompt which is appended to the system prompt
+[00:32:48] which is appended to the system prompt
+[00:32:48] which is appended to the system prompt which you can do today in blood good.
+[00:32:49] which you can do today in blood good.
+[00:32:49] which you can do today in blood good. It's like d-append system prompt or
+[00:32:51] It's like d-append system prompt or
+[00:32:51] It's like d-append system prompt or something. Um and it uses like some sort
+[00:32:54] something. Um and it uses like some sort
+[00:32:54] something. Um and it uses like some sort of like adversarial agents to be like
+[00:32:56] of like adversarial agents to be like
+[00:32:56] of like adversarial agents to be like hey like make sure like you spin up sub
+[00:32:58] hey like make sure like you spin up sub
+[00:32:58] hey like make sure like you spin up sub agents to um critique your own review
+[00:33:01] agents to um critique your own review
+[00:33:01] agents to um critique your own review and only only give back um like high
+[00:33:04] and only only give back um like high
+[00:33:04] and only only give back um like high high confidence kind of things. So it's
+[00:33:06] high confidence kind of things. So it's
+[00:33:06] high confidence kind of things. So it's like yeah
+[00:33:08] like yeah
+[00:33:08] like yeah &gt;&gt; how are you adapting to new
+[00:33:12] &gt;&gt; how are you adapting to new
+[00:33:12] &gt;&gt; how are you adapting to new forms of coding when it comes to the all
+[00:33:15] forms of coding when it comes to the all
+[00:33:15] forms of coding when it comes to the all the stuff around the code like you
+[00:33:18] the stuff around the code like you
+[00:33:18] the stuff around the code like you mentioned GitHub. I know that I think I
+[00:33:19] mentioned GitHub. I know that I think I
+[00:33:19] mentioned GitHub. I know that I think I saw something about how Meta has prompts
+[00:33:23] saw something about how Meta has prompts
+[00:33:23] saw something about how Meta has prompts that are now submitted with PRs.
+[00:33:27] that are now submitted with PRs.
+[00:33:27] that are now submitted with PRs. &gt;&gt; Have you guys gone to showing the
+[00:33:30] &gt;&gt; Have you guys gone to showing the
+[00:33:30] &gt;&gt; Have you guys gone to showing the conversations that are happening with
+[00:33:32] conversations that are happening with
+[00:33:32] conversations that are happening with cloud code when you check those into Git
+[00:33:34] cloud code when you check those into Git
+[00:33:34] cloud code when you check those into Git or anything of that sort?
+[00:33:37] or anything of that sort?
+[00:33:37] or anything of that sort? &gt;&gt; We've experimented with some of this
+[00:33:38] &gt;&gt; We've experimented with some of this
+[00:33:38] &gt;&gt; We've experimented with some of this stuff before. Um it's what's most useful
+[00:33:42] stuff before. Um it's what's most useful
+[00:33:42] stuff before. Um it's what's most useful for me is uh is the plan that you come
+[00:33:45] for me is uh is the plan that you come
+[00:33:45] for me is uh is the plan that you come up with before you before you get
+[00:33:47] up with before you before you get
+[00:33:47] up with before you before you get unleash clot on on your um on your task.
+[00:33:51] unleash clot on on your um on your task.
+[00:33:51] unleash clot on on your um on your task. So we have a folder called uh plans uh
+[00:33:54] So we have a folder called uh plans uh
+[00:33:54] So we have a folder called uh plans uh or I think it's like docs or something
+[00:33:56] or I think it's like docs or something
+[00:33:56] or I think it's like docs or something like that in in in our code base where
+[00:33:59] like that in in in our code base where
+[00:33:59] like that in in in our code base where um every time you're you're working on a
+[00:34:01] um every time you're you're working on a
+[00:34:01] um every time you're you're working on a larger feature that might span you know
+[00:34:03] larger feature that might span you know
+[00:34:03] larger feature that might span you know multiple PRs or require you know could
+[00:34:06] multiple PRs or require you know could
+[00:34:06] multiple PRs or require you know could it could use some documentation for
+[00:34:08] it could use some documentation for
+[00:34:08] it could use some documentation for other humans to understand how it works.
+[00:34:09] other humans to understand how it works.
+[00:34:10] other humans to understand how it works. We also tend to check in our like claw
+[00:34:11] We also tend to check in our like claw
+[00:34:11] We also tend to check in our like claw generated plans. Um and I'm a huge plan
+[00:34:15] generated plans. Um and I'm a huge plan
+[00:34:15] generated plans. Um and I'm a huge plan mode fan anyway right I I I use plan
+[00:34:18] mode fan anyway right I I I use plan
+[00:34:18] mode fan anyway right I I I use plan mode for everything. I think it's
+[00:34:19] mode for everything. I think it's
+[00:34:19] mode for everything. I think it's probably one of the most important
+[00:34:20] probably one of the most important
+[00:34:20] probably one of the most important things you can do when you're starting
+[00:34:22] things you can do when you're starting
+[00:34:22] things you can do when you're starting up a session. Sometimes I even spend my
+[00:34:24] up a session. Sometimes I even spend my
+[00:34:24] up a session. Sometimes I even spend my entire context window on just working
+[00:34:26] entire context window on just working
+[00:34:26] entire context window on just working through the plan. Like I'll ask Claude
+[00:34:28] through the plan. Like I'll ask Claude
+[00:34:28] through the plan. Like I'll ask Claude to interview me. I'll ask Claude to find
+[00:34:30] to interview me. I'll ask Claude to find
+[00:34:30] to interview me. I'll ask Claude to find edge cases and that's gives me the most
+[00:34:32] edge cases and that's gives me the most
+[00:34:32] edge cases and that's gives me the most bang for buck. But then what do you end
+[00:34:34] bang for buck. But then what do you end
+[00:34:34] bang for buck. But then what do you end up with like this final plan file? It's
+[00:34:37] up with like this final plan file? It's
+[00:34:37] up with like this final plan file? It's really high high density um information
+[00:34:41] really high high density um information
+[00:34:41] really high high density um information that that that's very relevant to the
+[00:34:43] that that that's very relevant to the
+[00:34:43] that that that's very relevant to the task you're doing and has a direct
+[00:34:45] task you're doing and has a direct
+[00:34:46] task you're doing and has a direct correlation to the um success metrics
+[00:34:48] correlation to the um success metrics
+[00:34:48] correlation to the um success metrics for your for for your clot session. And
+[00:34:50] for your for for your clot session. And
+[00:34:50] for your for for your clot session. And so we tend to check these in and these
+[00:34:52] so we tend to check these in and these
+[00:34:52] so we tend to check these in and these seem to be uh quite useful not just for
+[00:34:55] seem to be uh quite useful not just for
+[00:34:55] seem to be uh quite useful not just for humans but also for clot in the future.
+[00:34:57] humans but also for clot in the future.
+[00:34:57] humans but also for clot in the future. Mhm.
+[00:34:57] Mhm.
+[00:34:57] Mhm. &gt;&gt; Um, so if you're like revisiting the
+[00:34:59] &gt;&gt; Um, so if you're like revisiting the
+[00:34:59] &gt;&gt; Um, so if you're like revisiting the same thing, you know, a couple months
+[00:35:00] same thing, you know, a couple months
+[00:35:00] same thing, you know, a couple months down, um, you still,
+[00:35:05] down, um, you still,
+[00:35:05] down, um, you still, you know, I I, you know, my my memory
+[00:35:07] you know, I I, you know, my my memory
+[00:35:07] you know, I I, you know, my my memory sucks. So like, you know, I I need I
+[00:35:09] sucks. So like, you know, I I need I
+[00:35:09] sucks. So like, you know, I I need I need Claude to kind of help me out with
+[00:35:10] need Claude to kind of help me out with
+[00:35:10] need Claude to kind of help me out with &gt;&gt; all the time.
+[00:35:11] &gt;&gt; all the time.
+[00:35:11] &gt;&gt; all the time. &gt;&gt; Yeah.
+[00:35:11] &gt;&gt; Yeah. &gt;&gt; All the time. All right, I want to open
+[00:35:13] &gt;&gt; All the time. All right, I want to open
+[00:35:13] &gt;&gt; All the time. All right, I want to open it up to the audience. We've got a few
+[00:35:15] it up to the audience. We've got a few
+[00:35:15] it up to the audience. We've got a few minutes. Anybody got any questions for
+[00:35:17] minutes. Anybody got any questions for
+[00:35:17] minutes. Anybody got any questions for Sid? We've got one right here. You're
+[00:35:20] Sid? We've got one right here. You're
+[00:35:20] Sid? We've got one right here. You're close, so I'm going to give you my
+[00:35:22] close, so I'm going to give you my
+[00:35:22] close, so I'm going to give you my microphone.
+[00:35:23] microphone.
+[00:35:23] microphone. &gt;&gt; All right. Yeah. Thanks. Uh, hi. Uh I
+[00:35:26] &gt;&gt; All right. Yeah. Thanks. Uh, hi. Uh I
+[00:35:26] &gt;&gt; All right. Yeah. Thanks. Uh, hi. Uh I was just wondering um you know with all
+[00:35:28] was just wondering um you know with all
+[00:35:28] was just wondering um you know with all the different uh points that you can
+[00:35:31] the different uh points that you can
+[00:35:31] the different uh points that you can like put in hooks or scripts or
+[00:35:33] like put in hooks or scripts or
+[00:35:33] like put in hooks or scripts or automation to prevent you know like your
+[00:35:36] automation to prevent you know like your
+[00:35:36] automation to prevent you know like your tests from failing or your builds from
+[00:35:37] tests from failing or your builds from
+[00:35:37] tests from failing or your builds from failing or your linting and and as the
+[00:35:39] failing or your linting and and as the
+[00:35:39] failing or your linting and and as the agents iterate and especially if you're
+[00:35:41] agents iterate and especially if you're
+[00:35:41] agents iterate and especially if you're like having multiple passes or you know
+[00:35:43] like having multiple passes or you know
+[00:35:43] like having multiple passes or you know working in parallel and stuff like have
+[00:35:45] working in parallel and stuff like have
+[00:35:45] working in parallel and stuff like have you found like a consistent pattern to
+[00:35:49] you found like a consistent pattern to
+[00:35:49] you found like a consistent pattern to apply across code bases for like when to
+[00:35:51] apply across code bases for like when to
+[00:35:51] apply across code bases for like when to actually either apply that or to prevent
+[00:35:54] actually either apply that or to prevent
+[00:35:54] actually either apply that or to prevent it from Like I've just seen cases where
+[00:35:57] it from Like I've just seen cases where
+[00:35:58] it from Like I've just seen cases where it doesn't uh you know depending on the
+[00:35:59] it doesn't uh you know depending on the
+[00:35:59] it doesn't uh you know depending on the way it makes it the edit to the code it
+[00:36:01] way it makes it the edit to the code it
+[00:36:02] way it makes it the edit to the code it doesn't apply the linting right away or
+[00:36:03] doesn't apply the linting right away or
+[00:36:03] doesn't apply the linting right away or if it does it I don't know it just
+[00:36:05] if it does it I don't know it just
+[00:36:05] if it does it I don't know it just causes a lot of friction and it it works
+[00:36:07] causes a lot of friction and it it works
+[00:36:07] causes a lot of friction and it it works ultimately the way I have it set up but
+[00:36:09] ultimately the way I have it set up but
+[00:36:09] ultimately the way I have it set up but I you know I'm just wondering if there's
+[00:36:10] I you know I'm just wondering if there's
+[00:36:10] I you know I'm just wondering if there's a more frictionless kind of pattern that
+[00:36:13] a more frictionless kind of pattern that
+[00:36:13] a more frictionless kind of pattern that you're following.
+[00:36:15] you're following.
+[00:36:15] you're following. Um I think especially with linting and
+[00:36:18] Um I think especially with linting and
+[00:36:18] Um I think especially with linting and like uh and testing these things are so
+[00:36:21] like uh and testing these things are so
+[00:36:21] like uh and testing these things are so codebase dependent and like framework
+[00:36:23] codebase dependent and like framework
+[00:36:23] codebase dependent and like framework dependent that ultimately it's not a
+[00:36:26] dependent that ultimately it's not a
+[00:36:26] dependent that ultimately it's not a one-sizefits-all solution. Um like like
+[00:36:30] one-sizefits-all solution. Um like like
+[00:36:30] one-sizefits-all solution. Um like like for like we have multiple different
+[00:36:32] for like we have multiple different
+[00:36:32] for like we have multiple different repos and they all have like one's a
+[00:36:35] repos and they all have like one's a
+[00:36:35] repos and they all have like one's a TypeScript repo, the other is like
+[00:36:36] TypeScript repo, the other is like
+[00:36:36] TypeScript repo, the other is like primarily Python and Go. Um and the
+[00:36:40] primarily Python and Go. Um and the
+[00:36:40] primarily Python and Go. Um and the hooks that we have there are are are
+[00:36:42] hooks that we have there are are are
+[00:36:42] hooks that we have there are are are different. um they they do tend to like
+[00:36:46] different. um they they do tend to like
+[00:36:46] different. um they they do tend to like you probably already have the existing
+[00:36:47] you probably already have the existing
+[00:36:48] you probably already have the existing infra for this. It's just about like
+[00:36:49] infra for this. It's just about like
+[00:36:49] infra for this. It's just about like setting up those hooks to uh to to to to
+[00:36:53] setting up those hooks to uh to to to to
+[00:36:53] setting up those hooks to uh to to to to hit into your existing infra.
+[00:36:54] hit into your existing infra.
+[00:36:54] hit into your existing infra. &gt;&gt; I was just wondering at what point you
+[00:36:55] &gt;&gt; I was just wondering at what point you
+[00:36:55] &gt;&gt; I was just wondering at what point you put in the like at which places you do
+[00:36:57] put in the like at which places you do
+[00:36:57] put in the like at which places you do abstract it like because you could
+[00:36:59] abstract it like because you could
+[00:36:59] abstract it like because you could abstract this this technically in
+[00:37:00] abstract this this technically in
+[00:37:00] abstract this this technically in multiple different places you know even
+[00:37:02] multiple different places you know even
+[00:37:02] multiple different places you know even within the hooks at one step in the hook
+[00:37:04] within the hooks at one step in the hook
+[00:37:04] within the hooks at one step in the hook pipeline you know the different hook
+[00:37:05] pipeline you know the different hook
+[00:37:05] pipeline you know the different hook events or pre-commit post commit or tons
+[00:37:08] events or pre-commit post commit or tons
+[00:37:08] events or pre-commit post commit or tons of other events that can happen
+[00:37:09] of other events that can happen
+[00:37:09] of other events that can happen throughout the pipeline with the file
+[00:37:11] throughout the pipeline with the file
+[00:37:11] throughout the pipeline with the file being edited and closed. it could be
+[00:37:12] being edited and closed. it could be
+[00:37:12] being edited and closed. it could be linked automatically separate or you
+[00:37:14] linked automatically separate or you
+[00:37:14] linked automatically separate or you know things like that. So I was just
+[00:37:16] know things like that. So I was just
+[00:37:16] know things like that. So I was just wondering you know but hooks are the
+[00:37:18] wondering you know but hooks are the
+[00:37:18] wondering you know but hooks are the primarily the abstraction point that
+[00:37:20] primarily the abstraction point that
+[00:37:20] primarily the abstraction point that you're still like using for most of
+[00:37:23] you're still like using for most of
+[00:37:23] you're still like using for most of this.
+[00:37:26] &gt;&gt; Oh sorry uh are hooks the primary method
+[00:37:29] &gt;&gt; Oh sorry uh are hooks the primary method that you're using for automation?
+[00:37:31] that you're using for automation?
+[00:37:31] that you're using for automation? &gt;&gt; Uh yeah hooks are quite effective for
+[00:37:33] &gt;&gt; Uh yeah hooks are quite effective for
+[00:37:33] &gt;&gt; Uh yeah hooks are quite effective for for that type of thing. Uh my
+[00:37:35] for that type of thing. Uh my
+[00:37:35] for that type of thing. Uh my &gt;&gt; pre-commit post commit and other methods
+[00:37:37] &gt;&gt; pre-commit post commit and other methods
+[00:37:37] &gt;&gt; pre-commit post commit and other methods of injection or events that happen
+[00:37:39] of injection or events that happen
+[00:37:39] of injection or events that happen during
+[00:37:40] during
+[00:37:40] during &gt;&gt; life. Um, we also there's also like LSP
+[00:37:43] &gt;&gt; life. Um, we also there's also like LSP
+[00:37:43] &gt;&gt; life. Um, we also there's also like LSP pug plugins uh for for cloud code and
+[00:37:45] pug plugins uh for for cloud code and
+[00:37:45] pug plugins uh for for cloud code and like those can those I think work on uh
+[00:37:49] like those can those I think work on uh
+[00:37:49] like those can those I think work on uh file edit hooks. So every time cloud
+[00:37:51] file edit hooks. So every time cloud
+[00:37:51] file edit hooks. So every time cloud edits a file the LSP runs and it gives
+[00:37:54] edits a file the LSP runs and it gives
+[00:37:54] edits a file the LSP runs and it gives it immediate feedback.
+[00:37:55] it immediate feedback.
+[00:37:55] it immediate feedback. &gt;&gt; Well, there's just so many ways to do
+[00:37:57] &gt;&gt; Well, there's just so many ways to do
+[00:37:57] &gt;&gt; Well, there's just so many ways to do this. I was just wondering if if you
+[00:37:58] this. I was just wondering if if you
+[00:37:58] this. I was just wondering if if you guys have, you know, kind of fallen into
+[00:38:00] guys have, you know, kind of fallen into
+[00:38:00] guys have, you know, kind of fallen into your favorite ways or things that you
+[00:38:02] your favorite ways or things that you
+[00:38:02] your favorite ways or things that you found that you didn't like. Uh I think
+[00:38:04] found that you didn't like. Uh I think
+[00:38:04] found that you didn't like. Uh I think for me personally I like the pre-commit
+[00:38:06] for me personally I like the pre-commit
+[00:38:06] for me personally I like the pre-commit hooks because I find that sometimes if
+[00:38:09] hooks because I find that sometimes if
+[00:38:09] hooks because I find that sometimes if it's if it's per edit or like it's a
+[00:38:11] it's if it's per edit or like it's a
+[00:38:11] it's if it's per edit or like it's a file edit hook uh you can confuse claude
+[00:38:14] file edit hook uh you can confuse claude
+[00:38:14] file edit hook uh you can confuse claude by giving it too much information while
+[00:38:16] by giving it too much information while
+[00:38:16] by giving it too much information while it's in in its like you know in its zone
+[00:38:18] it's in in its like you know in its zone
+[00:38:18] it's in in its like you know in its zone and and building things. Um but the
+[00:38:20] and and building things. Um but the
+[00:38:20] and and building things. Um but the reason why we have hooks in in some ways
+[00:38:23] reason why we have hooks in in some ways
+[00:38:23] reason why we have hooks in in some ways is because we we understand that like
+[00:38:25] is because we we understand that like
+[00:38:25] is because we we understand that like every project is different and
+[00:38:26] every project is different and
+[00:38:26] every project is different and everyone's requirements are different.
+[00:38:28] everyone's requirements are different.
+[00:38:28] everyone's requirements are different. So you can kind of hook in according to
+[00:38:29] So you can kind of hook in according to
+[00:38:29] So you can kind of hook in according to your your project's uh kind of
+[00:38:31] your your project's uh kind of
+[00:38:31] your your project's uh kind of requirements.
+[00:38:32] requirements.
+[00:38:32] requirements. &gt;&gt; Thank you.
+[00:38:34] &gt;&gt; Thank you.
+[00:38:34] &gt;&gt; Thank you. Um how
+[00:38:35] Um how
+[00:38:35] Um how &gt;&gt; hey Sid Sid um
+[00:38:39] &gt;&gt; hey Sid Sid um
+[00:38:39] &gt;&gt; hey Sid Sid um every tool that gets created to solve a
+[00:38:41] every tool that gets created to solve a
+[00:38:41] every tool that gets created to solve a problem obviously creates new sets of
+[00:38:43] problem obviously creates new sets of
+[00:38:43] problem obviously creates new sets of problems and the intent behind this
+[00:38:45] problems and the intent behind this
+[00:38:45] problems and the intent behind this question is as a production engineering
+[00:38:46] question is as a production engineering
+[00:38:46] question is as a production engineering manager my job is to sort of anticipate
+[00:38:49] manager my job is to sort of anticipate
+[00:38:49] manager my job is to sort of anticipate these problems and you know get ahead of
+[00:38:50] these problems and you know get ahead of
+[00:38:50] these problems and you know get ahead of it and we have talked about the most
+[00:38:52] it and we have talked about the most
+[00:38:52] it and we have talked about the most obvious ones how to run this at scale uh
+[00:38:54] obvious ones how to run this at scale uh
+[00:38:54] obvious ones how to run this at scale uh how to run agents as teams what have you
+[00:38:57] how to run agents as teams what have you
+[00:38:57] how to run agents as teams what have you but what are the non-obvious problems
+[00:38:59] but what are the non-obvious problems
+[00:38:59] but what are the non-obvious problems you think you know I'm asking you to
+[00:39:01] you think you know I'm asking you to
+[00:39:01] you think you know I'm asking you to read the crystal ball here But what are
+[00:39:02] read the crystal ball here But what are
+[00:39:02] read the crystal ball here But what are the non-obvious problems that you think
+[00:39:04] the non-obvious problems that you think
+[00:39:04] the non-obvious problems that you think that most people don't know about and
+[00:39:06] that most people don't know about and
+[00:39:06] that most people don't know about and what problems do you envision these
+[00:39:08] what problems do you envision these
+[00:39:08] what problems do you envision these tools being created that we need to
+[00:39:09] tools being created that we need to
+[00:39:09] tools being created that we need to start looking at?
+[00:39:12] start looking at?
+[00:39:12] start looking at? &gt;&gt; Yeah, it's a good one. Uh I think CI was
+[00:39:14] &gt;&gt; Yeah, it's a good one. Uh I think CI was
+[00:39:14] &gt;&gt; Yeah, it's a good one. Uh I think CI was a non-obvious problem that at least for
+[00:39:16] a non-obvious problem that at least for
+[00:39:16] a non-obvious problem that at least for me I I didn't uh I didn't out of
+[00:39:19] me I I didn't uh I didn't out of
+[00:39:19] me I I didn't uh I didn't out of everything that could break, I I didn't
+[00:39:20] everything that could break, I I didn't
+[00:39:20] everything that could break, I I didn't think that CI would start breaking um
+[00:39:23] think that CI would start breaking um
+[00:39:23] think that CI would start breaking um just because of how many new PRs are
+[00:39:24] just because of how many new PRs are
+[00:39:24] just because of how many new PRs are going in. Uh I think more generally
+[00:39:26] going in. Uh I think more generally
+[00:39:26] going in. Uh I think more generally speaking though uh I think the kinds of
+[00:39:29] speaking though uh I think the kinds of
+[00:39:29] speaking though uh I think the kinds of problems that emerge now are more about
+[00:39:31] problems that emerge now are more about
+[00:39:31] problems that emerge now are more about like product and vision problems rather
+[00:39:33] like product and vision problems rather
+[00:39:34] like product and vision problems rather than like coding problems right I think
+[00:39:35] than like coding problems right I think
+[00:39:35] than like coding problems right I think coding and the actual execution of your
+[00:39:38] coding and the actual execution of your
+[00:39:38] coding and the actual execution of your tasks is is getting abstracted away
+[00:39:40] tasks is is getting abstracted away
+[00:39:40] tasks is is getting abstracted away quite quickly and then kind of what
+[00:39:41] quite quickly and then kind of what
+[00:39:42] quite quickly and then kind of what happens next is like okay if you can
+[00:39:43] happens next is like okay if you can
+[00:39:43] happens next is like okay if you can build anything uh and the cost of
+[00:39:46] build anything uh and the cost of
+[00:39:46] build anything uh and the cost of building something is close to zero or
+[00:39:48] building something is close to zero or
+[00:39:48] building something is close to zero or trending towards zero uh what matters
+[00:39:51] trending towards zero uh what matters
+[00:39:51] trending towards zero uh what matters now is like what you choose to build uh
+[00:39:53] now is like what you choose to build uh
+[00:39:53] now is like what you choose to build uh and and and I think That's kind of where
+[00:39:55] and and and I think That's kind of where
+[00:39:55] and and and I think That's kind of where the problem is going to be. Um,
+[00:39:59] the problem is going to be. Um,
+[00:39:59] the problem is going to be. Um, you're going to switch the problem from
+[00:40:00] you're going to switch the problem from
+[00:40:00] you're going to switch the problem from like how fast can I build this and how
+[00:40:02] like how fast can I build this and how
+[00:40:02] like how fast can I build this and how to build this to what should I build.
+[00:40:05] to build this to what should I build.
+[00:40:05] to build this to what should I build. Um, yeah.
+[00:40:06] Um, yeah.
+[00:40:06] Um, yeah. &gt;&gt; Thank you.
+[00:40:07] &gt;&gt; Thank you. &gt;&gt; Um, Sid, I was curious about uh your
+[00:40:11] &gt;&gt; Um, Sid, I was curious about uh your
+[00:40:11] &gt;&gt; Um, Sid, I was curious about uh your take on context window capacity. Sorry.
+[00:40:14] take on context window capacity. Sorry.
+[00:40:14] take on context window capacity. Sorry. Yeah.
+[00:40:14] Yeah.
+[00:40:14] Yeah. &gt;&gt; Um, you mentioned, you know, sometimes
+[00:40:16] &gt;&gt; Um, you mentioned, you know, sometimes
+[00:40:16] &gt;&gt; Um, you mentioned, you know, sometimes you use up the whole context window in a
+[00:40:18] you use up the whole context window in a
+[00:40:18] you use up the whole context window in a plan mode and I think most of us who
+[00:40:21] plan mode and I think most of us who
+[00:40:21] plan mode and I think most of us who have experimented are aware of like the
+[00:40:22] have experimented are aware of like the
+[00:40:22] have experimented are aware of like the dumb zone where the agent starts to tip
+[00:40:24] dumb zone where the agent starts to tip
+[00:40:24] dumb zone where the agent starts to tip over and give you bad outputs. I was
+[00:40:26] over and give you bad outputs. I was
+[00:40:26] over and give you bad outputs. I was curious as we're moving towards larger
+[00:40:28] curious as we're moving towards larger
+[00:40:28] curious as we're moving towards larger models that have like the million token
+[00:40:30] models that have like the million token
+[00:40:30] models that have like the million token window. Do you feel like there's still a
+[00:40:33] window. Do you feel like there's still a
+[00:40:33] window. Do you feel like there's still a point which you should kind of avoid? Is
+[00:40:35] point which you should kind of avoid? Is
+[00:40:35] point which you should kind of avoid? Is it still 60% which I kind of understand
+[00:40:37] it still 60% which I kind of understand
+[00:40:37] it still 60% which I kind of understand is the the given best practice today or
+[00:40:41] is the the given best practice today or
+[00:40:41] is the the given best practice today or you know what's your thoughts on that?
+[00:40:43] you know what's your thoughts on that?
+[00:40:43] you know what's your thoughts on that? Um yeah I think like as the models get
+[00:40:45] Um yeah I think like as the models get
+[00:40:45] Um yeah I think like as the models get better uh they also get better at
+[00:40:48] better uh they also get better at
+[00:40:48] better uh they also get better at utilizing their context window more
+[00:40:49] utilizing their context window more
+[00:40:49] utilizing their context window more efficiently. Uh so if I look back at
+[00:40:51] efficiently. Uh so if I look back at
+[00:40:51] efficiently. Uh so if I look back at like I don't know sonnet 35 or something
+[00:40:54] like I don't know sonnet 35 or something
+[00:40:54] like I don't know sonnet 35 or something like it it definitely it was there was a
+[00:40:56] like it it definitely it was there was a
+[00:40:56] like it it definitely it was there was a very clear mark around like the 100k
+[00:40:58] very clear mark around like the 100k
+[00:40:58] very clear mark around like the 100k 110k token window where it was like it's
+[00:41:01] 110k token window where it was like it's
+[00:41:01] 110k token window where it was like it's falling off the cliff let's like do
+[00:41:03] falling off the cliff let's like do
+[00:41:03] falling off the cliff let's like do something else. Uh I think uh the models
+[00:41:06] something else. Uh I think uh the models
+[00:41:06] something else. Uh I think uh the models are progressively getting better at
+[00:41:07] are progressively getting better at
+[00:41:07] are progressively getting better at that. So and I'm hoping that they
+[00:41:08] that. So and I'm hoping that they
+[00:41:08] that. So and I'm hoping that they continue to do so. Um, my personal
+[00:41:11] continue to do so. Um, my personal
+[00:41:11] continue to do so. Um, my personal experience with Opus 46 has been that it
+[00:41:15] experience with Opus 46 has been that it
+[00:41:15] experience with Opus 46 has been that it it's a it's like a vibe thing. Like
+[00:41:17] it's a it's like a vibe thing. Like
+[00:41:17] it's a it's like a vibe thing. Like sometimes it's in the zone and it's
+[00:41:19] sometimes it's in the zone and it's
+[00:41:19] sometimes it's in the zone and it's building things and it's like going down
+[00:41:21] building things and it's like going down
+[00:41:21] building things and it's like going down the right it's it's it's chosen the the
+[00:41:23] the right it's it's it's chosen the the
+[00:41:23] the right it's it's it's chosen the the right way to go solve a problem and I'll
+[00:41:25] right way to go solve a problem and I'll
+[00:41:25] right way to go solve a problem and I'll just like let it fly and it like autoco
+[00:41:27] just like let it fly and it like autoco
+[00:41:27] just like let it fly and it like autoco compacts and does it thing. Uh,
+[00:41:29] compacts and does it thing. Uh,
+[00:41:29] compacts and does it thing. Uh, sometimes I I find that I have to fight
+[00:41:31] sometimes I I find that I have to fight
+[00:41:31] sometimes I I find that I have to fight with it a little bit, you know, like I'm
+[00:41:33] with it a little bit, you know, like I'm
+[00:41:33] with it a little bit, you know, like I'm steering it, I'm, you know, going back
+[00:41:35] steering it, I'm, you know, going back
+[00:41:35] steering it, I'm, you know, going back and forth. I'm still ideulating. I I
+[00:41:37] and forth. I'm still ideulating. I I
+[00:41:37] and forth. I'm still ideulating. I I myself don't really know how I want to
+[00:41:39] myself don't really know how I want to
+[00:41:39] myself don't really know how I want to build this and in those cases I still do
+[00:41:41] build this and in those cases I still do
+[00:41:41] build this and in those cases I still do find that sometimes it kind of gets
+[00:41:43] find that sometimes it kind of gets
+[00:41:43] find that sometimes it kind of gets confused later and in I think that's
+[00:41:45] confused later and in I think that's
+[00:41:45] confused later and in I think that's when like having a plan file is really
+[00:41:47] when like having a plan file is really
+[00:41:47] when like having a plan file is really really helpful because this plan file
+[00:41:50] really helpful because this plan file
+[00:41:50] really helpful because this plan file can kind of have keep your most
+[00:41:51] can kind of have keep your most
+[00:41:51] can kind of have keep your most important state and then you can just
+[00:41:53] important state and then you can just
+[00:41:53] important state and then you can just clear the context and start again from
+[00:41:54] clear the context and start again from
+[00:41:54] clear the context and start again from the same file. Um so it's it's a it's I
+[00:41:59] the same file. Um so it's it's a it's I
+[00:41:59] the same file. Um so it's it's a it's I don't have a hard and fast rule around
+[00:42:00] don't have a hard and fast rule around
+[00:42:00] don't have a hard and fast rule around like oh 70 70% like you know clear it.
+[00:42:03] like oh 70 70% like you know clear it.
+[00:42:03] like oh 70 70% like you know clear it. It just depends on on the use case and
+[00:42:05] It just depends on on the use case and
+[00:42:05] It just depends on on the use case and it's it's it's kind of vibe based.
+[00:42:07] it's it's it's kind of vibe based.
+[00:42:07] it's it's it's kind of vibe based. &gt;&gt; Last one.
+[00:42:08] &gt;&gt; Last one.
+[00:42:08] &gt;&gt; Last one. &gt;&gt; Yeah. Hi. Uh yeah, I was curious. You
+[00:42:12] &gt;&gt; Yeah. Hi. Uh yeah, I was curious. You
+[00:42:12] &gt;&gt; Yeah. Hi. Uh yeah, I was curious. You you mentioned using agents for code
+[00:42:15] you mentioned using agents for code
+[00:42:15] you mentioned using agents for code review and like we're doing that
+[00:42:16] review and like we're doing that
+[00:42:16] review and like we're doing that obviously, but like there's trust issues
+[00:42:18] obviously, but like there's trust issues
+[00:42:18] obviously, but like there's trust issues with like do you trust the code review?
+[00:42:21] with like do you trust the code review?
+[00:42:21] with like do you trust the code review? And so I'm curious, that's a real
+[00:42:23] And so I'm curious, that's a real
+[00:42:23] And so I'm curious, that's a real bottleneck. Like what do you view today
+[00:42:25] bottleneck. Like what do you view today
+[00:42:26] bottleneck. Like what do you view today the role of humans for code review and
+[00:42:29] the role of humans for code review and
+[00:42:29] the role of humans for code review and where do you see that going?
+[00:42:31] where do you see that going?
+[00:42:31] where do you see that going? &gt;&gt; Yeah. Um,
+[00:42:34] &gt;&gt; Yeah. Um,
+[00:42:34] &gt;&gt; Yeah. Um, some of this is uh prompt tuning, right?
+[00:42:38] some of this is uh prompt tuning, right?
+[00:42:38] some of this is uh prompt tuning, right? Like what we've we've been through many
+[00:42:40] Like what we've we've been through many
+[00:42:40] Like what we've we've been through many many iterations of our like code review
+[00:42:42] many iterations of our like code review
+[00:42:42] many iterations of our like code review uh agents as I'm sure like a lot of you
+[00:42:44] uh agents as I'm sure like a lot of you
+[00:42:44] uh agents as I'm sure like a lot of you have too. Um, and improving the prompt
+[00:42:47] have too. Um, and improving the prompt
+[00:42:47] have too. Um, and improving the prompt and like improving maybe the harness for
+[00:42:50] and like improving maybe the harness for
+[00:42:50] and like improving maybe the harness for the for the code reviews has material
+[00:42:53] the for the code reviews has material
+[00:42:53] the for the code reviews has material impact on the quality of the code
+[00:42:55] impact on the quality of the code
+[00:42:55] impact on the quality of the code reviews. Uh when we started off we were
+[00:42:57] reviews. Uh when we started off we were
+[00:42:57] reviews. Uh when we started off we were we were seeing that clock like we would
+[00:42:59] we were seeing that clock like we would
+[00:42:59] we were seeing that clock like we would get three four five comments on every PR
+[00:43:01] get three four five comments on every PR
+[00:43:01] get three four five comments on every PR and and people would just lose trust on
+[00:43:03] and and people would just lose trust on
+[00:43:03] and and people would just lose trust on those comments. Um it was too much
+[00:43:05] those comments. Um it was too much
+[00:43:05] those comments. Um it was too much signal too much noise not enough signal
+[00:43:07] signal too much noise not enough signal
+[00:43:07] signal too much noise not enough signal right uh and as soon as you for any
+[00:43:10] right uh and as soon as you for any
+[00:43:10] right uh and as soon as you for any product like as soon as you have that
+[00:43:12] product like as soon as you have that
+[00:43:12] product like as soon as you have that like you lose trust immediately. Uh so
+[00:43:15] like you lose trust immediately. Uh so
+[00:43:15] like you lose trust immediately. Uh so the number one thing that we we focused
+[00:43:17] the number one thing that we we focused
+[00:43:17] the number one thing that we we focused on was like how do we reduce these like
+[00:43:19] on was like how do we reduce these like
+[00:43:19] on was like how do we reduce these like five to 10 comments into just like two
+[00:43:21] five to 10 comments into just like two
+[00:43:21] five to 10 comments into just like two comments right like let's say we we we
+[00:43:23] comments right like let's say we we we
+[00:43:23] comments right like let's say we we we we only focus on the high priority ones
+[00:43:26] we only focus on the high priority ones
+[00:43:26] we only focus on the high priority ones even if we have high certainty but low
+[00:43:29] even if we have high certainty but low
+[00:43:29] even if we have high certainty but low priority we like let it go u so some of
+[00:43:32] priority we like let it go u so some of
+[00:43:32] priority we like let it go u so some of it is just like prompt tuning and also
+[00:43:34] it is just like prompt tuning and also
+[00:43:34] it is just like prompt tuning and also the models getting better I think like
+[00:43:36] the models getting better I think like
+[00:43:36] the models getting better I think like Opus 46 is much much better at code
+[00:43:39] Opus 46 is much much better at code
+[00:43:39] Opus 46 is much much better at code reviews than uh Sonet 35 was and I I I
+[00:43:42] reviews than uh Sonet 35 was and I I I
+[00:43:42] reviews than uh Sonet 35 was and I I I presume this is going to continue to to
+[00:43:43] presume this is going to continue to to
+[00:43:43] presume this is going to continue to to be the But do you do you have other
+[00:43:45] be the But do you do you have other
+[00:43:46] be the But do you do you have other humans reviewing like the the human who
+[00:43:48] humans reviewing like the the human who
+[00:43:48] humans reviewing like the the human who wrote the code and generated the PR, do
+[00:43:50] wrote the code and generated the PR, do
+[00:43:50] wrote the code and generated the PR, do you have a different human that's
+[00:43:51] you have a different human that's
+[00:43:51] you have a different human that's reviewing those comments and are they
+[00:43:54] reviewing those comments and are they
+[00:43:54] reviewing those comments and are they doing a thorough job? Like what's the
+[00:43:56] doing a thorough job? Like what's the
+[00:43:56] doing a thorough job? Like what's the responsibility there and and how do you
+[00:43:58] responsibility there and and how do you
+[00:43:58] responsibility there and and how do you see that trend?
+[00:43:59] see that trend?
+[00:43:59] see that trend? &gt;&gt; Yeah, I think like for for the cloud
+[00:44:01] &gt;&gt; Yeah, I think like for for the cloud
+[00:44:01] &gt;&gt; Yeah, I think like for for the cloud code team, everyone's really good about
+[00:44:02] code team, everyone's really good about
+[00:44:02] code team, everyone's really good about taking ownership of the code that
+[00:44:04] taking ownership of the code that
+[00:44:04] taking ownership of the code that they're writing. Uh so effectively if my
+[00:44:08] they're writing. Uh so effectively if my
+[00:44:08] they're writing. Uh so effectively if my claude wrote something that broke
+[00:44:10] claude wrote something that broke
+[00:44:10] claude wrote something that broke production it's it's my claude's job to
+[00:44:13] production it's it's my claude's job to
+[00:44:13] production it's it's my claude's job to go and fix it later right so like uh
+[00:44:16] go and fix it later right so like uh
+[00:44:16] go and fix it later right so like uh it's
+[00:44:18] it's
+[00:44:18] it's but that wasn't Jess but really though
+[00:44:22] but that wasn't Jess but really though
+[00:44:22] but that wasn't Jess but really though like it's it's if you're submitting
+[00:44:24] like it's it's if you're submitting
+[00:44:24] like it's it's if you're submitting something I I think okay let me rephrase
+[00:44:27] something I I think okay let me rephrase
+[00:44:27] something I I think okay let me rephrase this I think the bars for approving PRs
+[00:44:31] this I think the bars for approving PRs
+[00:44:31] this I think the bars for approving PRs has gone down in my opinion right like
+[00:44:33] has gone down in my opinion right like
+[00:44:34] has gone down in my opinion right like people are people are more willing to
+[00:44:35] people are people are more willing to
+[00:44:35] people are people are more willing to accept things than not, especially if
+[00:44:37] accept things than not, especially if
+[00:44:37] accept things than not, especially if it's been reviewed by claude and they've
+[00:44:39] it's been reviewed by claude and they've
+[00:44:39] it's been reviewed by claude and they've like unleashed their claw on it. Um,
+[00:44:41] like unleashed their claw on it. Um,
+[00:44:41] like unleashed their claw on it. Um, however, the buck stops with the person
+[00:44:43] however, the buck stops with the person
+[00:44:43] however, the buck stops with the person who wrote the code. So, I think you need
+[00:44:44] who wrote the code. So, I think you need
+[00:44:44] who wrote the code. So, I think you need like the person who's writing the code
+[00:44:45] like the person who's writing the code
+[00:44:45] like the person who's writing the code needs to be more responsible for like
+[00:44:47] needs to be more responsible for like
+[00:44:47] needs to be more responsible for like let's assume that you had no PR reviews
+[00:44:49] let's assume that you had no PR reviews
+[00:44:50] let's assume that you had no PR reviews and you had no branch protections in
+[00:44:51] and you had no branch protections in
+[00:44:51] and you had no branch protections in your codebase, right? Anyone could just
+[00:44:53] your codebase, right? Anyone could just
+[00:44:53] your codebase, right? Anyone could just push domain whenever they wanted to. And
+[00:44:55] push domain whenever they wanted to. And
+[00:44:55] push domain whenever they wanted to. And that's actually how the cloud code repo
+[00:44:56] that's actually how the cloud code repo
+[00:44:56] that's actually how the cloud code repo was for like the first like two or three
+[00:44:58] was for like the first like two or three
+[00:44:58] was for like the first like two or three months when we were building like we we
+[00:45:00] months when we were building like we we
+[00:45:00] months when we were building like we we were just like yoloing changes in it.
+[00:45:02] were just like yoloing changes in it.
+[00:45:02] were just like yoloing changes in it. Uh, and our velocity was incredible. we
+[00:45:04] Uh, and our velocity was incredible. we
+[00:45:04] Uh, and our velocity was incredible. we would break things but then we would fix
+[00:45:06] would break things but then we would fix
+[00:45:06] would break things but then we would fix them immediately after. Um and something
+[00:45:08] them immediately after. Um and something
+[00:45:08] them immediately after. Um and something that like Adam one of Adam Wolf who's on
+[00:45:11] that like Adam one of Adam Wolf who's on
+[00:45:11] that like Adam one of Adam Wolf who's on our team um he he says is uh quick
+[00:45:15] our team um he he says is uh quick
+[00:45:15] our team um he he says is uh quick remediation is much better than
+[00:45:17] remediation is much better than
+[00:45:17] remediation is much better than proactive um proactively trying to catch
+[00:45:20] proactive um proactively trying to catch
+[00:45:20] proactive um proactively trying to catch bugs like you will have bugs no matter
+[00:45:21] bugs like you will have bugs no matter
+[00:45:21] bugs like you will have bugs no matter what happens 100% or like there's
+[00:45:23] what happens 100% or like there's
+[00:45:23] what happens 100% or like there's nothing you can do in this world that
+[00:45:25] nothing you can do in this world that
+[00:45:25] nothing you can do in this world that would like prevent any single bug from
+[00:45:27] would like prevent any single bug from
+[00:45:27] would like prevent any single bug from getting in but what's most important is
+[00:45:28] getting in but what's most important is
+[00:45:28] getting in but what's most important is like how are you quick to to to to
+[00:45:31] like how are you quick to to to to
+[00:45:31] like how are you quick to to to to rectify it and fix it going forward. Um,
+[00:45:33] rectify it and fix it going forward. Um,
+[00:45:33] rectify it and fix it going forward. Um, and so I think that's some of the kind
+[00:45:35] and so I think that's some of the kind
+[00:45:36] and so I think that's some of the kind of a thing that we've taken as well.
+[00:45:38] of a thing that we've taken as well.
+[00:45:38] of a thing that we've taken as well. &gt;&gt; Amazing. Sid, give it up for Sid. Thank
+[00:45:41] &gt;&gt; Amazing. Sid, give it up for Sid. Thank
+[00:45:41] &gt;&gt; Amazing. Sid, give it up for Sid. Thank you.
+[00:45:43] you.
+[00:45:43] you. &gt;&gt; Thank you, dude.
+[00:45:43] &gt;&gt; Thank you, dude.
+[00:45:43] &gt;&gt; Thank you, dude. &gt;&gt; Awesome.
+[00:45:51] Hey, he's there. You give a big round of
+[00:45:54] Hey, he's there. You give a big round of applause for Scott.

@@ -1,0 +1,28 @@
+{
+  "source_url": "https://x.com/rohanpaul_ai/status/2033878126758138314",
+  "source_title": "@rohanpaul_ai — Alibaba Open-Sources OpenSandbox (8K+ stars, gVisor/Firecracker agent sandboxing)",
+  "catalogue_path": "research/catalogue/posts/2026-03/rohanpaul-alibaba-opensandbox.md",
+  "ingested_at": "2026-03-21T00:00:00Z",
+  "relevance_score": 7,
+  "verdict": "MEDIUM-HIGH — production-grade agent sandboxing eliminates the hardest security problem for autonomous agent deployments; directly relevant to BSI/DSGVO compliance requirements for gov client work; not immediate priority (tmux works for now) but critical for Phase 3 cloud scaling and SaaS Factory",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/alibaba/OpenSandbox",
+      "title": "OpenSandbox — general-purpose sandbox platform for AI applications (8.9K stars, Apache 2.0)",
+      "relevance": 8,
+      "notes": "Primary GitHub repo. Multi-language SDKs (Python, Java, TS, C#), unified sandbox APIs, Docker/Kubernetes runtimes, gVisor/Kata/Firecracker isolation. Listed in CNCF Landscape. Worth a full /tool-catalogue ingest as infrastructure entry."
+    },
+    {
+      "url": "https://github.com/alibaba/OpenSandbox/blob/main/docs/architecture.md",
+      "title": "OpenSandbox Architecture Documentation — sandbox protocol, runtime details, network policies",
+      "relevance": 7,
+      "notes": "Detailed architecture docs covering server (Python FastAPI), execution daemon, ingress/egress proxy, runtime sandboxes. Worth reading before evaluating as tmux replacement for isolated agent execution."
+    },
+    {
+      "url": "https://github.com/restyler/awesome-sandbox",
+      "title": "awesome-sandbox — curated list of code sandboxing solutions for AI",
+      "relevance": 6,
+      "notes": "Awesome list comparing sandbox approaches (Firecracker, gVisor, WASM). Useful for landscape awareness when evaluating isolation strategies."
+    }
+  ]
+}

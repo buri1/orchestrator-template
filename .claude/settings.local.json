@@ -48,7 +48,16 @@
       "Bash(pgrep:*)",
       "Bash(bash:*)",
       "Bash(chmod:*)",
-      "Bash(tmux:*)"
+      "Bash(tmux:*)",
+      "WebFetch(domain:scrapebadger.com)",
+      "Read(//Users/buraksmac/Desktop/code2/orchestrator/**)",
+      "Bash(python3 /tmp/scrape_dotta_following.py)",
+      "Bash(python3 /tmp/scrape_tweets.py)",
+      "Bash(python3:*)",
+      "mcp__chrome-devtools__list_pages",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__evaluate_script",
+      "WebFetch(domain:thenewstack.io)"
     ]
   },
   "hooks": {

@@ -1,0 +1,22 @@
+{
+  "version": "4.0",
+  "mode": "cmux",
+  "project": {
+    "name": "",
+    "dir": "",
+    "repo": ""
+  },
+  "current_epic": null,
+  "current_story": null,
+  "phase": "idle",
+  "workers": [],
+  "history": [],
+  "stats": {
+    "stories_completed": 0,
+    "stories_skipped": 0,
+    "prs_merged": 0,
+    "review_cycles_total": 0,
+    "started_at": null,
+    "last_updated": null
+  }
+}

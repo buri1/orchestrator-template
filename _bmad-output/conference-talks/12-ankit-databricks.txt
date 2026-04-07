@@ -1,0 +1,1415 @@
+# Talk: Infrastructure for Coding Agents at Scale - MCPs and Beyond
+# Speaker: Ankit Mathur (Databricks)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 05:13:03 - 05:40:20
+# Lines: 1408
+
+[05:13:03] upon Ankut Ankit Matur from data bricks.
+[05:13:03] upon Ankut Ankit Matur from data bricks. Um over to you and big round of applause
+[05:13:05] Um over to you and big round of applause
+[05:13:05] Um over to you and big round of applause for him.
+[05:13:40] All right. Um, thanks everyone for being
+[05:13:44] All right. Um, thanks everyone for being here. Uh, my name is Ankit. I work on
+[05:13:46] here. Uh, my name is Ankit. I work on
+[05:13:46] here. Uh, my name is Ankit. I work on infrastructure at data bricks. um
+[05:13:48] infrastructure at data bricks. um
+[05:13:48] infrastructure at data bricks. um excited to chat today about uh coding
+[05:13:50] excited to chat today about uh coding
+[05:13:50] excited to chat today about uh coding agents.
+[05:13:52] agents.
+[05:13:52] agents. So
+[05:13:54] So um representing a lot of work from
+[05:13:56] um representing a lot of work from
+[05:13:56] um representing a lot of work from Arushi, my co-speaker. She wasn't able
+[05:13:57] Arushi, my co-speaker. She wasn't able
+[05:13:57] Arushi, my co-speaker. She wasn't able to make it uh because of some travel
+[05:13:59] to make it uh because of some travel
+[05:13:59] to make it uh because of some travel issues. Uh but uh let's let's get
+[05:14:02] issues. Uh but uh let's let's get
+[05:14:02] issues. Uh but uh let's let's get started. Um
+[05:14:04] started. Um
+[05:14:04] started. Um I feel like we live in one of the most
+[05:14:06] I feel like we live in one of the most
+[05:14:06] I feel like we live in one of the most exciting times to be an engineer. uh and
+[05:14:10] exciting times to be an engineer. uh and
+[05:14:10] exciting times to be an engineer. uh and and it's really incredible like for many
+[05:14:13] and it's really incredible like for many
+[05:14:13] and it's really incredible like for many years the impact of technology has been
+[05:14:15] years the impact of technology has been
+[05:14:15] years the impact of technology has been uh extremely substantial in the sense
+[05:14:18] uh extremely substantial in the sense
+[05:14:18] uh extremely substantial in the sense that people are working super hard you
+[05:14:20] that people are working super hard you
+[05:14:20] that people are working super hard you know technologies deployed in society
+[05:14:23] know technologies deployed in society
+[05:14:23] know technologies deployed in society and it's creating incredible change but
+[05:14:25] and it's creating incredible change but
+[05:14:25] and it's creating incredible change but what's been rare is having resources
+[05:14:27] what's been rare is having resources
+[05:14:27] what's been rare is having resources like engineers who are really really
+[05:14:29] like engineers who are really really
+[05:14:29] like engineers who are really really incredible and high output and now we
+[05:14:32] incredible and high output and now we
+[05:14:32] incredible and high output and now we live in an era where it feels like every
+[05:14:34] live in an era where it feels like every
+[05:14:34] live in an era where it feels like every time uh a new model comes out we have
+[05:14:37] time uh a new model comes out we have
+[05:14:37] time uh a new model comes out we have just another kind of 10x engineer here.
+[05:14:39] just another kind of 10x engineer here.
+[05:14:39] just another kind of 10x engineer here. Uh, and so there's lots of coding tools
+[05:14:41] Uh, and so there's lots of coding tools
+[05:14:41] Uh, and so there's lots of coding tools out there. I'm sure all of you have
+[05:14:42] out there. I'm sure all of you have
+[05:14:42] out there. I'm sure all of you have tried uh, several of them. Cloud code,
+[05:14:45] tried uh, several of them. Cloud code,
+[05:14:45] tried uh, several of them. Cloud code, Gemini CLI, cursor, codeex, and you
+[05:14:47] Gemini CLI, cursor, codeex, and you
+[05:14:47] Gemini CLI, cursor, codeex, and you know, Google actually has two. Uh, so
+[05:14:50] know, Google actually has two. Uh, so
+[05:14:50] know, Google actually has two. Uh, so it's, uh, naturally, I think it's going
+[05:14:53] it's, uh, naturally, I think it's going
+[05:14:53] it's, uh, naturally, I think it's going to become a huge challenge to figure out
+[05:14:55] to become a huge challenge to figure out
+[05:14:55] to become a huge challenge to figure out how to actually get these things
+[05:14:56] how to actually get these things
+[05:14:56] how to actually get these things deployed within your enterprise. So,
+[05:14:59] deployed within your enterprise. So,
+[05:14:59] deployed within your enterprise. So, let's take a little bit of a different
+[05:15:00] let's take a little bit of a different
+[05:15:00] let's take a little bit of a different perspective on deploying coding agents
+[05:15:03] perspective on deploying coding agents
+[05:15:03] perspective on deploying coding agents today. Uh, and think about it from the
+[05:15:04] today. Uh, and think about it from the
+[05:15:04] today. Uh, and think about it from the perspective of an IT admin.
+[05:15:07] perspective of an IT admin.
+[05:15:07] perspective of an IT admin. uh even though we as engineers are
+[05:15:09] uh even though we as engineers are
+[05:15:09] uh even though we as engineers are having some of the best times ever right
+[05:15:12] having some of the best times ever right
+[05:15:12] having some of the best times ever right this solving this problem is actually a
+[05:15:13] this solving this problem is actually a
+[05:15:13] this solving this problem is actually a lot of work for it especially at large
+[05:15:16] lot of work for it especially at large
+[05:15:16] lot of work for it especially at large enterprises where data security is
+[05:15:17] enterprises where data security is
+[05:15:17] enterprises where data security is important uh what are the main problems
+[05:15:20] important uh what are the main problems
+[05:15:20] important uh what are the main problems right if you're actually using multiple
+[05:15:21] right if you're actually using multiple
+[05:15:21] right if you're actually using multiple of these coding tools then you typically
+[05:15:23] of these coding tools then you typically
+[05:15:23] of these coding tools then you typically are having to manage multiple different
+[05:15:25] are having to manage multiple different
+[05:15:25] are having to manage multiple different vendor contracts different admin
+[05:15:28] vendor contracts different admin
+[05:15:28] vendor contracts different admin consoles your billing is all over the
+[05:15:30] consoles your billing is all over the
+[05:15:30] consoles your billing is all over the place you're getting charged by uh every
+[05:15:33] place you're getting charged by uh every
+[05:15:33] place you're getting charged by uh every different kind of coding provider uh You
+[05:15:36] different kind of coding provider uh You
+[05:15:36] different kind of coding provider uh You don't actually know who's using what in
+[05:15:38] don't actually know who's using what in
+[05:15:38] don't actually know who's using what in your enterprise and it's actually
+[05:15:39] your enterprise and it's actually
+[05:15:39] your enterprise and it's actually difficult to enforce critical security
+[05:15:41] difficult to enforce critical security
+[05:15:41] difficult to enforce critical security policies like not having data be used
+[05:15:44] policies like not having data be used
+[05:15:44] policies like not having data be used for training for any of these models if
+[05:15:46] for training for any of these models if
+[05:15:46] for training for any of these models if you want to pass PII.
+[05:15:48] you want to pass PII.
+[05:15:48] you want to pass PII. These are real problems that most IT
+[05:15:51] These are real problems that most IT
+[05:15:51] These are real problems that most IT admins have to deal with. And so even
+[05:15:52] admins have to deal with. And so even
+[05:15:52] admins have to deal with. And so even though for us as engineers it's awesome
+[05:15:54] though for us as engineers it's awesome
+[05:15:54] though for us as engineers it's awesome to try out every new tool uh this is
+[05:15:56] to try out every new tool uh this is
+[05:15:56] to try out every new tool uh this is something that actually is slowing down
+[05:15:58] something that actually is slowing down
+[05:15:58] something that actually is slowing down the deployment of these incredibly
+[05:15:59] the deployment of these incredibly
+[05:15:59] the deployment of these incredibly valuable resources these incredibly
+[05:16:01] valuable resources these incredibly
+[05:16:02] valuable resources these incredibly valuable 10x engineers in today's
+[05:16:03] valuable 10x engineers in today's
+[05:16:03] valuable 10x engineers in today's enterprise landscape.
+[05:16:06] enterprise landscape.
+[05:16:06] enterprise landscape. When you take a security lens on it, it
+[05:16:08] When you take a security lens on it, it
+[05:16:08] When you take a security lens on it, it it gets even more complicated, right?
+[05:16:11] it gets even more complicated, right?
+[05:16:11] it gets even more complicated, right? These are some of the most privileged
+[05:16:13] These are some of the most privileged
+[05:16:13] These are some of the most privileged users. They have you want them to
+[05:16:15] users. They have you want them to
+[05:16:15] users. They have you want them to actually have access to everything. You
+[05:16:16] actually have access to everything. You
+[05:16:16] actually have access to everything. You want them to be able to read the
+[05:16:18] want them to be able to read the
+[05:16:18] want them to be able to read the description of a task in Jira uh action
+[05:16:21] description of a task in Jira uh action
+[05:16:21] description of a task in Jira uh action on it based on uh your cloud
+[05:16:23] on it based on uh your cloud
+[05:16:23] on it based on uh your cloud infrastructure and your code repository.
+[05:16:25] infrastructure and your code repository.
+[05:16:26] infrastructure and your code repository. You want it to have access to external
+[05:16:28] You want it to have access to external
+[05:16:28] You want it to have access to external APIs so that it can do a lot more
+[05:16:30] APIs so that it can do a lot more
+[05:16:30] APIs so that it can do a lot more information gathering when you're
+[05:16:31] information gathering when you're
+[05:16:31] information gathering when you're debugging an incident. uh and and you
+[05:16:34] debugging an incident. uh and and you
+[05:16:34] debugging an incident. uh and and you want it to really be able to read about
+[05:16:35] want it to really be able to read about
+[05:16:35] want it to really be able to read about the context of your company too. You
+[05:16:37] the context of your company too. You
+[05:16:37] the context of your company too. You want it to know your code words and all
+[05:16:39] want it to know your code words and all
+[05:16:39] want it to know your code words and all the different design docs that might be
+[05:16:41] the different design docs that might be
+[05:16:41] the different design docs that might be in play. Uh so that's actually the power
+[05:16:44] in play. Uh so that's actually the power
+[05:16:44] in play. Uh so that's actually the power of these tools. But at the same time,
+[05:16:46] of these tools. But at the same time,
+[05:16:46] of these tools. But at the same time, you want to make sure that if only your
+[05:16:50] you want to make sure that if only your
+[05:16:50] you want to make sure that if only your executive team has access to a document
+[05:16:52] executive team has access to a document
+[05:16:52] executive team has access to a document that it's not pulled in when an API call
+[05:16:54] that it's not pulled in when an API call
+[05:16:54] that it's not pulled in when an API call from an agent is being made.
+[05:16:57] from an agent is being made.
+[05:16:57] from an agent is being made. So these are real problems that are very
+[05:17:00] So these are real problems that are very
+[05:17:00] So these are real problems that are very hard to solve today. And I I actually
+[05:17:02] hard to solve today. And I I actually
+[05:17:02] hard to solve today. And I I actually think these are some of the number one
+[05:17:03] think these are some of the number one
+[05:17:03] think these are some of the number one reasons that people aren't using more
+[05:17:05] reasons that people aren't using more
+[05:17:05] reasons that people aren't using more coding tools.
+[05:17:06] coding tools.
+[05:17:06] coding tools. What do developers actually do in
+[05:17:08] What do developers actually do in
+[05:17:08] What do developers actually do in enterprises? Um well, typically there is
+[05:17:11] enterprises? Um well, typically there is
+[05:17:12] enterprises? Um well, typically there is uh some tool of uh that you know has
+[05:17:15] uh some tool of uh that you know has
+[05:17:15] uh some tool of uh that you know has been blessed by it. That's the tool of
+[05:17:17] been blessed by it. That's the tool of
+[05:17:17] been blessed by it. That's the tool of record uh and everyone uses that one.
+[05:17:20] record uh and everyone uses that one.
+[05:17:20] record uh and everyone uses that one. But what's actually happening with how
+[05:17:22] But what's actually happening with how
+[05:17:22] But what's actually happening with how fast today's landscape is moving is that
+[05:17:24] fast today's landscape is moving is that
+[05:17:24] fast today's landscape is moving is that developers are taking a look at the
+[05:17:26] developers are taking a look at the
+[05:17:26] developers are taking a look at the various complex nuanced benefits of each
+[05:17:29] various complex nuanced benefits of each
+[05:17:29] various complex nuanced benefits of each kind of model and using them for
+[05:17:31] kind of model and using them for
+[05:17:31] kind of model and using them for different use cases. So you might for
+[05:17:33] different use cases. So you might for
+[05:17:34] different use cases. So you might for example use a different tool for
+[05:17:35] example use a different tool for
+[05:17:35] example use a different tool for refactoring code than for writing tests
+[05:17:38] refactoring code than for writing tests
+[05:17:38] refactoring code than for writing tests and maybe a different one to review the
+[05:17:40] and maybe a different one to review the
+[05:17:40] and maybe a different one to review the code. uh like I myself use uh clawed
+[05:17:44] code. uh like I myself use uh clawed
+[05:17:44] code. uh like I myself use uh clawed code to write my code but then I use a
+[05:17:45] code to write my code but then I use a
+[05:17:46] code to write my code but then I use a different model usually codeex to review
+[05:17:47] different model usually codeex to review
+[05:17:48] different model usually codeex to review it and I've found a lot of success in
+[05:17:50] it and I've found a lot of success in
+[05:17:50] it and I've found a lot of success in that model because it it tends to be the
+[05:17:52] that model because it it tends to be the
+[05:17:52] that model because it it tends to be the case that if the model wrote the code it
+[05:17:53] case that if the model wrote the code it
+[05:17:53] case that if the model wrote the code it doesn't see fundamental design flaws
+[05:17:55] doesn't see fundamental design flaws
+[05:17:55] doesn't see fundamental design flaws that might be in it I mean by the way
+[05:17:57] that might be in it I mean by the way
+[05:17:57] that might be in it I mean by the way that's like kind of the same as humans
+[05:17:58] that's like kind of the same as humans
+[05:17:58] that's like kind of the same as humans right so uh this is something that's
+[05:18:00] right so uh this is something that's
+[05:18:00] right so uh this is something that's really uh a workflow that enhances
+[05:18:03] really uh a workflow that enhances
+[05:18:04] really uh a workflow that enhances productivity right and I think that
+[05:18:06] productivity right and I think that
+[05:18:06] productivity right and I think that first slide that we had that talked a
+[05:18:08] first slide that we had that talked a
+[05:18:08] first slide that we had that talked a little bit about the leverage that these
+[05:18:09] little bit about the leverage that these
+[05:18:09] little bit about the leverage that these coding tools buy is extremely important
+[05:18:12] coding tools buy is extremely important
+[05:18:12] coding tools buy is extremely important to remember in this context. Before when
+[05:18:14] to remember in this context. Before when
+[05:18:14] to remember in this context. Before when you used to bet on software, you'd pick
+[05:18:16] you used to bet on software, you'd pick
+[05:18:16] you used to bet on software, you'd pick one and it would be mostly fine because
+[05:18:19] one and it would be mostly fine because
+[05:18:19] one and it would be mostly fine because things were 10 15% better. Uh and you
+[05:18:22] things were 10 15% better. Uh and you
+[05:18:22] things were 10 15% better. Uh and you know that's not enough to move the
+[05:18:23] know that's not enough to move the
+[05:18:23] know that's not enough to move the needle on that kind of thing. But if
+[05:18:25] needle on that kind of thing. But if
+[05:18:25] needle on that kind of thing. But if you're getting 10 to 15% more
+[05:18:27] you're getting 10 to 15% more
+[05:18:27] you're getting 10 to 15% more productivity or better code, that's the
+[05:18:30] productivity or better code, that's the
+[05:18:30] productivity or better code, that's the most kind of valuable asset that you can
+[05:18:32] most kind of valuable asset that you can
+[05:18:32] most kind of valuable asset that you can have. So you should absolutely use the
+[05:18:34] have. So you should absolutely use the
+[05:18:34] have. So you should absolutely use the best tool for your use case, even if
+[05:18:36] best tool for your use case, even if
+[05:18:36] best tool for your use case, even if that's not the one-sizefits-all solution
+[05:18:38] that's not the one-sizefits-all solution
+[05:18:38] that's not the one-sizefits-all solution that you have already.
+[05:18:40] that you have already.
+[05:18:40] that you have already. So it's just extremely limiting as a
+[05:18:42] So it's just extremely limiting as a
+[05:18:42] So it's just extremely limiting as a developer and I think this will become
+[05:18:43] developer and I think this will become
+[05:18:43] developer and I think this will become more and more true as more models become
+[05:18:46] more and more true as more models become
+[05:18:46] more and more true as more models become amazing at coding. Um it's already the
+[05:18:49] amazing at coding. Um it's already the
+[05:18:49] amazing at coding. Um it's already the case that people's different harnesses I
+[05:18:51] case that people's different harnesses I
+[05:18:51] case that people's different harnesses I mean we even saw a number of the talks
+[05:18:53] mean we even saw a number of the talks
+[05:18:53] mean we even saw a number of the talks that we've seen today a lot of
+[05:18:55] that we've seen today a lot of
+[05:18:55] that we've seen today a lot of investment and innovation is going into
+[05:18:57] investment and innovation is going into
+[05:18:57] investment and innovation is going into harnesses on top of the models and so
+[05:18:59] harnesses on top of the models and so
+[05:18:59] harnesses on top of the models and so for different use cases this is going to
+[05:19:01] for different use cases this is going to
+[05:19:01] for different use cases this is going to continue to be true.
+[05:19:04] continue to be true.
+[05:19:04] continue to be true. Now, if you take what this what what
+[05:19:06] Now, if you take what this what what
+[05:19:06] Now, if you take what this what what happened here with the slide before that
+[05:19:08] happened here with the slide before that
+[05:19:08] happened here with the slide before that where IT admins have a lot of trouble
+[05:19:10] where IT admins have a lot of trouble
+[05:19:10] where IT admins have a lot of trouble just even managing procuring a few of
+[05:19:12] just even managing procuring a few of
+[05:19:12] just even managing procuring a few of the tools and then you have all these
+[05:19:15] the tools and then you have all these
+[05:19:15] the tools and then you have all these developers who are actually just trying
+[05:19:16] developers who are actually just trying
+[05:19:16] developers who are actually just trying to use stuff on their own and and
+[05:19:18] to use stuff on their own and and
+[05:19:18] to use stuff on their own and and they're probably going to work around
+[05:19:19] they're probably going to work around
+[05:19:19] they're probably going to work around it. Uh you end up with a really really
+[05:19:21] it. Uh you end up with a really really
+[05:19:21] it. Uh you end up with a really really challenging problem. And so this is and
+[05:19:25] challenging problem. And so this is and
+[05:19:25] challenging problem. And so this is and and like you know for the reasons that I
+[05:19:26] and like you know for the reasons that I
+[05:19:26] and like you know for the reasons that I said around security, this isn't a
+[05:19:28] said around security, this isn't a
+[05:19:28] said around security, this isn't a trivial thing. This isn't a process
+[05:19:30] trivial thing. This isn't a process
+[05:19:30] trivial thing. This isn't a process problem. This is a real issue that needs
+[05:19:31] problem. This is a real issue that needs
+[05:19:31] problem. This is a real issue that needs to be solved. Um and so we call this
+[05:19:34] to be solved. Um and so we call this
+[05:19:34] to be solved. Um and so we call this thing agent sprawl. Um and it's
+[05:19:38] thing agent sprawl. Um and it's
+[05:19:38] thing agent sprawl. Um and it's happening everywhere. Uh as more and
+[05:19:41] happening everywhere. Uh as more and
+[05:19:41] happening everywhere. Uh as more and more of us use these coding tools, I
+[05:19:44] more of us use these coding tools, I
+[05:19:44] more of us use these coding tools, I really believe that coding tools are
+[05:19:45] really believe that coding tools are
+[05:19:45] really believe that coding tools are going to be a top 10 cost driver for all
+[05:19:47] going to be a top 10 cost driver for all
+[05:19:47] going to be a top 10 cost driver for all of these companies. So this is a really
+[05:19:49] of these companies. So this is a really
+[05:19:50] of these companies. So this is a really important problem for us to solve. Uh so
+[05:19:52] important problem for us to solve. Uh so
+[05:19:52] important problem for us to solve. Uh so today I'm going to talk a little bit
+[05:19:53] today I'm going to talk a little bit
+[05:19:53] today I'm going to talk a little bit about uh a technology that we've built
+[05:19:55] about uh a technology that we've built
+[05:19:55] about uh a technology that we've built to to address this problem and and how
+[05:19:57] to to address this problem and and how
+[05:19:57] to to address this problem and and how we use coding tools at data bricks to to
+[05:19:59] we use coding tools at data bricks to to
+[05:19:59] we use coding tools at data bricks to to maybe just share some learnings from
+[05:20:01] maybe just share some learnings from
+[05:20:01] maybe just share some learnings from that.
+[05:20:03] that.
+[05:20:03] that. What we built was this thing called the
+[05:20:04] What we built was this thing called the
+[05:20:04] What we built was this thing called the coding agent gateway. Uh we really
+[05:20:06] coding agent gateway. Uh we really
+[05:20:06] coding agent gateway. Uh we really believe strongly that developers should
+[05:20:08] believe strongly that developers should
+[05:20:08] believe strongly that developers should be free to use whichever tools that they
+[05:20:11] be free to use whichever tools that they
+[05:20:11] be free to use whichever tools that they want. Uh but in order to do that, we
+[05:20:14] want. Uh but in order to do that, we
+[05:20:14] want. Uh but in order to do that, we need to meet admins and enterprise
+[05:20:15] need to meet admins and enterprise
+[05:20:15] need to meet admins and enterprise admins exactly where they're at and help
+[05:20:17] admins exactly where they're at and help
+[05:20:17] admins exactly where they're at and help them solve the important security
+[05:20:19] them solve the important security
+[05:20:19] them solve the important security problems uh and procurement problems
+[05:20:21] problems uh and procurement problems
+[05:20:21] problems uh and procurement problems that they have. And so we think a
+[05:20:22] that they have. And so we think a
+[05:20:22] that they have. And so we think a gateway helps solve those things. Uh
+[05:20:25] gateway helps solve those things. Uh
+[05:20:25] gateway helps solve those things. Uh what does the gateway do? Well, it just
+[05:20:27] what does the gateway do? Well, it just
+[05:20:27] what does the gateway do? Well, it just provides observability, right? First
+[05:20:29] provides observability, right? First
+[05:20:29] provides observability, right? First important thing is always to just
+[05:20:31] important thing is always to just
+[05:20:31] important thing is always to just collect data on what's going on. Um, and
+[05:20:34] collect data on what's going on. Um, and
+[05:20:34] collect data on what's going on. Um, and so you want to know which users are
+[05:20:35] so you want to know which users are
+[05:20:36] so you want to know which users are hitting rate limits. Uh, who are the
+[05:20:38] hitting rate limits. Uh, who are the
+[05:20:38] hitting rate limits. Uh, who are the people who are your power users because
+[05:20:39] people who are your power users because
+[05:20:39] people who are your power users because they're probably also your biggest
+[05:20:41] they're probably also your biggest
+[05:20:41] they're probably also your biggest champions to make coding tools more and
+[05:20:43] champions to make coding tools more and
+[05:20:43] champions to make coding tools more and more popular in your engineering
+[05:20:44] more popular in your engineering
+[05:20:44] more popular in your engineering organization. Uh, you want dashboards to
+[05:20:47] organization. Uh, you want dashboards to
+[05:20:47] organization. Uh, you want dashboards to actually show all of this information,
+[05:20:49] actually show all of this information,
+[05:20:49] actually show all of this information, right? If it's a top 10 cost driver,
+[05:20:50] right? If it's a top 10 cost driver,
+[05:20:50] right? If it's a top 10 cost driver, inevitably uh, you know, your finance
+[05:20:53] inevitably uh, you know, your finance
+[05:20:53] inevitably uh, you know, your finance team is going to care about it at some
+[05:20:54] team is going to care about it at some
+[05:20:54] team is going to care about it at some point. Uh, and that's related to cost
+[05:20:56] point. Uh, and that's related to cost
+[05:20:56] point. Uh, and that's related to cost controls, right? it it doesn't make
+[05:20:59] controls, right? it it doesn't make
+[05:20:59] controls, right? it it doesn't make sense if you're using three tools to
+[05:21:01] sense if you're using three tools to
+[05:21:01] sense if you're using three tools to have three different cost controls in
+[05:21:03] have three different cost controls in
+[05:21:03] have three different cost controls in different places. Uh ideally you'd like
+[05:21:05] different places. Uh ideally you'd like
+[05:21:05] different places. Uh ideally you'd like to be able to say hey like let this
+[05:21:07] to be able to say hey like let this
+[05:21:07] to be able to say hey like let this person use let's say $1,000 a month but
+[05:21:10] person use let's say $1,000 a month but
+[05:21:10] person use let's say $1,000 a month but across any coding tool that they really
+[05:21:12] across any coding tool that they really
+[05:21:12] across any coding tool that they really want to
+[05:21:14] want to
+[05:21:14] want to put freedom and control back in the
+[05:21:16] put freedom and control back in the
+[05:21:16] put freedom and control back in the hands of the developer but you as an
+[05:21:19] hands of the developer but you as an
+[05:21:19] hands of the developer but you as an admin can get a single bill from that.
+[05:21:21] admin can get a single bill from that.
+[05:21:21] admin can get a single bill from that. Uh and then privacy, right? Like a lot
+[05:21:23] Uh and then privacy, right? Like a lot
+[05:21:24] Uh and then privacy, right? Like a lot of people uh work at companies where
+[05:21:26] of people uh work at companies where
+[05:21:26] of people uh work at companies where there's really critical data, there's
+[05:21:27] there's really critical data, there's
+[05:21:27] there's really critical data, there's PII that people don't want to pass uh
+[05:21:30] PII that people don't want to pass uh
+[05:21:30] PII that people don't want to pass uh into models and have it be trained on.
+[05:21:32] into models and have it be trained on.
+[05:21:32] into models and have it be trained on. Uh you want to make sure that you're
+[05:21:33] Uh you want to make sure that you're
+[05:21:33] Uh you want to make sure that you're controlling for that because that is
+[05:21:34] controlling for that because that is
+[05:21:34] controlling for that because that is really really important to the
+[05:21:36] really really important to the
+[05:21:36] really really important to the compliance posture of your company. Um
+[05:21:38] compliance posture of your company. Um
+[05:21:38] compliance posture of your company. Um and and even though coding has gotten a
+[05:21:40] and and even though coding has gotten a
+[05:21:40] and and even though coding has gotten a lot faster, compliance hasn't gotten any
+[05:21:41] lot faster, compliance hasn't gotten any
+[05:21:41] lot faster, compliance hasn't gotten any easier.
+[05:21:44] easier.
+[05:21:44] easier. So we think this is better for kind of
+[05:21:47] So we think this is better for kind of
+[05:21:47] So we think this is better for kind of all sides of a company. And uh I'm going
+[05:21:50] all sides of a company. And uh I'm going
+[05:21:50] all sides of a company. And uh I'm going to show you a little bit today of what
+[05:21:52] to show you a little bit today of what
+[05:21:52] to show you a little bit today of what that looks like in practice.
+[05:21:56] Um let's see.
+[05:22:02] Okay, cool. So here I'm in my laptop,
+[05:22:05] Okay, cool. So here I'm in my laptop, right? Um and uh what does it look like
+[05:22:08] right? Um and uh what does it look like
+[05:22:08] right? Um and uh what does it look like to have this like multiAI coding
+[05:22:10] to have this like multiAI coding
+[05:22:10] to have this like multiAI coding gateway? Well, we have a very very
+[05:22:12] gateway? Well, we have a very very
+[05:22:12] gateway? Well, we have a very very lightweight wrapper that just reports
+[05:22:15] lightweight wrapper that just reports
+[05:22:15] lightweight wrapper that just reports metrics to our gateway and points coding
+[05:22:17] metrics to our gateway and points coding
+[05:22:17] metrics to our gateway and points coding tools at it, right? And so all I need to
+[05:22:18] tools at it, right? And so all I need to
+[05:22:18] tools at it, right? And so all I need to do is this and it logs in in one place
+[05:22:21] do is this and it logs in in one place
+[05:22:21] do is this and it logs in in one place and boom, you've got cloud code here. Uh
+[05:22:24] and boom, you've got cloud code here. Uh
+[05:22:24] and boom, you've got cloud code here. Uh and you can talk to it. Uh you'll notice
+[05:22:26] and you can talk to it. Uh you'll notice
+[05:22:26] and you can talk to it. Uh you'll notice that it's point sorry what
+[05:22:28] that it's point sorry what
+[05:22:28] that it's point sorry what &gt;&gt; can you increase the font size?
+[05:22:29] &gt;&gt; can you increase the font size?
+[05:22:30] &gt;&gt; can you increase the font size? &gt;&gt; Oh yes absolutely. Sorry about that.
+[05:22:32] &gt;&gt; Oh yes absolutely. Sorry about that.
+[05:22:32] &gt;&gt; Oh yes absolutely. Sorry about that. &gt;&gt; Um
+[05:22:34] &gt;&gt; Um
+[05:22:34] &gt;&gt; Um okay hopefully that's a little bit
+[05:22:35] okay hopefully that's a little bit
+[05:22:35] okay hopefully that's a little bit better.
+[05:22:38] better. There we go.
+[05:22:40] There we go.
+[05:22:40] There we go. Um so you'll notice this is pointed at
+[05:22:42] Um so you'll notice this is pointed at
+[05:22:42] Um so you'll notice this is pointed at uh this like data bricks opus 46. That's
+[05:22:45] uh this like data bricks opus 46. That's
+[05:22:45] uh this like data bricks opus 46. That's because we're providing that capacity
+[05:22:47] because we're providing that capacity
+[05:22:47] because we're providing that capacity natively within our serving platform. Uh
+[05:22:50] natively within our serving platform. Uh
+[05:22:50] natively within our serving platform. Uh so you don't have to then go like kind
+[05:22:51] so you don't have to then go like kind
+[05:22:51] so you don't have to then go like kind of yet a separate uh relationship with a
+[05:22:54] of yet a separate uh relationship with a
+[05:22:54] of yet a separate uh relationship with a different provider. So that solves your
+[05:22:56] different provider. So that solves your
+[05:22:56] different provider. So that solves your procurement problem. Okay, cool. So
+[05:22:58] procurement problem. Okay, cool. So
+[05:22:58] procurement problem. Okay, cool. So let's say I wrote some code with cloud
+[05:23:00] let's say I wrote some code with cloud
+[05:23:00] let's say I wrote some code with cloud code and I want to actually just review
+[05:23:02] code and I want to actually just review
+[05:23:02] code and I want to actually just review it myself before I send it out, right?
+[05:23:04] it myself before I send it out, right?
+[05:23:04] it myself before I send it out, right? All I need to do is something like this.
+[05:23:07] All I need to do is something like this.
+[05:23:07] All I need to do is something like this. And boom, now I have codeex open. Uh and
+[05:23:10] And boom, now I have codeex open. Uh and
+[05:23:10] And boom, now I have codeex open. Uh and I can do the same thing. Hey, please
+[05:23:12] I can do the same thing. Hey, please
+[05:23:12] I can do the same thing. Hey, please review my code.
+[05:23:16] review my code.
+[05:23:16] review my code. and it'll just kick itself off, right?
+[05:23:18] and it'll just kick itself off, right?
+[05:23:18] and it'll just kick itself off, right? You could do now you can imagine doing
+[05:23:20] You could do now you can imagine doing
+[05:23:20] You could do now you can imagine doing the same exact thing for for cursor or
+[05:23:23] the same exact thing for for cursor or
+[05:23:23] the same exact thing for for cursor or uh for any of the many other coding
+[05:23:25] uh for any of the many other coding
+[05:23:25] uh for any of the many other coding tools that are out there. And each of
+[05:23:27] tools that are out there. And each of
+[05:23:27] tools that are out there. And each of these coding tools will have their own
+[05:23:28] these coding tools will have their own
+[05:23:28] these coding tools will have their own strengths and their own weaknesses. And
+[05:23:30] strengths and their own weaknesses. And
+[05:23:30] strengths and their own weaknesses. And I think that will continue over time. So
+[05:23:32] I think that will continue over time. So
+[05:23:32] I think that will continue over time. So uh developers will typically like to uh
+[05:23:35] uh developers will typically like to uh
+[05:23:35] uh developers will typically like to uh will will like to use the tool that's
+[05:23:36] will will like to use the tool that's
+[05:23:36] will will like to use the tool that's best for the use case in that case,
+[05:23:38] best for the use case in that case,
+[05:23:38] best for the use case in that case, right? Okay, cool. So I did all this
+[05:23:41] right? Okay, cool. So I did all this
+[05:23:41] right? Okay, cool. So I did all this stuff, right? That's what it looks like
+[05:23:42] stuff, right? That's what it looks like
+[05:23:42] stuff, right? That's what it looks like for the developer. super easy, not too
+[05:23:45] for the developer. super easy, not too
+[05:23:45] for the developer. super easy, not too different from your existing workflow.
+[05:23:46] different from your existing workflow.
+[05:23:46] different from your existing workflow. You're using the same harness that you
+[05:23:48] You're using the same harness that you
+[05:23:48] You're using the same harness that you were using before. But what did it get
+[05:23:50] were using before. But what did it get
+[05:23:50] were using before. But what did it get for the admin? Uh well, so we have this
+[05:23:53] for the admin? Uh well, so we have this
+[05:23:53] for the admin? Uh well, so we have this thing that uh you know, it looks like an
+[05:23:55] thing that uh you know, it looks like an
+[05:23:55] thing that uh you know, it looks like an AI gateway and it has uh a bunch of
+[05:23:57] AI gateway and it has uh a bunch of
+[05:23:57] AI gateway and it has uh a bunch of frontier models in it. It has open
+[05:23:59] frontier models in it. It has open
+[05:23:59] frontier models in it. It has open source models in it. I think there's a
+[05:24:01] source models in it. I think there's a
+[05:24:01] source models in it. I think there's a lot of amazing open source coding models
+[05:24:02] lot of amazing open source coding models
+[05:24:02] lot of amazing open source coding models that are extremely fast. Uh but
+[05:24:05] that are extremely fast. Uh but
+[05:24:05] that are extremely fast. Uh but critically it has uh built-in dashboards
+[05:24:07] critically it has uh built-in dashboards
+[05:24:07] critically it has uh built-in dashboards and reporting that goes into the same
+[05:24:09] and reporting that goes into the same
+[05:24:09] and reporting that goes into the same place where all your other cost data
+[05:24:11] place where all your other cost data
+[05:24:11] place where all your other cost data goes which is your data warehouse. Um
+[05:24:14] goes which is your data warehouse. Um
+[05:24:14] goes which is your data warehouse. Um here you can see a lot of important
+[05:24:16] here you can see a lot of important
+[05:24:16] here you can see a lot of important metrics like how many requests have been
+[05:24:18] metrics like how many requests have been
+[05:24:18] metrics like how many requests have been sent? How many tokens am I using? Um
+[05:24:21] sent? How many tokens am I using? Um
+[05:24:21] sent? How many tokens am I using? Um which coding tools are popular within my
+[05:24:23] which coding tools are popular within my
+[05:24:23] which coding tools are popular within my company. Uh which are the users who are
+[05:24:26] company. Uh which are the users who are
+[05:24:26] company. Uh which are the users who are using the most and which ones are they
+[05:24:27] using the most and which ones are they
+[05:24:27] using the most and which ones are they using? And then if you actually uh are
+[05:24:30] using? And then if you actually uh are
+[05:24:30] using? And then if you actually uh are ingesting all those metrics, right, you
+[05:24:32] ingesting all those metrics, right, you
+[05:24:32] ingesting all those metrics, right, you can start visualizing them in one place
+[05:24:34] can start visualizing them in one place
+[05:24:34] can start visualizing them in one place too. There's critical metrics like how
+[05:24:35] too. There's critical metrics like how
+[05:24:35] too. There's critical metrics like how many lines of code you're adding, how
+[05:24:37] many lines of code you're adding, how
+[05:24:37] many lines of code you're adding, how many sessions you're doing that are that
+[05:24:38] many sessions you're doing that are that
+[05:24:38] many sessions you're doing that are that are important for people to track. Um
+[05:24:41] are important for people to track. Um
+[05:24:41] are important for people to track. Um and so these kinds of things we feel are
+[05:24:43] and so these kinds of things we feel are
+[05:24:43] and so these kinds of things we feel are extremely important to uh being able to
+[05:24:46] extremely important to uh being able to
+[05:24:46] extremely important to uh being able to deploy these coding tools really really
+[05:24:48] deploy these coding tools really really
+[05:24:48] deploy these coding tools really really rapidly. So when for example the codeex
+[05:24:51] rapidly. So when for example the codeex
+[05:24:51] rapidly. So when for example the codeex models get better, it's not a debate
+[05:24:54] models get better, it's not a debate
+[05:24:54] models get better, it's not a debate between developers and admins about
+[05:24:55] between developers and admins about
+[05:24:55] between developers and admins about whether we should get it or not. You
+[05:24:57] whether we should get it or not. You
+[05:24:57] whether we should get it or not. You just get it. You point it at the same
+[05:24:59] just get it. You point it at the same
+[05:24:59] just get it. You point it at the same gateway and you have comfort that you
+[05:25:00] gateway and you have comfort that you
+[05:25:00] gateway and you have comfort that you have the same observability that you did
+[05:25:02] have the same observability that you did
+[05:25:02] have the same observability that you did before. Um let's go back to the slides.
+[05:25:10] So there is something I think that we
+[05:25:12] So there is something I think that we haven't talked about but is super
+[05:25:14] haven't talked about but is super
+[05:25:14] haven't talked about but is super important. Um and I think it might even
+[05:25:17] important. Um and I think it might even
+[05:25:17] important. Um and I think it might even be like the elephant in the room. It's
+[05:25:18] be like the elephant in the room. It's
+[05:25:18] be like the elephant in the room. It's maybe the number one coding innovation
+[05:25:20] maybe the number one coding innovation
+[05:25:20] maybe the number one coding innovation coding tool innovation that I have
+[05:25:21] coding tool innovation that I have
+[05:25:21] coding tool innovation that I have experienced in the last couple months.
+[05:25:24] experienced in the last couple months.
+[05:25:24] experienced in the last couple months. Um so what is it? Um
+[05:25:27] Um so what is it? Um
+[05:25:27] Um so what is it? Um it's MTPs.
+[05:25:29] it's MTPs.
+[05:25:29] it's MTPs. I think like you know these API
+[05:25:31] I think like you know these API
+[05:25:31] I think like you know these API endpoints that people have giving access
+[05:25:33] endpoints that people have giving access
+[05:25:33] endpoints that people have giving access to these MCP servers has dramatically
+[05:25:36] to these MCP servers has dramatically
+[05:25:36] to these MCP servers has dramatically expanded what these coding tools can do
+[05:25:39] expanded what these coding tools can do
+[05:25:39] expanded what these coding tools can do now rather than like me taking
+[05:25:41] now rather than like me taking
+[05:25:41] now rather than like me taking information from my calendar and posting
+[05:25:44] information from my calendar and posting
+[05:25:44] information from my calendar and posting it in explicitly. I can actually have
+[05:25:46] it in explicitly. I can actually have
+[05:25:46] it in explicitly. I can actually have these agents work on my behalf in many
+[05:25:49] these agents work on my behalf in many
+[05:25:49] these agents work on my behalf in many many capacities across work not just
+[05:25:51] many capacities across work not just
+[05:25:51] many capacities across work not just writing code. Uh but in order to do
+[05:25:53] writing code. Uh but in order to do
+[05:25:53] writing code. Uh but in order to do that, the typical setup flow involves
+[05:25:56] that, the typical setup flow involves
+[05:25:56] that, the typical setup flow involves local token storage where you store
+[05:25:58] local token storage where you store
+[05:25:58] local token storage where you store these things in like plain text. Uh
+[05:26:00] these things in like plain text. Uh
+[05:26:00] these things in like plain text. Uh they're not necessarily rotated. They
+[05:26:02] they're not necessarily rotated. They
+[05:26:02] they're not necessarily rotated. They might be c, you know, set up in a custom
+[05:26:04] might be c, you know, set up in a custom
+[05:26:04] might be c, you know, set up in a custom way. And so that creates these like kind
+[05:26:06] way. And so that creates these like kind
+[05:26:06] way. And so that creates these like kind of security concerns. And again, the way
+[05:26:09] of security concerns. And again, the way
+[05:26:09] of security concerns. And again, the way that these things manifest is is that
+[05:26:11] that these things manifest is is that
+[05:26:11] that these things manifest is is that they're just not a available inside of
+[05:26:13] they're just not a available inside of
+[05:26:13] they're just not a available inside of lots of enterprises. Like there just
+[05:26:14] lots of enterprises. Like there just
+[05:26:14] lots of enterprises. Like there just isn't a Jira MCP until there's a
+[05:26:17] isn't a Jira MCP until there's a
+[05:26:17] isn't a Jira MCP until there's a reasonable story for how it would be
+[05:26:19] reasonable story for how it would be
+[05:26:19] reasonable story for how it would be secured. Um, and so this is a problem we
+[05:26:21] secured. Um, and so this is a problem we
+[05:26:21] secured. Um, and so this is a problem we also want to solve, right? But we don't
+[05:26:23] also want to solve, right? But we don't
+[05:26:23] also want to solve, right? But we don't think it should be uh using any kind of
+[05:26:26] think it should be uh using any kind of
+[05:26:26] think it should be uh using any kind of locally stored to uh tokens. And so
+[05:26:28] locally stored to uh tokens. And so
+[05:26:28] locally stored to uh tokens. And so we've kind of just put this into the
+[05:26:30] we've kind of just put this into the
+[05:26:30] we've kind of just put this into the same data catalog that people already
+[05:26:32] same data catalog that people already
+[05:26:32] same data catalog that people already had. Uh it's fully encrypted. It's it's
+[05:26:35] had. Uh it's fully encrypted. It's it's
+[05:26:35] had. Uh it's fully encrypted. It's it's fully managed. We have auto rotation.
+[05:26:37] fully managed. We have auto rotation.
+[05:26:37] fully managed. We have auto rotation. And this way you're just able to point
+[05:26:38] And this way you're just able to point
+[05:26:38] And this way you're just able to point at your API endpoints and you don't
+[05:26:41] at your API endpoints and you don't
+[05:26:41] at your API endpoints and you don't really have to think about it. You owe
+[05:26:43] really have to think about it. You owe
+[05:26:43] really have to think about it. You owe once into data bricks. You already did
+[05:26:45] once into data bricks. You already did
+[05:26:45] once into data bricks. You already did that for setting up your coding tool and
+[05:26:48] that for setting up your coding tool and
+[05:26:48] that for setting up your coding tool and now you have access to all of those
+[05:26:49] now you have access to all of those
+[05:26:49] now you have access to all of those tokens that are either uh you know user
+[05:26:52] tokens that are either uh you know user
+[05:26:52] tokens that are either uh you know user pass through so you kind of uh you know
+[05:26:54] pass through so you kind of uh you know
+[05:26:54] pass through so you kind of uh you know are accessing accessing it as yourself
+[05:26:57] are accessing accessing it as yourself
+[05:26:57] are accessing accessing it as yourself or they're a shared token and you're
+[05:26:59] or they're a shared token and you're
+[05:26:59] or they're a shared token and you're accessing it as the organization um
+[05:27:02] accessing it as the organization um
+[05:27:02] accessing it as the organization um that's kind of now in the control of
+[05:27:03] that's kind of now in the control of
+[05:27:03] that's kind of now in the control of these admins and so this again enables
+[05:27:06] these admins and so this again enables
+[05:27:06] these admins and so this again enables people to start having lots of MCP
+[05:27:08] people to start having lots of MCP
+[05:27:08] people to start having lots of MCP tools.
+[05:27:10] tools.
+[05:27:10] tools. So I wanted to talk a little bit about
+[05:27:12] So I wanted to talk a little bit about
+[05:27:12] So I wanted to talk a little bit about this because I wanted to explain like
+[05:27:14] this because I wanted to explain like
+[05:27:14] this because I wanted to explain like this thing is how we have deployed
+[05:27:16] this thing is how we have deployed
+[05:27:16] this thing is how we have deployed coding tools at data bricks. Um and so I
+[05:27:18] coding tools at data bricks. Um and so I
+[05:27:18] coding tools at data bricks. Um and so I wanted to just share some learnings with
+[05:27:19] wanted to just share some learnings with
+[05:27:20] wanted to just share some learnings with the with the group and and you know uh
+[05:27:21] the with the group and and you know uh
+[05:27:21] the with the group and and you know uh after this I'd love to talk to more
+[05:27:23] after this I'd love to talk to more
+[05:27:23] after this I'd love to talk to more people and learn from all of you as
+[05:27:24] people and learn from all of you as
+[05:27:24] people and learn from all of you as well. Um so what is what is a little bit
+[05:27:27] well. Um so what is what is a little bit
+[05:27:27] well. Um so what is what is a little bit of about data bricks like we have a lot
+[05:27:29] of about data bricks like we have a lot
+[05:27:29] of about data bricks like we have a lot 2,000 plus engineers across lots of
+[05:27:31] 2,000 plus engineers across lots of
+[05:27:31] 2,000 plus engineers across lots of different offices. um lots of code is
+[05:27:34] different offices. um lots of code is
+[05:27:34] different offices. um lots of code is being written in at least seven
+[05:27:36] being written in at least seven
+[05:27:36] being written in at least seven languages and usually someone is pushing
+[05:27:38] languages and usually someone is pushing
+[05:27:38] languages and usually someone is pushing for an eighth or a ninth or whatever. Uh
+[05:27:40] for an eighth or a ninth or whatever. Uh
+[05:27:40] for an eighth or a ninth or whatever. Uh so code's being merged all the time. So
+[05:27:42] so code's being merged all the time. So
+[05:27:42] so code's being merged all the time. So this is a really really important
+[05:27:43] this is a really really important
+[05:27:43] this is a really really important problem for us. Uh what was helpful for
+[05:27:47] problem for us. Uh what was helpful for
+[05:27:47] problem for us. Uh what was helpful for us? Well, I I think like measuring
+[05:27:49] us? Well, I I think like measuring
+[05:27:49] us? Well, I I think like measuring everything was really really helpful and
+[05:27:50] everything was really really helpful and
+[05:27:50] everything was really really helpful and I'll show you a little bit of of the
+[05:27:51] I'll show you a little bit of of the
+[05:27:51] I'll show you a little bit of of the dashboards that we've built. Um everyone
+[05:27:55] dashboards that we've built. Um everyone
+[05:27:55] dashboards that we've built. Um everyone needed to be leaning in. Uh we have
+[05:27:57] needed to be leaning in. Uh we have
+[05:27:57] needed to be leaning in. Uh we have awesome developers at data bricks but it
+[05:28:00] awesome developers at data bricks but it
+[05:28:00] awesome developers at data bricks but it took a lot of effort to convince people
+[05:28:02] took a lot of effort to convince people
+[05:28:02] took a lot of effort to convince people that they needed to spend all their time
+[05:28:04] that they needed to spend all their time
+[05:28:04] that they needed to spend all their time learning how to use these tools. It's
+[05:28:06] learning how to use these tools. It's
+[05:28:06] learning how to use these tools. It's not just like do the same stuff you were
+[05:28:08] not just like do the same stuff you were
+[05:28:08] not just like do the same stuff you were doing before. Uh I feel there's at least
+[05:28:10] doing before. Uh I feel there's at least
+[05:28:10] doing before. Uh I feel there's at least a little bit of learning curve on how to
+[05:28:12] a little bit of learning curve on how to
+[05:28:12] a little bit of learning curve on how to actually use these things effectively
+[05:28:14] actually use these things effectively
+[05:28:14] actually use these things effectively and to do that every single person not
+[05:28:16] and to do that every single person not
+[05:28:16] and to do that every single person not just like uh the newest engineers needs
+[05:28:19] just like uh the newest engineers needs
+[05:28:19] just like uh the newest engineers needs to lean into using these tools. Uh and
+[05:28:21] to lean into using these tools. Uh and
+[05:28:21] to lean into using these tools. Uh and finally the industry is moving at just
+[05:28:23] finally the industry is moving at just
+[05:28:23] finally the industry is moving at just an incredible pace. uh new models come
+[05:28:26] an incredible pace. uh new models come
+[05:28:26] an incredible pace. uh new models come out every week that improve the frontier
+[05:28:29] out every week that improve the frontier
+[05:28:29] out every week that improve the frontier and so it's no longer true that in order
+[05:28:31] and so it's no longer true that in order
+[05:28:31] and so it's no longer true that in order to move the frontier you needed to do
+[05:28:33] to move the frontier you needed to do
+[05:28:33] to move the frontier you needed to do five years of of research like the
+[05:28:35] five years of of research like the
+[05:28:35] five years of of research like the frontier is moving every week um so you
+[05:28:38] frontier is moving every week um so you
+[05:28:38] frontier is moving every week um so you need to move fast as well so what do we
+[05:28:40] need to move fast as well so what do we
+[05:28:40] need to move fast as well so what do we what did we have that like kind of
+[05:28:42] what did we have that like kind of
+[05:28:42] what did we have that like kind of developers can use we have this harness
+[05:28:44] developers can use we have this harness
+[05:28:44] developers can use we have this harness like you know I showed it to you uh
+[05:28:46] like you know I showed it to you uh
+[05:28:46] like you know I showed it to you uh locally we call it internally Isaac
+[05:28:49] locally we call it internally Isaac
+[05:28:49] locally we call it internally Isaac um Isaac allows you to use any of the
+[05:28:52] um Isaac allows you to use any of the
+[05:28:52] um Isaac allows you to use any of the coding tools but it's a single interface
+[05:28:54] coding tools but it's a single interface
+[05:28:54] coding tools but it's a single interface that people can use to launch them so
+[05:28:57] that people can use to launch them so
+[05:28:57] that people can use to launch them so that they get unified reporting on
+[05:28:58] that they get unified reporting on
+[05:28:58] that they get unified reporting on metrics as I had shown as and so that
+[05:29:01] metrics as I had shown as and so that
+[05:29:01] metrics as I had shown as and so that like uh a bunch of configurations under
+[05:29:03] like uh a bunch of configurations under
+[05:29:03] like uh a bunch of configurations under the scenes for example MCPS and token
+[05:29:06] the scenes for example MCPS and token
+[05:29:06] the scenes for example MCPS and token capacity can be configured.
+[05:29:08] capacity can be configured.
+[05:29:08] capacity can be configured. So within Isaac we route the metrics
+[05:29:10] So within Isaac we route the metrics
+[05:29:10] So within Isaac we route the metrics through our coding gateway as well as
+[05:29:12] through our coding gateway as well as
+[05:29:12] through our coding gateway as well as our MCP login and the coding gateway is
+[05:29:15] our MCP login and the coding gateway is
+[05:29:15] our MCP login and the coding gateway is then dumping that usage data in those
+[05:29:17] then dumping that usage data in those
+[05:29:17] then dumping that usage data in those dashboards which I showed. uh the
+[05:29:20] dashboards which I showed. uh the
+[05:29:20] dashboards which I showed. uh the capacity is pointed at a single place.
+[05:29:21] capacity is pointed at a single place.
+[05:29:21] capacity is pointed at a single place. So we have one place where our finance
+[05:29:23] So we have one place where our finance
+[05:29:23] So we have one place where our finance team gets all the the full bill for all
+[05:29:25] team gets all the the full bill for all
+[05:29:25] team gets all the the full bill for all the different models. Um and we have
+[05:29:27] the different models. Um and we have
+[05:29:27] the different models. Um and we have tool calls that go directly through this
+[05:29:29] tool calls that go directly through this
+[05:29:29] tool calls that go directly through this gateway. So every day when I start my
+[05:29:31] gateway. So every day when I start my
+[05:29:31] gateway. So every day when I start my work, I log into Isaac and Isaac ows me
+[05:29:34] work, I log into Isaac and Isaac ows me
+[05:29:34] work, I log into Isaac and Isaac ows me to a new uh you know refreshes my token
+[05:29:37] to a new uh you know refreshes my token
+[05:29:37] to a new uh you know refreshes my token and now I'm able to use all the MCP
+[05:29:39] and now I'm able to use all the MCP
+[05:29:39] and now I'm able to use all the MCP servers I had connected.
+[05:29:41] servers I had connected.
+[05:29:41] servers I had connected. So this is like one of the internal
+[05:29:43] So this is like one of the internal
+[05:29:44] So this is like one of the internal dashboards that we have. I I um wanted
+[05:29:46] dashboards that we have. I I um wanted
+[05:29:46] dashboards that we have. I I um wanted to show exactly how important this is
+[05:29:48] to show exactly how important this is
+[05:29:48] to show exactly how important this is for us. The default the dashboard I had
+[05:29:50] for us. The default the dashboard I had
+[05:29:50] for us. The default the dashboard I had shown you was the default but the
+[05:29:51] shown you was the default but the
+[05:29:51] shown you was the default but the critical piece of data is that the that
+[05:29:54] critical piece of data is that the that
+[05:29:54] critical piece of data is that the that dashboard is just built on tables within
+[05:29:56] dashboard is just built on tables within
+[05:29:56] dashboard is just built on tables within data bricks and so you can reorganize
+[05:29:57] data bricks and so you can reorganize
+[05:29:57] data bricks and so you can reorganize that however you want. Uh we have
+[05:30:00] that however you want. Uh we have
+[05:30:00] that however you want. Uh we have executive views on the dashboard for you
+[05:30:02] executive views on the dashboard for you
+[05:30:02] executive views on the dashboard for you know tracking how many what percentage
+[05:30:04] know tracking how many what percentage
+[05:30:04] know tracking how many what percentage of the companies using coding tools
+[05:30:05] of the companies using coding tools
+[05:30:05] of the companies using coding tools which ones they're using uh how many
+[05:30:07] which ones they're using uh how many
+[05:30:07] which ones they're using uh how many lines are being written and then we also
+[05:30:09] lines are being written and then we also
+[05:30:09] lines are being written and then we also have team level drill downs where you
+[05:30:11] have team level drill downs where you
+[05:30:11] have team level drill downs where you know people can like look in within
+[05:30:13] know people can like look in within
+[05:30:13] know people can like look in within specific orgs like who is using the most
+[05:30:15] specific orgs like who is using the most
+[05:30:15] specific orgs like who is using the most tools um or the most coding tools. So so
+[05:30:19] tools um or the most coding tools. So so
+[05:30:19] tools um or the most coding tools. So so this is really really critical and this
+[05:30:21] this is really really critical and this
+[05:30:21] this is really really critical and this is the dashboard that our executive team
+[05:30:22] is the dashboard that our executive team
+[05:30:22] is the dashboard that our executive team now reviews every single meeting.
+[05:30:25] now reviews every single meeting.
+[05:30:25] now reviews every single meeting. Um in terms of MCPS right we've
+[05:30:28] Um in terms of MCPS right we've
+[05:30:28] Um in terms of MCPS right we've registered them uh on one page uh and
+[05:30:32] registered them uh on one page uh and
+[05:30:32] registered them uh on one page uh and when you log in you can actually
+[05:30:33] when you log in you can actually
+[05:30:33] when you log in you can actually configure which connections you want
+[05:30:35] configure which connections you want
+[05:30:35] configure which connections you want like do I want to be connected to Glean
+[05:30:37] like do I want to be connected to Glean
+[05:30:37] like do I want to be connected to Glean Jira and Google or just a few of them it
+[05:30:40] Jira and Google or just a few of them it
+[05:30:40] Jira and Google or just a few of them it is important to actually configure that
+[05:30:42] is important to actually configure that
+[05:30:42] is important to actually configure that because if you just pick every MCP
+[05:30:44] because if you just pick every MCP
+[05:30:44] because if you just pick every MCP server you're actually flooding the
+[05:30:46] server you're actually flooding the
+[05:30:46] server you're actually flooding the input context of your requests and
+[05:30:48] input context of your requests and
+[05:30:48] input context of your requests and making them slower and more expensive.
+[05:30:50] making them slower and more expensive.
+[05:30:50] making them slower and more expensive. Um so that's a decision that users still
+[05:30:52] Um so that's a decision that users still
+[05:30:52] Um so that's a decision that users still have to make today. Uh but then yeah,
+[05:30:55] have to make today. Uh but then yeah,
+[05:30:55] have to make today. Uh but then yeah, like I said, right, all I do is when I
+[05:30:57] like I said, right, all I do is when I
+[05:30:57] like I said, right, all I do is when I log in as a developer, I get this URL, I
+[05:30:59] log in as a developer, I get this URL, I
+[05:30:59] log in as a developer, I get this URL, I click on it, I authenticate, and I'm
+[05:31:01] click on it, I authenticate, and I'm
+[05:31:01] click on it, I authenticate, and I'm good to go.
+[05:31:04] good to go.
+[05:31:04] good to go. Um, everyone needs to be leaning in. I I
+[05:31:06] Um, everyone needs to be leaning in. I I
+[05:31:06] Um, everyone needs to be leaning in. I I I always like showing this slide where
+[05:31:08] I always like showing this slide where
+[05:31:08] I always like showing this slide where uh this our our CEO Ali actually is
+[05:31:11] uh this our our CEO Ali actually is
+[05:31:11] uh this our our CEO Ali actually is writing code now using Isaac and and and
+[05:31:13] writing code now using Isaac and and and
+[05:31:13] writing code now using Isaac and and and modifying it as well. Um,
+[05:31:17] modifying it as well. Um,
+[05:31:17] modifying it as well. Um, we would not have been as successful
+[05:31:18] we would not have been as successful
+[05:31:18] we would not have been as successful deploying coding coding tools within
+[05:31:20] deploying coding coding tools within
+[05:31:20] deploying coding coding tools within data within data bricks without explicit
+[05:31:23] data within data bricks without explicit
+[05:31:23] data within data bricks without explicit executive like demand to deploy these
+[05:31:26] executive like demand to deploy these
+[05:31:26] executive like demand to deploy these things. Um and so this is really really
+[05:31:29] things. Um and so this is really really
+[05:31:29] things. Um and so this is really really critical I think to to expanding the
+[05:31:31] critical I think to to expanding the
+[05:31:31] critical I think to to expanding the impact of this technology.
+[05:31:33] impact of this technology.
+[05:31:33] impact of this technology. And finally, we think the bottlenecks
+[05:31:35] And finally, we think the bottlenecks
+[05:31:35] And finally, we think the bottlenecks are shifting really dramatically. Um I I
+[05:31:38] are shifting really dramatically. Um I I
+[05:31:38] are shifting really dramatically. Um I I I want to talk about like coding code
+[05:31:40] I want to talk about like coding code
+[05:31:40] I want to talk about like coding code reviews. I I feel like it's much much
+[05:31:42] reviews. I I feel like it's much much
+[05:31:42] reviews. I I feel like it's much much harder and uh the volume of coding code
+[05:31:46] harder and uh the volume of coding code
+[05:31:46] harder and uh the volume of coding code reviews that you know at least I
+[05:31:47] reviews that you know at least I
+[05:31:47] reviews that you know at least I personally now have is way way up and it
+[05:31:50] personally now have is way way up and it
+[05:31:50] personally now have is way way up and it feels like the tooling hasn't been able
+[05:31:52] feels like the tooling hasn't been able
+[05:31:52] feels like the tooling hasn't been able to keep up. So I think there's a huge
+[05:31:54] to keep up. So I think there's a huge
+[05:31:54] to keep up. So I think there's a huge amount of open opportunity for better
+[05:31:57] amount of open opportunity for better
+[05:31:57] amount of open opportunity for better code reviews and better tools to do
+[05:31:59] code reviews and better tools to do
+[05:31:59] code reviews and better tools to do these things. Um but this isn't a solved
+[05:32:02] these things. Um but this isn't a solved
+[05:32:02] these things. Um but this isn't a solved problem and I would now say that at
+[05:32:04] problem and I would now say that at
+[05:32:04] problem and I would now say that at least at data bricks our velocity is
+[05:32:07] least at data bricks our velocity is
+[05:32:07] least at data bricks our velocity is most bottlenecked by this one thing by
+[05:32:09] most bottlenecked by this one thing by
+[05:32:09] most bottlenecked by this one thing by our ability to scalably scalably review
+[05:32:12] our ability to scalably scalably review
+[05:32:12] our ability to scalably scalably review this code. Same thing with CI. If you're
+[05:32:17] this code. Same thing with CI. If you're
+[05:32:17] this code. Same thing with CI. If you're deploying 10 to 100 agents per human, uh
+[05:32:21] deploying 10 to 100 agents per human, uh
+[05:32:21] deploying 10 to 100 agents per human, uh you've suddenly made massive scalability
+[05:32:24] you've suddenly made massive scalability
+[05:32:24] you've suddenly made massive scalability requests from your CI team. Uh and so
+[05:32:27] requests from your CI team. Uh and so
+[05:32:27] requests from your CI team. Uh and so our CI is is now costing us way more
+[05:32:29] our CI is is now costing us way more
+[05:32:29] our CI is is now costing us way more than it did before. And it's really
+[05:32:32] than it did before. And it's really
+[05:32:32] than it did before. And it's really really painful when people mess up, for
+[05:32:35] really painful when people mess up, for
+[05:32:35] really painful when people mess up, for example, the dependency graphs and lots
+[05:32:38] example, the dependency graphs and lots
+[05:32:38] example, the dependency graphs and lots and lots of tests are running for every
+[05:32:39] and lots of tests are running for every
+[05:32:40] and lots of tests are running for every change. So it's more important than ever
+[05:32:42] change. So it's more important than ever
+[05:32:42] change. So it's more important than ever to have the right abstractions between
+[05:32:43] to have the right abstractions between
+[05:32:43] to have the right abstractions between projects and between different services
+[05:32:46] projects and between different services
+[05:32:46] projects and between different services so that this becomes less of a problem
+[05:32:48] so that this becomes less of a problem
+[05:32:48] so that this becomes less of a problem and agents have a faster dev loop. And
+[05:32:51] and agents have a faster dev loop. And
+[05:32:51] and agents have a faster dev loop. And the final thing is testing. Um the
+[05:32:54] the final thing is testing. Um the
+[05:32:54] the final thing is testing. Um the models are still not like perfect at
+[05:32:56] models are still not like perfect at
+[05:32:56] models are still not like perfect at animating code and at least one thing
+[05:32:59] animating code and at least one thing
+[05:32:59] animating code and at least one thing that we have discovered is giving them
+[05:33:01] that we have discovered is giving them
+[05:33:01] that we have discovered is giving them an explicit validation signal on the
+[05:33:04] an explicit validation signal on the
+[05:33:04] an explicit validation signal on the code very early in the life cycle allows
+[05:33:07] code very early in the life cycle allows
+[05:33:07] code very early in the life cycle allows quality to go up and allows the model
+[05:33:09] quality to go up and allows the model
+[05:33:09] quality to go up and allows the model the model and the agents to enter
+[05:33:11] the model and the agents to enter
+[05:33:11] the model and the agents to enter virtuous loops where they're improving
+[05:33:13] virtuous loops where they're improving
+[05:33:13] virtuous loops where they're improving the code effectively. One of the things
+[05:33:15] the code effectively. One of the things
+[05:33:15] the code effectively. One of the things engineers do is they have context on the
+[05:33:18] engineers do is they have context on the
+[05:33:18] engineers do is they have context on the world in which their code will be
+[05:33:19] world in which their code will be
+[05:33:19] world in which their code will be deployed and they reason about the way
+[05:33:22] deployed and they reason about the way
+[05:33:22] deployed and they reason about the way that they write things in that way. The
+[05:33:25] that they write things in that way. The
+[05:33:25] that they write things in that way. The models don't always have that context. A
+[05:33:27] models don't always have that context. A
+[05:33:27] models don't always have that context. A lot of that is in our heads or in a
+[05:33:29] lot of that is in our heads or in a
+[05:33:29] lot of that is in our heads or in a document somewhere and it takes a lot of
+[05:33:31] document somewhere and it takes a lot of
+[05:33:31] document somewhere and it takes a lot of explicit effort to go and write that
+[05:33:33] explicit effort to go and write that
+[05:33:33] explicit effort to go and write that down and then also to design shift left
+[05:33:36] down and then also to design shift left
+[05:33:36] down and then also to design shift left kind of testing methodologies where
+[05:33:38] kind of testing methodologies where
+[05:33:38] kind of testing methodologies where you're able to call command and have the
+[05:33:40] you're able to call command and have the
+[05:33:40] you're able to call command and have the tool tested. So we for example uh had a
+[05:33:44] tool tested. So we for example uh had a
+[05:33:44] tool tested. So we for example uh had a technology that was kind of like used by
+[05:33:46] technology that was kind of like used by
+[05:33:46] technology that was kind of like used by some people that's now used by a lot of
+[05:33:48] some people that's now used by a lot of
+[05:33:48] some people that's now used by a lot of people uh which allows you to like
+[05:33:50] people uh which allows you to like
+[05:33:50] people uh which allows you to like develop a service and then swap it into
+[05:33:52] develop a service and then swap it into
+[05:33:52] develop a service and then swap it into a staging instance. This is incredible
+[05:33:55] a staging instance. This is incredible
+[05:33:55] a staging instance. This is incredible for the agents because they're able to
+[05:33:57] for the agents because they're able to
+[05:33:57] for the agents because they're able to write their code and then you can swap
+[05:33:59] write their code and then you can swap
+[05:33:59] write their code and then you can swap it into a realistic environment where
+[05:34:00] it into a realistic environment where
+[05:34:00] it into a realistic environment where you can use the product. uh without that
+[05:34:04] you can use the product. uh without that
+[05:34:04] you can use the product. uh without that like when without that thing in the
+[05:34:06] like when without that thing in the
+[05:34:06] like when without that thing in the middle what we found is that the agents
+[05:34:08] middle what we found is that the agents
+[05:34:08] middle what we found is that the agents were often writing code that was
+[05:34:09] were often writing code that was
+[05:34:09] were often writing code that was completely unrealistic to deploy or was
+[05:34:12] completely unrealistic to deploy or was
+[05:34:12] completely unrealistic to deploy or was extremely unperformant.
+[05:34:15] extremely unperformant.
+[05:34:15] extremely unperformant. So more and more investment needs to go
+[05:34:17] So more and more investment needs to go
+[05:34:17] So more and more investment needs to go into shifting this kind of testing left.
+[05:34:20] into shifting this kind of testing left.
+[05:34:20] into shifting this kind of testing left. So we would love to just learn from
+[05:34:22] So we would love to just learn from
+[05:34:22] So we would love to just learn from everyone here who's using coding agents.
+[05:34:24] everyone here who's using coding agents.
+[05:34:24] everyone here who's using coding agents. Thank you for for uh listening. If you
+[05:34:26] Thank you for for uh listening. If you
+[05:34:26] Thank you for for uh listening. If you build coding tools and want to
+[05:34:28] build coding tools and want to
+[05:34:28] build coding tools and want to supercharge your users experience like
+[05:34:30] supercharge your users experience like
+[05:34:30] supercharge your users experience like please reach out to us. uh we're really
+[05:34:32] please reach out to us. uh we're really
+[05:34:32] please reach out to us. uh we're really focused on bringing things like
+[05:34:34] focused on bringing things like
+[05:34:34] focused on bringing things like governance, observability, and privacy
+[05:34:35] governance, observability, and privacy
+[05:34:35] governance, observability, and privacy for coding tools, and we really want to
+[05:34:38] for coding tools, and we really want to
+[05:34:38] for coding tools, and we really want to help developers use all of them. So,
+[05:34:40] help developers use all of them. So,
+[05:34:40] help developers use all of them. So, thank you very much.
+[05:34:45] &gt;&gt; I think we got time for we got time for
+[05:34:48] &gt;&gt; I think we got time for we got time for some questions. Who's got something?
+[05:34:52] some questions. Who's got something?
+[05:34:52] some questions. Who's got something? Anything? Where are we at?
+[05:34:53] Anything? Where are we at?
+[05:34:53] Anything? Where are we at? &gt;&gt; One in the back.
+[05:34:56] &gt;&gt; One in the back.
+[05:34:56] &gt;&gt; One in the back. &gt;&gt; That was a That was a good talk. There's
+[05:34:57] &gt;&gt; That was a That was a good talk. There's
+[05:34:57] &gt;&gt; That was a That was a good talk. There's one in the back. Oh, way back. All
+[05:34:59] one in the back. Oh, way back. All
+[05:34:59] one in the back. Oh, way back. All right. Make me run for it. Here we go.
+[05:35:07] &gt;&gt; Yeah. Hey, thank you so much. Like the
+[05:35:08] &gt;&gt; Yeah. Hey, thank you so much. Like the talk. Um, love how you covered the MCPs.
+[05:35:11] talk. Um, love how you covered the MCPs.
+[05:35:11] talk. Um, love how you covered the MCPs. Curious how you would integrate skills
+[05:35:14] Curious how you would integrate skills
+[05:35:14] Curious how you would integrate skills and kind of the proliferation of skills
+[05:35:16] and kind of the proliferation of skills
+[05:35:16] and kind of the proliferation of skills and knowing what's actually happening in
+[05:35:19] and knowing what's actually happening in
+[05:35:19] and knowing what's actually happening in your indust organization, who's using
+[05:35:21] your indust organization, who's using
+[05:35:21] your indust organization, who's using what skills and why.
+[05:35:23] what skills and why.
+[05:35:23] what skills and why. &gt;&gt; Yeah, that that's a that's a great
+[05:35:24] &gt;&gt; Yeah, that that's a that's a great
+[05:35:24] &gt;&gt; Yeah, that that's a that's a great point. Um and it and it's something that
+[05:35:27] point. Um and it and it's something that
+[05:35:27] point. Um and it and it's something that we haven't really built out yet, but
+[05:35:28] we haven't really built out yet, but
+[05:35:28] we haven't really built out yet, but which is super top of mind for us
+[05:35:30] which is super top of mind for us
+[05:35:30] which is super top of mind for us because um yeah, as soon as skills
+[05:35:33] because um yeah, as soon as skills
+[05:35:33] because um yeah, as soon as skills launched um they just like every team
+[05:35:35] launched um they just like every team
+[05:35:35] launched um they just like every team has a skill now and most of them are
+[05:35:37] has a skill now and most of them are
+[05:35:37] has a skill now and most of them are doing the same thing. Uh so it doesn't
+[05:35:40] doing the same thing. Uh so it doesn't
+[05:35:40] doing the same thing. Uh so it doesn't feel like uh there's enough organization
+[05:35:42] feel like uh there's enough organization
+[05:35:42] feel like uh there's enough organization yet uh where you know the organ where
+[05:35:44] yet uh where you know the organ where
+[05:35:44] yet uh where you know the organ where people within engineering are able to
+[05:35:46] people within engineering are able to
+[05:35:46] people within engineering are able to leverage the work other people did. Um
+[05:35:48] leverage the work other people did. Um
+[05:35:48] leverage the work other people did. Um so I do think there's a lot of work to
+[05:35:50] so I do think there's a lot of work to
+[05:35:50] so I do think there's a lot of work to do to be honest. I don't 100% know how
+[05:35:52] do to be honest. I don't 100% know how
+[05:35:52] do to be honest. I don't 100% know how to solve that. Like one thing that would
+[05:35:54] to solve that. Like one thing that would
+[05:35:54] to solve that. Like one thing that would be useful at least for me from my
+[05:35:56] be useful at least for me from my
+[05:35:56] be useful at least for me from my perspective is if you could like when
+[05:35:59] perspective is if you could like when
+[05:35:59] perspective is if you could like when I'm introducing a skill if if there was
+[05:36:00] I'm introducing a skill if if there was
+[05:36:00] I'm introducing a skill if if there was some like way to know that there was a
+[05:36:02] some like way to know that there was a
+[05:36:02] some like way to know that there was a very similar skill already um that would
+[05:36:06] very similar skill already um that would
+[05:36:06] very similar skill already um that would be great cuz then I would just add to
+[05:36:07] be great cuz then I would just add to
+[05:36:07] be great cuz then I would just add to that but it feels really intractable for
+[05:36:10] that but it feels really intractable for
+[05:36:10] that but it feels really intractable for humans to read like thousands of
+[05:36:12] humans to read like thousands of
+[05:36:12] humans to read like thousands of markdown files. So not sure the answer
+[05:36:14] markdown files. So not sure the answer
+[05:36:14] markdown files. So not sure the answer to that but I do think skills are going
+[05:36:16] to that but I do think skills are going
+[05:36:16] to that but I do think skills are going to be important part of governance.
+[05:36:19] to be important part of governance.
+[05:36:19] to be important part of governance. &gt;&gt; Um just a quick question on Isaac. I
+[05:36:22] &gt;&gt; Um just a quick question on Isaac. I
+[05:36:22] &gt;&gt; Um just a quick question on Isaac. I know you measure HTTP requests, but what
+[05:36:24] know you measure HTTP requests, but what
+[05:36:24] know you measure HTTP requests, but what about actual tool calls on the computer
+[05:36:28] about actual tool calls on the computer
+[05:36:28] about actual tool calls on the computer that's running? Do you have like any
+[05:36:30] that's running? Do you have like any
+[05:36:30] that's running? Do you have like any performance metrics that you level up so
+[05:36:32] performance metrics that you level up so
+[05:36:32] performance metrics that you level up so that let's say a particular command line
+[05:36:35] that let's say a particular command line
+[05:36:35] that let's say a particular command line tool is being used a lot by the
+[05:36:36] tool is being used a lot by the
+[05:36:36] tool is being used a lot by the organization? Uh do they get visibility
+[05:36:38] organization? Uh do they get visibility
+[05:36:38] organization? Uh do they get visibility on that?
+[05:36:39] on that?
+[05:36:39] on that? &gt;&gt; Yeah, great question. Um yes. So one
+[05:36:41] &gt;&gt; Yeah, great question. Um yes. So one
+[05:36:41] &gt;&gt; Yeah, great question. Um yes. So one thing I wasn't able to show is that uh
+[05:36:43] thing I wasn't able to show is that uh
+[05:36:43] thing I wasn't able to show is that uh but but which is there in production
+[05:36:45] but but which is there in production
+[05:36:45] but but which is there in production already is that um with MLflow you can
+[05:36:49] already is that um with MLflow you can
+[05:36:49] already is that um with MLflow you can actually trace all the cloud code
+[05:36:51] actually trace all the cloud code
+[05:36:51] actually trace all the cloud code requests and we do that as well. So
+[05:36:54] requests and we do that as well. So
+[05:36:54] requests and we do that as well. So we're ingesting, you know, thousands of
+[05:36:56] we're ingesting, you know, thousands of
+[05:36:56] we're ingesting, you know, thousands of of tra tens of thousands of traces per
+[05:36:57] of tra tens of thousands of traces per
+[05:36:57] of tra tens of thousands of traces per day. And one of the things we discovered
+[05:36:59] day. And one of the things we discovered
+[05:37:00] day. And one of the things we discovered from that particular piece of data is
+[05:37:03] from that particular piece of data is
+[05:37:03] from that particular piece of data is that uh cloud code for example like to
+[05:37:05] that uh cloud code for example like to
+[05:37:05] that uh cloud code for example like to do a lot of file search. Um and we had
+[05:37:08] do a lot of file search. Um and we had
+[05:37:08] do a lot of file search. Um and we had like a like we in our cloud environment
+[05:37:11] like a like we in our cloud environment
+[05:37:11] like a like we in our cloud environment for some reason the standard one it
+[05:37:13] for some reason the standard one it
+[05:37:13] for some reason the standard one it wanted to use was very slow. So at the
+[05:37:15] wanted to use was very slow. So at the
+[05:37:15] wanted to use was very slow. So at the top level uh repo claude MD we actually
+[05:37:19] top level uh repo claude MD we actually
+[05:37:19] top level uh repo claude MD we actually added a very explicit instruction which
+[05:37:21] added a very explicit instruction which
+[05:37:21] added a very explicit instruction which was like please use RG to search for
+[05:37:23] was like please use RG to search for
+[05:37:23] was like please use RG to search for stuff do not use anything else and that
+[05:37:26] stuff do not use anything else and that
+[05:37:26] stuff do not use anything else and that was super valuable and would not have
+[05:37:28] was super valuable and would not have
+[05:37:28] was super valuable and would not have been something people would have not
+[05:37:30] been something people would have not
+[05:37:30] been something people would have not like figured out easily without that.
+[05:37:35] &gt;&gt; Thanks. Um earlier you had mentioned
+[05:37:38] &gt;&gt; Thanks. Um earlier you had mentioned that as part of the gateway you have to
+[05:37:40] that as part of the gateway you have to
+[05:37:40] that as part of the gateway you have to pick and choose the MCPS so you don't
+[05:37:42] pick and choose the MCPS so you don't
+[05:37:42] pick and choose the MCPS so you don't flood with context. So this leads to a
+[05:37:44] flood with context. So this leads to a
+[05:37:44] flood with context. So this leads to a couple things. How do you curate the
+[05:37:46] couple things. How do you curate the
+[05:37:46] couple things. How do you curate the MCPs which are allowed? And also at what
+[05:37:49] MCPs which are allowed? And also at what
+[05:37:50] MCPs which are allowed? And also at what point do you need an MCP for your MCPs?
+[05:37:54] point do you need an MCP for your MCPs?
+[05:37:54] point do you need an MCP for your MCPs? &gt;&gt; Uh yeah. Uh that's like really related
+[05:37:57] &gt;&gt; Uh yeah. Uh that's like really related
+[05:37:57] &gt;&gt; Uh yeah. Uh that's like really related to this like title for like you know you
+[05:37:58] to this like title for like you know you
+[05:37:58] to this like title for like you know you have this like meta um multiverse thing.
+[05:38:01] have this like meta um multiverse thing.
+[05:38:01] have this like meta um multiverse thing. Um
+[05:38:03] Um yeah I I think that
+[05:38:05] yeah I I think that
+[05:38:05] yeah I I think that &gt;&gt; for example some of the folks I know who
+[05:38:07] &gt;&gt; for example some of the folks I know who
+[05:38:07] &gt;&gt; for example some of the folks I know who build harnesses have spelt have spent a
+[05:38:09] build harnesses have spelt have spent a
+[05:38:09] build harnesses have spelt have spent a lot of time on this on on MCP tool
+[05:38:11] lot of time on this on on MCP tool
+[05:38:11] lot of time on this on on MCP tool selection. So I actually think that uh
+[05:38:13] selection. So I actually think that uh
+[05:38:13] selection. So I actually think that uh and and like recently Enthropic launched
+[05:38:15] and and like recently Enthropic launched
+[05:38:16] and and like recently Enthropic launched uh tool search as a tool uh within uh
+[05:38:19] uh tool search as a tool uh within uh
+[05:38:19] uh tool search as a tool uh within uh the model. So I do think the harness
+[05:38:21] the model. So I do think the harness
+[05:38:21] the model. So I do think the harness layer is going to figure out soon how to
+[05:38:24] layer is going to figure out soon how to
+[05:38:24] layer is going to figure out soon how to manage the MCPS today. I think it is
+[05:38:26] manage the MCPS today. I think it is
+[05:38:26] manage the MCPS today. I think it is still true that developers are best off
+[05:38:28] still true that developers are best off
+[05:38:28] still true that developers are best off managing it on their own like per use
+[05:38:30] managing it on their own like per use
+[05:38:30] managing it on their own like per use case. I don't think that will be true
+[05:38:31] case. I don't think that will be true
+[05:38:32] case. I don't think that will be true like even two months from now. Um I hope
+[05:38:34] like even two months from now. Um I hope
+[05:38:34] like even two months from now. Um I hope we don't need MCPS for our MCPS because
+[05:38:36] we don't need MCPS for our MCPS because
+[05:38:36] we don't need MCPS for our MCPS because that sounds pretty complex but um who
+[05:38:39] that sounds pretty complex but um who
+[05:38:39] that sounds pretty complex but um who knows? I I don't think that will be
+[05:38:41] knows? I I don't think that will be
+[05:38:41] knows? I I don't think that will be needed because uh MTP itself is kind of
+[05:38:44] needed because uh MTP itself is kind of
+[05:38:44] needed because uh MTP itself is kind of just a wrapper on like existing APIs and
+[05:38:47] just a wrapper on like existing APIs and
+[05:38:47] just a wrapper on like existing APIs and like a standardizing methodology for
+[05:38:50] like a standardizing methodology for
+[05:38:50] like a standardizing methodology for existing APIs. So hopefully we don't
+[05:38:52] existing APIs. So hopefully we don't
+[05:38:52] existing APIs. So hopefully we don't need a layer in front of that. I do
+[05:38:53] need a layer in front of that. I do
+[05:38:53] need a layer in front of that. I do think we need like a governance layer
+[05:38:55] think we need like a governance layer
+[05:38:55] think we need like a governance layer for those MCPs.
+[05:38:58] for those MCPs.
+[05:38:58] for those MCPs. &gt;&gt; Um cool. One one of the things I've seen
+[05:39:00] &gt;&gt; Um cool. One one of the things I've seen
+[05:39:00] &gt;&gt; Um cool. One one of the things I've seen I think the thing you mentioned about
+[05:39:01] I think the thing you mentioned about
+[05:39:01] I think the thing you mentioned about being able to write code locally and
+[05:39:02] being able to write code locally and
+[05:39:02] being able to write code locally and then hot swap it into a staging or
+[05:39:04] then hot swap it into a staging or
+[05:39:04] then hot swap it into a staging or preview environment seems to be one of
+[05:39:07] preview environment seems to be one of
+[05:39:07] preview environment seems to be one of the biggest bottleneck outside of like
+[05:39:09] the biggest bottleneck outside of like
+[05:39:09] the biggest bottleneck outside of like overall lots of code to review and
+[05:39:11] overall lots of code to review and
+[05:39:11] overall lots of code to review and things like this like what do you think
+[05:39:12] things like this like what do you think
+[05:39:12] things like this like what do you think is what have you seen as
+[05:39:13] is what have you seen as
+[05:39:13] is what have you seen as state-of-the-art in terms of like the
+[05:39:15] state-of-the-art in terms of like the
+[05:39:15] state-of-the-art in terms of like the time it takes to go from one or more
+[05:39:18] time it takes to go from one or more
+[05:39:18] time it takes to go from one or more repos with local changes to something
+[05:39:20] repos with local changes to something
+[05:39:20] repos with local changes to something that a user can interact with? Um yeah,
+[05:39:23] that a user can interact with? Um yeah,
+[05:39:23] that a user can interact with? Um yeah, I think this is uh something where each
+[05:39:25] I think this is uh something where each
+[05:39:25] I think this is uh something where each like organization's build tools are
+[05:39:27] like organization's build tools are
+[05:39:27] like organization's build tools are different and so it's like an area for
+[05:39:30] different and so it's like an area for
+[05:39:30] different and so it's like an area for the testing teams to invest in. Um I
+[05:39:33] the testing teams to invest in. Um I
+[05:39:33] the testing teams to invest in. Um I think historically one may have argued
+[05:39:36] think historically one may have argued
+[05:39:36] think historically one may have argued that oh it's like why don't you just
+[05:39:38] that oh it's like why don't you just
+[05:39:38] that oh it's like why don't you just write unit test and then deploy it into
+[05:39:39] write unit test and then deploy it into
+[05:39:39] write unit test and then deploy it into dev. Um, so I think that it's an
+[05:39:42] dev. Um, so I think that it's an
+[05:39:42] dev. Um, so I think that it's an investment everyone needs to make on
+[05:39:44] investment everyone needs to make on
+[05:39:44] investment everyone needs to make on their own, but like for people for
+[05:39:46] their own, but like for people for
+[05:39:46] their own, but like for people for example who use Docker based services
+[05:39:48] example who use Docker based services
+[05:39:48] example who use Docker based services like not hard to swap in a new image.
+[05:39:51] like not hard to swap in a new image.
+[05:39:51] like not hard to swap in a new image. Uh, but you do need like some way of
+[05:39:53] Uh, but you do need like some way of
+[05:39:53] Uh, but you do need like some way of like routing to that service. And so for
+[05:39:56] like routing to that service. And so for
+[05:39:56] like routing to that service. And so for integrating with this like hot swap
+[05:39:58] integrating with this like hot swap
+[05:39:58] integrating with this like hot swap technology required our services to
+[05:40:00] technology required our services to
+[05:40:00] technology required our services to actually update themselves. So we have
+[05:40:03] actually update themselves. So we have
+[05:40:03] actually update themselves. So we have code in our services that basically says
+[05:40:05] code in our services that basically says
+[05:40:05] code in our services that basically says if you're in swap mode like point at
+[05:40:08] if you're in swap mode like point at
+[05:40:08] if you're in swap mode like point at some other thing in from a networking
+[05:40:09] some other thing in from a networking
+[05:40:09] some other thing in from a networking perspective. Um so it took work to on
+[05:40:12] perspective. Um so it took work to on
+[05:40:12] perspective. Um so it took work to on board to it.
+[05:40:14] board to it.
+[05:40:14] board to it. &gt;&gt; Excellent. Thank you. Let's give it up
+[05:40:17] &gt;&gt; Excellent. Thank you. Let's give it up
+[05:40:17] &gt;&gt; Excellent. Thank you. Let's give it up everybody. Thank you sir. That was
+[05:40:18] everybody. Thank you sir. That was
+[05:40:18] everybody. Thank you sir. That was awesome dude. Very stoked on that

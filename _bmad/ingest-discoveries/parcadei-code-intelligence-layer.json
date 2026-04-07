@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/parcadei/status/2009509238259732584",
+  "source_title": "Code Intelligence Layer: 92% Token Reduction",
+  "catalogue_path": "research/catalogue/posts/2026-01/parcadei-code-intelligence-92-percent-token-reduction.md",
+  "ingested_at": "2026-03-18T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://x.com/parcadei",
+      "context": "parcadei's X profile — identify the v3 tool/repo name for full catalogue entry",
+      "suggested_type": "tool",
+      "relevance_hint": "92% token reduction is transformative; need to identify the actual product (likely a code intelligence/indexing tool) for /tool-catalogue ingest"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+[
+  {
+    "url": "https://docs.randomlabs.ai/",
+    "title": "Slate Documentation — Random Labs",
+    "type": "tool-docs",
+    "relevance": 7,
+    "reason": "Full implementation docs for Slate agent: thread DSL, episode API, context routing. Needed to evaluate thread weaving pattern for adoption in L-Thread orchestrator."
+  },
+  {
+    "url": "https://research.trychroma.com/context-rot",
+    "title": "Context Rot — How Increasing Input Tokens Impacts LLM Performance (Chroma, 2025)",
+    "type": "article",
+    "relevance": 8,
+    "reason": "Quantifies context window degradation across 4 frontier models (Claude Sonnet 4, GPT-4.1, Qwen3-32B, Gemini 2.5 Flash). Key evidence for compaction strategy decisions and working memory budget allocation."
+  },
+  {
+    "url": "https://shortcut.ai/",
+    "title": "Shortcut (formerly Altera / Project Sid) — PIANO Architecture",
+    "type": "tool",
+    "relevance": 6,
+    "reason": "Altera's PIANO architecture enables parallel async multi-agent processing with system 1/system 2 synchronization. Only multi-agent system in the Slate taxonomy that supports parallel execution besides Slate itself."
+  }
+]

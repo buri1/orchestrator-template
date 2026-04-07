@@ -1,0 +1,341 @@
+# Talk: Lightning Talk: SWEBench Pro - Evolving Coding Agent Benchmarks
+# Speaker: Jiannis Hood (Scale AI / SWEBench Pro co-founder)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 04:44:25 - 04:52:26
+# Lines: 334
+
+[04:44:25] Yennis Hood from Scale AI. Let's give
+[04:44:25] Yennis Hood from Scale AI. Let's give him a warm welcome.
+[04:44:29] Um, I think I have this mic.
+[04:44:34] All right. Hello everyone.
+[04:44:39] Okay. Um, let me see if this work.
+[04:44:43] Okay. Um, let me see if this work. All right.
+[04:44:45] All right. Okay. There's a delay. Cool. Hello
+[04:44:47] Okay. There's a delay. Cool. Hello
+[04:44:47] Okay. There's a delay. Cool. Hello everyone. My name is Jiannis. I'm one of
+[04:44:50] everyone. My name is Jiannis. I'm one of
+[04:44:50] everyone. My name is Jiannis. I'm one of the founder of SweetBench Pro. So in the
+[04:44:52] the founder of SweetBench Pro. So in the
+[04:44:52] the founder of SweetBench Pro. So in the next a few minutes I want to quickly
+[04:44:54] next a few minutes I want to quickly
+[04:44:54] next a few minutes I want to quickly talk about how we get to Sweetbench Pro
+[04:44:57] talk about how we get to Sweetbench Pro
+[04:44:57] talk about how we get to Sweetbench Pro and what excites me when I think about
+[04:44:59] and what excites me when I think about
+[04:44:59] and what excites me when I think about the next of coding agents.
+[04:45:04] So if we look way back there aren't much
+[04:45:07] So if we look way back there aren't much change about how we code for almost 20
+[04:45:10] change about how we code for almost 20
+[04:45:10] change about how we code for almost 20 years but in the last several years the
+[04:45:13] years but in the last several years the
+[04:45:13] years but in the last several years the change has been wide. We start seeing
+[04:45:16] change has been wide. We start seeing
+[04:45:16] change has been wide. We start seeing cursor which is IDE plus AI and we also
+[04:45:20] cursor which is IDE plus AI and we also
+[04:45:20] cursor which is IDE plus AI and we also start seeing foundational models start
+[04:45:21] start seeing foundational models start
+[04:45:21] start seeing foundational models start competing on coding agent capability.
+[04:45:25] competing on coding agent capability.
+[04:45:25] competing on coding agent capability. We also start seeing the development of
+[04:45:27] We also start seeing the development of
+[04:45:27] We also start seeing the development of scaffolding which is basically tools we
+[04:45:29] scaffolding which is basically tools we
+[04:45:30] scaffolding which is basically tools we given to agents to explore to run and to
+[04:45:33] given to agents to explore to run and to
+[04:45:33] given to agents to explore to run and to write code. And later last year we start
+[04:45:37] write code. And later last year we start
+[04:45:37] write code. And later last year we start seeing foundational model start training
+[04:45:39] seeing foundational model start training
+[04:45:39] seeing foundational model start training with the scaffold.
+[04:45:43] On the measurement wise a team from
+[04:45:46] On the measurement wise a team from Princeton developed a benchmark called
+[04:45:48] Princeton developed a benchmark called
+[04:45:48] Princeton developed a benchmark called sweet bench and it sets a cornerstone
+[04:45:51] sweet bench and it sets a cornerstone
+[04:45:51] sweet bench and it sets a cornerstone for the entire coding agent
+[04:45:53] for the entire coding agent
+[04:45:53] for the entire coding agent measurements. It used GitHub issue
+[04:45:56] measurements. It used GitHub issue
+[04:45:56] measurements. It used GitHub issue resolution as the proxy to measure how
+[04:45:58] resolution as the proxy to measure how
+[04:45:58] resolution as the proxy to measure how AI can do coding and then the entire
+[04:46:03] AI can do coding and then the entire
+[04:46:03] AI can do coding and then the entire Sweetbench universe start diversifying.
+[04:46:06] Sweetbench universe start diversifying.
+[04:46:06] Sweetbench universe start diversifying. There are basically different kind of
+[04:46:07] There are basically different kind of
+[04:46:08] There are basically different kind of sweet bench testing the similar problem
+[04:46:10] sweet bench testing the similar problem
+[04:46:10] sweet bench testing the similar problem on different kind of codebase but many
+[04:46:13] on different kind of codebase but many
+[04:46:13] on different kind of codebase but many of them has a problem.
+[04:46:16] of them has a problem.
+[04:46:16] of them has a problem. It is the contaminations.
+[04:46:19] It is the contaminations.
+[04:46:19] It is the contaminations. As model grew larger and train on more
+[04:46:23] As model grew larger and train on more
+[04:46:23] As model grew larger and train on more code,
+[04:46:24] code,
+[04:46:24] code, data contamination become hard to avoid.
+[04:46:27] data contamination become hard to avoid.
+[04:46:27] data contamination become hard to avoid. So it was natural for us to think, hey,
+[04:46:31] So it was natural for us to think, hey,
+[04:46:31] So it was natural for us to think, hey, what if there's a benchmark, we can
+[04:46:33] what if there's a benchmark, we can
+[04:46:33] what if there's a benchmark, we can create it with code that no model has
+[04:46:36] create it with code that no model has
+[04:46:36] create it with code that no model has trained on.
+[04:46:38] trained on.
+[04:46:38] trained on. That leads to the development of
+[04:46:39] That leads to the development of
+[04:46:39] That leads to the development of Sweetbench Pro. And we started selecting
+[04:46:43] Sweetbench Pro. And we started selecting
+[04:46:43] Sweetbench Pro. And we started selecting repos with a very strict license and we
+[04:46:46] repos with a very strict license and we
+[04:46:46] repos with a very strict license and we realized hey that wasn't enough. We want
+[04:46:48] realized hey that wasn't enough. We want
+[04:46:48] realized hey that wasn't enough. We want to be more extreme. So we start
+[04:46:50] to be more extreme. So we start
+[04:46:50] to be more extreme. So we start acquiring company for their proprietary
+[04:46:53] acquiring company for their proprietary
+[04:46:53] acquiring company for their proprietary codebase.
+[04:46:55] codebase.
+[04:46:55] codebase. So beyond solving the minimal
+[04:46:57] So beyond solving the minimal
+[04:46:57] So beyond solving the minimal contaminations we also have humans to
+[04:47:01] contaminations we also have humans to
+[04:47:01] contaminations we also have humans to verify each problem has the right amount
+[04:47:03] verify each problem has the right amount
+[04:47:04] verify each problem has the right amount of context. So it's both challenging but
+[04:47:06] of context. So it's both challenging but
+[04:47:06] of context. So it's both challenging but also solvable. We also want to make sure
+[04:47:08] also solvable. We also want to make sure
+[04:47:08] also solvable. We also want to make sure we have enough coverage into different
+[04:47:11] we have enough coverage into different
+[04:47:11] we have enough coverage into different domain industry to make sure the problem
+[04:47:13] domain industry to make sure the problem
+[04:47:14] domain industry to make sure the problem are being challenging but for a good
+[04:47:17] are being challenging but for a good
+[04:47:17] are being challenging but for a good reason.
+[04:47:20] So that has been a pretty good success.
+[04:47:23] So that has been a pretty good success. Sweetbench pro has become the industry
+[04:47:25] Sweetbench pro has become the industry
+[04:47:25] Sweetbench pro has become the industry standard and different model release
+[04:47:27] standard and different model release
+[04:47:27] standard and different model release start using speedbench pro as their
+[04:47:29] start using speedbench pro as their
+[04:47:29] start using speedbench pro as their coding capability verification. And we
+[04:47:32] coding capability verification. And we
+[04:47:32] coding capability verification. And we recently got a shout out from OpenAI
+[04:47:35] recently got a shout out from OpenAI
+[04:47:35] recently got a shout out from OpenAI where SweetBench Pro was recommended
+[04:47:37] where SweetBench Pro was recommended
+[04:47:37] where SweetBench Pro was recommended over OpenAI's their own benchmark.
+[04:47:41] over OpenAI's their own benchmark.
+[04:47:41] over OpenAI's their own benchmark. However, there has been a question I
+[04:47:43] However, there has been a question I
+[04:47:43] However, there has been a question I keep thinking about after the release of
+[04:47:45] keep thinking about after the release of
+[04:47:45] keep thinking about after the release of Sweet Bench Pro. What is the next thing?
+[04:47:48] Sweet Bench Pro. What is the next thing?
+[04:47:48] Sweet Bench Pro. What is the next thing? Should we keep building a harder problem
+[04:47:52] Should we keep building a harder problem
+[04:47:52] Should we keep building a harder problem like Ultra Max Plus?
+[04:47:55] like Ultra Max Plus?
+[04:47:55] like Ultra Max Plus? It might be helpful, but is there
+[04:47:58] It might be helpful, but is there
+[04:47:58] It might be helpful, but is there anything else we can contribute?
+[04:48:01] anything else we can contribute?
+[04:48:01] anything else we can contribute? Um, by a quick show of hands, I wonder
+[04:48:05] Um, by a quick show of hands, I wonder
+[04:48:05] Um, by a quick show of hands, I wonder who here is or has been a software
+[04:48:08] who here is or has been a software
+[04:48:08] who here is or has been a software engine.
+[04:48:10] engine.
+[04:48:10] engine. Cool. That's lots of you. And please
+[04:48:13] Cool. That's lots of you. And please
+[04:48:13] Cool. That's lots of you. And please raise your hands again if you have been
+[04:48:16] raise your hands again if you have been
+[04:48:16] raise your hands again if you have been doing more than just Kithub uh issue
+[04:48:19] doing more than just Kithub uh issue
+[04:48:19] doing more than just Kithub uh issue resolution.
+[04:48:21] resolution.
+[04:48:21] resolution. That's almost the same group. So I think
+[04:48:24] That's almost the same group. So I think
+[04:48:24] That's almost the same group. So I think here's my conclusion.
+[04:48:27] here's my conclusion.
+[04:48:27] here's my conclusion. Coding is not just GitHub resolution.
+[04:48:32] Coding is not just GitHub resolution.
+[04:48:32] Coding is not just GitHub resolution. There are a lot more to do being a
+[04:48:34] There are a lot more to do being a
+[04:48:34] There are a lot more to do being a software edge. So what else is there? We
+[04:48:38] software edge. So what else is there? We
+[04:48:38] software edge. So what else is there? We ran a quick surveys among engineers and
+[04:48:40] ran a quick surveys among engineers and
+[04:48:40] ran a quick surveys among engineers and we found issue resolution is around a
+[04:48:43] we found issue resolution is around a
+[04:48:43] we found issue resolution is around a quarter of time and that quarter has
+[04:48:45] quarter of time and that quarter has
+[04:48:45] quarter of time and that quarter has been declining because of the coding
+[04:48:47] been declining because of the coding
+[04:48:47] been declining because of the coding agent capability.
+[04:48:49] agent capability.
+[04:48:49] agent capability. Sweet bench pro measured that quarters
+[04:48:51] Sweet bench pro measured that quarters
+[04:48:52] Sweet bench pro measured that quarters which encouraged the industry to develop
+[04:48:54] which encouraged the industry to develop
+[04:48:54] which encouraged the industry to develop in this direction. But what else? How
+[04:48:57] in this direction. But what else? How
+[04:48:57] in this direction. But what else? How can we encourage the industry to measure
+[04:49:00] can we encourage the industry to measure
+[04:49:00] can we encourage the industry to measure and build towards the rest of the
+[04:49:02] and build towards the rest of the
+[04:49:02] and build towards the rest of the ecosystem?
+[04:49:03] ecosystem?
+[04:49:03] ecosystem? So that's why we start building again.
+[04:49:07] So that's why we start building again.
+[04:49:07] So that's why we start building again. So today is actually the first day we
+[04:49:09] So today is actually the first day we
+[04:49:09] So today is actually the first day we are launching this one to the public. Um
+[04:49:11] are launching this one to the public. Um
+[04:49:11] are launching this one to the public. Um the official launch of the first stage
+[04:49:13] the official launch of the first stage
+[04:49:14] the official launch of the first stage release will be tomorrow but we are
+[04:49:15] release will be tomorrow but we are
+[04:49:15] release will be tomorrow but we are launching a new benchmark that assess
+[04:49:17] launching a new benchmark that assess
+[04:49:17] launching a new benchmark that assess how agent can understand, validate and
+[04:49:21] how agent can understand, validate and
+[04:49:21] how agent can understand, validate and improve the software system in real
+[04:49:23] improve the software system in real
+[04:49:23] improve the software system in real repository. So the first stage will be
+[04:49:25] repository. So the first stage will be
+[04:49:25] repository. So the first stage will be tomorrow and each of the type of task
+[04:49:29] tomorrow and each of the type of task
+[04:49:29] tomorrow and each of the type of task require more than just observation from
+[04:49:31] require more than just observation from
+[04:49:32] require more than just observation from the codebase. We require coding agent to
+[04:49:34] the codebase. We require coding agent to
+[04:49:34] the codebase. We require coding agent to actually go in explore and run the codes
+[04:49:37] actually go in explore and run the codes
+[04:49:37] actually go in explore and run the codes in order to do the multi file reasoning.
+[04:49:41] in order to do the multi file reasoning.
+[04:49:41] in order to do the multi file reasoning. Beyond just measurements, we also create
+[04:49:44] Beyond just measurements, we also create
+[04:49:44] Beyond just measurements, we also create post- train data to help model builders
+[04:49:46] post- train data to help model builders
+[04:49:46] post- train data to help model builders to improve this capability. And within
+[04:49:49] to improve this capability. And within
+[04:49:49] to improve this capability. And within our benchmark, we have rubrics to help
+[04:49:51] our benchmark, we have rubrics to help
+[04:49:51] our benchmark, we have rubrics to help different model builders to their
+[04:49:53] different model builders to their
+[04:49:53] different model builders to their failure analysis.
+[04:49:55] failure analysis.
+[04:49:55] failure analysis. I don't want to give give away too much
+[04:49:57] I don't want to give give away too much
+[04:49:57] I don't want to give give away too much before tomorrow's launch, but I'm very
+[04:49:59] before tomorrow's launch, but I'm very
+[04:50:00] before tomorrow's launch, but I'm very excited to see um this improvements of
+[04:50:03] excited to see um this improvements of
+[04:50:03] excited to see um this improvements of coding agents in the new directions.
+[04:50:06] coding agents in the new directions.
+[04:50:06] coding agents in the new directions. To end this presentation, I want to
+[04:50:09] To end this presentation, I want to
+[04:50:09] To end this presentation, I want to quickly share about our insights about
+[04:50:12] quickly share about our insights about
+[04:50:12] quickly share about our insights about next stage coding agents.
+[04:50:14] next stage coding agents.
+[04:50:14] next stage coding agents. We start seeing a trend of coding being
+[04:50:17] We start seeing a trend of coding being
+[04:50:17] We start seeing a trend of coding being the legs and hence for AI.
+[04:50:21] the legs and hence for AI.
+[04:50:21] the legs and hence for AI. Our vision believe if we give coding
+[04:50:23] Our vision believe if we give coding
+[04:50:23] Our vision believe if we give coding agents enough freedom, it will start
+[04:50:26] agents enough freedom, it will start
+[04:50:26] agents enough freedom, it will start developing tools that it make more sense
+[04:50:29] developing tools that it make more sense
+[04:50:29] developing tools that it make more sense to the agent themselves that's more
+[04:50:31] to the agent themselves that's more
+[04:50:31] to the agent themselves that's more intuitive and effective. Actually, we've
+[04:50:35] intuitive and effective. Actually, we've
+[04:50:35] intuitive and effective. Actually, we've seen some early signal
+[04:50:37] seen some early signal
+[04:50:37] seen some early signal terminal bench which is another
+[04:50:39] terminal bench which is another
+[04:50:39] terminal bench which is another benchmark developed by Stanford team.
+[04:50:41] benchmark developed by Stanford team.
+[04:50:41] benchmark developed by Stanford team. They measures how AI can explore their
+[04:50:45] They measures how AI can explore their
+[04:50:45] They measures how AI can explore their capacity through com command line.
+[04:50:49] capacity through com command line.
+[04:50:49] capacity through com command line. And we have seen another signal which is
+[04:50:51] And we have seen another signal which is
+[04:50:51] And we have seen another signal which is open claw. It's very popular nowadays.
+[04:50:54] open claw. It's very popular nowadays.
+[04:50:54] open claw. It's very popular nowadays. We see agents start building their own
+[04:50:56] We see agents start building their own
+[04:50:56] We see agents start building their own tools to solve a generic problem that's
+[04:50:58] tools to solve a generic problem that's
+[04:50:58] tools to solve a generic problem that's not just software engine.
+[04:51:01] not just software engine.
+[04:51:01] not just software engine. So in order to match our visions, we
+[04:51:04] So in order to match our visions, we
+[04:51:04] So in order to match our visions, we have a road map which one of them is to
+[04:51:07] have a road map which one of them is to
+[04:51:07] have a road map which one of them is to develop a more diverse playground for
+[04:51:10] develop a more diverse playground for
+[04:51:10] develop a more diverse playground for the coding agents where agents can go in
+[04:51:13] the coding agents where agents can go in
+[04:51:13] the coding agents where agents can go in and explore their own intelligence and
+[04:51:16] and explore their own intelligence and
+[04:51:16] and explore their own intelligence and expand their capability.
+[04:51:18] expand their capability.
+[04:51:18] expand their capability. And of course we don't want to leave
+[04:51:20] And of course we don't want to leave
+[04:51:20] And of course we don't want to leave human behind. So we also want to
+[04:51:22] human behind. So we also want to
+[04:51:22] human behind. So we also want to increase human agent interactions. We
+[04:51:25] increase human agent interactions. We
+[04:51:25] increase human agent interactions. We strengthen agents capability to escalate
+[04:51:27] strengthen agents capability to escalate
+[04:51:27] strengthen agents capability to escalate and call humans when it needs help.
+[04:51:30] and call humans when it needs help.
+[04:51:30] and call humans when it needs help. where information are missing,
+[04:51:32] where information are missing,
+[04:51:32] where information are missing, contradicting or is unclear.
+[04:51:35] contradicting or is unclear.
+[04:51:35] contradicting or is unclear. We are also doing another collaborations
+[04:51:37] We are also doing another collaborations
+[04:51:37] We are also doing another collaborations with the original terminal bench team to
+[04:51:39] with the original terminal bench team to
+[04:51:39] with the original terminal bench team to develop the next generation of terminal
+[04:51:41] develop the next generation of terminal
+[04:51:42] develop the next generation of terminal bench and we are expanding into
+[04:51:44] bench and we are expanding into
+[04:51:44] bench and we are expanding into different professional domain such as
+[04:51:46] different professional domain such as
+[04:51:46] different professional domain such as healthcare, finance, legal or different
+[04:51:50] healthcare, finance, legal or different
+[04:51:50] healthcare, finance, legal or different kind of engineers.
+[04:51:54] To close this presentation, I want to
+[04:51:57] To close this presentation, I want to share that we never expect what we are
+[04:51:59] share that we never expect what we are
+[04:51:59] share that we never expect what we are leaving to this world as the final thing
+[04:52:01] leaving to this world as the final thing
+[04:52:01] leaving to this world as the final thing of coding agents, but we are very
+[04:52:03] of coding agents, but we are very
+[04:52:03] of coding agents, but we are very excited to see what kind of a splash we
+[04:52:05] excited to see what kind of a splash we
+[04:52:05] excited to see what kind of a splash we can make to this world.
+[04:52:08] can make to this world.
+[04:52:08] can make to this world. We hope what we're doing can serve as a
+[04:52:11] We hope what we're doing can serve as a
+[04:52:11] We hope what we're doing can serve as a stepping stone for this community to
+[04:52:13] stepping stone for this community to
+[04:52:13] stepping stone for this community to build the next era of coding agents.
+[04:52:16] build the next era of coding agents.
+[04:52:16] build the next era of coding agents. Thank you.
+[04:52:26] So, thank you so much, Jianis. Next, we

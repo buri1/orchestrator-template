@@ -1,0 +1,9 @@
+{
+  "session": "lthread",
+  "workspaceId": "1A58256C-7369-4B0B-95F7-D7926EA58DBB",
+  "supervisorPaneId": "F5CF3294-FBD2-44D5-B3ED-1411CC9FE34A",
+  "orchestratorPaneId": "surface:6",
+  "workersPaneId": "surface:5",
+  "orchestratorDir": "/Users/buraksmac/Desktop/code2/orchestrator",
+  "workerPanes": []
+}

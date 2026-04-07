@@ -1,0 +1,20 @@
+{
+  "source_url": "https://github.com/anomalyco/opentui",
+  "source_title": "anomalyco/opentui",
+  "catalogue_path": "research/catalogue/developer-gui/opentui.md",
+  "ingested_at": "2026-03-12T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/msmps/awesome-opentui",
+      "context": "Official curated list of TUI apps and resources built with OpenTUI, linked from the README",
+      "suggested_type": "tool",
+      "relevance_hint": "228 stars; scanning this list could surface terminal-based monitoring or dashboard tools applicable to orchestrator status UIs — worth a quick review when planning Phase 3 TUI dashboard"
+    },
+    {
+      "url": "https://github.com/msmps/opentui-skill",
+      "context": "Official AI agent skill for OpenTUI — install with `npx skills add msmps/opentui-skill` or OpenCode `/opentui` command",
+      "suggested_type": "tool",
+      "relevance_hint": "Concrete production example of the agent skill distribution pattern (AGENTS.md + OpenAI Skills in catalogue); directly relevant to our skill packaging strategy for the orchestrator"
+    }
+  ]
+}

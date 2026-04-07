@@ -1,0 +1,712 @@
+# Knowledge Catalogue
+
+> A categorized reference of all tools, frameworks, platforms, practitioners, articles, talks, and posts analyzed during research.
+
+**Last updated:** 2026-03-22
+**Total entries:** 398 (196 tools, 7 practitioners, 82 reference docs, 58 articles, 19 talks, 42 posts)
+**Templates:** [Tool](./_TEMPLATE.md) | [Practitioner](./_TEMPLATE-PRACTITIONER.md) | [Article](./_TEMPLATE-ARTICLE.md) | [Talk](./_TEMPLATE-TALK.md) | [Post](./_TEMPLATE-POST.md)
+**Views:** [Chronological Timeline](./TIMELINE.md) | [Interactive UI](./catalogue-explorer.html) | [Adoptable Patterns Backlog](./ADOPTABLE-PATTERNS.md)
+
+---
+
+## Quick Reference — Top Tier (8+ Relevance)
+
+| Tool | Category | Relevance | Verdict |
+|------|----------|-----------|---------|
+| [GSD 2](./agent-harnesses/gsd-2.md) | ⚙️ Harness | 9/10 | Pi SDK CLI; file-driven state machine, 7 data protection guards, verification auto-fix, sliding-window stuck detection, fresh 200K context per task |
+| [Claude Agent SDK](./agent-harnesses/claude-agent-sdk.md) | ⚙️ Harness | 9/10 | Primary harness — SDK, Agent Teams, 18 hooks, subagents |
+| [Oh-My-Pi](./agent-harnesses/pi/oh-my-pi.md) | ⚙️ Harness | 9/10 | Pi fork with worktree isolation, hash state, model routing |
+| [Stripe Minions](./orchestration-platforms/stripe-minions.md) | 🎛️ Orchestration | 9/10 | The 70/30 deterministic/LLM blueprint pattern |
+| [Overstory](./agent-harnesses/overstory.md) | ⚙️ Harness | 9/10 | Validates our tmux+worktree+SQLite arch; AgentRuntime adapter + 4-tier merge queue |
+| [12 Factor Agents](./agent-protocols/12-factor-agents.md) | 🔗 Protocol | 9/10 | The "12 Factor App" of agent engineering; 18.7K stars; codifies deterministic-first agent design; coined "context engineering" |
+| [AGENTS.md](./agent-protocols/agents-md.md) | 🔗 Protocol | 9/10 | Convention file for agent capabilities; 60K+ repos; adopt today |
+| [pi-side-agents](./agent-harnesses/pi/pi-side-agents.md) | ⚙️ Pi | 9/10 | Independently arrived at our tmux+worktree pattern; cleanest migration target |
+| [ccusage](./observability/ccusage.md) | 🔍 Observability | 9/10 | Zero-install Claude Max usage tracking; highest-ROI tool in catalogue |
+| [Claude-Sneakpeek](./agent-harnesses/claude-sneakpeek.md) | ⚙️ Harness | 9/10 | Unlocks Claude Code's native swarm mode via binary patching of `tengu_brass_pebble` statsig gate; 1,063 stars |
+| [Everything Claude Code](./agent-harnesses/everything-claude-code.md) | ⚙️ Harness | 9/10 | 68.8K stars; 16 agents, 65 skills, 40 commands; hook runtime gating, AgentShield, eval-driven quality gates, cross-harness parity |
+| [Pi Agent](./agent-harnesses/pi/pi-agent.md) | ⚙️ Harness | 8/10 | Primary Day 60+ harness candidate |
+| [Inngest](./orchestration-platforms/inngest.md) | 🎛️ Orchestration | 8/10 | TypeScript-native, deterministic routing default, durable execution — most aligned framework |
+| [Gas Town](./orchestration-platforms/gas-town.md) | 🎛️ Orchestration | 8/10 | Yegge's actor model; git worktree isolation + bead tracking are transferable |
+| [Warp / Oz](./orchestration-platforms/warp-oz.md) | 🎛️ Orchestration | 8/10 | "Vercel for cloud agents" — 5 orchestration primitives; harness-agnostic; 26K stars |
+| [A2A Protocol](./agent-protocols/a2a-protocol.md) | 🔗 Protocol | 8/10 | Google's de facto standard for agent-to-agent communication; 22K stars |
+| [OpenAI Skills](./agent-protocols/openai-skills.md) | 🔗 Protocol | 8/10 | Official Codex skills catalogue; 13.5K stars; skill-creator is best authoring guide; 35 curated + 3 system skills |
+| [Semgrep](./code-intelligence/semgrep.md) | 🧬 Code Intel | 8/10 | MCP server makes SAST a native agent tool; 14K stars; zero-cost quality gate for agent code |
+| [AgentShield](./code-intelligence/agentshield.md) | 🧬 Code Intel | 8/10 | 102 Semgrep rules for agent config security; Opus adversarial audit; scans our --dangerously-skip-permissions surface |
+| [Graphite](./code-intelligence/graphite.md) | 🧬 Code Intel | 8/10 | Stack-aware merge queue solves our 19-20% conflict rate; acquired by Cursor for >$290M |
+| [Langfuse](./observability/langfuse.md) | 🔍 Observability | 8/10 | Self-hosted LLM observability for gov client trust artifacts |
+| [LiteLLM](./infrastructure/litellm.md) | 🏗️ Infrastructure | 8/10 | Unified API proxy addressing 378x pricing spread; deploy as model router |
+| [Trigger.dev](./infrastructure/trigger-dev.md) | 🏗️ Infrastructure | 8/10 | TypeScript-native durable execution; strongest tmux crash recovery replacement |
+| [DCG](./infrastructure/destructive-command-guard.md) | 🏗️ Infrastructure | 8/10 | SIMD-accelerated command guard; PreToolUse hook blocks destructive git/shell ops; 2-min install, sub-ms overhead |
+| [Arcade.dev](./infrastructure/arcade-dev.md) | 7/10 | Delegated agent authorization (per-user/per-service/per-action scoped tokens); MCP gateway; Okta pedigree; DSGVO-compatible on-prem |
+| [oh-my-claudecode](./agent-harnesses/oh-my-claudecode.md) | ⚙️ Harness | 8/10 | Closest competitor; same stack; steal model routing + staged pipeline |
+| [Superpowers](./agent-harnesses/superpowers.md) | ⚙️ Harness | 8/10 | obra's TDD enforcement + two-stage review; adopt patterns immediately |
+| [Broomie](./agent-harnesses/broomie.md) | ⚙️ Harness | 8/10 | Worktree-per-agent + status dashboard (working/blocked/help) + auto merge-to-PR |
+| [pi-mcp-adapter](./agent-harnesses/pi/pi-mcp-adapter.md) | ⚙️ Pi | 8/10 | 50-100x token reduction via single proxy tool; mandatory for Pi+MCP |
+| [pi-agent-teams](./agent-harnesses/pi/pi-agent-teams.md) | ⚙️ Pi | 8/10 | Most feature-complete Pi coordination: dependency tasks, quality gates, auto-claim |
+| [pi-interactive-shell](./agent-harnesses/pi/pi-interactive-shell.md) | ⚙️ Pi | 8/10 | PTY emulation eliminates tmux dependency; three autonomy modes; most-starred Pi ext |
+| [HumanLayer](./developer-gui/humanlayer.md) | 🖥️ Developer GUI | 8/10 | CRISPY pipeline (7-phase RPI evolution); instruction budget ceiling ~150-200; "12 Factor Agents" coined context engineering |
+| [Relay App](./orchestration-platforms/relay-app.md) | 🎛️ Orchestration | 8/10 | Rust broker + native PTY over tmux; MCP tool protocol for agent messaging; reference architecture for our broker evolution |
+| [MCP Agent Mail](./orchestration-platforms/mcp-agent-mail.md) | 🎛️ Orchestration | 8/10 | Advisory file leases (glob+TTL+pre-commit guard) + async agent messaging over FastMCP+Git+SQLite; solves multi-agent edit conflicts |
+| [dmux](./orchestration-platforms/dmux.md) | 🎛️ Orchestration | 9/10 | Most feature-complete tmux+worktree multiplexer: HTTP REST API + SSE, LLM status detection, AI merge conflict resolution, 11-agent registry, 11 lifecycle hooks; 1,161 stars |
+| [Agent of Empires](./orchestration-platforms/agent-of-empires.md) | 🎛️ Orchestration | 9/10 | Productized tmux+worktree+multi-agent in Rust; remain-on-exit forensics + 3-state status detection + per-repo lifecycle hooks — adapts directly to our L-Thread arch |
+| [NTM](./orchestration-platforms/ntm.md) | 🎛️ Orchestration | 8/10 | Closest L-Thread competitor; robot-mode JSON API + prompt broadcasting + structured output extraction; 175 stars; same tmux substrate |
+| [AgentHub (Karpathy)](./orchestration-platforms/agenthub-karpathy.md) | 🎛️ Orchestration | 8/10 | Karpathy's "GitHub for AI agents": bare git DAG (no branches/PRs/merges) + message board; "culture from instructions, not platform" validates CLAUDE.md approach; taken down same day |
+| [AgentHub (ygivenx fork)](./orchestration-platforms/agenthub-ygivenx.md) | 🎛️ Orchestration | 6/10 | Community fork of Karpathy's deleted AgentHub; 223 forks in 72 hours; deployable version of the bare-git-DAG + message board pattern; Phase 3+ only |
+| [CASS Memory System](./agent-memory/cass-memory-system.md) | 🧠 Memory | 8/10 | 3-layer cognitive memory (episodic->working->procedural) with 90-day confidence decay + deterministic curation; most sophisticated agent memory model in catalogue |
+| [CASS](./agent-memory/cass.md) | 🧠 Memory | 8/10 | Rust-powered sub-60ms session search across 13+ agent formats; episodic memory foundation for CM; 554 stars |
+| [libghostty](./infrastructure/libghostty.md) | 🏗️ Infrastructure | 9/10 | "WebKit of terminals" — modular zero-dep library by Hashimoto powering cmux + 48 projects; VT parsing, WASM, GPU rendering; enables web dashboards, session persistence, cross-platform agent terminals |
+| [Ghostling](./infrastructure/ghostling.md) | 🏗️ Infrastructure | 8/10 | Hashimoto's 100% agent-written terminal demo (Opus+Codex+AGENTS.md+CI fix-push loops); validates our exact orchestrator workflow; definitive libghostty-vt API reference; 644 stars |
+| [Beads Viewer](./agent-harnesses/beads-viewer.md) | ⚙️ Harness | 9/10 | Graph-theoretic task prioritization (PageRank, critical path, betweenness, HITS) with robot-mode JSON API for headless agent consumption; `--robot-triage`/`--robot-next`/`--robot-plan` for dependency-aware parallel execution planning; 1.4K stars; Go+Bubble Tea; by Dicklesworthstone (MCP Agent Mail author) |
+| [cmux](./developer-gui/cmux.md) | 🖥️ Developer GUI | 10/10 | GAMECHANGING: Native macOS terminal replacing tmux+notifications+browser testing; socket API, `claude-teams` launcher, scriptable browser; 5.3K stars |
+
+---
+
+## Categories
+
+### 🎛️ Orchestration Frameworks
+Multi-agent coordination, task routing, governance, business orchestration.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [Stripe Minions](./orchestration-platforms/stripe-minions.md) | 9/10 | 70/30 deterministic/LLM split — the blueprint pattern for production agent systems |
+| [Inngest](./orchestration-platforms/inngest.md) | 8/10 | TypeScript-native, deterministic routing default, durable execution — most architecturally aligned |
+| [Gas Town](./orchestration-platforms/gas-town.md) | 8/10 | Yegge's actor model; git worktree isolation and bead-based work tracking |
+| [Warp / Oz](./orchestration-platforms/warp-oz.md) | 8/10 | "Vercel for cloud agents" — 5 orchestration primitives (environments, hosting, tracking, handoff, programmability); harness-agnostic; 26K stars |
+| [Relay App](./orchestration-platforms/relay-app.md) | 8/10 | Rust broker + native PTY over tmux; MCP tool protocol for agent messaging; 569 stars; reference for our broker evolution |
+| [MCP Agent Mail](./orchestration-platforms/mcp-agent-mail.md) | 8/10 | Advisory file leases (glob+TTL+pre-commit guard) + async messaging over FastMCP+Git+SQLite; 1,780 stars; solves multi-agent edit conflicts |
+| [dmux](./orchestration-platforms/dmux.md) | 9/10 | Most feature-complete tmux+worktree multiplexer; TypeScript+Ink TUI; HTTP REST API + SSE streaming; LLM status detection (parallel model racing); AI-assisted merge conflict resolution; 11-agent registry; 11 lifecycle hooks with 3-tier resolution; native macOS Swift helper; 1,161 stars |
+| [Agent of Empires](./orchestration-platforms/agent-of-empires.md) | 9/10 | Rust tmux+worktree session manager for 8 agent CLIs (CC, Codex, Gemini, Pi.dev, etc.); remain-on-exit forensic panes, 3-state status detection, per-repo config hooks, Docker sandbox, diff view; 1,098 stars |
+| [NTM](./orchestration-platforms/ntm.md) | 8/10 | Closest L-Thread competitor; Go+tmux, 80+ commands, robot-mode JSON API, prompt broadcasting, context monitoring; 175 stars |
+| [AgentHub (Karpathy)](./orchestration-platforms/agenthub-karpathy.md) | 8/10 | Karpathy's "GitHub for AI agents": bare git DAG + message board + auth; no branches/PRs/merges; "culture from instructions, not platform"; ~1,100 LOC Go |
+| [AgentHub (ygivenx fork)](./orchestration-platforms/agenthub-ygivenx.md) | 6/10 | Community fork of Karpathy's deleted AgentHub; 223 forks in 72 hours; deployable version of the bare-git-DAG + message board pattern; Phase 3+ coordination substrate |
+| [Temporal](./orchestration-platforms/temporal.md) | 7/10 | Gold standard durable execution; workflow=deterministic/activity=agent maps to our 70/30 |
+| [Flyte](./orchestration-platforms/flyte.md) | 7/10 | Replay logs + global caching + intermediate state persistence; Dragonfly 2K+ concurrent runs; K8s-native |
+| [Union](./orchestration-platforms/union.md) | 7/10 | Managed Flyte platform; $38.1M Series A; agentic AI primitives (replay logs, infra-as-context, code-mode sandbox); Dragonfly 2K+ concurrent runs |
+| [Agent-MCP](./orchestration-platforms/agent-mcp.md) | 6/10 | MCP-as-coordination-protocol; expose create_agent/assign_task as MCP tools |
+| [Composio](./orchestration-platforms/composio.md) | 6/10 | Auth/integration layer (not orchestrator); TypeScript SDK for Notion/Airtable connectivity |
+| [Shannon](./orchestration-platforms/shannon.md) | 6/10 | Token budget with automatic model fallback — deterministic cost control pattern |
+| [ccswarm](./orchestration-platforms/ccswarm.md) | 6/10 | Rust-based Claude Code swarm; validates worktree isolation independently |
+| [OpenClaw](./orchestration-platforms/openclaw.md) | 6/10 | 271K stars; lane queuing, context checkpoints, stuck-loop detection |
+| [Paperclip](./orchestration-platforms/paperclip.md) | 6/10 | Per-token cost attribution + task-keyed session persistence |
+| [Droid CLI Orchestrator](./orchestration-platforms/droid-cli-orchestrator.md) | 6/10 | 104-droid persona library for proprietary Factory CLI; pure prompt-engineering orchestration (0/100 LLM); 351 stars; reference taxonomy only |
+| [LangGraph](./orchestration-platforms/langgraph.md) | 5/10 | Graph-based state machines validate our approach; Python/LangChain lock-in |
+| [Swarms](./orchestration-platforms/swarms.md) | 5/10 | Topology taxonomy + AgentRearrange syntax; Python-only, fragile |
+| [OpenAI Agents SDK](./orchestration-platforms/openai-agents-sdk.md) | 5/10 | Manager/Handoff two-pattern taxonomy validates our architecture |
+| [Conductor](./orchestration-platforms/conductor.md) | 5/10 | Netflix-born heavyweight (31K stars); wrong stack (Java) but good workflow reference |
+| [NVIDIA Orchestrator-8B](./orchestration-platforms/nvidia-orchestrator-8b.md) | 5/10 | 8B model beating GPT-5 at orchestration; validates separation-of-concerns |
+| [n8n](./orchestration-platforms/n8n.md) | 4/10 | 178K stars; webhook/resilience patterns but not multi-agent native |
+| [AgentK](./orchestration-platforms/agent-k.md) | 4/10 | Self-evolving kernel (4 agents bootstrap new agents/tools at runtime); 959 stars; LLM-driven routing + Python/LangGraph — study kernel metaphor, ignore implementation |
+| [CrewAI](./orchestration-platforms/crew-ai.md) | 4/10 | Python-only, LLM-heavy role-play paradigm; opposite of deterministic routing |
+| [AutoGen](./orchestration-platforms/autogen.md) | 4/10 | 55K stars but conversation-centric + API instability; wrong language |
+| [Prefect](./orchestration-platforms/prefect.md) | 4/10 | Python workflow orchestration; infrastructure patterns only |
+| [DyLAN](./orchestration-platforms/dylan.md) | 4/10 | Academic "LLM-as-neuron" metaphor; Agent Importance Score concept |
+| [HyperAgent](./orchestration-platforms/hyperagent.md) | 3/10 | SWE-Bench research; tiered model assignment is useful cost pattern |
+| [Dify](./orchestration-platforms/dify.md) | 3/10 | 131K stars but GUI-first LLM app builder; different problem domain |
+| [OpenMAIC](./orchestration-platforms/openMAIC.md) | 3/10 | Tsinghua University multi-agent interactive classroom (11K stars, AGPL); role-based multi-agent coordination patterns; education domain, not software dev |
+| [BridgeMCP](./orchestration-platforms/bridgemcp.md) | 3/10 | Proprietary cloud SaaS; DSGVO incompatible |
+| [ElizaOS](./orchestration-platforms/elizaos.md) | 3/10 | Web3/chatbot DNA; Evaluator post-action reflection only |
+| [eva.](./orchestration-platforms/eva-space.md) | 1/10 | Defunct "AI OS" from AdTech company (NASDAQ: GOAI); built on Bubble.io; domains dead; zero technical depth |
+
+---
+
+### ⚙️ Agent Harnesses
+CLI tools, SDKs, runtimes, and frameworks that execute agent tasks.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [Claude Agent SDK](./agent-harnesses/claude-agent-sdk.md) | 9/10 | SDK + Agent Teams + 18 hooks + subagents — our primary harness |
+| [Claude-Sneakpeek](./agent-harnesses/claude-sneakpeek.md) | 9/10 | Unlocks native swarm mode (TeammateTool, delegate, Task* tools) via binary patching of `tengu_brass_pebble` gate; 1,063 stars |
+| [Overstory](./agent-harnesses/overstory.md) | 9/10 | Validates our tmux+worktree+SQLite arch; AgentRuntime adapter + 4-tier merge queue |
+| [Everything Claude Code](./agent-harnesses/everything-claude-code.md) | 9/10 | 68.8K stars; 16 agents, 65 skills, 40 commands, AgentShield; hook runtime gating (ECC_HOOK_PROFILE), eval-driven quality gates, cross-harness parity (CC/Cursor/OpenCode/Codex) |
+| [Beads Viewer](./agent-harnesses/beads-viewer.md) | 9/10 | Graph-aware TUI + robot-mode JSON API; 9 graph metrics (PageRank, betweenness, HITS, critical path) for dependency-aware task prioritization; `--robot-plan` parallel execution tracks; `--format toon` token-optimized output; by Dicklesworthstone; 1.4K stars |
+| [oh-my-claudecode](./agent-harnesses/oh-my-claudecode.md) | 8/10 | Same stack (CC + tmux); steal model routing (Haiku/Opus) + staged pipeline |
+| [Superpowers](./agent-harnesses/superpowers.md) | 8/10 | obra's 73K stars; TDD enforcement + two-stage review + brainstorm-before-code |
+| [Broomie](./agent-harnesses/broomie.md) | 8/10 | Worktree-per-agent + status dashboard (working/blocked/help) + auto merge-to-PR pipeline |
+| [Google ADK](./agent-harnesses/google-adk.md) | 7/10 | Google's protocol-native agent framework (18.5K stars); 3-tier agent taxonomy (LLM/Workflow/Custom); SkillToolset progressive loading (L1/L2/L3); native MCP + A2A; 4 language SDKs; study patterns, don't adopt framework |
+| [agent-browser](./agent-harnesses/agent-browser.md) | 7/10 | 93% context reduction via Snapshot+Refs; drop-in E2E testing candidate |
+| [Page Agent](./agent-harnesses/page-agent.md) | 7/10 | Alibaba's in-page JS GUI agent; BYOK, text DOM (no screenshots), 3-line SaaS copilot integration; 5.8K stars; MIT |
+| [agtx](./agent-harnesses/agtx.md) | 7/10 | Per-phase agent assignment + TOML plugin lifecycle hooks |
+| [Bowser](./agent-harnesses/bowser.md) | 7/10 | IndyDevDan's browser automation; YAML user stories + Justfile patterns |
+| [Rodney](./agent-harnesses/rodney.md) | 7/10 | Simon Willison's zero-daemon browser CLI; per-worktree isolation + shell-native assertions + accessibility audit commands |
+| [CodeMachine-CLI](./agent-harnesses/codemachine-cli.md) | 7/10 | Closest OSS competitor to L-Thread; Sustaina 60K LOC case study |
+| [Goose](./agent-harnesses/goose.md) | 7/10 | Block's MCP-first agent; Rust core, custom distributions for federated vision |
+| [OpenCode](./agent-harnesses/opencode.md) | 7/10 | Go+TS hybrid, 117K stars, TaskTool, Teams — alternative architecture reference |
+| [Kilo Code](./agent-harnesses/kilo-code.md) | 7/10 | 16K stars, 1.5M+ devs; Trust Ladder framework; 5 agent modes; model routing (Opus for planning, cheap for coding) |
+| [Loom](./agent-harnesses/loom.md) | 7/10 | Huntley's Level 9 evolutionary software factory; 77-crate Rust monorepo; study-only (proprietary); state machine, credential proxy, K8s sandboxing patterns |
+| [OpenDev](./agent-harnesses/opendev.md) | 7/10 | 116K LOC Python; 5-stage compaction (70/80/85/90/99%), 5-model routing, 8 subagents, Docker sandbox, channel adapters (Telegram/WhatsApp/Web), ACE Playbook memory; best-documented agent architecture (arXiv paper) |
+| [Terminal Bench 2.0](./agent-harnesses/terminal-bench.md) | 7/10 | THE benchmark for harness engineering ROI: same model (Opus 4.6) scores 58.0% (stock CC) to 81.8% (ForgeCode); 89 tasks, 120 entries, 1.8K stars; LangChain's 52.8%→66.5% was measured here |
+| [Deep Agents](./agent-harnesses/deep-agents.md) | 7/10 | LangChain's 10K-star harness; pluggable BackendProtocol (real FS / DB virtual FS / sandbox) is best filesystem abstraction |
+| [Open SWE](./agent-harnesses/open-swe.md) | 7/10 | LangChain's productized enterprise coding agent (7.8K stars); Slack/Linear/GitHub invocation + 3-middleware deterministic safety net + cloud sandbox isolation; open-source Stripe Minions pattern |
+| [Spec Kit](./agent-harnesses/spec-kit.md) | 7/10 | GitHub's 75K-star SDD framework; constitutional governance + template constraint engineering; steal patterns for agent definitions |
+| [Agent Flywheel](./agent-harnesses/agent-flywheel.md) | 7/10 | 29-tool ecosystem (NTM, Agent Mail, CASS, CM, DCG); cherry-pick individual components, not full stack |
+| [Autonomous Coding Demo](./agent-harnesses/autonomous-coding-demo.md) | 7/10 | Anthropic's own reference impl; two-agent pattern + immutable progress tracker + bash security hooks |
+| [Codebuff](./agent-harnesses/codebuff.md) | 6/10 | YC-backed; 7-agent pipeline with per-task model routing; Max Mode (best-of-N); BuffBench eval framework |
+| [CodeRabbit](./agent-harnesses/coderabbit.md) | 6/10 | Install today as quality gate for agent-generated PRs |
+| [Augment Code](./agent-harnesses/augment-code.md) | 6/10 | Context Engine MCP usable with CC today; $977M valuation, #1 SWE-bench |
+| [Mendral](./agent-harnesses/mendral.md) | 6/10 | Docker founders' agent; model tiering (Opus/Sonnet/Haiku) pattern |
+| [Roo Code](./agent-harnesses/roo-code.md) | 6/10 | Cline fork with custom modes + MCP support |
+| [Ironclaw](./agent-harnesses/ironclaw.md) | 6/10 | Rust OpenClaw rewrite; WASM capability-based sandbox + credential host-boundary injection; 7.6K stars; best agent security isolation model |
+| [Swarms (Codex)](./agent-harnesses/swarms-codex.md) | 6/10 | Pure prompt-engineering skills for wave-based parallel execution; plan.md as shared state; validates patterns we already use |
+| [OpenSpec](./agent-harnesses/openspec.md) | 6/10 | 28.6K stars; spec-driven dev (proposal→specs→design→tasks→apply→archive); delta-spec merge semantics; 20+ tool support; methodology not orchestration |
+| [ThePope Bot (AIIDE)](./agent-harnesses/thepopebot-aiide.md) | 6/10 | Dual-backend (Claude Code + Pi Agent) autonomous agent platform; GitHub Actions as runtime; cluster multi-agent teams; shared SKILL.md skill system; 1,149 stars |
+| [Verdent](./agent-harnesses/verdent.md) | 5/10 | Proprietary parallel-agent IDE; validates worktree+plan-code-verify+multi-model routing but closed-source, credit-based, GUI-first |
+| [Codex Skills](./agent-harnesses/codex-skills.md) | 5/10 | 26 TOML agent roles with model tiering; rolling 12-agent pool orchestrator; anonymized multi-model judging; Codex-only |
+| [SkillKit](./agent-harnesses/skillkit.md) | 5/10 | npm for agent skills — translate/sync SKILL.md across 44 agents; MCP discovery server; Phase 3+ multi-agent play |
+| [MiniMax Skills](./agent-harnesses/minimax-skills.md) | 5/10 | Cross-platform skills (CC/Cursor/Codex/OpenCode); 10 skills: frontend, fullstack, Android, iOS, shader, media generation via MiniMax API; 747 stars |
+| [DSPy](./agent-harnesses/dspy.md) | 5/10 | Declarative paradigm, GEPA optimizer, typed contracts — Phase 3+ |
+| [BAML](./agent-harnesses/baml.md) | 5/10 | Typed DSL for structured LLM outputs; Rust compiler + SAP parsing; 7.7K stars; Phase 3+ extraction pipelines |
+| [Aider](./agent-harnesses/aider.md) | 5/10 | Repo-map algorithm for context selection; Python-based |
+| [Bridle](./agent-harnesses/bridle.md) | 5/10 | Rust-based config manager; profile switching for multi-harness |
+| [Cline CLI](./agent-harnesses/cline-cli.md) | 5/10 | 58K stars; MCP auto-config reference |
+| [oh-my-opencode](./agent-harnesses/oh-my-opencode.md) | 5/10 | 38K stars; Hashline (content-hash editing) is novel |
+| [OpenAI Codex](./agent-harnesses/openai-codex.md) | 5/10 | Open-source terminal agent from major lab; Phase 3+ adapter |
+| [Office Agents SDK](./agent-harnesses/office-agents.md) | 4/10 | Browser-only Office Add-in agent runtime; BYOK multi-provider; pi-agent-core dependency validates Pi ecosystem adoption; 239 stars |
+| [Copilot SDK](./agent-harnesses/copilot-sdk.md) | 4/10 | Microsoft's platform play; MCP-by-default validates protocol adoption |
+| [99Ravens](./agent-harnesses/99ravens.md) | 4/10 | Expertise-codification agency/SaaS by Fab Dolan + Koylan; proprietary platform; OSS component already catalogued as [Koylan Skills](./agent-protocols/koylan-skills.md) |
+| [Codex Infinity](./agent-harnesses/codex-infinity.md) | 4/10 | Fork of OpenAI Codex with `--auto-next-steps` and `--auto-next-idea` autonomous continuation; Rust core; 41 stars; concept validated but our orchestrator is more capable |
+| [Amp Code](./agent-harnesses/amp-code.md) | 4/10 | Proprietary; multi-model sub-agent dispatching (Oracle/Librarian/Painter/Task) |
+| [Dash](./agent-harnesses/dash.md) | 4/10 | Agno SDK showcase; dual knowledge/learnings store + 6-layer context grounding for text-to-SQL; OpenAI-only; reference patterns, don't adopt |
+| [Devin](./agent-harnesses/devin.md) | 4/10 | Proprietary black box; market benchmark only |
+| [Gemini CLI](./agent-harnesses/gemini-cli.md) | 4/10 | 96K stars; Google's CC competitor, free tier notable |
+| [Manus AI](./agent-harnesses/manus-ai.md) | 4/10 | CodeAct paradigm; acquired by Meta for ~$2-3B |
+| [PraisonAI](./agent-harnesses/praisonai.md) | 3/10 | 5.6K stars; kitchen-sink Python multi-agent framework; LLM-driven routing — negative example; DoomLoopTracker pattern worth studying |
+| [AutoMaker](./agent-harnesses/automaker.md) | 4/10 | Kanban + worktree + Claude Agent SDK IDE; GUI-first, single-project — watch for patterns, don't adopt |
+| [ADAS](./agent-harnesses/adas.md) | 3/10 | ICLR 2025; meta-agent that designs better agents; academic only |
+| [Qwen-Agent](./agent-harnesses/qwen-agent.md) | 3/10 | Python/Qwen-coupled; DeepPlanning benchmark |
+| [Mitra](./agent-harnesses/mitra.md) | 3/10 | Consultancy-only multi-persona system; XML-source-of-truth synced to .gemini/ + .claude/ is a clean multi-harness portability pattern |
+| [RamAIn](./agent-harnesses/ramain.md) | 3/10 | YC W26 desktop CUA; pre-trained UI policies for 10x faster GUI automation; closed-source, enterprise-only |
+| [DeerFlow](./agent-harnesses/deer-flow.md) | 7/10 | ByteDance's 33.7K-star super-agent harness; sub-agents + sandboxes + memory + skills; Claude Code integration; MCP server; LangGraph/Python backend; #1 GitHub Trending for v2 |
+| [UI/UX Pro Max Skill](./agent-harnesses/ui-ux-pro-max-skill.md) | 7/10 | Most popular UI/UX agent skill (48K stars); cross-harness (CC/Codex/Cursor/Kiro); codified design intelligence for mobile-first, landing pages, React+Tailwind; adoptable for OmniPort |
+| [Intercom Fin](./agent-harnesses/intercom-fin.md) | 2/10 | Customer support agent; outcome-based pricing ($0.99/resolution) |
+
+#### Pi Ecosystem Extensions
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [Oh-My-Pi](./agent-harnesses/pi/oh-my-pi.md) | 9/10 | Worktree isolation, hash-anchored state, MCP pooling, model routing, LSP feedback |
+| [pi-side-agents](./agent-harnesses/pi/pi-side-agents.md) | 9/10 | Independently arrived at tmux+worktree pattern; cleanest migration target |
+| [Pi Agent](./agent-harnesses/pi/pi-agent.md) | 8/10 | Token efficiency, `context` event, SDK embeddability — Day 60+ candidate |
+| [pi-mcp-adapter](./agent-harnesses/pi/pi-mcp-adapter.md) | 8/10 | 50-100x token reduction via single proxy tool; mandatory for Pi+MCP |
+| [pi-agent-teams](./agent-harnesses/pi/pi-agent-teams.md) | 8/10 | Dependency-aware tasks, quality gate hooks, auto-claim |
+| [pi-interactive-shell](./agent-harnesses/pi/pi-interactive-shell.md) | 8/10 | PTY emulation eliminates tmux dependency; 287 stars, most-starred Pi ext |
+| [Pi Subagents](./agent-harnesses/pi/pi-subagents.md) | 7/10 | Role-based delegation, chain pipelines, observability for Pi |
+| [pi-collaborating-agents](./agent-harnesses/pi/pi-collaborating-agents.md) | 7/10 | File reservation pattern (tool-level edit blocking) |
+| [pi-foreground-chains](./agent-harnesses/pi/pi-foreground-chains.md) | 7/10 | Scout-Planner-Worker-Reviewer as pure prompt engineering |
+| [Pi Messenger](./agent-harnesses/pi/pi-messenger.md) | 6/10 | File-based comms, steering injection, wave execution |
+| [pi-web-access](./agent-harnesses/pi/pi-web-access.md) | 6/10 | Smart fallback chains, GitHub clone-not-scrape, zero-config Chrome cookies |
+| [Pi Agent Rust](./agent-harnesses/pi/pi-agent-rust.md) | 6/10 | Rust port of Pi Agent; 4-12x perf gains; best extension security model catalogued; Anthropic-blocking license limits adoption |
+| [pi-agent-scip](./agent-harnesses/pi/pi-agent-scip.md) | 5/10 | Archived (merged into rhubarb-pi); SCIP code intelligence concept |
+
+---
+
+### 🧠 Agent Memory & Context
+Memory systems, context retrieval, knowledge stores, RAG platforms.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [CASS Memory System](./agent-memory/cass-memory-system.md) | 8/10 | 3-layer cognitive architecture (episodic->working->procedural) with 90-day confidence decay, 4x harmful multiplier, deterministic curation; MCP-native |
+| [CASS](./agent-memory/cass.md) | 8/10 | Rust-powered sub-60ms session search across 13+ agent formats (Claude Code, Codex, Cursor, Aider, etc.); episodic memory foundation for CM; 554 stars; `brew install` ready |
+| [Context-Gateway](./agent-memory/context-gateway.md) | 7/10 | YC W26; zero-infra Go proxy for Claude Code context compression; trial this week |
+| [Beads](./agent-memory/beads.md) | 7/10 | Yegge's zero-infra git-backed task memory with dependency graphs + semantic compaction |
+| [Slate](./agent-memory/slate.md) | 7/10 | Thread-based episodic memory; bounded workers return compressed episodes (not messages); OS kernel framing (orchestrator=kernel, threads=processes, episodes=return values); closed-source CLI; `npm i -g @randomlabs/slate` |
+| [Letta / MemGPT](./agent-memory/letta.md) | 6/10 | "LLM-as-OS" self-editing memory; git-based Context Repositories validate approach |
+| [Always-On Memory Agent](./agent-memory/always-on-memory-agent.md) | 6/10 | Consolidation-as-sleep pattern for knowledge compounding |
+| [Cognee](./agent-memory/cognee.md) | 5/10 | Knowledge graph memory; Neo4j+vector DB infra conflicts with zero-infra approach |
+| [Context7](./agent-memory/context7.md) | 4/10 | MCP server for fresh library docs; 48K stars by Upstash; nice-to-have for workers |
+| [Mem0](./agent-memory/mem0.md) | 4/10 | 49K stars but built for SaaS multi-user personalization, not agent-to-agent |
+| [Dolt](./agent-memory/dolt.md) | 4/10 | Git-for-data primitive; our JSON-in-git already provides sufficient versioning |
+| [OneContext](./agent-memory/onecontext.md) | 4/10 | Agent trajectory recording + Slack sharing; too early-stage (9 stars, no license) for adoption |
+| [Conare](./agent-memory/conare.md) | 4/10 | macOS GUI wrapper injecting context into CLAUDE.md; validates our approach but closed-source, single-user, nothing to adopt |
+| [Claude-Mem](./agent-memory/claude-mem.md) | 7/10 | Most popular Claude Code memory plugin (39K stars, AGPL); AI-compressed session capture + ChromaDB RAG retrieval; study compression patterns; maintain explicit context control over auto-injection |
+| [Airweave](./agent-memory/airweave.md) | 3/10 | Enterprise retrieval layer; overkill for Phase 1-2 |
+
+---
+
+### 🔗 Agent Protocols
+Standards and interoperability specifications for agent communication and trust.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [12 Factor Agents](./agent-protocols/12-factor-agents.md) | 9/10 | The "12 Factor App" of agent engineering; 18.7K stars; 12+1 principles for production agents; coined "context engineering"; workshop + scaffold CLI |
+| [AGENTS.md](./agent-protocols/agents-md.md) | 9/10 | Convention file for agent capabilities; 18.6K stars, 60K+ repos; adopt today |
+| [A2A Protocol](./agent-protocols/a2a-protocol.md) | 8/10 | Google's de facto A2A standard; 22K stars; absorbed ACP; Phase 3-4 for federation |
+| [OpenAI Skills](./agent-protocols/openai-skills.md) | 8/10 | Official Codex skills catalogue; 13.5K stars; skill-creator is best authoring guide; 35 curated skills; 3-tier distribution model |
+| [x402](./agent-protocols/x402.md) | 7/10 | Coinbase's HTTP 402 micropayments; most novel payment protocol; Phase 4 |
+| [OpenSkills](./agent-protocols/openskills.md) | 7/10 | SKILL.md standard; our .claude/commands/ are 80% compatible; portability play |
+| [AAIF](./agent-protocols/aaif.md) | 6/10 | Linux Foundation consortium housing MCP, goose, AGENTS.md — the CNCF of agentic AI |
+| [Koylan Skills](./agent-protocols/koylan-skills.md) | 6/10 | Best public reference for context engineering; validates our approach |
+| [ACP](./agent-protocols/acp.md) | 5/10 | Dead (archived Aug 2025, merged into A2A); design patterns worth studying |
+| [ANP](./agent-protocols/anp.md) | 4/10 | Three-layer architecture; lacks industry backing to compete with A2A |
+| [Playbooks.com](./agent-protocols/playbooks-skills.md) | 5/10 | Largest skills directory (34K+ skills, 14K+ MCP servers); discovery layer, not a build tool |
+| [PM Skills Marketplace](./agent-protocols/pm-skills.md) | 6/10 | Largest SKILL.md plugin marketplace (65 skills, 36 commands, 8 plugins); 6K stars in 8 days; PM domain but best structural reference for skill packaging and cross-tool portability |
+| [Awesome Agent Skills](./agent-protocols/awesome-agent-skills.md) | 7/10 | Most comprehensive cross-agent skills directory (549+ skills, 10K stars, 30+ vendor teams); cross-harness path table, quality standards, security tooling pointers |
+| [Hermes Function Calling](./agent-protocols/hermes-function-calling.md) | 4/10 | NousResearch's tool-use protocol for open-weight models; Manus uses it to demo prefilling-based action constraints |
+| [Pi Subagent Orchestration Skill](./agent-protocols/pi-subagent-orchestration-skill.md) | 5/10 | LobeHub marketplace skill packaging multi-agent orchestration patterns (per-agent git, tmux tracking, turn limits); signal that orchestration is becoming distributable |
+
+---
+
+### 💰 Agent Economy
+Payment infrastructure, token standards, and financial primitives for autonomous agent transactions.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [ERC-8004](./agent-economy/erc-8004.md) | 4/10 | Three-registry trust layer (Identity/Reputation/Validation); mainnet since Jan 2026 |
+| [Coinbase Agentic Wallets](./agent-economy/coinbase-agentic-wallets.md) | 4/10 | Most production-ready agent wallet infra; x402 + MCP; regulated public company |
+| [MoonPay Agents](./agent-economy/moonpay-agents.md) | 3/10 | Full fiat-to-crypto-to-fiat lifecycle; 17 skills/54 tools; closed-source |
+
+---
+
+### 🧬 Code Intelligence
+Semantic code understanding, codebase search, knowledge graphs.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [Semgrep](./code-intelligence/semgrep.md) | 8/10 | MCP server turns deterministic SAST into native agent tool; 5,000+ rules; zero-cost quality gate for agent-generated code |
+| [AgentShield](./code-intelligence/agentshield.md) | 8/10 | 102 rules across 5 categories (secrets, permissions, hooks, MCP, agent config); Opus three-agent adversarial audit; 183 stars; scans our `--dangerously-skip-permissions` attack surface; GitHub Action for CI |
+| [Graphite](./code-intelligence/graphite.md) | 8/10 | Stack-aware merge queue + stacked PRs; solves 19-20% conflict rate; Anthropic investor |
+| [Desloppify](./code-intelligence/desloppify.md) | 7/10 | Agent-native code quality harness; hybrid mechanical + LLM subjective review; anti-gaming scoring; 2K stars; back-pressure gate for agent pipelines |
+| [Pyrefly](./code-intelligence/pyrefly.md) | 7/10 | Meta's Rust-based Python type checker; fastest back-pressure tool for autonomous Python coding loops (Huntley pattern); 5.4K stars |
+
+---
+
+### 🔍 Observability & Debugging
+Tracing, monitoring, failure analysis, cost tracking.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [ccusage](./observability/ccusage.md) | 9/10 | Zero-install, TypeScript-native Claude Max usage tracking; highest-ROI tool |
+| [Langfuse](./observability/langfuse.md) | 8/10 | Self-hosted LLM observability for gov client trust artifacts; 22.8K stars |
+| [BrainTrust](./observability/braintrust.md) | 7/10 | Eval-first observability; AutoEvals library + four-part eval framework; $80M Series B; complement to Langfuse |
+| [AgentRR](./observability/agentrr.md) | 6/10 | Research paper; check functions as deterministic validators map to 70/30 split |
+| [Showboat](./observability/showboat.md) | 6/10 | Executable demo docs with deterministic verify; anti-fabrication trust artifacts for agent work; by Simon Willison |
+| [Opik](./observability/opik.md) | 7/10 | Strongest Langfuse alternative; Agent Optimizer SDK + 55+ integrations + Apache 2.0; Java backend misaligns with our TS stack |
+| [Arize Phoenix](./observability/arize-phoenix.md) | 6/10 | Redundant given Langfuse; Python-first; study evaluation framework only |
+| [Cleric](./observability/cleric.md) | 5/10 | Closed-source AI SRE; persist/compound/visible learning loop + ambient learning are transferable patterns |
+| [CodexBar](./observability/codexbar.md) | 3/10 | macOS menu bar for Claude Max limit visibility; by PSPDFKit founder |
+| [Assail](./observability/assail.md) | 3/10 | Pre-seed security assessment; 9 stars; watch, don't use |
+| [Factory Floor](./observability/factory-floor.md) | 6/10 | Live leaderboard tracking autonomous agent revenue ($147K across 7 agents); market intelligence bookmark |
+
+---
+
+### 🏗️ Infrastructure
+Sandboxes, hosting, compute, model routing.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [LiteLLM](./infrastructure/litellm.md) | 8/10 | Unified API proxy for 100+ providers; deploy for cost visibility + model routing |
+| [Trigger.dev](./infrastructure/trigger-dev.md) | 8/10 | TypeScript-native durable execution; strongest tmux crash recovery replacement |
+| [DCG](./infrastructure/destructive-command-guard.md) | 8/10 | SIMD-accelerated command guard (642 stars); PreToolUse hook blocks destructive git/shell/cloud ops; fail-open, sub-ms, 49+ security packs |
+| [NVIDIA OpenShell](./infrastructure/nvidia-openshell.md) | 7/10 | Out-of-process agent sandbox with deny-by-default YAML policies (filesystem/network/process/inference), Privacy Router for local vs cloud inference, K3s-in-Docker runtime; supports Claude Code unmodified; Apache 2.0; ~3K stars; alpha maturity |
+| [Arcade.dev](./infrastructure/arcade-dev.md) | 7/10 | Delegated agent authorization (per-user/per-service/per-action scoped tokens); MCP gateway; Okta pedigree; DSGVO-compatible on-prem |
+| [Claude Plugins Official](./infrastructure/claude-plugins-official.md) | 7/10 | Anthropic's official plugin directory (13.7K stars); Discord+Telegram channel plugins enable remote agent monitoring/control via MCP; `--channels` flag + pairing flow; immediate overnight-ops win |
+| [MorphLLM](./infrastructure/morphllm.md) | 7/10 | Context compression; value diminished by Claude Max flat rate |
+| [DBOS](./infrastructure/dbos.md) | 7/10 | Postgres-backed durable workflows; Stonebraker + Zaharia; Phase 3 crash recovery |
+| [Daytona](./infrastructure/daytona.md) | 6/10 | 63K stars; most popular sandbox; AGPL license friction |
+| [Monty](./infrastructure/monty.md) | 6/10 | Pydantic's Rust Python interpreter; <1us startup, serializable pause/resume; code-mode sandbox |
+| [VibeProxy](./infrastructure/vibeproxy.md) | 6/10 | macOS menu bar subscription proxy (1.6K stars); routes Claude Max/ChatGPT through OpenAI-compatible API for third-party tools; MIT; round-robin multi-account |
+| [better-openclaw](./infrastructure/better-openclaw.md) | 6/10 | One-command Docker Compose scaffold for 94 AI services; MCP server + "Coding Team"/"Researcher" presets directly usable for SaaS factory; AGPL-3.0 blocks productized forks |
+| [BitNet.cpp](./infrastructure/bitnet.md) | 5/10 | Microsoft's official 1-bit LLM inference runtime; 32K stars; 2.37x–6.17x speedup + 82% energy reduction on x86; run 100B params at human reading speed on CPU; MIT; Phase 3+ local inference tier |
+| [Orthogonal](./infrastructure/orthogonal.md) | 5/10 | YC W2026 "Stripe for agent API consumption"; one key + pay-per-call for 20+ APIs; closed-source SaaS; watch for Lead Gen Swarm |
+| [E2B](./infrastructure/e2b.md) | 5/10 | 88% Fortune 100 adoption; Apache-2.0; Phase 3+ sandbox |
+| [Terminal Use](./infrastructure/terminal-use.md) | 5/10 | "Vercel for background agents" (YC W26, ex-Palantir); persistent filesystems + K8s; overlaps with Warp/Oz; watch for Phase 4+ |
+| [Hyperbrowser](./infrastructure/hyperbrowser.md) | 4/10 | Cloud browser infra; two-tier action model (deterministic-first, AI-fallback) |
+| [Gemini API Proxy](./infrastructure/gemini-api-proxy.md) | 4/10 | Reverse proxy routing OpenAI/Anthropic requests to Google's internal Code Assist API; 11 stars; ToS violation risk; format translation reference only |
+| [Antigravity Manager](./infrastructure/antigravity-manager.md) | 3/10 | AI credential proxy (25K stars); CC-BY-NC-SA license blocks commercial use; LiteLLM covers same space with MIT |
+| [Antigravity Claude Proxy](./infrastructure/antigravity-claude-proxy.md) | 3/10 | Anthropic-compatible proxy via Google Cloud Code (3K stars); ToS risk; irrelevant on Claude Max flat rate |
+| [libghostty](./infrastructure/libghostty.md) | 9/10 | "WebKit of terminals" — modular zero-dep C-ABI library by Hashimoto (Terraform creator); powers cmux + 48 projects; libghostty-vt (VT parsing, state mgmt, SIMD, WASM), roadmap: input/GPU/widgets; MIT; non-profit; 48K stars (monorepo) |
+| [Ghostling](./infrastructure/ghostling.md) | 8/10 | Hashimoto's official libghostty-vt demo; 100% agent-written (Opus+Codex); ~1,200 LOC single C file; AGENTS.md config; CI fix-push loops via `gh` CLI; validates our orchestrator workflow; MIT; 644 stars |
+| [zmx](./infrastructure/zmx.md) | 7/10 | Anti-tmux session persistence: `run` (proper cmd injection), `wait` (native sync, no polling), `history` (full scrollback); daemon-per-session isolation; libghostty-vt state restore; Zig; 1,048 stars; v0.4.2 maturity blocks adoption |
+| [Portless](./infrastructure/portless.md) | 3/10 | Named `.localhost` subdomains for local dev; auto git worktree detection; 4.8K stars; DX convenience, not orchestration |
+| [ESP-CSI](./infrastructure/esp-csi.md) | 5/10 | WiFi Channel State Information sensing on $5 ESP32 chips; non-contact presence/motion/breathing detection; cross-domain physical-world agent awareness; DSGVO-friendly |
+| [Hermes Fly](./infrastructure/hermes-fly.md) | 2/10 | Deploy CLI for NousResearch Hermes Agent on Fly.io; OpenRouter provider-first model picker + feature-flag Bash→TS migration pattern; irrelevant to our Claude Max stack |
+| [HumeAI TADA](./infrastructure/humeai-tada.md) | 2/10 | Open-source TTS with novel 1:1 text-acoustic alignment; zero hallucinations; 859 stars; German support; entirely outside orchestration domain |
+| [Hyprflow](./infrastructure/hyprflow.md) | 2/10 | Linux network namespace isolation per workspace group; Hyprland-only; reference pattern only |
+| [Human Archive AI](./infrastructure/human-archive-ai.md) | 2/10 | YC-backed embodied AI data company; 50K contributors, 7 modalities (depth/tactile/pose/hand/segmentation), 8 industries; data-as-a-service for robotics training; outside software orchestration domain |
+| [Artificial Life](./infrastructure/artificial-life.md) | 2/10 | 300-line Python emergent self-replication simulation; conceptual curiosity only, zero practical applicability |
+| [LightRAG](./infrastructure/lightrag.md) | 4/10 | Academic graph-based RAG (30K stars, EMNLP 2025, MIT); knowledge graph + embedding hybrid retrieval; bookmark for when catalogue outgrows file-based search |
+| [Lightpanda](./infrastructure/lightpanda.md) | 6/10 | From-scratch Zig headless browser (11x faster, 9x less memory vs Chrome); CDP-compatible (Playwright/Puppeteer drop-in); AGPL; monitor for E2E testing acceleration |
+
+---
+
+### 🖥️ Developer GUI / IDE
+Desktop/web apps for managing agent sessions, IDE extensions.
+
+| Tool | Relevance | Key Insight |
+|------|-----------|-------------|
+| [HumanLayer](./developer-gui/humanlayer.md) | 8/10 | CRISPY pipeline (7-phase RPI evolution); instruction budget ceiling ~150-200; "12 Factor Agents" (18.6K stars) coined context engineering |
+| [json-render](./developer-gui/json-render.md) | 7/10 | Generative UI via catalog-as-guardrail; 12.1K stars; AI composes from deterministic component catalog + MCP integration; 70/30 split applied to frontend |
+| [T3 Code](./developer-gui/t3code.md) | 7/10 | Event-sourced CQRS orchestration (decider+projector), provider adapter registry (Claude Agent SDK + Codex), WebSocket domain event streaming; 7K stars; best multi-agent GUI architecture in catalogue |
+| [Proliferate](./developer-gui/proliferate.md) | 6/10 | YC W2026; OSS background agent platform (234 stars); cloud sandboxes + event-driven automations + MCP-unified actions; reference for trigger schemas and permission frameworks |
+| [Emdash](./developer-gui/emdash.md) | 6/10 | Most complete OSS ADE: 22 CLI agent adapters, SSH remote, Linear/Jira/GitHub Issues integration; YC W26; 2.5K stars, 60K downloads; MIT; study provider adapter layer + issue integration; watch for API/headless mode |
+| [JetBrains Air](./developer-gui/jetbrains-air.md) | 6/10 | JetBrains' agent-first IDE (Fleet reborn); 4 agents (Codex, Claude, Gemini CLI, Junie) + ACP extensibility; Docker+worktree sandboxing; proprietary, macOS-only, GUI-first — validates multi-agent paradigm but opposite of our headless automation arch; HN reception confirms review bottleneck thesis |
+| [Eigent](./developer-gui/eigent.md) | 5/10 | 12.9K stars; most architecturally serious Cowork alt — built on CAMEL-AI framework with genuine multi-agent Workforce (root node + async task channels + recursive workers); real value is in underlying CAMEL patterns, not the Electron app |
+| [OpenWork](./developer-gui/openwork.md) | 5/10 | 11K stars; best-executed OSS Cowork clone; 3-mode runtime (host/client/cloud) + 6-layer extensibility taxonomy; OpenCode-specific, pattern reference only |
+| [Conductor Build](./developer-gui/conductor-build.md) | 5/10 | Melty Labs' Mac GUI for parallel Claude Code/Codex agents; git worktree isolation + scripts lifecycle + checkpoints; closed-source wrapper, watch don't adopt |
+| [cmux](./developer-gui/cmux.md) | 10/10 | GAMECHANGING: Native macOS Ghostty-based terminal replacing tmux; socket API (80+ commands, JSON-RPC), `claude-teams` launcher with tmux shim, scriptable browser (Snapshot+Refs), notification rings, handle-based topology; 5.3K stars; collapses our entire orchestration stack |
+| [Manaflow (old)](./developer-gui/manaflow.md) | 5/10 | SUPERSEDED by [cmux](./developer-gui/cmux.md); old web platform entry; parallel agent spawning + Morph Cloud sandboxes |
+| [React Grab](./developer-gui/react-grab.md) | 5/10 | 6.3K stars; O(1) file discovery via React fiber introspection; 33% token reduction + 3x speedup on UI tasks; MCP server included; "context is zero-sum" principle in action |
+| [Vibe Kanban](./developer-gui/vibe-kanban.md) | 5/10 | 22.6K stars; validates git worktree isolation; human-operated not autonomous |
+| [Factory IDE](./developer-gui/factory-ide.md) | 4/10 | Validates autonomous agent thesis at enterprise scale; Droid specialization |
+| [1Code](./developer-gui/1code.md) | 4/10 | YC W26; 5.1K stars; most feature-complete Claude Code GUI (worktree isolation, REST API for tasks, @mention triggers, background cloud agents); study API pattern for Phase 3+ |
+| [Kiro](./developer-gui/kiro.md) | 4/10 | AWS's spec-driven IDE; structured requirements->design->tasks workflow; agent hooks + steering files validate CLAUDE.md approach |
+| [Multica](./developer-gui/multica.md) | 4/10 | OSS Claude Cowork clone; ACP protocol integration + Conductor facade decomposition; GUI-first, dead protocol (ACP merged into A2A) |
+| [Composio Open Claude Cowork](./developer-gui/composio-open-claude-cowork.md) | 4/10 | Composio's OSS Cowork clone; dual-provider (Claude SDK + Opencode) + Composio Tool Router (500+ SaaS via MCP); 3.1K stars; marketing showcase, not orchestrator |
+| [Open Claude Cowork](./developer-gui/open-claude-cowork.md) | 4/10 | OSS Electron GUI wrapping Claude Agent SDK; SQLite session persistence; 3K stars; single-agent, no orchestration |
+| [Kuse Cowork](./developer-gui/kuse-cowork.md) | 3/10 | Best-engineered Cowork clone (Rust/Tauri, 10MB, Docker sandbox, BYOK multi-provider); document-processing focus, not code orchestration; 545 stars; strong publisher (Kuse AI, $10M ARR bootstrapped) |
+| [Cursor](./developer-gui/cursor.md) | 3/10 | $29.3B gorilla; Automations (trigger-based agents) worth watching |
+| [Jean](./developer-gui/jean.md) | 3/10 | Execution modes (Plan/Build/Yolo) concept |
+| [Hello Halo](./developer-gui/hello-halo.md) | 3/10 | OSS Claude Cowork clone (624 stars); Digital Human Protocol spec.yaml pattern for declarative agent definitions is the one interesting contribution |
+| [OpenTUI](./developer-gui/opentui.md) | 5/10 | Zig-native terminal rendering engine (9,322 stars) powering OpenCode in production; SolidJS+React reconcilers for TUI; Phase 3+ if building orchestrator status dashboard |
+| [Goodable](./developer-gui/goodable.md) | 3/10 | OSS Claude Cowork clone (158 stars); dual-mode Skills (AI tool + standalone GUI sharing data); "Digital Employee" role templates with planning/execution phase prompts; Chinese-market focus |
+| [AionUi](./developer-gui/aionui.md) | 3/10 | OSS Cowork clone; 18K stars; Electron GUI wrapping 15+ CLI agents; Channels IM-bot architecture is only interesting pattern |
+| [DeepSeek Cowork](./developer-gui/deepseek-cowork.md) | 3/10 | OSS Cowork clone (422 stars); Electron+Express hybrid with modular server (modulesManager pattern); browser automation via custom WS extension; stale since Feb 2026 |
+| [Commander](./developer-gui/commander.md) | 2/10 | Only SwiftUI-native Claude coding app; polished but closed-source, human-operated, no novel patterns |
+| [Accomplish](./developer-gui/accomplish.md) | 2/10 | Consumer Electron wrapper around OpenCode CLI; BYOK-with-built-in-model distribution pattern is the SaaS factory template for non-developer-facing products |
+| [Happy](./developer-gui/happy.md) | 4/10 | Mobile/web client for Codex + Claude Code (16K stars, MIT); realtime voice, encryption; mobile agent supervision pattern |
+| [CodexMonitor](./developer-gui/codex-monitor.md) | 5/10 | Tauri-based Codex monitoring dashboard (3.3K stars, MIT) by Thomas Ricouard; agent status visualization UX patterns; build equivalent in cmux |
+| [cmux (craigsc)](./developer-gui/craigsc-cmux.md) | 5/10 | Shell-based tmux wrapper for Claude Code (414 stars, MIT); naming collision with manaflow cmux; reference for tmux patterns, superseded by native cmux |
+| [Zenthor Assist](./developer-gui/zenthor-assist.md) | 1/10 | Zero-star TypeScript app; bookmarked for CLAUDE.md reference only |
+
+---
+
+### 👤 Practitioners
+Key people in the AI agent space — their workflows, philosophies, and systems.
+
+| Practitioner | Focus Area | Key Insight |
+|-------------|------------|-------------|
+| [Elvis Sun](./practitioners/elvis-sun.md) | Orchestrator-Worker Swarm | Context separation + deterministic monitoring = compounding intelligence |
+| [IndyDevDan](./practitioners/indydevdan.md) | Pi Ecosystem, YouTube | "Customization as moat" — 80/20 Claude Code/Pi portfolio |
+| [Steve Yegge](./practitioners/steve-yegge.md) | Gas Town, Wasteland Thesis | 8-stage developer evolution, federation scaling, Absorption Problem |
+| [Steipete](./practitioners/steipete.md) | OpenClaw, Multi-Agent | CLI-first, blast radius scaling, Oracle cross-model consultation |
+| [Geoffrey Huntley](./practitioners/geoffrey-huntley.md) | Specs-Driven Dev | Ralph Wiggum loop, back pressure hierarchy, kill polluted contexts |
+| [Mario Zechner](./practitioners/mario-zechner.md) | Pi Agent Creator | Minimalism thesis — 200-token advantage, "bash is all you need" |
+| [Dotta](./practitioners/dotta.md) | Crypto→Agents, Paperclip | Agent org charts with budgets, heartbeats, governance |
+
+---
+
+### 📚 Reference Documents
+Internal syntheses, landscape overviews, strategy documents, and architecture blueprints.
+
+#### Landscape & Synthesis
+
+| Document | Key Insight |
+|----------|-------------|
+| [Phase 1 Landscape Overview](./reference/phase1-landscape-overview.md) | Meta-synthesis: 30 agents, 70+ docs, 10 universal laws |
+| [Phase 2 Landscape Overview](./reference/phase2-landscape-overview.md) | 15 universal findings from 104 documents and 67 agents |
+| [Phase 1 Synth: Alternative Harnesses](./reference/phase1-synth-alternative-harnesses.md) | Seven harness suitability verdicts |
+| [Phase 1 Synth: Deep Dives](./reference/phase1-synth-deep-dives.md) | Stripe + Elvis Sun + framework verdicts + YC signals |
+| [Phase 1 Synth: Pi Ecosystem](./reference/phase1-synth-pi-ecosystem.md) | Pi's 5 structural advantages, 50-80 extensions, 8 production patterns |
+| [Phase 1 Synth: Tools Landscape](./reference/phase1-synth-tools-landscape.md) | Six Tier-1 tools, six-layer memory architecture, deployment stack |
+| [Phase 1 Synth: Vision Strategy](./reference/phase1-synth-vision-strategy.md) | Seven universal principles, build-vs-hybrid verdict |
+| [Dotta Network Intelligence Map](./reference/dotta-network-intelligence-map.md) | 107 X accounts analyzed, 10 universal orchestration laws |
+| [Agentic Engineering Landscape](./reference/agentic-engineering-landscape.md) | Vibe coding → agentic engineering transition + 28 builder profiles |
+
+#### Architecture & Strategy
+
+| Document | Key Insight |
+|----------|-------------|
+| [Master Blueprint](./reference/master-blueprint.md) | Federated + thin meta-layer; 70/30 deterministic/LLM split |
+| [Deterministic/LLM Boundary](./reference/deterministic-llm-boundary.md) | Complete component classification with 5 production system evidence |
+| [Build Strategy Analysis](./reference/build-strategy-analysis.md) | Thin shared layer → grow by absorption → informed rebuild |
+| [Build vs Buy Strategy](./reference/build-vs-buy-strategy.md) | "Harness over framework" thesis; four case studies |
+| [Multi-Business Control Plane](./reference/multi-business-control-plane.md) | Federated hub-and-spoke for 5 business lines |
+| [Finance Agent Domain Module](./reference/finance-agent-domain-module.md) | Finance Agent as domain OS; 4-step migration path |
+| [Existing System Patterns](./reference/existing-system-patterns.md) | 11 shared primitives between Finance Agent and Orchestrator |
+| [Business Layer Systems](./reference/business-layer-systems.md) | 4 practitioner systems; context separation as core principle |
+| [Orchestrator Topology Patterns](./reference/orchestrator-topology-patterns.md) | 6 topologies, 8 anti-patterns, scaling tiers |
+| [Orchestration Patterns 2026](./reference/orchestration-patterns-2026.md) | Duvo, KRNL, verifiable orchestration, error recovery |
+| [Multi-Agent Frameworks Landscape](./reference/multi-agent-frameworks-landscape.md) | Swarms, DSPy, Agentica, LangGraph, Letta — 7 portable patterns |
+| [Multi-Agent Orchestration Comparison](./reference/multi-agent-orchestration-comparison.md) | Gas Town vs L-Thread vs Pi three-way; five universal laws |
+| [Workflow Engines](./reference/workflow-engines.md) | 9 engines; JSON → SQLite → cloud durable three-tier |
+
+#### Harness & Tool Analysis
+
+| Document | Key Insight |
+|----------|-------------|
+| [Harness Comparison Matrix](./reference/harness-comparison-matrix.md) | 10 harnesses scored across 20 dimensions |
+| [OSS Harness Landscape](./reference/oss-harness-landscape.md) | 40+ OSS agents consolidated; pattern convergence |
+| [Claude Code Multi-Agent Architecture](./reference/claude-code-multiagent-architecture.md) | Agent Teams, 18-event hooks, SDK, native vs custom gaps |
+| [Harness-Agnostic Tools](./reference/harness-agnostic-tools.md) | MCP bridges, Overstory, Vibe Kanban, cross-runtime tools |
+| [Hook Event System Comparison](./reference/hook-event-system-comparison.md) | Pi hooks vs Claude Code hooks vs Gas Town actor model |
+| [MCP Ecosystem Orchestration](./reference/mcp-ecosystem-orchestration.md) | MCP maturity (97M+ monthly SDK downloads), key servers |
+| [Model Agnosticism Strategy](./reference/model-agnosticism-strategy.md) | 378x pricing spread; 3-8x cost savings from model routing |
+| [Durability Analysis](./reference/durability-analysis.md) | Pi LOW risk, CC MEDIUM, GT HIGH; hedging is rational |
+| [Corporate Coding Agents](./reference/corporate-coding-agents.md) | Google Jules, Amp Code; 13 patterns worth stealing |
+| [Agent Skills Systems](./reference/agent-skills-systems.md) | SKILL.md standard, 11 extractable patterns |
+| [Agent Communication Protocols](./reference/agent-communication-protocols.md) | A2A, MCP, ACP, ANP, WebMCP protocol stack |
+
+#### Pi Agent Deep Dives
+
+| Document | Key Insight |
+|----------|-------------|
+| [Pi Agent Architecture Reference](./reference/pi-agent-architecture-reference.md) | 200-token system prompt, 4-tool philosophy, extension composability |
+| [Pi SDK Internals](./reference/pi-sdk-internals.md) | Four-layer SDK stack, createAgentSession factory, RPC protocol |
+| [Pi MCP Adapter](./reference/pi-mcp-adapter.md) | 50-100x token reduction; lazy lifecycle; direct-tool escape hatch |
+| [Pi Orchestrator Blueprint](./reference/pi-orchestrator-blueprint.md) | 8-layer extension stack; 3-phase/8-week implementation |
+| [Pi Future Direction](./reference/pi-future-direction.md) | Zechner's minimalism; bus factor HIGH; competition CRITICAL |
+| [Pi Production Systems](./reference/pi-production-systems.md) | 12+ orchestration systems surveyed; five universal primitives |
+| [Pi Extensions Map](./reference/pi-extensions-map.md) | Pi Agent extension ecosystem and integration points |
+| [Pi vs Claude Code Decision](./reference/pi-vs-claude-code-decision.md) | Head-to-head comparison; hybrid architecture decision |
+| [L-Thread → Pi Migration Guide](./reference/lthread-pi-migration-guide.md) | 16/16 pattern mapping (0 blockers); 8-week migration path |
+| [Agent Automation & Deployment](./reference/agent-automation-deployment.md) | Headless execution, Trigger.dev, sandboxing, tmux patterns |
+
+#### Yegge / Gas Town
+
+| Document | Key Insight |
+|----------|-------------|
+| [Yegge Gas Town Thesis Analysis](./reference/yegge-gas-town-thesis-analysis.md) | Gas Town vision, philosophy comparison, actionable insights |
+| [Gas Town Complexity Critique](./reference/gas-town-complexity-critique.md) | 189K LOC bloat; 43:1 code reduction vs Pi extensions |
+| [Gas Town vs Pi Master Verdict](./reference/gas-town-vs-pi-master-verdict.md) | Final three-way comparison; Pi wins on economics and durability |
+
+#### Economics & Business
+
+| Document | Key Insight |
+|----------|-------------|
+| [Scaling Economics](./reference/scaling-economics.md) | Coordination overhead exponent 1.724; three scaling regimes |
+| [Agent Delivery Economics](./reference/agent-delivery-economics.md) | 60-90% margins on $10K contracts; $6/day token average |
+| [Autonomous Revenue Case Studies](./reference/autonomous-revenue-case-studies.md) | 8 solo operator cases; revenue model taxonomy |
+| [Claude Max Economics](./reference/claude-max-economics.md) | 18-36x subscription advantage; 5-hour rolling window |
+| [Phase 2 Revenue Economics](./reference/phase2-revenue-economics.md) | Fully-loaded P&L; regulatory timeline; 12-month business plan |
+| [Pricing & Trust Architectures](./reference/pricing-trust-architectures.md) | Hybrid pricing winning; EU AI Act Aug 2026 |
+| [Agent Scale Production Examples](./reference/agent-scale-production-examples.md) | Gas Town 50 agents; enabling technologies for next 10x |
+| [Agent Marketplace Economy](./reference/agent-marketplace-economy.md) | ERC-8004, x402 payments, Moltlaunch marketplace |
+| [Agentic Finance Patterns](./reference/agentic-finance-patterns.md) | x402 payments, agentic wallets, autonomous trading |
+| [AP2 vs Stripe MPP Comparison](./reference/ap2-vs-stripe-mpp-comparison.md) | AP2 = authorization/trust layer (mandates); MPP = payment execution (HTTP 402); complementary stack for agent commerce |
+| [SaaS Factory Infrastructure](./reference/saas-factory-infrastructure.md) | Turborepo monorepo, MakerKit, $12 launch cost |
+| [Lead Gen Pipeline Architecture](./reference/lead-gen-pipeline-architecture.md) | 6-stage pipeline for DACH; EUR 171K Year 1 projection |
+| [Hormozi Framework Encoding](./reference/hormozi-framework-encoding.md) | 7-step Grand Slam Offer for marketing agents |
+| [Notion as Agent Backend](./reference/notion-as-agent-backend.md) | 22-database hub-and-spoke; API limits; MCP integration |
+
+#### Quality, Reliability & Security
+
+| Document | Key Insight |
+|----------|-------------|
+| [Human Review Bottleneck](./reference/human-review-bottleneck.md) | 5-6 PRs/day cognitive ceiling; AI PRs take 4.6x longer |
+| [Code Quality Failure Taxonomy](./reference/code-quality-failure-taxonomy.md) | AI code 1.7x more issues; 17.2x multi-agent error amplification |
+| [Merge Conflicts at Scale](./reference/merge-conflicts-at-scale.md) | 19-20% conflict rate; N(N-1)/2 surface; Graphite queues |
+| [Infrastructure Breaking Points](./reference/infrastructure-breaking-points.md) | API rate limits at 10-20 agents; ranked failure cascade |
+| [Autonomy Horizon & Self-Healing](./reference/autonomy-horizon-self-healing.md) | METR autonomy doubles/7mo; Agent Drift taxonomy |
+| [Agent Security Models](./reference/agent-security-models.md) | OWASP Agentic Top 10; permission models; sandboxing |
+| [Browser & E2E Testing Tools](./reference/browser-e2e-testing-tools.md) | agent-browser (93% context reduction); 11-tool priority order |
+
+#### Knowledge, Memory & Intelligence
+
+| Document | Key Insight |
+|----------|-------------|
+| [Agent Memory Deep Landscape](./reference/agent-memory-deep-landscape.md) | Letta, Mem0, Cognee, Beads; tiered memory architectures |
+| [Knowledge Compounding & Transfer](./reference/knowledge-compounding-transfer.md) | Augment, xgmem, MUSE; post-mortem replay; semantic models |
+| [Emergent Intelligence](./reference/emergent-intelligence.md) | MoA +7.6%, adversarial +12.5%; emergence vs aggregation |
+
+#### Observability & Mastery
+
+| Document | Key Insight |
+|----------|-------------|
+| [Observability & Trust KPIs](./reference/observability-trust-kpis.md) | DORA+SPACE+Judgment SLO framework; three-tier monitoring |
+| [Observability Trust Infrastructure](./reference/observability-trust-infrastructure.md) | Langfuse, Arize Phoenix, ccusage; trust artifacts for gov clients |
+| [Top Practitioner Workflows](./reference/top-practitioner-workflows.md) | Elvis Sun, IndyDevDan, Steipete, Yegge workflow synthesis |
+| [Phase 2 Mastery Frontier](./reference/phase2-mastery-frontier.md) | Top 0.1% characteristics; 14-20 week mastery path |
+
+#### Frontier Research
+
+| Document | Key Insight |
+|----------|-------------|
+| [Phase 2 Bleeding Edge & Meta-Agency](./reference/phase2-bleeding-edge-meta-agency.md) | ADAS, MetaAgent, MAS-ZERO; NVIDIA Orchestrator-8B |
+| [Phase 2 Scaling Bottlenecks](./reference/phase2-scaling-bottlenecks.md) | Coordination exponent 1.724; U-shaped cost curve |
+| [Phase 2 Vision Feasibility](./reference/phase2-vision-feasibility.md) | Proven vs theoretical; trust gap as binding constraint |
+| [Nous Research Ecosystem](./reference/nous-research-ecosystem.md) | Hermes Agent, Atropos RL, Psyche; Web3 agent protocols |
+| [YC W2026 Agent Companies](./reference/yc-w2026-agent-companies.md) | 18+ YC W26 batch; Compresr Context-Gateway is critical |
+
+#### Compliance & Legal
+
+| Document | Key Insight |
+|----------|-------------|
+| [Legal Compliance Framework](./reference/legal-compliance-framework.md) | EU PLD, DSGVO, insurance bifurcation, liability framework |
+| [German Government Compliance](./reference/german-government-compliance.md) | DSGVO, BSI IT-Grundschutz, BITV 2.0, EVB-IT contracts |
+| [Deterministic Harness Blueprint](./reference/deterministic-harness-blueprint.md) | check-agents.sh, state machine routing, health monitoring |
+
+---
+
+## 🎤 Recent Talks & Videos
+
+| Title | Speaker | Date | Relevance | Key Insight |
+|-------|---------|------|-----------|-------------|
+| [Context Engineering Our Way to Long-Horizon Agents](./talks/2026-03/harrison-chase-context-engineering-sequoia.md) | Harrison Chase (LangChain) | 2026-01-22 | 8/10 | "Everything's context engineering"; file system as foundational abstraction for agent memory; traces replace code as source of truth; 3-era agent taxonomy (text->tools->prompts-in-a-loop); sleep-time compute for recursive self-improvement; async/sync hybrid UX for long-running agents |
+| [Open Models, Open Runtime, Open Harness — Building Your Own AI Agent](./talks/2026-03/open-models-runtime-harness-langchain-nvidia.md) | Harrison Chase (LangChain) | 2026-03-16 | 8/10 | Cleanest agent architecture taxonomy: Model + Runtime + Harness; harness engineering = 13.7pt benchmark gain with zero model changes; "reasoning sandwich" (extended thinking for plan+verify, standard for build); DeepAgents 3-tier context compression; OpenShell out-of-process policy enforcement |
+| [Beyond Frontier AI: The Open Models Ecosystem — Jensen Huang Panel](./talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md) | Jensen Huang (NVIDIA) + 10 AI CEOs | 2026-03-18 | 9/10 | Jensen moderates Mistral/Cursor/Perplexity/LangChain/BFL CEOs; specialized agents + model routing > single frontier model; "harness engineering" as decisive capability factor; OpenClaw = "ChatGPT moment for agents"; post-training will dominate compute (pre-training shrinks from 90% to tiny fraction); AI factory foundry = shared compute grid; revenue scales with compute (Bitter Lesson holds); direct validation of our orchestrator architecture |
+| [Your WiFi Can See You. Here's How.](./talks/2026-03/wifi-can-see-you-csi-sensing.md) | Bilawal Sidhu | 2026-03-17 | 6/10 | WiFi CSI 3-step capability ladder (motion->pose->ID) already shipping in 30M+ homes; IEEE 802.11bf standardized; cross-domain agent integration via ESP32 physical-world sensing; total privacy regulatory vacuum |
+| [How Do Agents Work Together?](./talks/2026-03/microsoft-azure-how-agents-work-together.md) | Microsoft Azure | 2026 | 5/10 | Microsoft Agent Framework (AutoGen+Semantic Kernel converged); A2A protocol for cross-cloud agent collaboration; enterprise cloud orchestration paradigm; multi-agent workflows with visual designer + code-first API |
+| [Engineering Practices That Make Coding Agents Work](./talks/2026-03/simon-willison-agentic-engineering-pragmatic-summit.md) | Simon Willison | 2026-03-14 | 10/10 | "Use red/green TDD" = highest-leverage 5-token prompt; conformance-driven dev; Showboat for manual test docs; trust progression; 2hr cognitive limit |
+| [Thought2Action — Multi Agent System I Sold to a Bank](./talks/2026-03/thought2action-multi-agent-system-sold-to-bank.md) | Thought2Action | 2026-03 | 9/10 | Rare enterprise case study: multi-agent system sold to a bank; regulated-sector deployment validates deterministic-first, auditable orchestration as the productizable pattern |
+| [Agentic Engineering & Multi-Agent Systems](./talks/2026-03/jonas-joerg-ai-engineering-podcast.md) | Jonas & Jörg | 2026-03-12 | 9/10 | Context clearing + specialized sub-agents solve "data drift"; project management skills (Gadget) > vibe coding |
+| [Fireside Chat: Claude Code, AI Development](./talks/2026-03/sid-anthropic-fireside-chat-claude-code.md) | Sid (Anthropic) | 2026-03 | 9/10 | Skills + MCP = everything; adversarial review agents; plan mode as highest-ROI practice; quick remediation > proactive prevention |
+| [Lightning Talk: Building Production Agents — Lessons from Cleric](./talks/2026-03/aaron-cleric-building-production-agents.md) | Aaron Ahmed (Cleric) | 2026-03-08 | 8/10 | Persist/compound/visible correction loop + ambient learning = the learning agent trifecta |
+| [Lightning Talk: Agent Infrastructure Challenges](./talks/2026-03/milan-simgrip-agent-infrastructure-challenges.md) | Milan Williams (Semgrep) | 2026-03-08 | 7/10 | Three practical agent security tips: downscope tokens, hook-based audit logging, deterministic code scanning |
+| [Lightning Talk: How to Productionize Sub-Agents for LM Post-Training](./talks/2026-03/fay-productionize-subagents-post-training.md) | Fay (Pinterest) | 2026-03-08 | 7/10 | Sub-agents beat swarms for ML post-training; "Tool Calling 2.0" cuts tokens 50-70%; hot celebrity problem validates coordination overhead concerns |
+| [SWEBench Pro — Evolving Coding Agent Benchmarks](./talks/2026-03/swebench-pro-evolving-coding-agent-benchmarks.md) | Jiannis Hood (Scale AI) | 2026-03-08 | 7/10 | Issue resolution is only 25% of SE work; new multi-stage benchmark for understanding, validation, and improvement of real codebases |
+| [AI Corporate Zombies — Automating 98% of a Solopreneur Business](./talks/2026-03/felix-tay-ai-corporate-zombies-business-automation.md) | Felix Tay | 2026-03-06 | 7/10 | 5-agent "Dojo" recursive loop for context amnesia; Claude Code wrapper (Nex) on Agent SDK; cron-driven pipeline automation with human approval gates |
+| [Ex-Google PM Builds God's Eye to Monitor Iran in 4D](./talks/2026-03/bilawal-sidhu-gods-eye-4d-monitoring-geospatial.md) | Bilawal Sidhu | 2026-03-04 | 4/10 | Solo builder replicates nation-state OSINT with browser-based WorldView platform; AI agent swarm for real-time data collection; "the intelligence monopoly is over"; temporal correlation of satellite/ADS-B/AIS/GPS data reveals operational intent |
+
+| [Lightning Talk: Choosing the Right Model for Coding Agents](./talks/2026-03/ash-choosing-right-model-coding-agents.md) | Ash (Fino Labs) | 2026-03-08 | 5/10 | Deploy open-source models first, fine-tune from inference logs; partition usage across task-specific model instances |
+| [Agent Orchestration — Running Multiple Agents at Scale](./talks/2026-03/zach-lloyd-agent-orchestration-at-scale.md) | Zach Lloyd (Warp) | 2026-03-08 | 9/10 | Five cloud orchestration primitives (environments, hosting, tracking, handoff, programmability); Oz as "Vercel for cloud agents" |
+| [Evals for Coding Agents — What They Are, Why They Matter](./talks/2026-03/jess-braintrust-evals-for-coding-agents.md) | Jess (BrainTrust) | 2026-03-08 | 8/10 | Four-part eval framework (dataset/task/scorer/experiment); agentic search beats vector search for code bugs — more accurate and cheaper due to "connective tissue" advantage |
+| [The Orchestration Stack for Observable, Debuggable, and Durable Agents](./talks/2026-03/neils-orchestration-stack-observable-debuggable-durable-agents.md) | Neils Bentilan (Union / Flyte) | 2026-03-08 | 8/10 | Replay logs + global caching + infrastructure-as-context = self-healing agents; Dragonfly case study: 250K products, 2000+ concurrent runs |
+
+---
+
+| [AI-Driven Development Transformation at Kilo](./talks/2026-03/scott-kilo-ai-driven-dev-transformation.md) | Scott (Kilo) | 2026-03 | 8/10 | Trust Ladder (autocomplete->chat->agent->orchestration); anti-collaboration + N=1 ownership; 80% thinking / 20% coding shift; model routing by task type |
+| [Infrastructure for Coding Agents at Scale — MCPs and Beyond](./talks/2026-03/infrastructure-for-coding-agents-at-scale.md) | Ankit Mathur (Databricks) | 2026-03-08 | 8/10 | "Agent sprawl" solved via Coding Agent Gateway; MCP token governance; code review = #1 bottleneck at 2K+ engineers |
+| [General Purpose Agents — The Agent Harness and Tool Runtime](./talks/2026-03/general-purpose-agents-harness-tool-runtime.md) | Harrison Chase (LangChain) & Sam Partee (Arcade.dev) | 2026-03-08 | 9/10 | Harness + tool runtime = general purpose agent; delegated agent authorization (subset tokens per user/service/action); virtual FS for remote agents; agent identity as emerging paradigm |
+| [Community Unconference — Agent Tools, Workflows & Best Practices](./talks/2026-03/community-unconference-agent-tools-workflows.md) | Various (Rob, Raphael, Josh, Yari, Chad, Tevia, Jeremy, Kareem) | 2026-03-08 | 9/10 | Plan.md over plan mode; hooks as enforcement layer; screenshot-based visual QA via Playwright diffs; skills as latent-space priming; three-layer memory; critique-revise loops |
+| [RPI to CRISPY — Reliable Process for High-Complexity Brownfield Agent Tasks](./talks/2026-03/dex-rpi-crispy-brownfield-agents.md) | Dex / James (HumanLayer) | 2026-03-08 | 9/10 | RPI evolved to 7-phase CRISPY; instruction budget ceiling ~150-200; "don't read plans, read code"; vertical plans beat horizontal; design discussion = highest-leverage review point |
+
+---
+
+## 📝 Recent Articles
+
+| Title | Author | Date | Relevance | Key Insight |
+|-------|--------|------|-----------|-------------|
+| [Ralph Wiggum as a "software engineer"](./articles/2025-07/ralph-wiggum-agent-loop.md) | Geoffrey Huntley | 2025-07-14 | 9/10 | Definitive Ralph Wiggum pattern reference: `while true` bash loop + Claude Code; specs > prompts as control surface; back pressure (types/tests/analyzers) as correctness strategy; one task per loop + subagent parallelism; self-improving agents via AGENT.md + fix_plan.md; complete production prompts included; $50K contract delivered for $297 |
+| [Context Engineering for AI Agents: Lessons from Building Manus](./articles/2025-07/context-engineering-for-agents-manus.md) | Yichao 'Peak' Ji (Manus) | 2025-07-18 | 9/10 | KV-cache hit rate as #1 agent metric (100:1 input:output ratio); mask tool logits don't add/remove tools mid-loop; file system as unlimited external memory with restorable compression; todo.md recitation defeats lost-in-the-middle; keep failed actions in context for implicit belief updating |
+| [How to Build a Coding Agent: Free Workshop](./articles/2025-08/how-to-build-a-coding-agent-workshop.md) | Geoffrey Huntley | 2025-08-24 | 8/10 | 300-line agent demystified: 5 primitives (read/list/bash/edit/search) in an inference loop; oracle-as-tool pattern (wire reasoning model inside agentic loop); context pollution is #1 failure mode; agent building is table-stakes 2025 knowledge |
+| [MCP vs CLI: Benchmarking Tools for Coding Agents](./articles/2025-08/mcp-vs-cli-benchmarking-tools-coding-agents.md) | Mario Zechner (Pi Agent creator) | 2025-08-15 | 9/10 | MCP and CLI are a wash when both well-designed (100% success both); MCP bypasses Haiku security checks (35K vs 1.3-2M tokens); single-tool MCP pattern beats per-command; screen fails on TUI tasks (0%); terminalcp is a PTY-based tmux alternative worth tracking |
+| [I Dream About AI Subagents](./articles/2025-04/subagents-context-window-as-ram.md) | Geoffrey Huntley | 2025-04-13 | 9/10 | Context windows = RAM; subagents = SWAP; current agents death-spiral in polluted single contexts; spawn fresh child agents to preserve parent context; practical ceiling at 147-152K not 200K |
+| [Redlining](./articles/2025-04/redlining-context-window-clipping.md) | Geoffrey Huntley | 2025-04-06 | 8/10 | DJ clipping analogy for LLM context degradation; Claude 3.7 clips at 147-152K not 200K; RULER benchmark measures real vs advertised context; $50/mo IDE pricing is "Happy Meal" -- budget $100-$500/day/dev for tokens; 2x+ productivity gains (HBS study) |
+| [You Are Using Cursor AI Incorrectly (The Stdlib Method)](./articles/2025-02/reusable-prompt-standard-library.md) | Geoffrey Huntley | 2025-02-09 | 8/10 | Build a reusable prompt standard library ("stdlib") of composable rules, not one-off prompts; 5 anti-patterns (AI-as-Google, underspecifying, IDE-not-agent, no outcome programming, token-wasting pleasantries); stdlib + specs + type-safe languages = multiplicative output; prompts are compounding assets |
+| [From Design Doc to Code: The Groundhog AI Coding Assistant](./articles/2025-03/specs-driven-development-groundhog.md) | Geoffrey Huntley | 2025-03-03 | 8/10 | Specs-first + stdlib + type-safe languages = multiplicative agent output; Ralph Wiggum loop adopted by OpenAI Codex as agent-to-agent review pattern; back pressure hierarchy (types > tests > linters > build > UI > git) determines safe autonomy level |
+| [Principles — How We Think About Building with LLMs](./articles/2026-03/ai-native-software-development-principles.md) | Latent Patterns | undated | 7/10 | 14 AI-native dev principles; backpressure > manual rescue; verify don't just test (property-based/formal methods); moat is workflow not model; agents need boundaries not freedom; context windows are not infinite memory |
+| [Measuring AI Agent Autonomy in Practice](./articles/2026-02/measuring-ai-agent-autonomy-in-practice.md) | Miles McCain et al. (Anthropic) | 2026-02-18 | 9/10 | 998K API tool calls + 500K Claude Code sessions analyzed; deployment overhang quantified (99.9th pctl turn duration doubled in 3 months); experienced users shift from approval to strategic monitoring; agent self-limitation outperforms human interruption 2:1; post-deployment monitoring is the critical missing infrastructure |
+| [Agentic Engineering Patterns](./articles/2026-02/agentic-engineering-patterns.md) | Simon Willison | 2026-02-23 | 9/10 | Living guide: code is cheap but quality isn't; TDD as highest-leverage agent pattern; "first run the tests" 4-word session opener; hoard working examples as agent context; never file unreviewed agent PRs |
+| [Harness Engineering: Codex in an Agent-Centric World](./articles/2026-02/harness-engineering-codex-agent-centric-world.md) | Ryan Lopopolo (OpenAI) | 2026-02-11 | 9/10 | 0 hand-written lines, 1M LOC, 1500 PRs by 3 engineers via Codex agents; AGENTS.md as map not manual; mechanical architecture enforcement; garbage collection agents for drift; per-worktree observability |
+| [Unlocking the Codex Harness: How We Built the App Server](./articles/2026-02/unlocking-the-codex-harness-app-server.md) | Celia Chen (OpenAI) | 2026-02-04 | 8/10 | Codex test scaffolding as reusable agent runtime; bidirectional JSON-RPC protocol with Item/Round/Thread primitives; MCP tried and abandoned for core protocol; approval-flow pattern pauses agent round; backward-compatible versioning for multi-client |
+| [SWE-Bench Pro: Raising the Bar for Agentic Coding](./articles/2025-09/swebench-pro-raising-the-bar-for-agentic-coding.md) | Scale AI Research Team | 2025-09-19 | 8/10 | 1,865 tasks across 41 repos; proprietary codebases solve data contamination; models drop from 70%+ (Verified) to ~23% (Pro); scaffolding matters as much as model capability |
+| [Build secure web scrapers that protect your identity and your data](./articles/2026-03/build-secure-web-scrapers.md) | @githubprojects | 2026-03-07 | 5/10 | Article undersells Ironclaw (7.5K stars Rust AI assistant); real value is WASM sandbox isolation + credential host-boundary injection patterns |
+| [Software Development Now Costs Less Than the Wage of a Minimum Wage Worker](./articles/2026-02/software-dev-costs-less-than-minimum-wage.md) | Geoffrey Huntley | 2026-02-27 | 9/10 | AI agent dev costs $10.42/hr (below minimum wage); K-shaped economy divergence; per-seat pricing dead; solo builders achieving 30x output; compress 5-year roadmaps to 1 year |
+| [Collaboration sucks](./articles/2025-11/collaboration-sucks.md) | Charles Cook (PostHog) | 2025-11-11 | 8/10 | Anti-collaboration as org principle; "You're the driver" ownership model; PR > issue > message hierarchy; post-ship feedback over pre-approval gates; referenced by Kilo for N=1 ownership |
+| [LLM Weights vs the Papercuts of Corporate](./articles/2025-12/llm-weights-vs-papercuts-of-corporate.md) | Geoffrey Huntley | 2025-12-09 | 7/10 | "Model weight first" companies work with the grain of LLM training data; corporate friction (approval chains, committees, process theater) compounds into structural velocity impossibility; organizational design determines AI ceiling |
+| [12 Factor Agents](./articles/2025-04/12-factor-agents.md) | Dex Horthy (HumanLayer) | 2025-04-03 | 10/10 | Seminal "context engineering" article; 12 principles for production LLM apps; deterministic-first with strategic LLM sprinkles; directly validates 70/30 split |
+| [Fuck You, Show Me The Prompt](./articles/2024-02/fuck-you-show-me-the-prompt.md) | Hamel Husain | 2024-02-14 | 7/10 | LLM frameworks invert abstraction (unintelligible code for human-readable language); mitmproxy to audit any framework; "own your prompts" philosophy cited by 12 Factor Agents; Instructor as gold-standard "zero-cost abstraction" |
+| [The Six-Month Recap: AI at Web Directions](./articles/2025-06/six-month-recap-ai-productivity.md) | Geoffrey Huntley | 2025-06-17 | 7/10 | 6-month longitudinal AI productivity data; multi-boxing (parallel agents) as force multiplier; specs-driven workflow replaces Jira; context window degrades at 147-152K (not 200K); organizational adoption curve with "Fruitco" case study |
+| [An "Oh Fuck" Moment in Time](./articles/2025-01/oh-fuck-moment-in-time.md) | Geoffrey Huntley | 2025-01-14 | 8/10 | Origin story: Cursor/Windsurfer autonomously converts Rust CPAL to Haskell+FFI while Huntley is at the pool; "type systems make LLMs go harder" = seed of back pressure thesis; adoption imperative crystallized; precursor to multi-boxing and entire Huntley body of work |
+| [Multi Boxing LLMs](./articles/2025-01/multi-boxing-llms.md) | Geoffrey Huntley | 2025-01-28 | 9/10 | WoW multi-boxing analogy for parallel agents; IDEs stuck in 1983 synchronous paradigm; isolation via discrete domain units or separate checkouts is prerequisite for parallelism; calls for agent-first IDE design; foundational text for our L-Thread Orchestrator pattern |
+| [Dear Student: Yes, AI is here, you're screwed unless you take action](./articles/2025-02/dear-student-ai-screwed-unless-action.md) | Geoffrey Huntley | 2025-02-27 | 6/10 | Student career crisis from Cursor Composer replacing junior dev work; "high autonomy person" thesis; third bust-after-boom cycle; companion to $10.42/hr economics piece |
+| [The Future Belongs to People Who Can Just Do Things](./articles/2025-02/future-belongs-to-people-who-do-things.md) | Geoffrey Huntley | 2025-02-07 | 8/10 | "Execution is now cheap" inversion thesis; six-stage corporate AI adoption curve; back pressure (types/tests/compiler) as agent reinforcement; solo founders can now compete at scale (BuiltWith: 1 employee, $14M ARR); 1000-agent vision from Anni Betts |
+| [I Run 6 AI Agents as My Engineering Team](./articles/2026-02/architecting-multi-agent-ai-fleet-single-vps.md) | Oguzhan Atalay | 2026-02-25 | 8/10 | 6 agents as systemd services on single VPS; multi-provider failover chain; LLM-powered self-healing watchdog; coordinator/specialist model tiering; "these are infrastructure problems, not AI problems" |
+| [An AI Agent Coding Skeptic Tries AI Agent Coding](./articles/2026-02/ai-agent-coding-skeptic-tries-agent-coding.md) | Max Woolf (@minimaxir) | 2026-02-27 | 6/10 | AGENTS.md as decisive success factor; 8-step iterative optimization pipeline; multi-model chaining (Codex then Opus) for cumulative 6x gains; ships verifiable OSS benchmarks (UMAP 9-30x, HDBSCAN 23-100x faster) |
+| [Beyond Rate Limits: Scaling Access to Codex and Sora](./articles/2026-02/beyond-rate-limits-scaling-codex-sora.md) | OpenAI Engineering | 2026-02-13 | 6/10 | Waterfall decision stack replaces hard rate limits; synchronous access check + async credit settlement; three data streams (usage/monetization/balance); 1M+ Codex developers in first month; foundational billing infra for all future products |
+| [Turning Contracts into Searchable Data at OpenAI](./articles/2025-09/turning-contracts-into-searchable-data-openai.md) | Wei An Lee & Siddharth Jain (OpenAI) | 2025-09-29 | 7/10 | Three-step pipeline (ingest/inference/review) for contract extraction; overnight batch processing; selective RAG over full-context dumps; 50% review time reduction; scales without linear headcount; ASC 606 compliance in regulated domains |
+| [Inside OpenAI's In-House Data Agent](./articles/2026-01/inside-openai-in-house-data-agent.md) | Bonnie Xu, Aravind Suresh & Emma Tang (OpenAI) | 2026-01-30 | 7/10 | Two engineers built a data agent in 3 months (70% AI-written code) serving 4K+ employees across 600PB/70K datasets; six-layer context architecture; "dumb guardrails" security; curated context > noisy context |
+| [Don't Waste Your Back Pressure](./articles/2026-01/dont-waste-your-back-pressure.md) | Geoffrey Huntley + Moss | 2026-01-17 | 9/10 | Back pressure (type errors, tests, linters, UI rendering, specs) is THE engineering discipline of the agent era; 4-technique taxonomy for automated agent feedback; invest in feedback infrastructure not manual validation; loop agents until clean via automated gates |
+| [Everything Is a Ralph Loop](./articles/2026-01/everything-is-a-ralph-loop.md) | Geoffrey Huntley | 2026-01-17 | 9/10 | Loop mindset over brick-by-brick; monolithic single-agent loops beat multi-agent; "clay on the pottery wheel" iterative pattern; Level 9 evolutionary software (Loom) beyond Gas Town's Level 8; watch the loop for failure domains; 300-line agent as table stakes |
+| [Introducing Advanced Tool Use](./articles/2025-11/advanced-tool-use.md) | Bin Wu (Anthropic) | 2025-11-24 | 9/10 | Original announcement of 3 beta features: Tool Search Tool (85% token reduction via `defer_loading`), Programmatic Tool Calling (37% token savings, code-as-composition-layer), Tool Use Examples (72%->90% parameter accuracy); 134K tokens observed for tool defs in production; Opus 4.0 accuracy 49%->74% with Tool Search |
+| [Effective Context Engineering for AI Agents](./articles/2025-09/effective-context-engineering-for-ai-agents.md) | Anthropic Applied AI | 2025-09-29 | 10/10 | Context engineering as successor to prompt engineering; "attention budget" = finite resource with diminishing returns; context rot degrades recall at scale; Goldilocks zone for system prompts; just-in-time retrieval > pre-computed RAG (Claude Code: CLAUDE.md upfront + grep/glob at runtime); 3 long-horizon mechanisms: compaction (summarize + retain 5 recent files), structured note-taking (persistent external memory), sub-agents (10K+ exploration compressed to 1-2K summaries); tool result clearing for context savings |
+| [Tool Search Tool — Deferred Tool Loading](./articles/2026-03/tool-search-api-deferred-tool-loading.md) | Anthropic | 2026-03-08 | 9/10 | `defer_loading: true` keeps tools out of context until searched; 85%+ token reduction; accuracy degrades past 30-50 tools; regex + BM25 variants; custom client-side via `tool_reference` blocks; MCP integration via `mcp_toolset`; max 10K tools; Sonnet/Opus 4.0+ only |
+| [Compaction — Server-Side Context Compaction API](./articles/2026-03/anthropic-compaction-api.md) | Anthropic | 2026-01 (beta) | 9/10 | Server-side context summarization API (`compact_20260112`); configurable trigger threshold (default 150K, min 50K); `pause_after_compaction` for surgical context preservation; token budget enforcement via compaction counting; synergistic with prompt caching (separate `cache_control` breakpoints); `usage.iterations` array for granular billing; Opus 4.6 + Sonnet 4.6 |
+| [The AI Assembly — Bicameral Parliament for Autonomous AI Agents](./articles/2026-03/the-ai-assembly-autonomous-agent-governance.md) | Unknown | 2026-03-05 | 7/10 | Experimental bicameral governance for AI agents; open Assembly + auction-based Council (~180 seats); $0.10 registration + $0.01/hr heartbeat; tiered voting thresholds scaling with treasury risk; mandatory Forum deliberation -> Council vote -> 72hr timelock -> execution; Dotta's governance patterns taken to logical extreme; reserved powers for future extension |
+| [Building AI Coding Agents for the Terminal](./articles/2026-03/building-ai-coding-agents-for-terminal-opendev.md) | Nghi D. Q. Bui (OpenDev) | 2026-03-05 | 9/10 | First comprehensive open-source technical report for terminal-native coding agents; 5-model workload routing (Normal/Thinking/Critique/VLM/Compact); 5-stage adaptive compaction (60/75/85/95/100%); 5-layer defense-in-depth safety; dual-agent planning (Planner subagent with schema-level tool removal); 9-pass fuzzy edit matching; event-driven system reminders with escalating guardrail counters; lazy MCP tool discovery; context pressure as unifying design constraint; CC BY 4.0 |
+
+---
+
+| [Minions: Stripe's One-Shot Coding Agents -- Part 2](./articles/2026-02/minions-stripes-one-shot-coding-agents-part-2.md) | Alistair Gray (Stripe) | 2026-02-19 | 9/10 | Blueprints formalize 70/30 deterministic/LLM split as composable DAGs; Toolshed centralizes ~500 MCP tools but agents get intentionally small subsets; Cursor-format directory-scoped rule files replace global CLAUDE.md; devboxes as "cattle not pets" for full-permission unattended agents; 2-push CI cap prevents diminishing returns |
+| [AI Agent Workflow Orchestration Guidelines](./articles/2026-03/ai-coding-agent-workflow-orchestration-guidelines.md) | OmerFarukOruc | undated | 6/10 | Community CLAUDE.md template: plan-mode default, one-objective-per-subagent, `tasks/lessons.md` self-improvement loop, stop-the-line error handling, file-based task management; comprehensive checklist but no novel patterns beyond established references |
+| [6 Agentic Knowledge Base Patterns Emerging in the Wild](./articles/2026-03/agentic-knowledge-base-patterns.md) | Bill Doerrfeld | 2026-02-18 | 7/10 | 6 enterprise KB patterns for AI agents: LinkedIn CAPT (playbooks-as-MCP-tools, 70% triage reduction), Amazon "Source of Truth" (YAML+markdown+catalog tables via API), R Systems multi-agent home base (shared rules/voice/playbook), Vendia MCP gateway replacing RAG; validates federated knowledge architecture over centralized KB |
+| [Junie CLI, the LLM-agnostic coding agent, is now in Beta](./articles/2026-03/junie-cli-beta.md) | Anastasia Krivosheeva (JetBrains) | 2026-03-09 | 6/10 | JetBrains ships standalone CLI coding agent competing with Claude Code/Codex; LLM-agnostic (OpenAI/Anthropic/Google/Grok) + BYOK pricing; one-click migration from competing agents; claims "JetBrains intelligence" (deep project context from IntelliJ platform); MCP + agent skills support; next-task prediction; "one agent to rule them all" vision across IDE/terminal/CI/CD/PR |
+| [Telegram Bot Course: AI Second Brain with Claude Code](./articles/2026-03/autonomee-telegram-bot-claude-code.md) | autonomee.ai | 2026 | 7/10 | Claude Code as 24/7 Telegram bot on VPS ($25/mo total); 6-agent multi-agent architecture with persistent Supabase memory; voice calls + real-time approve/reject mid-task; proactive outreach (briefings, reminders); Bun runtime |
+| [NVIDIA Open Agent Development Platform (GTC 2026)](./articles/2026-03/nvidia-ai-agents-gtc-2026.md) | NVIDIA | 2026-03-16 | 6/10 | OpenShell: open-source agent sandbox runtime with kernel-level isolation + Policy Engine + Privacy Router; AI-Q: hybrid architecture (frontier orchestrator + open Nemotron researchers) tops DeepResearch Bench at 50% cost reduction; NemoClaw bundles OpenShell + Nemotron for OpenClaw; 16 enterprise platforms integrating (Adobe, Salesforce, SAP, etc.); Agent Toolkit positions NVIDIA as infrastructure layer beneath all agent frameworks |
+| [NVIDIA Agent Toolkit: 12 Enterprise Agent Architectures (GTC 2026)](./articles/2026-03/nvidia-enterprise-agent-architectures-gtc-2026.md) | NVIDIA | 2026-03-16 | 8/10 | Deep dive into 13 enterprise partner implementations: 4 architecture patterns — chat-surface-as-orchestrator (Salesforce/Slack, SAP/Joule, Atlassian/Rovo), domain-scoped autonomous workflows (Cadence ChipStack, Siemens Fuse EDA, Synopsys AgentEngineer), security-as-infrastructure (Cisco AI Defense, CrowdStrike Falcon embedded in runtime), proactive monitoring (Amdocs Cognitive Core); all use hybrid model routing (frontier + Nemotron); validates our tmux-as-control-plane and single-issue-per-worker patterns |
+| [Adapter, Decorator & Facade — Software Design & Systems](./articles/2026-03/latent-patterns-adapter-decorator-facade.md) | Geoffrey Huntley / Latent Patterns | undated | 4/10 | Paywalled Latent Patterns course lesson; structural design patterns (Adapter/Decorator/Facade) in Python; patterns map to agent infra (MCP adapters, tool decorators, orchestrator facades) but content inaccessible for deep analysis |
+| [Factory Floor — Tracking Autonomous Software Factories](./articles/2026-03/factory-floor-tracking-autonomous-software-factories.md) | Unknown | 2026 | 6/10 | Live leaderboard tracking autonomous agent revenue ($200K across 7 agents, 43 products); verified commercial output not hype; top earner Felix $158K from 3 products vs Kelly Claude $6K from 19 (quality > volume); crypto-adjacent ($11.6M market cap vs $200K revenue = 58x speculative premium); weekly market intelligence bookmark |
+| [Introducing LangSmith Sandboxes: Secure Code Execution for Agents](./articles/2026-03/langsmith-sandboxes-secure-code-execution.md) | LangChain | 2026-03-17 | 5/10 | MicroVM-isolated sandboxes for untrusted agent code; Auth Proxy keeps secrets off runtime; warm pooling + autoscaling; shared sandbox across agents; BYOD Docker images; Private Preview waitlist; used internally for Open SWE |
+| [Developer's Guide to AI Agent Protocols](./articles/2026-03/google-developers-guide-ai-agent-protocols.md) | Kristopher Overholt (Google) | 2026-03-18 | 8/10 | Definitive guide to 6 agent protocols (MCP, A2A, UCP, AP2, A2UI, AG-UI) with ADK code samples; well-known URL discovery pattern unifies agent/commerce discovery; AP2 typed mandates (IntentMandate->PaymentMandate->PaymentReceipt) are most mature agent payment authorization model; A2UI 18-component primitives for constrained generative UI; incremental adoption path: start MCP, add as needed |
+| [Spec-Driven Development Is Eating Software Engineering: A Map of 30+ Agentic Coding Frameworks](./articles/2026-03/spec-driven-development-30-agentic-frameworks.md) | Vishal Mysore | 2026-03-10 | 6/10 | 4-layer agentic coding stack taxonomy (Spec Frameworks -> Planning/Tasks -> Execution Agents -> AI IDEs); names BMAD as Spec Framework; "spec as source code" radical endpoint (Tessl); validates SDD paradigm we already use; shallow (3 min) but useful landscape reference |
+| [The Anatomy of an Agent Harness](./articles/2026-03/langchain-anatomy-agent-harness.md) | Vivek Trivedy (LangChain) | 2026-03-10 | 8/10 | Definitive taxonomy: Agent = Model + Harness; backwards-from-behavior design methodology; 6 harness primitives (filesystem, bash, sandboxes, memory, context management, long-horizon support); Ralph Loop named; harness optimization outperforms model defaults (Terminal Bench 2.0 variance); "harnesses are delivery mechanisms for good context engineering"; context rot + progressive disclosure + compaction as core strategies |
+| [Slate: moving beyond ReAct and RLM](./articles/2026-03/random-labs-slate.md) | Random Labs Team | 2026-03-09 | 8/10 | Thread-based episodic memory architecture for single-threaded agents; "thread weaving" = bounded workers return compressed episodes to orchestrator (not message passing); 7-architecture taxonomy (ReAct/Plans/TaskTrees/RLM/Devin-Manus/CC-Codex/Slate) across 8 dimensions; "single-threaded agents not solved yet"; knowledge overhang concept; expressivity as critical harness design constraint; OS kernel framing (orchestrator=kernel, threads=processes, episodes=return values); `npm i -g @randomlabs/slate` open beta |
+| [Build Knowledge Agents Without Embeddings](./articles/2026-03/vercel-knowledge-agents-without-embeddings.md) | Ben Sabic & Hugo Richard (Vercel) | 2026-03-19 | 7/10 | Filesystem beats embeddings: replace vector DB + chunking with bash (grep/find/cat) in isolated sandbox; 75% cost reduction ($1.00->$0.25/call); LLMs are native filesystem navigators; deterministic retrieval > semantic similarity; Chat SDK adapter pattern for multi-platform deployment; @savoir/sdk complexity router for automatic model tiering |
+| [How to Build Agents with Filesystems and Bash](./articles/2026-03/vercel-agents-filesystems-bash.md) | Ashka Stephen (Vercel) | 2026-01-09 | 9/10 | Companion deep-dive: 3 concrete filesystem-as-domain-model patterns (customer support, document analysis, sales call agent); bash command catalogue (grep/find/cat/awk); sandbox trust model (trust reasoning, isolate execution); 75% cost reduction on Opus 4.5; 80% tool reduction on d0 text-to-SQL; "LLMs have seen these tools billions of times — they are native operations"; directly validates our grep/find/cat orchestrator architecture |
+| [Securing Enterprise Agents with NVIDIA OpenShell and Cisco AI Defense](./articles/2026-03/cisco-nvidia-securing-enterprise-agents.md) | Vikram Varakantam & Ruchika Pandey (Cisco) | 2026-03-16 | 7/10 | Dual-layer agent security: OpenShell sandbox (deny-by-default, per-endpoint network policy, privacy routing) + Cisco AI Defense (MCP tool call inspection, supply chain validation, audit trails); zero-trust agent patterns; 75-min zero-day response scenario; "constrain so the right thing is the only thing it can do" |
+| [NVIDIA GTC 2026: Governing the Autonomous Workforce](./articles/2026-03/servicenow-nvidia-governing-autonomous-workforce.md) | Joe Davis (ServiceNow EVP) | 2026-03-16 | 8/10 | AI Control Tower = centralized governance hub for all agents/models/prompts across any system; three-layer governance (deploy/operate/comply); Autonomous Workforce of AI Specialists coordinates entire workflows with operational controls at every step; enterprise benchmarking under real conditions replaces academic evals; directly maps to our orchestrator state machine + devlog audit trail; gap identified: need policy-as-code layer |
+| [ServiceNow AI Control Tower & Autonomous Workforce Platform](./articles/2026-03/servicenow-ai-control-tower-governance.md) | ServiceNow | 2026-02/03 | 8/10 | Product-level deep dive complementing GTC press release; three-layer governance (deploy-time validation, operate-time monitoring, comply-time audit); probabilistic+deterministic hybrid architecture; role-based AI Specialists inherit RBAC/approval chains; 90%+ autonomous IT resolution, 99% faster; prompt injection detection; EmployeeWorks (Moveworks $585M) as conversational front-end; honest gap: third-party agent visibility limited; 7 governance patterns extracted with gap analysis against our orchestrator |
+| [Designing Delightful Frontends with GPT-5.4](./articles/2026-03/openai-designing-frontends-gpt-5-4.md) | Brian Fioca et al. (OpenAI) | 2026-03-20 | 8/10 | Design system constraints + visual references + Playwright verification loops = better AI frontends; narrative page structure (hero->support->detail->CTA); React+Tailwind+Framer Motion stack; lower reasoning for frontend tasks; directly applicable to our pixel-matching workflow |
+| [Sweep — AI for JetBrains IDEs](./articles/2026-03/sweep-ai-jetbrains-coding-assistant.md) | Sweep team | 2026-03 | 2/10 | #1 JetBrains AI plugin (40K installs, 4.9 stars); proprietary models, zero data retention; IDE-embedded agent market maturing; competitive intelligence only |
+| [We Stealth Benchmarked Every Major Cloud Browser Provider](./articles/2026-03/browser-use-stealth-benchmark-cloud-browsers.md) | Aitor Mato (Browser Use) | 2026-03-21 | 4/10 | 71-website stealth benchmark across 6 cloud browsers (42-81% success); "agent intelligence and browser stealth are orthogonal"; reference for antibot-resilient web automation |
+| [How SAP and NVIDIA Advance AI for Enterprise Transformation](./articles/2026-03/sap-nvidia-enterprise-ai-transformation.md) | Brenda Bown (SAP) | 2026-03-17 | 4/10 | Joule Agents orchestrate cross-application ERP workflows (Asset Mgmt->Field Service); SAP-ABAP-1 foundation model for legacy code modernization; NVIDIA NIM 20% inference boost; physical AI bridges sensors with enterprise actions; cuOpt GPU-accelerated supply chain optimization; 84% of global commerce touches SAP; model-agnostic architecture |
+| [Adobe + NVIDIA Partnership for Agentic Creative Workflows](./articles/2026-03/adobe-nvidia-partnership-agentic-workflows.md) | NVIDIA Newsroom | 2026-03-16 | 6/10 | "Hybrid, long-running agentic loops" in secure environments — maps to our tmux worker model; OpenShell agent sandbox runtime with kernel-level isolation; 5 agent roles across image/video/audio/vector/3D modalities; NemoClaw (OpenShell+Nemotron) full-stack open agent runtime; Firefly Foundry "brand preservation" constraint pattern parallels our pixel-matching; enterprise-scale validation of persistent isolated agent loops beyond software dev |
+| [Pi Subagent Orchestration Skill on LobeHub](./articles/2026-03/lobehub-pi-subagent-orchestration-skill.md) | Dicklesworthstone | 2026 | 7/10 | pi_agent_rust orchestration skill on LobeHub marketplace; turn-level git commits, tmux session tracking, max-turns limits, cost-aware model selection; validates our architecture; marketplace distribution model |
+| [Autonomous Context Compression](./articles/2026-03/langchain-autonomous-context-compression.md) | LangChain | 2026-03-11 | 9/10 | Model-triggered compaction at clean task boundaries (not hard token thresholds); expose compaction as a tool the model calls; retain recent 10% + summarize rest; conservative by design (compress sparingly but strategically); directly maps to our PreCompact hook and ADOPTABLE-PATTERNS 3.15 |
+| [cmux — Das Terminal für Multitasking](./articles/2026-03/cmux-dev-terminal-multitasking.md) | manaflow-ai | 2026 | 10/10 | Official cmux product page; domain upgraded from cmux.dev to cmux.com; no new info (we already use cmux) |
+| [Context Management for Deep Agents](./articles/2026-03/langchain-context-management-deepagents.md) | Chester Curme & Mason Daugherty (LangChain) | 2026-01-28 | 8/10 | Three-tier context compression: Tier 1 offloads tool results >20K tokens to filesystem; Tier 2 truncates old write/edit inputs at 85% context threshold; Tier 3 structured summarization (intent+artifacts+next steps) with full history to disk; goal drift is #1 failure mode post-summarization; needle-in-haystack tests for recoverability; directly maps to our single-tier compaction upgrade path per ADOPTABLE-PATTERNS 3.15 |
+| [Improving Deep Agents with Harness Engineering](./articles/2026-03/langchain-harness-engineering-terminal-bench.md) | LangChain Team | 2026-02-17 | 9/10 | Pure harness engineering: 52.8%→66.5% on Terminal Bench 2.0 with zero model changes (top-30→top-5); PreCompletionChecklistMiddleware forces self-verification before exit; "Reasoning Sandwich" (xhigh plan→high implement→xhigh verify) beats uniform xhigh (66.5% vs 53.9%); LoopDetectionMiddleware breaks doom loops via per-file edit tracking; Trace Analyzer meta-loop (fetch failed traces→spawn parallel error analysts→synthesize→fix harness); LocalContextMiddleware injects directory structure + tool discovery at start; 5 core harness design principles; 89 task traces released publicly |
+| [Context Rot: How Increasing Input Tokens Impacts LLM Performance](./articles/2026-03/chroma-context-rot-llm-degradation.md) | Kelly Hong et al. (Chroma) | 2025-07-14 | 9/10 | 18 frontier models across 194K LLM calls; performance degrades non-uniformly with context length; structural coherence HURTS retrieval (shuffled > coherent across all models); distractors compound multiplicatively; Claude abstains while GPT hallucinates; position matters (early = best); NIAH dramatically underestimates real-world degradation; empirical proof for fresh-context-per-task architecture |
+| [CrowdStrike Secure-by-Design AI Blueprint for AI Agents (with NVIDIA)](./articles/2026-03/crowdstrike-nvidia-secure-agent-blueprint.md) | CrowdStrike | 2026-03-16 | 8/10 | 4-pillar agent security architecture: (1) AI Policy Enforcement via Falcon AIDR + OpenShell runtime for real-time prompt/response/action monitoring, (2) Endpoint Protection with host-level behavioral monitoring, (3) Cloud Runtime Protection for infrastructure visibility, (4) Identity-Based Governance with dynamic per-agent privilege boundaries; agents framed as "privileged identities" not tools; "intent-aware controls" limit blast radius without killing autonomy; continuous enforcement at machine speed; directly maps to our `--dangerously-skip-permissions` risk surface |
+| [Advancing Semantic Search for Millions of Rovo Users](./articles/2026-03/atlassian-rovo-semantic-search-agents.md) | Kang Li, Lu He, Xin Yu, Fei Teng (Atlassian) | 2026-03-16 | 7/10 | Hybrid retrieval (traditional signals + neural semantic) at 5M+ MAU; 3-gen embedding evolution (MiniLM->BGE-large->EmbeddingGemma-300m); NVIDIA NeMo fine-tuning of Llama-Nemotron-Embed-1B-V2 delivers 26-40% retrieval uplift in <1 day; task-aware search adapts by tool context (Jira vs Confluence vs cross-tool); semantic search positioned as backbone for agentic AI; tenant-specific fine-tuning with privacy preservation |
+
+| [Salesforce + NVIDIA Nemotron for Regulated Industries](./articles/2026-03/salesforce-nvidia-nemotron-regulated-industries.md) | Salesforce Newsroom | 2026-03-16 | 6/10 | On-prem Nemotron 3 Nano (1M context, MoE) + Agentforce + Data 360 for regulated industries; 4-layer governed architecture (orchestration/data grounding/infrastructure/collaboration); data residency via private-cloud inference; pre-defined access controls enforced at inference time; no DSGVO specifics but pattern directly applicable to German government clients |
+| [Libghostty Is Coming](./articles/2026-03/hashimoto-libghostty-webkit-of-terminals.md) | Mitchell Hashimoto | 2025-09-22 | 9/10 | Foundational manifesto for "the WebKit of terminals": modular zero-dep library family (libghostty-vt/input/GPU/widgets) extracted from Ghostty; C ABI for universal embedding; SIMD-optimized VT parsing, fuzz-tested, production-proven; platform strategy (macOS/Linux/Windows/WASM) exceeds GUI reach; terminal emulation reimplemented ad-hoc across hundreds of programs -- libghostty solves this once; powers cmux (our primary terminal) + 48 ecosystem projects; cross-ref [infrastructure/libghostty](./infrastructure/libghostty.md) |
+| [NVIDIA GTC Industrial & EDA Agent Partners (Siemens/Synopsys/Cadence/Dassault)](./articles/2026-03/nvidia-gtc-industrial-eda-agent-partners.md) | Multiple | 2026-03-16 | 4/10 | Combined entry: Siemens Fuse EDA (hierarchical multi-agent + MCP orchestration across 10+ EDA tools), Synopsys AgentEngineer (industry-first L4 agentic workflow + $2B NVIDIA investment), Cadence ChipStack AI SuperAgent ("engineering workforce multiplier" for design+verification), Dassault Virtual Companions (physics-validated World Models as agent grounding on 3DEXPERIENCE); cross-cutting patterns: domain-constrained autonomy > general reasoning, MCP for tool orchestration, hybrid model routing (frontier + Nemotron) |
+| [Palantir + NVIDIA: Sovereign AI OS Reference Architecture](./articles/2026-03/palantir-nvidia-enterprise-agents.md) | Palantir / NVIDIA | 2026-03-12 | 7/10 | AIOS-RA: turnkey sovereign AI datacenter (Blackwell Ultra 8-GPU + Spectrum-X + hardened K8s + Foundry/AIP/Apollo/Rubix); Ontology as semantic agent grounding layer (not RAG, not prompt engineering -- agents read/write a domain model); 4-tier agent deployment (ad-hoc->task-specific->agentic apps->fully automated); "procedural memory in Ontology objects" = persistent executable context across agent sessions; tens of thousands simultaneous orchestrations; $150B->$600B sovereign AI market (McKinsey); cuOpt supply-chain optimization (Lowe's); directly relevant for German gov data-residency pitches |
+| [Introducing the Machine Payments Protocol](./articles/2026-03/stripe-machine-payments-protocol.md) | Jeff Weinstein & Steve Kaliski (Stripe) | 2026-03-18 | 9/10 | Open standard for machine-to-machine payments via HTTP 402; challenge-credential-receipt flow; dual transport (HTTP headers + MCP/JSON-RPC); Stripe cards/wallets via SPTs + Tempo stablecoins + Lightning BTC; 3 billing models (one-time/session/streamed per-token); `mppx` SDK (TS/Python/Rust) with Express/Next.js/Hono middleware; co-authored with Tempo; MCP transport binding turns any tool server into paid service; complements x402 and AP2; agent economy financial backbone |
+
+## 🐦 Notable Posts
+
+| Author | Date | Key Insight |
+|--------|------|-------------|
+| [@nummanali — CC Mirror: GLM 4.7 + MiniMax M2.1 for Claude Code](./posts/2026-01/nummanali-cc-mirror-glm-minimax-coding.md) | 2026-01-03 | CC Mirror (`npx cc-mirror`) brings GLM 4.7 and MiniMax M2.1 to Claude Code UX; preconfigured tools, custom themes, enhanced prompts, isolated from CC; model-agnostic harness pattern; 1,239 likes, 1,230 bookmarks, 127K views |
+| [@BenjaminDEKR — AI Factory: Claude Code Agents Build Apps Overnight](./posts/2026-01/benjamindekr-ai-factory-claude-code-agents-overnight.md) | 2026-01-04 | Kanban-style agent pipeline (Idea->Research->Architecture->Coding->Testing) powered by Claude Opus 4.5; agents do market research, app store validation, domain acquisition, UI revisions, coding, testing; "worker documents" travel with projects; human reviews in morning; 339 replies |
+| [@maverickecom — AI Content Factory: Nano Banana + Manus + Kling = TikTok Shop Swarm](./posts/2026-01/maverickecom-ai-content-factory-tiktok-shop.md) | 2026-01-09 | Fully automated TikTok Shop content pipeline: Manus for research, Nano Banana for images, Kling 2.6 for video; $300/mo replaces $50K+ budget; Multi-Platform Swarm (MPS) floods niche with variations; CPMs as low as $0.10; 1,144 replies |
+| [@parcadei — Code Intelligence Layer: 92% Token Reduction](./posts/2026-01/parcadei-code-intelligence-92-percent-token-reduction.md) | 2026-01-09 | New code intelligence layer achieves 92% token reduction; works with any model and harness; v3 launch; 1,067 likes, 1,589 bookmarks, 141K views — extremely high bookmark ratio signals practitioner intent |
+| [@mckaywrigley — Build Your Own Claude Cowork With Claude Agent SDK](./posts/2026-01/mckaywrigley-oss-cowork-claude-agent-sdk.md) | 2026-01-13 | Chatbot UI creator (33K stars) announces OSS Cowork-style app built on Claude Agent SDK; "this app format will be the ai app-layer trend of the year"; validates SDK as foundation for multi-agent coding UIs; 72 bookmarks, 9K views |
+| [@trq212 — Tasks Replacing TodoWrite in Claude Code](./posts/2026-01/trq212-tasks-replacing-todowrite-claude-code.md) | 2026-01-22 | Anthropic upgrades Todos to Tasks: inter-agent communication, dependency tracking, multi-session persistence; TodoWrite constrained improving models; Task Tool enables Agent Teams coordination; 5.9K likes, 324 replies |
+| [@LLMJunky — Codex Subagents: A Deep Dive](./posts/2026-01/llmjunky-codex-subagents-deep-dive.md) | 2026-01-23 | Part 1 fundamentals: Orchestrator-Worker separation (Orc never codes, only delegates/validates); subagents as context window strategy (offload token-heavy research); "Don’t assume. Validate." — agents fabricate success; explicit context templates reduce drift; 936 likes, 44.5K views |
+| [@NicerInPerson — Claude Code Swarms Unlock](./posts/2026-01/nicerinperson-claude-code-swarms-unlock.md) | 2026-01-24 | Hidden Claude Code "Swarms" feature unlocked via feature-flag reverse engineering; lead agent plans/delegates/synthesizes, spawns parallel specialist workers with shared task board, dependency tracking, inter-agent messaging; event-driven async subagents as key differentiator; claude-sneakpeek repo hit HN front page; 561K views, 2.9K likes, 4.7K bookmarks |
+| [@trq212 — Prompt Caching Is Everything](./posts/2026-02/trq212-prompt-caching-is-everything.md) | 2026-02-19 | Anthropic engineer's prompt caching architecture: 4-tier cache layout (system prompt > tools > CLAUDE.md > session > messages); plan mode via tools not tool-set swaps; defer_loading stubs for MCP tools; cache-safe compaction forking; "monitor cache hit rate like uptime"; 1.9M views, 4.9K likes |
+| [@AnthropicAI — Measuring Agent Autonomy](./posts/2026-02/anthropicai-measuring-agent-autonomy.md) | 2026-02-18 | 99.9th percentile Claude Code turn duration doubled in 3 months (25 to 45+ min); experienced users auto-approve 40%+ but interrupt more strategically; 73% of API tool calls have human-in-loop; "deployment overhang" — models capable of more autonomy than exercised |
+| [@ctatedev — Generative UI for MCP Apps](./posts/2026-03/ctatedev-generative-ui-mcp-apps.md) | 2026-03-07 | Generative UI via component catalogs + MCP: AI assembles UIs from predefined components across Claude/ChatGPT/VS Code/Cursor. json-render (12.1K stars) — guardrailed generation mirrors 70/30 deterministic/LLM split |
+| [@trq212 — Lessons from Building Claude Code: Seeing like an Agent](./posts/2026-02/trq212-lessons-building-claude-code-seeing-like-agent.md) | 2026-02-27 | Anthropic engineer's tool design philosophy: progressive disclosure > system prompt bloat; AskUserQuestion took 3 iterations; TodoWrite replaced by Task Tool as models improved; RAG abandoned for Grep-based self-context-building; ~20 tools with high bar to add; 3.5M views, 10K likes |
+| [@RLanceMartin — Give Claude a Computer: Programmatic Tool Calling](./posts/2026-02/rlancemartin-give-claude-a-computer-ptc.md) | 2026-02-27 | PTC lets Claude write code to orchestrate tool calls inside a container — intermediate results stay in code, not context window; 11% accuracy gain + 24% fewer tokens on search benchmarks; Opus 4.6 + PTC #1 on LMArena Search Arena; tools as control surface, code as composition layer; 258K views, 1.3K likes, 3.1K bookmarks |
+| [@LLMJunky — Codex Multi-Agent Playbook Part 1: Setup Guide](./posts/2026-02/llmjunky-codex-multi-agent-playbook-setup-guide.md) | 2026-02-18 | Custom multi-agent roles in Codex: configurable models, reasoning levels, system prompts, permissions, MCP servers, ChatGPT Apps; hidden `max_threads` override for 6-agent cap; hierarchical TOML config scoping (global/project/subfolder); 25 curated role configs on GitHub; 125K views, 1,086 bookmarks |
+| [@LLMJunky — Codex Multi Agent Playbook: Swarms Lvl. 1](./posts/2026-02/llmjunky-codex-multi-agent-playbook-swarms-lvl1.md) | 2026-02-26 | Two swarm strategies: Waves (dependency-ordered, accuracy-first) vs Super Swarms (total parallelism, speed-first); front-load subagent context via structured prompt template; planning quality multiplies across parallel agents; Codex config for model tiering (orchestrator=large, workers=small); 66.6K views, 808 bookmarks |
+| [@swyx — OSS Cowork Clones Thread](./posts/2026-03/swyx-oss-cowork-clones-thread.md) | 2026-03-05 | "are there any open source Claude Cowork clones because I can no longer function without a cowork" — 59 replies crowdsourcing OSS alternatives; surfaces AionUi, Goodable, Halo, Multica, Open Claude Cowork, OpenWork, Eigent, Kuse, Composio; none dominant yet; 60K views, 90 bookmarks |
+| [@aratahikaru0 — OSS Claude Cowork Clones](./posts/2026-03/aratahikaru0-oss-cowork-clones.md) | 2026-03-05 | 7 OSS Cowork alternatives: AionUi, Goodable, Halo, Multica, Open Claude Cowork, OpenWork, mckaywrigley's (Claude Agent SDK-based); swyx's thread (60K views) shows strong demand; none yet dominant — space is immature; 9K views, 72 bookmarks |
+| [@nummanali — You Can Be a Civilian Scientist](./posts/2026-02/nummanali-you-can-be-a-civilian-scientist.md) | 2026-02-16 | AI has passed the inflection point; LLMs turn ordinary people into "civilian scientists"; references RLM, DSPy, Opus 4.6, GPT 5.3 Codex, Gemini 3.1; the real prize is not SaaS/agents but unlocking human potential for science and community |
+| [@GeoffreyHuntley — Embedded Software Factory: RAD Is Back](./posts/2026-03/geoffreyhuntley-embedded-software-factory-rad-is-back.md) | 2026-03-08 | Product-as-IDE pattern: designer mode inside @latentpatterns lets him develop LP in LP; Cursor Cloud Agents + risk matrix for auto-shipping; cloned PostHog, Pipedrive, Zendesk, Calendly, LaunchDarkly as first-party; People Data Labs for customer enrichment + LLM-powered Challenger/SPIN sales analysis; "on the loop, not in the loop"; hyper-personalised software era = Microsoft Access 2.0; 192 likes, 357 bookmarks, 19.6K views |
+| [@oliverhenry — How a Personal AI Agent Will Change Your Entire Life](./posts/2026-03/oliverhenry-personal-ai-agent-changes-life.md) | 2026-03-07 | Autonomous agent "Larry" on old gaming PC generates TikTok content, launched LarryBrain skill marketplace (246 subscribers, 69 skills, 50% creator rev share) on OpenClaw; $7K+/mo in 4 weeks; validates agent economy thesis; 1.45M views, 11.9K bookmarks |
+| [@affaanmustafa — ECC v1.8.0: A Complete Agent Harness System](./posts/2026-03/affaanmustafa-ecc-v1-8-0-agent-harness.md) | 2026-03-08 | Everything Claude Code (68.6K stars) graduates from setup repo to agent harness system; v1.8.0 adds slop guard, eval-driven quality gates, bounded loop control at runtime path; cross-harness parity across CC/Cursor/OpenCode/Codex; 16 agents, 65+ skills, 40+ commands, AgentShield security (1,282 tests); hook runtime gating via env vars; 108 likes, 165 bookmarks, 20.3K views |
+| [@elvissun — OpenClaw + Codex/ClaudeCode Agent Swarm: The One-Person Dev Team](./posts/2026-03/elvissun-openclaw-codex-claude-agent-swarm-setup.md) | 2026-02-23 | Elvis's canonical setup guide as X Article: OpenClaw as orchestration layer, Zoe spawns Codex/Claude Code/Gemini workers, model routing per task type, deterministic health monitoring; formalizes his viral agent swarm into a reproducible playbook; 12.3K likes, 392 replies |
+| [@hasantoxr — Alibaba Drops Zvec: In-Process Vector DB](./posts/2026-03/hasantoxr-alibaba-zvec-vector-database.md) | 2026-02-21 | Zvec: in-process vector DB by Alibaba (8.9K stars, Apache 2.0); built on Proxima; pip install, no server/Docker/cloud; dense+sparse+hybrid search; runs on edge devices; potential zero-infra agent memory backend; 4.2K likes, 5.7K bookmarks, 352K views |
+| [@omarsar0 — AGENTS.md Don't Scale: Codified Context Paper](./posts/2026-03/omarsar0-agents-md-dont-scale-codified-context.md) | 2026-02-28 | Single AGENTS.md ceiling for large codebases; "Codified Context" paper documents three-tier memory (hot constitution + 19 domain-expert agents + cold-memory MCP retrieval) built over 283 sessions on 108K-line C# system; knowledge-to-code ratio 24.2%; documentation as load-bearing infrastructure; 1,490 likes, 2,908 bookmarks, 177K views |
+| [@ihtesham2005 — Alibaba Open-Sources Page Agent: In-Page GUI Agent](./posts/2026-03/ihtesham2005-alibaba-page-agent.md) | 2026-03-10 | Alibaba's Page Agent: in-page JavaScript GUI agent (no Python/Puppeteer/screenshots); text DOM manipulation + BYOK LLM; 3-line SaaS copilot integration; companies charge $30/month for this idea — now MIT; 5.8K stars; 1.3K likes, 2.6K bookmarks, 127K views |
+| [@omarsar0 — OpenDev: 81-Page CLI Coding Agent Architecture Paper](./posts/2026-03/omarsar0-opendev-81-page-cli-coding-agent-architecture.md) | 2026-03-08 | Elvis flags OpenDev arXiv paper (2603.05344) as the must-read for terminal-native agent builders; formalizes compound AI + workload-specialized model routing + dual-agent planning/execution split + lazy tool discovery + adaptive compaction; event-driven reminders to counter instruction fade-out; "industry shifting from IDE plugins to terminal-native agents"; 1,811 likes, 3,044 bookmarks, 138K views |
+| [@maestro__dev — Automate Testing with Maestro](./posts/2026-03/maestro-dev-automate-testing.md) | 2026-03-10 | Maestro: cross-platform E2E testing framework for iOS/Android/Web; visual IDE with element inspector + action recording + MaestroGPT AI assistant; used by Microsoft, Meta, Uber, Amazon, Disney, Stripe; OSS CLI + Studio Desktop free; 2.9K likes, 2.9K bookmarks, 255K views — 1:1 bookmark-to-like ratio signals strong practitioner intent |
+| [@theo — T3 Code Now Supports Claude (Claude Code CLI)](./posts/2026-03/theo-t3-code-supports-claude.md) | 2026-03-20 | T3 Code (6.9K stars, MIT, TypeScript) adds Claude Code CLI as backend alongside Codex; multi-harness GUI wrapper pattern ("harness for your harnesses"); Theo's 393K-view announcement amplifies Claude Code to TypeScript/Next.js audience; same category as cmux and Cowork clones; 2.4K likes, 259 bookmarks, 212 replies |
+| [@calebdw — opencode-claude-max-proxy: Use Claude Max with OpenCode](./posts/2026-03/calebdw-opencode-claude-max-proxy.md) | 2026-03-19 | Proxy bridging Claude Max subscription to OpenCode via Agent SDK PreToolUse hook + maxTurns:1 interception; preserves multi-model routing; validates Claude Max arbitrage (18-36x vs API); 314 stars, MIT, TypeScript/Bun; 162 likes, 223 bookmarks, 30K views — 1.38:1 bookmark-to-like ratio signals practitioner save-for-later |
+| [@0oAstro — CLIProxyAPI: Route CLI Agents Through Proxy API](./posts/2026-03/0oastro-cliproxyapi.md) | 2026-03-19 | CLIProxyAPI (18.8K stars, Go, MIT): proxy server providing OpenAI/Gemini/Claude/Codex-compatible API endpoints for CLI agents; multi-account round-robin load balancing, OAuth flows, streaming, function calling, multimodal; formalizes Claude Max proxy/arbitrage pattern; 15+ derivative apps in ecosystem; v6.8.55; 103 likes |
+| [@rohanpaul_ai — Alibaba Open-Sources OpenSandbox: Agent Sandboxing](./posts/2026-03/rohanpaul-alibaba-opensandbox.md) | 2026-03-17 | OpenSandbox: general-purpose agent sandbox platform by Alibaba (8.9K stars, Apache 2.0); isolated runtimes (gVisor, Kata Containers, Firecracker microVMs); multi-language SDKs (Python, Java, TS, C#); Docker local + Kubernetes distributed; built-in code interpreter, filesystem, network egress controls; CNCF Landscape listed; eliminates custom sandboxing for autonomous agent deployments |
+| [@trq212 — Claude Code Channels: Control Claude Code from Telegram and Discord via MCP](./posts/2026-03/trq212-claude-code-channels-telegram-discord.md) | 2026-03-19 | Anthropic releases Claude Code channels — MCP plugin architecture pushing events (chat messages, webhooks, CI results) into running local sessions; Telegram + Discord first; community-extensible; `--channels` flag + sender allowlist + pairing flow; webhook receiver pattern enables autonomous agent loops; 24.9K likes, 17.7K bookmarks, 6.8M views — Thariq's biggest post ever |
+| [@GoogleCloudTech — 5 Agent Skill Design Patterns Every ADK Developer Should Know](./posts/2026-03/googlecloudtech-5-adk-skill-design-patterns.md) | 2026-03-17 | Five structural patterns for agent skill internals: Tool Wrapper (library context), Generator (template output), Reviewer (severity checklists), Inversion (interview before acting), Pipeline (sequential checkpoints); patterns compose; ADK SkillToolset progressive disclosure; by @Saboo_Shubham_ & @lavinigam; 4.1K likes, 8.7K bookmarks, 1.6M views — 2:1 bookmark-to-like ratio = extreme practitioner reference signal |
+| [@levelsio — Any Way to Skip Claude Code Trust Prompt in /root?](./posts/2026-03/levelsio-claude-code-root-trust-prompt.md) | 2026-03-20 | Pieter Levels hits Claude Code's workspace trust prompt when running in /root on a server; screenshot shows "Quick safety check" blocking headless execution; answer is `--dangerously-skip-permissions`; validates server-side autonomous agent execution as mainstream solo founder pattern; 200 likes, 71 replies |
+| [@mitchellh — Ghostling (libghostty demo) 100% Agent-Written](./posts/2026-03/mitchellh-libghostty-ghostling-agents.md) | 2026-03-21 | Hashimoto (Vagrant/Terraform/Ghostty creator) announces Ghostling demo was 100% agent-written (Opus+Codex); libghostty-vt now embeddable C library (zero-dep VT parsing); agents ran CI fix-push loops via `gh` CLI; AGENTS.md as style config; "if an engineer PRed this, I'd accept it"; Ghostty=cmux's rendering engine; 614 likes, 215 bookmarks, 70.9K views |
+| [@stripe — Introducing the Machine Payments Protocol](./posts/2026-03/stripe-machine-payments-protocol.md) | 2026-03 | Stripe's Machine Payments Protocol for machine-to-machine transactions; agent economy financial infrastructure; complements x402/EIP-8004; track closely for SaaS factory integration; **full article**: [stripe-machine-payments-protocol](./articles/2026-03/stripe-machine-payments-protocol.md) |
+| [@affaanmustafa — The Shorthand Guide to Everything Agentic Security](./posts/2026-03/affaanmustafa-shorthand-guide-agentic-security.md) | 2026-03-15 | X Article: comprehensive agentic security guide; documents Claude Code CVEs (CVE-2025-59536 code exec before trust, CVE-2026-21852 API key leak); attack surfaces via MCP servers, GitHub PRs, WhatsApp, email; defense-in-depth (sandboxing, identity separation, kill switches); AgentShield scanner (102 rules, Opus adversarial audit); 151 likes, 322 bookmarks (2.13:1 ratio), 35.6K views |
+| [@sabir_huss50540 — Grok Can Grow Your Social Media](./posts/2026-03/sabir-hussain-grok-social-media-growth.md) | 2026-03 | Marketing hype about Grok social media automation; no technical value |
+| [@aiwithjainam — AI 60-Hour Workweek in 1 Hour](./posts/2026-03/aiwithjainam-ai-60-hour-workweek-1-hour.md) | 2026-03 | Productivity clickbait; no technical value |
+| [@doodlestein — Beads Viewer: PageRank-Based DAG Task Prioritization Demo](./posts/2026-03/doodlestein-beads-viewer-pagerank-dag-demo.md) | 2026-03-22 | Jeffrey Emanuel (Dicklesworthstone) demos beads_viewer: graph-aware TUI with PageRank-based dependency analysis, critical path highlighting, interactive DAG visualization; robot-mode JSON API for headless agent consumption; validates graph-theoretic task prioritization for orchestrators |
+| [@mitchellh — From Empty Repo to Standalone Terminal with libghostty](./posts/2026-03/mitchellh-libghostty-empty-repo-standalone-terminal.md) | 2026-03-21 | Hashimoto shows going from empty repo to functional terminal emulator using libghostty C API; "Ex minimo, infinita nascuntur"; validates libghostty-vt API accessibility; combined with Ghostling (100% agent-written), proves agents can build terminals from scratch; incremental over existing libghostty/Ghostling entries |
+| [@Scobleizer — Jensen Huang Interviews 10 Frontier AI CEOs on Open Models](./posts/2026-03/scobleizer-jensen-huang-open-models-panel.md) | 2026-03-22 | Scoble shares video of Jensen Huang interviewing 10 CEOs (Langchain, Perplexity, Cursor, Mistral, others) on open models at GTC 2026; cross-ref [talks/jensen-huang-panel](./talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md); 259 likes, 47 retweets |
+| [@ctatedev — Introducing emulate: Local API Emulation for CI Sandboxes](./posts/2026-03/ctatedev-emulate-local-api-emulation.md) | 2026-03-20 | emulate: mocks-free, stateful local API emulation for CI and no-network sandboxes; supports Vercel, GitHub, Google APIs with OAuth and app registration; by Chris Tate (manaflow, json-render); 711 likes, 30 replies |
+| [@HuggingPapers — RedNote Multimodal OCR: 3B-Parameter Document Parser](./posts/2026-03/huggingpapers-rednote-multimodal-ocr.md) | 2026-03-22 | RedNote releases 3B multimodal OCR model converting text, charts, diagrams, tables into Markdown/HTML/SVG/LaTeX; ranks second only to Gemini 3 Pro on OCR benchmarks; small enough for local deployment in agent pipelines |
+| [@yigitkonur — BetterTouchTool's AI Agent for macOS Automation](./posts/2026-03/yigitkonur-bettertouchtool-ai-agent-macos.md) | 2026-03-21 | BetterTouchTool (10+ years indie macOS utility) adds AI agent capabilities; integrates with various AI code models for desktop automation; desktop agent pattern joining Accomplish and computer-use APIs; 34 likes, 10 retweets |
+
+---
+
+## How to Add New Entries
+
+| Content Type | Command | Template |
+|-------------|---------|----------|
+| Tool/Framework | `/tool-catalogue <repo-url>` | `_TEMPLATE.md` |
+| Practitioner | Manual (use `_TEMPLATE-PRACTITIONER.md`) | `_TEMPLATE-PRACTITIONER.md` |
+| Talk / YouTube Video | `/ingest-talk <youtube-url>` | `_TEMPLATE-TALK.md` |
+| Blog Post / Article | `/ingest-article <url>` | `_TEMPLATE-ARTICLE.md` |
+| X Post / Thread | `/ingest-post <url>` | `_TEMPLATE-POST.md` |
+| Batch from bookmarks | `/ingest-bookmarks` | Auto-routes to appropriate template |
+| Reference Document | Manual (convert from research/) | N/A — freeform |
+
+Or manually: copy the appropriate template, fill it in, save to the correct directory, and update this INDEX.

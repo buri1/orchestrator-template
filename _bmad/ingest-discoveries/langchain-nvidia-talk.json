@@ -1,0 +1,80 @@
+{
+  "source": "https://www.youtube.com/watch?v=BEYEWw1Mkmw",
+  "source_type": "talk",
+  "ingested_at": "2026-03-21",
+  "catalogue_path": "research/catalogue/talks/2026-03/open-models-runtime-harness-langchain-nvidia.md",
+  "discoveries": [
+    {
+      "name": "LangChain Harness Engineering Blog",
+      "type": "article",
+      "url": "https://blog.langchain.com/improving-deep-agents-with-harness-engineering/",
+      "why": "Empirical methodology for improving agent performance via harness-only changes (52.8% -> 66.5% on Terminal Bench 2.0). Introduces reasoning sandwich pattern, LoopDetection middleware, PreCompletionChecklist middleware, and Trace Analyzer Skill.",
+      "already_catalogued": false,
+      "suggested_ingest": "/ingest-article",
+      "priority": "high"
+    },
+    {
+      "name": "LangChain Autonomous Context Compression",
+      "type": "article",
+      "url": "https://blog.langchain.com/autonomous-context-compression/",
+      "why": "Model-triggered compaction at clean task boundaries instead of hard token thresholds. Most transferable context management idea for our orchestrator.",
+      "already_catalogued": false,
+      "suggested_ingest": "/ingest-article",
+      "priority": "high"
+    },
+    {
+      "name": "LangChain Context Management for DeepAgents",
+      "type": "article",
+      "url": "https://blog.langchain.com/context-management-for-deepagents/",
+      "why": "Three-tier compression strategy technical deep-dive: offload large outputs, offload large inputs at 85% threshold, summarization as last resort.",
+      "already_catalogued": false,
+      "suggested_ingest": "/ingest-article",
+      "priority": "medium"
+    },
+    {
+      "name": "The Anatomy of an Agent Harness (LangChain)",
+      "type": "article",
+      "url": "https://blog.langchain.com/the-anatomy-of-an-agent-harness/",
+      "why": "Defines framework vs runtime vs harness taxonomy. 'A raw model is not an agent. But it becomes one when a harness gives it state, tool execution, feedback loops, and enforceable constraints.'",
+      "already_catalogued": false,
+      "suggested_ingest": "/ingest-article",
+      "priority": "medium"
+    },
+    {
+      "name": "Harrison Chase on Context Engineering (Sequoia Podcast)",
+      "type": "talk",
+      "url": "https://sequoiacap.com/podcast/context-engineering-our-way-to-long-horizon-agents-langchains-harrison-chase/",
+      "why": "Sequoia interview with LangChain CEO on context engineering for long-horizon agents. Likely contains architectural insights on DeepAgents' design philosophy.",
+      "already_catalogued": false,
+      "suggested_ingest": "/ingest-talk",
+      "priority": "medium"
+    },
+    {
+      "name": "NVIDIA AI-Q Research Assistant Blueprint",
+      "type": "repo",
+      "url": "https://github.com/NVIDIA-AI-Blueprints/aiq-research-assistant",
+      "why": "Hybrid model routing (frontier for orchestration, Nemotron for research) cuts costs 50% while topping DeepResearch Bench. Source code for the architecture pattern.",
+      "already_catalogued": false,
+      "suggested_ingest": "/tool-catalogue",
+      "priority": "low"
+    },
+    {
+      "name": "Harbor (LangChain hosted deployment)",
+      "type": "tool",
+      "url": "https://github.com/langchain-ai/deepagents/tree/main/libs/harbor",
+      "why": "Hosted deployment platform for DeepAgents agents. Referenced as the sandbox orchestration layer using Daytona.",
+      "already_catalogued": false,
+      "suggested_ingest": "/tool-catalogue",
+      "priority": "low"
+    },
+    {
+      "name": "Terminal Bench 2.0",
+      "type": "benchmark",
+      "url": null,
+      "why": "89-task benchmark across ML, debugging, biology used to measure harness engineering improvements. Referenced in harness engineering blog.",
+      "already_catalogued": false,
+      "suggested_ingest": null,
+      "priority": "low"
+    }
+  ]
+}

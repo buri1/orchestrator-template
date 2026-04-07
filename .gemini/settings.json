@@ -1,0 +1,15 @@
+{
+  "ui": {
+    "inlineThinkingMode": "full",
+    "showStatusInTitle": true,
+    "showMemoryUsage": true,
+    "showModelInfoInChat": true
+  },
+  "billing": {
+    "overageStrategy": "ask"
+  },
+  "model": {
+    "name": "",
+    "compressionThreshold": 0.675
+  }
+}

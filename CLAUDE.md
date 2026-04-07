@@ -1,22 +1,22 @@
-# Orchestrator Project Rules
+# L-Thread Orchestrator v3 -- tmux Mode
 
-This project uses the L-Thread Orchestrator pattern (v2.0).
+An autonomous agent orchestration system. The orchestrator delegates ALL development work to Claude Code sub-agents running in tmux sessions. It never writes code itself.
 
-## If You Are the Orchestrator
+## Getting Started
 
-If the conversation context mentions "orchestrator", "/orchestrator", "/orchestrator-teams", "/orchestrator-cmux", or you're managing agents, you ARE the orchestrator and MUST follow the rules in `.claude/agents/orchestrator.md`.
+```bash
+./run-tmux.sh <target-project-dir>
+```
 
-## Architecture Overview
+This creates a tmux session with the orchestrator in window 0. Workers are spawned as additional windows.
 
-- **Custom Agent**: `.claude/agents/orchestrator.md` (core persona, rules, patterns)
-- **Conduit Command**: `.claude/commands/orchestrator-conduit.md` (sequential mode)
-- **Teams Command**: `.claude/commands/orchestrator-teams.md` (parallel mode)
-- **cmux Command**: `.claude/commands/orchestrator-cmux.md` (cmux mode — Ghostty-native, Cursor Agent spawning)
-- **Roadblock Recovery**: `.claude/commands/roadblock-recovery.md`
-- **Tmux Recovery**: `.claude/commands/tmux-recovery.md`
+## Architecture
+
+- **Orchestrator Agent**: `.claude/agents/orchestrator.md` (core rules + persona)
+- **Orchestrator Command**: `.claude/commands/orchestrator.md` (start the loop)
+- **Recovery**: `.claude/commands/tmux-recovery.md`, `.claude/commands/roadblock-recovery.md`
 - **SessionStart Hook**: `.bmad/scripts/orchestrator-session-start.sh`
 - **PreCompact Hook**: `.bmad/scripts/orchestrator-handoff.sh`
-- **Tmux Helpers**: `.bmad/scripts/tmux-helpers.sh`
 
 ## 4 Absolute Rules
 
@@ -24,20 +24,20 @@ If the conversation context mentions "orchestrator", "/orchestrator", "/orchestr
 
 **DU SCHREIBST NIEMALS CODE. DU ORCHESTRIERST NUR.**
 
-- NIEMALS `Edit` Tool auf Code-Dateien
-- NIEMALS `Write` Tool auf Code-Dateien (nur State-Dateien)
+- NIEMALS `Edit` oder `Write` Tool auf Code-Dateien
 - Bei Bug/Lint-Error/Test-Failure: Agent spawnen, nicht selbst fixen
+- Einzig erlaubte Writes: State-Dateien (`orchestrator-tmux-state.json`, `devlog.md`)
 
 ### 2. E2E TESTING IST GATE
 
-NIEMALS Issues als Done markieren OHNE E2E Test (INC-014, INC-015).
-Chrome DevTools MCP ist Pflicht.
+NIEMALS Issues als Done markieren OHNE E2E Test. Chrome DevTools MCP ist Pflicht.
 
-### 3. MODE-AWARE AGENTS
+### 3. TMUX-BASED AGENTS
 
-- Conduit Mode: `conduit pane-split` + `terminal-write` + `terminal-wait`
-- Teams Mode: `Task` tool + `SendMessage` + `TaskList`
-- NIEMALS bash sleep -- use event-driven waiting
+- Workers run as separate Claude processes in tmux windows
+- Each worker gets its own window with `unset CLAUDECODE && claude --dangerously-skip-permissions`
+- Max 6 parallel workers. Monitor via `tmux capture-pane`.
+- NIEMALS bash sleep for waiting -- poll with `capture-pane` on intervals
 
 ### 4. AUTO-MODE RESPEKTIEREN
 
@@ -47,48 +47,79 @@ cat .bmad/AUTO_MODE 2>/dev/null
 
 Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + continue.
 
-## Utility Commands
-
-### `/change-report` — Änderungsreport mit Screenshots
-
-Erstellt einen strukturierten Änderungsreport mit Chrome-Screenshots der deployed App. Navigiert durch alle relevanten Seiten, dokumentiert Ist-Zustand und Änderungswünsche.
-
-- **Datei:** `~/.claude/commands/change-report.md`
-- **Benötigt:** Chrome DevTools MCP
-- **Input:** Liste von Änderungswünschen (Trello, PDF, Meeting-Notizen, User-Input)
-- **Output:** `_bmad/aenderungsreport-{datum}.md` + Screenshots in `_bmad/change-report-screenshots/`
-- **Sprache:** Deutsch
-
-Ablauf: Login → pro Punkt zur Seite navigieren → Screenshot → Report mit Übersichtstabelle, Detail-Sektionen inkl. Screenshots, technischer Einschätzung und Aufwandszusammenfassung.
-
 ## State Management
 
-- Conduit state: `_bmad/orchestrator-state.json`
-- Teams state: `_bmad/orchestrator-teams-state.json`
-- **Tmux State**: `_bmad/orchestrator-tmux-state.json`
+- **State file**: `_bmad/orchestrator-tmux-state.json`
+- **Template**: `_bmad/orchestrator-tmux-state.template.json`
 - Always check state before spawning agents to avoid duplicates
+- Write state after EVERY phase transition
 
-## Quick Reference
+### State Schema
 
-| Action | Conduit Mode | Teams Mode | cmux Mode |
-|--------|-------------|------------|-----------|
-| Spawn agent | `conduit pane-split` | `Task` tool | `cmux new-split right` |
-| Communicate | `terminal-write/read` | `SendMessage` | `cmux send --surface <ref>` |
-| Wait | `terminal-wait` | Messages auto | `cmux wait-for` / poll `read-screen` |
-| Kill agent | `conduit pane-close` | `shutdown_request` | `cmux close-surface --surface <ref>` |
-| Track state | orchestrator-state.json | Native TaskList | orchestrator-state.json |
-| Read output | `terminal-read` | Messages auto | `cmux read-screen --surface <ref> --scrollback` |
+```json
+{
+  "version": "1.0.0",
+  "mode": "tmux",
+  "last_updated": "<ISO timestamp>",
+  "compaction_count": 0,
+  "sessions": {
+    "<name>": {
+      "tmux_session": "<name>",
+      "working_directory": "<path>",
+      "project": "<project name>",
+      "claude_running": false,
+      "claude_flags": "--dangerously-skip-permissions",
+      "last_seen_alive": null,
+      "purpose": "<description>"
+    }
+  },
+  "recovery": {
+    "last_crash_detected": null,
+    "sessions_recovered": 0,
+    "recovery_log": []
+  }
+}
+```
 
-## Tmux Quick Reference
+## Skills / Commands
+
+| Skill | Description |
+|-------|-------------|
+| `/orchestrator` | Start the orchestrator loop |
+| `/debug` | Snapshot system state -- workers, PRs, git, diagnose issues |
+| `/tmux-nav` | tmux navigation and management reference |
+| `/tmux-recovery` | Recover crashed tmux sessions |
+| `/roadblock-recovery` | Handle stuck agents |
+| `/e2e-screenshots` | E2E screenshot capture workflow |
+| `/ui-review` | UI review via Chrome DevTools |
+| `/research-librarian` | Activate the Research Librarian for catalogue curation and ingestion |
+
+## tmux Quick Reference
 
 | Action | Command |
 |--------|---------|
+| List sessions | `tmux ls` |
 | Probe session | `tmux has-session -t <name>` |
-| Check claude | `tmux list-panes -t <name> -F '#{pane_current_command}'` |
+| Create window | `tmux new-window -n <name>` |
+| Start Claude | `tmux send-keys -t <name> 'unset CLAUDECODE && claude --dangerously-skip-permissions' Enter` |
 | Send command | `tmux send-keys -t <name> '<cmd>' Enter` |
 | Read output | `tmux capture-pane -t <name> -p -S -50` |
-| Create session | `tmux new-session -d -s <name> -c <dir>` |
-| Start claude | `tmux send-keys -t <name> 'unset CLAUDECODE && claude --dangerously-skip-permissions' Enter` |
+| Check process | `tmux list-panes -t <name> -F '#{pane_current_command}'` |
+| Kill window | `tmux kill-window -t <name>` |
+| Switch window | `tmux select-window -t <name>` |
 | Recovery | `/tmux-recovery` |
-| State file | `_bmad/orchestrator-tmux-state.json` |
-| Template | `_bmad/orchestrator-tmux-state.template.json` |
+
+## Orchestrator Loop
+
+```
+1. GET_NEXT_TASK     -- Query GitHub issues
+2. SPAWN_WORKER      -- tmux new-window + claude
+3. WAIT_FOR_PR       -- Poll capture-pane + gh pr list
+4. CLOSE_WORKER      -- Kill the tmux window
+5. REVIEW-FIX LOOP   -- Max 3 cycles (spawn reviewer, then fixer)
+6. AUTO_MERGE        -- gh pr merge
+7. E2E_TEST          -- Chrome DevTools MCP (MANDATORY)
+8. MARK_DONE         -- Only after E2E passes
+9. LOG_TO_DEVLOG     -- Record results
+10. AUTO-CONTINUE    -- Loop to Step 1
+```

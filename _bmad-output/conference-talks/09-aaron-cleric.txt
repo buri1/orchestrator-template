@@ -1,0 +1,395 @@
+# Talk: Lightning Talk: Building Production Agents - Lessons from Cleric
+# Speaker: Aaron Ahmed (Cleric, Head of Product)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 04:52:32 - 05:00:25
+# Lines: 388
+
+[04:52:32] actually have Erin Ahmed from Clerk.
+[04:52:32] actually have Erin Ahmed from Clerk. Please give a warm welcome.
+[04:52:38] Okay. Hey everyone, my name is Aaron.
+[04:52:40] Okay. Hey everyone, my name is Aaron. Um, I'm the head of product at Cleric
+[04:52:42] Um, I'm the head of product at Cleric
+[04:52:42] Um, I'm the head of product at Cleric and today I'm going to talk uh through a
+[04:52:45] and today I'm going to talk uh through a
+[04:52:45] and today I'm going to talk uh through a little bit about what we've learned
+[04:52:46] little bit about what we've learned
+[04:52:46] little bit about what we've learned building a learning agent.
+[04:52:49] building a learning agent.
+[04:52:49] building a learning agent. So, let's start with what is a learning
+[04:52:51] So, let's start with what is a learning
+[04:52:51] So, let's start with what is a learning agent? Well, it's the opposite of a
+[04:52:53] agent? Well, it's the opposite of a
+[04:52:53] agent? Well, it's the opposite of a stateless agent. A stateless agent
+[04:52:55] stateless agent. A stateless agent
+[04:52:55] stateless agent. A stateless agent starts a session fresh with no memory or
+[04:52:58] starts a session fresh with no memory or
+[04:52:58] starts a session fresh with no memory or context of past conversations. Imagine a
+[04:53:01] context of past conversations. Imagine a
+[04:53:01] context of past conversations. Imagine a co-orker that uh shows up to work every
+[04:53:03] co-orker that uh shows up to work every
+[04:53:03] co-orker that uh shows up to work every day with no recollection of what
+[04:53:04] day with no recollection of what
+[04:53:04] day with no recollection of what happened yesterday. That's the current
+[04:53:06] happened yesterday. That's the current
+[04:53:06] happened yesterday. That's the current state of most of our agentic co-workers
+[04:53:08] state of most of our agentic co-workers
+[04:53:08] state of most of our agentic co-workers today. A learning agent or a stateful
+[04:53:11] today. A learning agent or a stateful
+[04:53:11] today. A learning agent or a stateful agent on the other hand um is one that
+[04:53:13] agent on the other hand um is one that
+[04:53:13] agent on the other hand um is one that learns from experience and it adapts to
+[04:53:15] learns from experience and it adapts to
+[04:53:15] learns from experience and it adapts to improve performance. And at Cleric, we
+[04:53:18] improve performance. And at Cleric, we
+[04:53:18] improve performance. And at Cleric, we use agents to uh for every aspect of
+[04:53:21] use agents to uh for every aspect of
+[04:53:21] use agents to uh for every aspect of building our own agent. And this is
+[04:53:23] building our own agent. And this is
+[04:53:23] building our own agent. And this is where we see the puck moving. Um agent
+[04:53:25] where we see the puck moving. Um agent
+[04:53:26] where we see the puck moving. Um agent capabilities are commoditized. This is
+[04:53:28] capabilities are commoditized. This is
+[04:53:28] capabilities are commoditized. This is not this wasn't the case at this time
+[04:53:29] not this wasn't the case at this time
+[04:53:30] not this wasn't the case at this time last year. And the next horizon of
+[04:53:32] last year. And the next horizon of
+[04:53:32] last year. And the next horizon of differentiation is going to be learning
+[04:53:34] differentiation is going to be learning
+[04:53:34] differentiation is going to be learning or self-learning. Um this is a a
+[04:53:37] or self-learning. Um this is a a
+[04:53:37] or self-learning. Um this is a a conviction that we've built our product
+[04:53:39] conviction that we've built our product
+[04:53:39] conviction that we've built our product around. Um the agents that earn their
+[04:53:41] around. Um the agents that earn their
+[04:53:41] around. Um the agents that earn their place will be the ones that accumulate
+[04:53:43] place will be the ones that accumulate
+[04:53:43] place will be the ones that accumulate knowledge about three things. your
+[04:53:44] knowledge about three things. your
+[04:53:44] knowledge about three things. your environment, your team and how you work
+[04:53:47] environment, your team and how you work
+[04:53:47] environment, your team and how you work and past outcomes and corrections. So
+[04:53:50] and past outcomes and corrections. So
+[04:53:50] and past outcomes and corrections. So for cleric, cleric's an AI SRE. It
+[04:53:53] for cleric, cleric's an AI SRE. It
+[04:53:53] for cleric, cleric's an AI SRE. It learns from every production incident.
+[04:53:55] learns from every production incident.
+[04:53:55] learns from every production incident. You connect it to your infrastructure
+[04:53:57] You connect it to your infrastructure
+[04:53:57] You connect it to your infrastructure and your observability and it
+[04:54:00] and your observability and it
+[04:54:00] and your observability and it immediately starts building a model of
+[04:54:01] immediately starts building a model of
+[04:54:01] immediately starts building a model of your environment. Uh you drop it into
+[04:54:04] your environment. Uh you drop it into
+[04:54:04] your environment. Uh you drop it into your alerts channel and it learns from
+[04:54:06] your alerts channel and it learns from
+[04:54:06] your alerts channel and it learns from your past incidents um and your your
+[04:54:09] your past incidents um and your your
+[04:54:09] your past incidents um and your your channel history. uh and you use it as an
+[04:54:11] channel history. uh and you use it as an
+[04:54:11] channel history. uh and you use it as an investigation assistant and it learns
+[04:54:13] investigation assistant and it learns
+[04:54:13] investigation assistant and it learns your preferences and your procedures
+[04:54:15] your preferences and your procedures
+[04:54:15] your preferences and your procedures over time. We've deployed it to
+[04:54:19] over time. We've deployed it to
+[04:54:19] over time. We've deployed it to dozens of customers at this point and
+[04:54:21] dozens of customers at this point and
+[04:54:21] dozens of customers at this point and what we've learned over months and to
+[04:54:24] what we've learned over months and to
+[04:54:24] what we've learned over months and to you know now bordering on years of trial
+[04:54:25] you know now bordering on years of trial
+[04:54:26] you know now bordering on years of trial and error is that there are essentially
+[04:54:27] and error is that there are essentially
+[04:54:28] and error is that there are essentially three things um that make a good
+[04:54:30] three things um that make a good
+[04:54:30] three things um that make a good learning agent. Uh the first thing is
+[04:54:32] learning agent. Uh the first thing is
+[04:54:32] learning agent. Uh the first thing is good learning agents make it easy for
+[04:54:34] good learning agents make it easy for
+[04:54:34] good learning agents make it easy for users to correct or to teach via
+[04:54:37] users to correct or to teach via
+[04:54:37] users to correct or to teach via correction. Um, you know, wrong answers
+[04:54:40] correction. Um, you know, wrong answers
+[04:54:40] correction. Um, you know, wrong answers are inevitable and accuracy is
+[04:54:42] are inevitable and accuracy is
+[04:54:42] are inevitable and accuracy is important. Uh, but the agents that win
+[04:54:44] important. Uh, but the agents that win
+[04:54:44] important. Uh, but the agents that win will be the ones that make it easy to
+[04:54:45] will be the ones that make it easy to
+[04:54:45] will be the ones that make it easy to correct mistakes uh and not visibly
+[04:54:48] correct mistakes uh and not visibly
+[04:54:48] correct mistakes uh and not visibly repeat those mistakes later. So for
+[04:54:50] repeat those mistakes later. So for
+[04:54:50] repeat those mistakes later. So for cleric, this looks like proposing
+[04:54:52] cleric, this looks like proposing
+[04:54:52] cleric, this looks like proposing memories uh that persist across
+[04:54:54] memories uh that persist across
+[04:54:54] memories uh that persist across investigations. It looks like self-h
+[04:54:57] investigations. It looks like self-h
+[04:54:57] investigations. It looks like self-h harvesting skills uh to encode learned
+[04:54:59] harvesting skills uh to encode learned
+[04:54:59] harvesting skills uh to encode learned procedures um and capturing user ratings
+[04:55:03] procedures um and capturing user ratings
+[04:55:03] procedures um and capturing user ratings on agent messages as uh an explicit
+[04:55:05] on agent messages as uh an explicit
+[04:55:05] on agent messages as uh an explicit quality signal. Um, but the most
+[04:55:08] quality signal. Um, but the most
+[04:55:08] quality signal. Um, but the most important part is the visibly never
+[04:55:10] important part is the visibly never
+[04:55:10] important part is the visibly never repeating the mistakes. It's especially
+[04:55:12] repeating the mistakes. It's especially
+[04:55:12] repeating the mistakes. It's especially important for a team-based agent like
+[04:55:14] important for a team-based agent like
+[04:55:14] important for a team-based agent like Cleric where one user session and the
+[04:55:16] Cleric where one user session and the
+[04:55:16] Cleric where one user session and the the corrections that are learned from
+[04:55:17] the corrections that are learned from
+[04:55:18] the corrections that are learned from that apply to the next user session. Um,
+[04:55:20] that apply to the next user session. Um,
+[04:55:20] that apply to the next user session. Um, and it leads into lesson two, which is
+[04:55:23] and it leads into lesson two, which is
+[04:55:23] and it leads into lesson two, which is good learning agents reward corrections
+[04:55:25] good learning agents reward corrections
+[04:55:25] good learning agents reward corrections with better performance. Um, you you
+[04:55:29] with better performance. Um, you you
+[04:55:29] with better performance. Um, you you lose your users trust when they expend
+[04:55:31] lose your users trust when they expend
+[04:55:31] lose your users trust when they expend the effort to teach the agent something
+[04:55:33] the effort to teach the agent something
+[04:55:33] the effort to teach the agent something and that lesson is not retained. Um a
+[04:55:37] and that lesson is not retained. Um a
+[04:55:37] and that lesson is not retained. Um a correction should do three things. It
+[04:55:39] correction should do three things. It
+[04:55:39] correction should do three things. It should persist, compound and then be
+[04:55:41] should persist, compound and then be
+[04:55:41] should persist, compound and then be visible. Uh by persist what I mean is to
+[04:55:44] visible. Uh by persist what I mean is to
+[04:55:44] visible. Uh by persist what I mean is to the the agent applies that knowledge in
+[04:55:47] the the agent applies that knowledge in
+[04:55:47] the the agent applies that knowledge in the same context. So for example if
+[04:55:50] the same context. So for example if
+[04:55:50] the same context. So for example if after an outage um a user were to teach
+[04:55:53] after an outage um a user were to teach
+[04:55:53] after an outage um a user were to teach cleric how to perform a customer impact
+[04:55:55] cleric how to perform a customer impact
+[04:55:55] cleric how to perform a customer impact assessment uh you should expect the
+[04:55:57] assessment uh you should expect the
+[04:55:58] assessment uh you should expect the agent to recall that procedure the next
+[04:55:59] agent to recall that procedure the next
+[04:55:59] agent to recall that procedure the next time it's asked to do the same thing.
+[04:56:02] time it's asked to do the same thing.
+[04:56:02] time it's asked to do the same thing. uh by compound I mean applying that
+[04:56:04] uh by compound I mean applying that
+[04:56:04] uh by compound I mean applying that knowledge or sorry generalizing that
+[04:56:06] knowledge or sorry generalizing that
+[04:56:06] knowledge or sorry generalizing that knowledge into a different context. So
+[04:56:08] knowledge into a different context. So
+[04:56:08] knowledge into a different context. So perhaps there's something in that
+[04:56:10] perhaps there's something in that
+[04:56:10] perhaps there's something in that procedure uh like some guidance about
+[04:56:12] procedure uh like some guidance about
+[04:56:12] procedure uh like some guidance about how to distinguish between an internal
+[04:56:14] how to distinguish between an internal
+[04:56:14] how to distinguish between an internal instance and a production customer
+[04:56:15] instance and a production customer
+[04:56:16] instance and a production customer instance. Um a compounding effect would
+[04:56:18] instance. Um a compounding effect would
+[04:56:18] instance. Um a compounding effect would be the agent using that context in a
+[04:56:20] be the agent using that context in a
+[04:56:20] be the agent using that context in a different investigation like uh
+[04:56:22] different investigation like uh
+[04:56:22] different investigation like uh automatically excluding internal
+[04:56:24] automatically excluding internal
+[04:56:24] automatically excluding internal instances from uh you know an error rate
+[04:56:27] instances from uh you know an error rate
+[04:56:27] instances from uh you know an error rate analysis of uh production customer
+[04:56:30] analysis of uh production customer
+[04:56:30] analysis of uh production customer instances for example. And the third
+[04:56:33] instances for example. And the third
+[04:56:33] instances for example. And the third thing is to be visible which is
+[04:56:34] thing is to be visible which is
+[04:56:34] thing is to be visible which is essentially just the agent needs to show
+[04:56:36] essentially just the agent needs to show
+[04:56:36] essentially just the agent needs to show its work. Um you know display the use of
+[04:56:39] its work. Um you know display the use of
+[04:56:39] its work. Um you know display the use of knowledge and its actions and
+[04:56:40] knowledge and its actions and
+[04:56:40] knowledge and its actions and reasonings. Um it does that does two
+[04:56:42] reasonings. Um it does that does two
+[04:56:42] reasonings. Um it does that does two things. One, it gives the user the
+[04:56:44] things. One, it gives the user the
+[04:56:44] things. One, it gives the user the visibility as to when a bit of its
+[04:56:46] visibility as to when a bit of its
+[04:56:46] visibility as to when a bit of its knowledge needs to be corrected and it
+[04:56:48] knowledge needs to be corrected and it
+[04:56:48] knowledge needs to be corrected and it also um shows them the impact of their
+[04:56:51] also um shows them the impact of their
+[04:56:51] also um shows them the impact of their contributions which encourages them to
+[04:56:53] contributions which encourages them to
+[04:56:53] contributions which encourages them to to contribute more.
+[04:56:55] to contribute more.
+[04:56:55] to contribute more. But you can't rely on just the user to
+[04:56:57] But you can't rely on just the user to
+[04:56:57] But you can't rely on just the user to correct the agent which leads us into uh
+[04:57:00] correct the agent which leads us into uh
+[04:57:00] correct the agent which leads us into uh uh lesson three which is that good
+[04:57:01] uh lesson three which is that good
+[04:57:02] uh lesson three which is that good learning agents absorb context
+[04:57:03] learning agents absorb context
+[04:57:03] learning agents absorb context continuously.
+[04:57:05] continuously.
+[04:57:05] continuously. um identify opportunities to put the
+[04:57:07] um identify opportunities to put the
+[04:57:07] um identify opportunities to put the agent in the path of real work uh
+[04:57:09] agent in the path of real work uh
+[04:57:09] agent in the path of real work uh automatically and absorb every source of
+[04:57:12] automatically and absorb every source of
+[04:57:12] automatically and absorb every source of environment specific context available
+[04:57:14] environment specific context available
+[04:57:14] environment specific context available so that learning happens ambiently and
+[04:57:16] so that learning happens ambiently and
+[04:57:16] so that learning happens ambiently and doesn't rely on the user you know
+[04:57:18] doesn't rely on the user you know
+[04:57:18] doesn't rely on the user you know calling on the agent explicitly. Um the
+[04:57:21] calling on the agent explicitly. Um the
+[04:57:21] calling on the agent explicitly. Um the richer the model of the the the richer
+[04:57:24] richer the model of the the the richer
+[04:57:24] richer the model of the the the richer the agent's model of the user's world
+[04:57:27] the agent's model of the user's world
+[04:57:27] the agent's model of the user's world the the higher the utility.
+[04:57:29] the the higher the utility.
+[04:57:30] the the higher the utility. Um and ultimately this you know all
+[04:57:32] Um and ultimately this you know all
+[04:57:32] Um and ultimately this you know all three lessons apply to this single
+[04:57:33] three lessons apply to this single
+[04:57:33] three lessons apply to this single learning loop and the current state is
+[04:57:37] learning loop and the current state is
+[04:57:37] learning loop and the current state is uh you know individuals that use
+[04:57:38] uh you know individuals that use
+[04:57:38] uh you know individuals that use stateless agents are only ever able to
+[04:57:40] stateless agents are only ever able to
+[04:57:40] stateless agents are only ever able to to um complete the first section. You
+[04:57:44] to um complete the first section. You
+[04:57:44] to um complete the first section. You use your your agent to act to do to take
+[04:57:46] use your your agent to act to do to take
+[04:57:46] use your your agent to act to do to take an action to fix a bug to develop a
+[04:57:49] an action to fix a bug to develop a
+[04:57:49] an action to fix a bug to develop a feature or even to investigate an
+[04:57:50] feature or even to investigate an
+[04:57:50] feature or even to investigate an incident. Um but the missing piece here
+[04:57:55] incident. Um but the missing piece here
+[04:57:55] incident. Um but the missing piece here is memory. It's operational memory.
+[04:57:57] is memory. It's operational memory.
+[04:57:57] is memory. It's operational memory. That's what allows you to complete the
+[04:57:59] That's what allows you to complete the
+[04:57:59] That's what allows you to complete the loop. Um,
+[04:58:02] loop. Um,
+[04:58:02] loop. Um, and uh, the the three lessons um, they
+[04:58:06] and uh, the the three lessons um, they
+[04:58:06] and uh, the the three lessons um, they all make up this this loop. You can't
+[04:58:08] all make up this this loop. You can't
+[04:58:08] all make up this this loop. You can't have uh, one lesson without the other.
+[04:58:11] have uh, one lesson without the other.
+[04:58:11] have uh, one lesson without the other. If you have um, if you make it easy to
+[04:58:14] If you have um, if you make it easy to
+[04:58:14] If you have um, if you make it easy to correct, but you don't visibly improve,
+[04:58:17] correct, but you don't visibly improve,
+[04:58:17] correct, but you don't visibly improve, then you lose the user's trust. If you
+[04:58:19] then you lose the user's trust. If you
+[04:58:19] then you lose the user's trust. If you visibly improve, but you don't am
+[04:58:21] visibly improve, but you don't am
+[04:58:22] visibly improve, but you don't am ambiently learn, then you're only ever
+[04:58:24] ambiently learn, then you're only ever
+[04:58:24] ambiently learn, then you're only ever learning from where the user directs
+[04:58:25] learning from where the user directs
+[04:58:25] learning from where the user directs you. It limits your learning. And if
+[04:58:27] you. It limits your learning. And if
+[04:58:27] you. It limits your learning. And if you're ambiently learning, but you don't
+[04:58:29] you're ambiently learning, but you don't
+[04:58:29] you're ambiently learning, but you don't allow the user to correct you, then you
+[04:58:31] allow the user to correct you, then you
+[04:58:31] allow the user to correct you, then you run the risk of compounding errors. I
+[04:58:33] run the risk of compounding errors. I
+[04:58:33] run the risk of compounding errors. I mean, think about all the dead code or
+[04:58:35] mean, think about all the dead code or
+[04:58:35] mean, think about all the dead code or the outdated documentation that's just
+[04:58:36] the outdated documentation that's just
+[04:58:36] the outdated documentation that's just laying in wait for the agent to stumble
+[04:58:38] laying in wait for the agent to stumble
+[04:58:38] laying in wait for the agent to stumble on. Um,
+[04:58:40] on. Um,
+[04:58:40] on. Um, so I would say that uh where I think
+[04:58:44] so I would say that uh where I think
+[04:58:44] so I would say that uh where I think this is going is that the uh agents that
+[04:58:48] this is going is that the uh agents that
+[04:58:48] this is going is that the uh agents that we'll be talking about uh at this
+[04:58:49] we'll be talking about uh at this
+[04:58:50] we'll be talking about uh at this conference next year will be the ones
+[04:58:51] conference next year will be the ones
+[04:58:51] conference next year will be the ones that are investing in this loop today.
+[04:58:53] that are investing in this loop today.
+[04:58:53] that are investing in this loop today. So if you are building a learning agent
+[04:58:55] So if you are building a learning agent
+[04:58:55] So if you are building a learning agent or you want to learn more, you want to
+[04:58:57] or you want to learn more, you want to
+[04:58:57] or you want to learn more, you want to trade notes, um, come talk to me. I'd
+[04:58:59] trade notes, um, come talk to me. I'd
+[04:58:59] trade notes, um, come talk to me. I'd love to talk to you. Thank you.
+[04:59:05] If there's anybody that has a question,
+[04:59:07] If there's anybody that has a question, &gt;&gt; sure.
+[04:59:08] &gt;&gt; sure.
+[04:59:08] &gt;&gt; sure. &gt;&gt; We do have time. If anybody has a
+[04:59:09] &gt;&gt; We do have time. If anybody has a
+[04:59:10] &gt;&gt; We do have time. If anybody has a question for
+[04:59:14] us,
+[04:59:18] right back here?
+[04:59:20] right back here? &gt;&gt; Yeah, of course.
+[04:59:21] &gt;&gt; Yeah, of course.
+[04:59:21] &gt;&gt; Yeah, of course. &gt;&gt; Run back. All
+[04:59:23] &gt;&gt; Run back. All
+[04:59:23] &gt;&gt; Run back. All right.
+[04:59:25] right. Be speedy. Be expeditious.
+[04:59:30] &gt;&gt; Do you think everything you're
+[04:59:31] &gt;&gt; Do you think everything you're describing can be accomplished through
+[04:59:33] describing can be accomplished through
+[04:59:33] describing can be accomplished through context engineering, or do you think you
+[04:59:35] context engineering, or do you think you
+[04:59:35] context engineering, or do you think you need to do some kind of fine-tuning or
+[04:59:37] need to do some kind of fine-tuning or
+[04:59:37] need to do some kind of fine-tuning or adjust the weights at some point?
+[04:59:39] adjust the weights at some point?
+[04:59:39] adjust the weights at some point? &gt;&gt; Uh, we're not doing any fine-tuning, so
+[04:59:43] &gt;&gt; Uh, we're not doing any fine-tuning, so
+[04:59:43] &gt;&gt; Uh, we're not doing any fine-tuning, so maybe that answers the question, but uh
+[04:59:45] maybe that answers the question, but uh
+[04:59:45] maybe that answers the question, but uh I'm
+[04:59:47] I'm
+[04:59:47] I'm Yeah, I think it's possible. Um, at
+[04:59:50] Yeah, I think it's possible. Um, at
+[04:59:50] Yeah, I think it's possible. Um, at least today. And you know, as Peter
+[04:59:52] least today. And you know, as Peter
+[04:59:52] least today. And you know, as Peter Steinberger says, these are the worst
+[04:59:54] Steinberger says, these are the worst
+[04:59:54] Steinberger says, these are the worst the models are ever going to be. Um, so
+[04:59:56] the models are ever going to be. Um, so
+[04:59:56] the models are ever going to be. Um, so I think that they will just like
+[04:59:58] I think that they will just like
+[04:59:58] I think that they will just like continue to improve over time and this
+[04:59:59] continue to improve over time and this
+[04:59:59] continue to improve over time and this will get easier. I think also the
+[05:00:01] will get easier. I think also the
+[05:00:01] will get easier. I think also the foundation models are going to be
+[05:00:03] foundation models are going to be
+[05:00:03] foundation models are going to be releasing a lot of these features and
+[05:00:04] releasing a lot of these features and
+[05:00:04] releasing a lot of these features and that we'll we'll start to see um, you
+[05:00:07] that we'll we'll start to see um, you
+[05:00:07] that we'll we'll start to see um, you know, we'll start to see these features
+[05:00:09] know, we'll start to see these features
+[05:00:09] know, we'll start to see these features being available and not just in
+[05:00:10] being available and not just in
+[05:00:10] being available and not just in specialized agents.
+[05:00:15] &gt;&gt; Oh, good. Okay. Thank you.
+[05:00:25] Thank you so much.

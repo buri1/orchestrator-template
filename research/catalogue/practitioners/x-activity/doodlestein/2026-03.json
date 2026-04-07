@@ -1,0 +1,44 @@
+{
+  "handle": "doodlestein",
+  "practitioner_ref": null,
+  "month": "2026-03",
+  "synced_at": "2026-03-12T13:00:00Z",
+  "posts": [
+    {
+      "id": "2030135382411550856",
+      "url": "https://x.com/doodlestein/status/2030135382411550856",
+      "type": "post",
+      "date": "2026-03-07",
+      "text": "Dedicate your time and money to open source. One of the nice benefits? Jealous, bad-faith losers can try to benchmark your unfinished code (that you never once claimed is done or ready for review) and then try to claim you're a charlatan. This guy should be shunned and ignored.",
+      "media": [],
+      "metrics": { "likes": 136, "retweets": 3, "replies": 46, "views": 32176, "bookmarks": 52, "quotes": 1 },
+      "links": ["https://x.com/KatanaLarp/status/2029928471632224486"],
+      "topics": ["open-source", "personal"],
+      "relevance": 3,
+      "signal_tier": "LOW",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Response to @KatanaLarp's viral benchmark post (1.89M views, 8877 bookmarks) claiming LLM-generated Rust code is slower than SQLite. Emanuel's defense: code is unfinished/unreleased and was never claimed production-ready. High engagement (32K views, 46 replies). Indirect signal: FrankenSQLite performance scrutiny in the wild."
+    },
+    {
+      "id": "2029460412731728095",
+      "url": "https://x.com/doodlestein/status/2029460412731728095",
+      "type": "reply",
+      "date": "2026-03-05",
+      "text": "@mhmazur Here's how I do it using my agent tooling:\n\nhttps://x.com/doodlestein/status/2014183464573047043?s=46",
+      "media": [],
+      "metrics": { "likes": 6, "retweets": 0, "replies": 1, "views": 1586, "bookmarks": 3, "quotes": 0 },
+      "links": ["https://x.com/doodlestein/status/2014183464573047043"],
+      "topics": ["agent-orchestration", "coding-tools"],
+      "relevance": 4,
+      "signal_tier": "MEDIUM",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Reply to @mhmazur linking to agent-flywheel planning thread. Low engagement, reply context. Low standalone value."
+    }
+  ]
+}

@@ -1,0 +1,1339 @@
+# Talk: Evals for Coding Agents - What They Are, Why They Matter
+# Speaker: Jess (BrainTrust)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 01:11:45 - 01:40:09
+# Lines: 1332
+
+[01:11:45] Please give a warm welcome to Jess from
+[01:11:45] Please give a warm welcome to Jess from Brain Trust.
+[01:11:55] &gt;&gt; Awesome.
+[01:11:57] &gt;&gt; Awesome. All right. Hi everyone. Um, so I'm Jess
+[01:12:01] All right. Hi everyone. Um, so I'm Jess
+[01:12:01] All right. Hi everyone. Um, so I'm Jess from Brain Trust. Um, I'm a bit shorter,
+[01:12:03] from Brain Trust. Um, I'm a bit shorter,
+[01:12:03] from Brain Trust. Um, I'm a bit shorter, so I'm just going to stand over here.
+[01:12:05] so I'm just going to stand over here.
+[01:12:05] so I'm just going to stand over here. Um,
+[01:12:07] Um, so, um, Brain Trust is a platform that
+[01:12:10] so, um, Brain Trust is a platform that
+[01:12:10] so, um, Brain Trust is a platform that lets you do observability and eval
+[01:12:13] lets you do observability and eval
+[01:12:13] lets you do observability and eval tooling. So, pretty much in this talk,
+[01:12:15] tooling. So, pretty much in this talk,
+[01:12:15] tooling. So, pretty much in this talk, I'm going to talk about, um, what eval
+[01:12:17] I'm going to talk about, um, what eval
+[01:12:17] I'm going to talk about, um, what eval are, why they're important, and then
+[01:12:19] are, why they're important, and then
+[01:12:19] are, why they're important, and then I'll talk through a real life pretty
+[01:12:22] I'll talk through a real life pretty
+[01:12:22] I'll talk through a real life pretty complex eval that we ran a couple weeks
+[01:12:23] complex eval that we ran a couple weeks
+[01:12:23] complex eval that we ran a couple weeks ago.
+[01:12:25] ago.
+[01:12:25] ago. Um, okay. So, I have been in legitimate
+[01:12:28] Um, okay. So, I have been in legitimate
+[01:12:28] Um, okay. So, I have been in legitimate calls where um teams have told me that
+[01:12:31] calls where um teams have told me that
+[01:12:31] calls where um teams have told me that they've shipped AI features um either
+[01:12:34] they've shipped AI features um either
+[01:12:34] they've shipped AI features um either one because the engineering team told
+[01:12:36] one because the engineering team told
+[01:12:36] one because the engineering team told them that it was ready um or a PM tried
+[01:12:40] them that it was ready um or a PM tried
+[01:12:40] them that it was ready um or a PM tried a couple of prompts and they said it
+[01:12:41] a couple of prompts and they said it
+[01:12:42] a couple of prompts and they said it looked good. Um that's very problematic
+[01:12:45] looked good. Um that's very problematic
+[01:12:45] looked good. Um that's very problematic uh because you're essentially making
+[01:12:47] uh because you're essentially making
+[01:12:47] uh because you're essentially making ship decisions based off of vibes, which
+[01:12:49] ship decisions based off of vibes, which
+[01:12:50] ship decisions based off of vibes, which is not good. Um, ideally, uh, you would
+[01:12:53] is not good. Um, ideally, uh, you would
+[01:12:53] is not good. Um, ideally, uh, you would like to be able to quantify when you're
+[01:12:55] like to be able to quantify when you're
+[01:12:55] like to be able to quantify when you're shipping, uh, by saying things like, "We
+[01:12:58] shipping, uh, by saying things like, "We
+[01:12:58] shipping, uh, by saying things like, "We ran 200 different test cases and 94% of
+[01:13:02] ran 200 different test cases and 94% of
+[01:13:02] ran 200 different test cases and 94% of them passed and so therefore we're
+[01:13:03] them passed and so therefore we're
+[01:13:03] them passed and so therefore we're shipping it." Or, um, to be able to say
+[01:13:06] shipping it." Or, um, to be able to say
+[01:13:06] shipping it." Or, um, to be able to say nuance things like, um, we shipped this
+[01:13:09] nuance things like, um, we shipped this
+[01:13:09] nuance things like, um, we shipped this change and it improved the tone but
+[01:13:12] change and it improved the tone but
+[01:13:12] change and it improved the tone but decreased accuracy by 5%.
+[01:13:16] decreased accuracy by 5%.
+[01:13:16] decreased accuracy by 5%. This is why eval are important.
+[01:13:18] This is why eval are important.
+[01:13:18] This is why eval are important. Actually, can I get a raise of hands of
+[01:13:20] Actually, can I get a raise of hands of
+[01:13:20] Actually, can I get a raise of hands of how many people have heard just the term
+[01:13:21] how many people have heard just the term
+[01:13:22] how many people have heard just the term evals or Okay, good. Okay, glad. Glad
+[01:13:25] evals or Okay, good. Okay, glad. Glad
+[01:13:25] evals or Okay, good. Okay, glad. Glad we're on the same page. Um, okay. So,
+[01:13:28] we're on the same page. Um, okay. So,
+[01:13:28] we're on the same page. Um, okay. So, evals are important for a couple of
+[01:13:29] evals are important for a couple of
+[01:13:29] evals are important for a couple of reasons. They can answer questions. So,
+[01:13:31] reasons. They can answer questions. So,
+[01:13:31] reasons. They can answer questions. So, which LLM is the best choice for our
+[01:13:33] which LLM is the best choice for our
+[01:13:33] which LLM is the best choice for our needs. Um, especially when new models
+[01:13:36] needs. Um, especially when new models
+[01:13:36] needs. Um, especially when new models drop. This is always a big question in
+[01:13:37] drop. This is always a big question in
+[01:13:37] drop. This is always a big question in our minds. Um, how does the AI perform
+[01:13:40] our minds. Um, how does the AI perform
+[01:13:40] our minds. Um, how does the AI perform across diverse real world scenarios? So,
+[01:13:43] across diverse real world scenarios? So,
+[01:13:43] across diverse real world scenarios? So, for example, it could perform really
+[01:13:45] for example, it could perform really
+[01:13:46] for example, it could perform really well on Python code bases but not
+[01:13:48] well on Python code bases but not
+[01:13:48] well on Python code bases but not TypeScript code bases. Um, it could do
+[01:13:50] TypeScript code bases. Um, it could do
+[01:13:50] TypeScript code bases. Um, it could do really well with English inputs but not
+[01:13:52] really well with English inputs but not
+[01:13:52] really well with English inputs but not Japanese. Uh, cost efficiency. Can we
+[01:13:55] Japanese. Uh, cost efficiency. Can we
+[01:13:55] Japanese. Uh, cost efficiency. Can we achieve high performance without
+[01:13:57] achieve high performance without
+[01:13:57] achieve high performance without excessive costs? Um, does the AI
+[01:13:59] excessive costs? Um, does the AI
+[01:13:59] excessive costs? Um, does the AI reliably reflect our company's voice and
+[01:14:02] reliably reflect our company's voice and
+[01:14:02] reliably reflect our company's voice and standards? Are we learning from users in
+[01:14:05] standards? Are we learning from users in
+[01:14:05] standards? Are we learning from users in improving iteratively? And how do we
+[01:14:07] improving iteratively? And how do we
+[01:14:07] improving iteratively? And how do we know when something breaks or gets
+[01:14:09] know when something breaks or gets
+[01:14:09] know when something breaks or gets worse?
+[01:14:11] worse?
+[01:14:11] worse? Um actually this is a really interesting
+[01:14:14] Um actually this is a really interesting
+[01:14:14] Um actually this is a really interesting real world scenario that happened. So in
+[01:14:17] real world scenario that happened. So in
+[01:14:17] real world scenario that happened. So in April of 2025, so about a year ago, um
+[01:14:21] April of 2025, so about a year ago, um
+[01:14:21] April of 2025, so about a year ago, um OpenAI actually had to revert an entire
+[01:14:23] OpenAI actually had to revert an entire
+[01:14:23] OpenAI actually had to revert an entire model update um because the changes that
+[01:14:26] model update um because the changes that
+[01:14:26] model update um because the changes that they made um to make it more helpful
+[01:14:29] they made um to make it more helpful
+[01:14:29] they made um to make it more helpful actually made it too agreeable and
+[01:14:31] actually made it too agreeable and
+[01:14:31] actually made it too agreeable and therefore not very useful. Um and so
+[01:14:34] therefore not very useful. Um and so
+[01:14:34] therefore not very useful. Um and so this is an example of when it's very
+[01:14:37] this is an example of when it's very
+[01:14:38] this is an example of when it's very easy to overtrain models. Um and so you
+[01:14:40] easy to overtrain models. Um and so you
+[01:14:40] easy to overtrain models. Um and so you want to be able to catch these nuances
+[01:14:43] want to be able to catch these nuances
+[01:14:43] want to be able to catch these nuances early on.
+[01:14:45] early on.
+[01:14:45] early on. Okay. So there are four major parts to
+[01:14:49] Okay. So there are four major parts to
+[01:14:49] Okay. So there are four major parts to kind of creating an eval. The first is
+[01:14:51] kind of creating an eval. The first is
+[01:14:51] kind of creating an eval. The first is you have to create a data set. So a data
+[01:14:53] you have to create a data set. So a data
+[01:14:53] you have to create a data set. So a data set is going to be a collection of test
+[01:14:55] set is going to be a collection of test
+[01:14:55] set is going to be a collection of test cases that you are going to pass into
+[01:14:57] cases that you are going to pass into
+[01:14:57] cases that you are going to pass into your system. Um these are usually going
+[01:14:59] your system. Um these are usually going
+[01:14:59] your system. Um these are usually going to be um your golden use cases, your
+[01:15:03] to be um your golden use cases, your
+[01:15:03] to be um your golden use cases, your edge cases and then failure modes.
+[01:15:06] edge cases and then failure modes.
+[01:15:06] edge cases and then failure modes. Um then you need to write a task. So a
+[01:15:10] Um then you need to write a task. So a
+[01:15:10] Um then you need to write a task. So a task is going to essentially tell your
+[01:15:12] task is going to essentially tell your
+[01:15:12] task is going to essentially tell your system how you want it to behave when it
+[01:15:14] system how you want it to behave when it
+[01:15:14] system how you want it to behave when it takes in an input and gives you an
+[01:15:16] takes in an input and gives you an
+[01:15:16] takes in an input and gives you an output. So this is usually in the form
+[01:15:19] output. So this is usually in the form
+[01:15:19] output. So this is usually in the form of a prompt and then also picking a
+[01:15:21] of a prompt and then also picking a
+[01:15:21] of a prompt and then also picking a specific model to do this task with.
+[01:15:24] specific model to do this task with.
+[01:15:24] specific model to do this task with. Uh then you want to write a scoring
+[01:15:27] Uh then you want to write a scoring
+[01:15:27] Uh then you want to write a scoring system. So, um, for your scoring system,
+[01:15:31] system. So, um, for your scoring system,
+[01:15:31] system. So, um, for your scoring system, essentially, it is what tells you
+[01:15:33] essentially, it is what tells you
+[01:15:33] essentially, it is what tells you whether the, um, AI's output is good or
+[01:15:37] whether the, um, AI's output is good or
+[01:15:37] whether the, um, AI's output is good or bad. Um, there's a couple, if you've
+[01:15:38] bad. Um, there's a couple, if you've
+[01:15:38] bad. Um, there's a couple, if you've heard of them before, there's
+[01:15:39] heard of them before, there's
+[01:15:39] heard of them before, there's deterministic scoring, there's LM as a
+[01:15:41] deterministic scoring, there's LM as a
+[01:15:41] deterministic scoring, there's LM as a judge, and there's human and review. Um,
+[01:15:43] judge, and there's human and review. Um,
+[01:15:43] judge, and there's human and review. Um, but essentially you, who are writing the
+[01:15:46] but essentially you, who are writing the
+[01:15:46] but essentially you, who are writing the scorer is, um, defining the criteria of
+[01:15:50] scorer is, um, defining the criteria of
+[01:15:50] scorer is, um, defining the criteria of what comprises what good and bad is.
+[01:15:54] what comprises what good and bad is.
+[01:15:54] what comprises what good and bad is. And then the last thing is you want to
+[01:15:56] And then the last thing is you want to
+[01:15:56] And then the last thing is you want to experiment. This is the most fun part
+[01:15:59] experiment. This is the most fun part
+[01:15:59] experiment. This is the most fun part but essentially um one run of this
+[01:16:01] but essentially um one run of this
+[01:16:01] but essentially um one run of this specific configuration of your data set
+[01:16:04] specific configuration of your data set
+[01:16:04] specific configuration of your data set your task and your score is equal to one
+[01:16:07] your task and your score is equal to one
+[01:16:07] your task and your score is equal to one experiment run. So as you are testing
+[01:16:09] experiment run. So as you are testing
+[01:16:09] experiment run. So as you are testing out different hypothesis and um trying
+[01:16:12] out different hypothesis and um trying
+[01:16:12] out different hypothesis and um trying to tweak things in your system these
+[01:16:14] to tweak things in your system these
+[01:16:14] to tweak things in your system these will all turn into different experiment
+[01:16:16] will all turn into different experiment
+[01:16:16] will all turn into different experiment runs.
+[01:16:18] runs.
+[01:16:18] runs. So then once you have a bunch of
+[01:16:20] So then once you have a bunch of
+[01:16:20] So then once you have a bunch of experiments um you can actually start to
+[01:16:23] experiments um you can actually start to
+[01:16:23] experiments um you can actually start to compare them. So um you can essentially
+[01:16:26] compare them. So um you can essentially
+[01:16:26] compare them. So um you can essentially see if there are any regressions or
+[01:16:29] see if there are any regressions or
+[01:16:29] see if there are any regressions or improvements across your experiment
+[01:16:31] improvements across your experiment
+[01:16:31] improvements across your experiment runs. Um and you can also click into
+[01:16:34] runs. Um and you can also click into
+[01:16:34] runs. Um and you can also click into individual rows to see which test cases
+[01:16:37] individual rows to see which test cases
+[01:16:37] individual rows to see which test cases have changed.
+[01:16:39] have changed.
+[01:16:39] have changed. Uh brain trust also has a feature called
+[01:16:42] Uh brain trust also has a feature called
+[01:16:42] Uh brain trust also has a feature called loop which um allows you to query your
+[01:16:46] loop which um allows you to query your
+[01:16:46] loop which um allows you to query your experiments using natural language. So,
+[01:16:49] experiments using natural language. So,
+[01:16:49] experiments using natural language. So, um, essentially I can ask it, um,
+[01:16:51] um, essentially I can ask it, um,
+[01:16:51] um, essentially I can ask it, um, highlight problems in my experiments or
+[01:16:54] highlight problems in my experiments or
+[01:16:54] highlight problems in my experiments or highlight specific patterns that you're
+[01:16:55] highlight specific patterns that you're
+[01:16:55] highlight specific patterns that you're seeing in my experiments or if you ran a
+[01:16:58] seeing in my experiments or if you ran a
+[01:16:58] seeing in my experiments or if you ran a bunch of different experiments, you can
+[01:16:59] bunch of different experiments, you can
+[01:16:59] bunch of different experiments, you can ask it which experiment performed the
+[01:17:01] ask it which experiment performed the
+[01:17:01] ask it which experiment performed the best. Um, I was honestly really
+[01:17:04] best. Um, I was honestly really
+[01:17:04] best. Um, I was honestly really skeptical of Loop when I joined the
+[01:17:06] skeptical of Loop when I joined the
+[01:17:06] skeptical of Loop when I joined the company, but I use it a lot now. Um,
+[01:17:09] company, but I use it a lot now. Um,
+[01:17:09] company, but I use it a lot now. Um, mostly because traces like long traces
+[01:17:12] mostly because traces like long traces
+[01:17:12] mostly because traces like long traces of like like an LLM does a bunch of
+[01:17:14] of like like an LLM does a bunch of
+[01:17:14] of like like an LLM does a bunch of turns and it hallucinates or it drifts
+[01:17:16] turns and it hallucinates or it drifts
+[01:17:16] turns and it hallucinates or it drifts is really really hard to manually read
+[01:17:19] is really really hard to manually read
+[01:17:19] is really really hard to manually read through. Um, and so I find that lube is
+[01:17:21] through. Um, and so I find that lube is
+[01:17:21] through. Um, and so I find that lube is just better. It's faster than what I can
+[01:17:23] just better. It's faster than what I can
+[01:17:23] just better. It's faster than what I can do and it's better at detecting these
+[01:17:24] do and it's better at detecting these
+[01:17:24] do and it's better at detecting these patterns than I can. Um, yeah.
+[01:17:29] patterns than I can. Um, yeah.
+[01:17:29] patterns than I can. Um, yeah. Uh, and then the last thing is you can
+[01:17:31] Uh, and then the last thing is you can
+[01:17:31] Uh, and then the last thing is you can log. So you can just wrap your code
+[01:17:33] log. So you can just wrap your code
+[01:17:33] log. So you can just wrap your code using the brain trust SDK and you can
+[01:17:35] using the brain trust SDK and you can
+[01:17:35] using the brain trust SDK and you can start to get live production logs.
+[01:17:38] start to get live production logs.
+[01:17:38] start to get live production logs. So the way that we chain this all
+[01:17:41] So the way that we chain this all
+[01:17:41] So the way that we chain this all together is um essentially you have some
+[01:17:44] together is um essentially you have some
+[01:17:44] together is um essentially you have some sort of application. So for example,
+[01:17:46] sort of application. So for example,
+[01:17:46] sort of application. So for example, let's say it's a documentation page with
+[01:17:50] let's say it's a documentation page with
+[01:17:50] let's say it's a documentation page with um a chatbot on the side where people
+[01:17:52] um a chatbot on the side where people
+[01:17:52] um a chatbot on the side where people can ask questions about documentation.
+[01:17:54] can ask questions about documentation.
+[01:17:54] can ask questions about documentation. Um so what happens is you have users or
+[01:17:57] Um so what happens is you have users or
+[01:17:57] Um so what happens is you have users or customers that use the chat bot or the
+[01:18:00] customers that use the chat bot or the
+[01:18:00] customers that use the chat bot or the chat panel. Um, and so they um you start
+[01:18:03] chat panel. Um, and so they um you start
+[01:18:03] chat panel. Um, and so they um you start to get live production logs that have
+[01:18:05] to get live production logs that have
+[01:18:05] to get live production logs that have the uh user question as well as what the
+[01:18:08] the uh user question as well as what the
+[01:18:08] the uh user question as well as what the LLM responded with. Um, and then
+[01:18:10] LLM responded with. Um, and then
+[01:18:10] LLM responded with. Um, and then whatever metadata that you want to um
+[01:18:13] whatever metadata that you want to um
+[01:18:13] whatever metadata that you want to um pass into those logs as well. Um, then
+[01:18:16] pass into those logs as well. Um, then
+[01:18:16] pass into those logs as well. Um, then you can take those logs and sample um 10
+[01:18:19] you can take those logs and sample um 10
+[01:18:19] you can take those logs and sample um 10 to 20% of them depending on how much
+[01:18:21] to 20% of them depending on how much
+[01:18:22] to 20% of them depending on how much traffic you're getting in production and
+[01:18:24] traffic you're getting in production and
+[01:18:24] traffic you're getting in production and turn that into a data set. Um, using
+[01:18:27] turn that into a data set. Um, using
+[01:18:27] turn that into a data set. Um, using that data set then you can start to
+[01:18:29] that data set then you can start to
+[01:18:29] that data set then you can start to write evals. So you can start to tweak
+[01:18:31] write evals. So you can start to tweak
+[01:18:31] write evals. So you can start to tweak the data set or tweak your score or
+[01:18:33] the data set or tweak your score or
+[01:18:34] the data set or tweak your score or tweak your prompt. Um and you might try
+[01:18:36] tweak your prompt. Um and you might try
+[01:18:36] tweak your prompt. Um and you might try to write a prompt that is more concise
+[01:18:39] to write a prompt that is more concise
+[01:18:39] to write a prompt that is more concise or you want the AI to answer more
+[01:18:41] or you want the AI to answer more
+[01:18:41] or you want the AI to answer more enthusiastically um or things like that.
+[01:18:43] enthusiastically um or things like that.
+[01:18:43] enthusiastically um or things like that. Whatever you and your team um think is
+[01:18:47] Whatever you and your team um think is
+[01:18:47] Whatever you and your team um think is correct for a response. Uh, and then
+[01:18:49] correct for a response. Uh, and then
+[01:18:49] correct for a response. Uh, and then based off of how the eval do and what
+[01:18:51] based off of how the eval do and what
+[01:18:51] based off of how the eval do and what you learn from them, um, you will then
+[01:18:53] you learn from them, um, you will then
+[01:18:53] you learn from them, um, you will then bring that back into the app and ship
+[01:18:55] bring that back into the app and ship
+[01:18:55] bring that back into the app and ship code changes and tweak the app, uh,
+[01:18:57] code changes and tweak the app, uh,
+[01:18:57] code changes and tweak the app, uh, based off of what you learned from the
+[01:18:58] based off of what you learned from the
+[01:18:58] based off of what you learned from the evals. So that's usually how it works in
+[01:19:01] evals. So that's usually how it works in
+[01:19:01] evals. So that's usually how it works in a loop.
+[01:19:04] a loop.
+[01:19:04] a loop. Um, if you are the type of person who's
+[01:19:07] Um, if you are the type of person who's
+[01:19:07] Um, if you are the type of person who's taking pictures on your phone, this is
+[01:19:08] taking pictures on your phone, this is
+[01:19:08] taking pictures on your phone, this is the best slide in the deck. So
+[01:19:12] the best slide in the deck. So
+[01:19:12] the best slide in the deck. So it's the one slide I did not make. So um
+[01:19:15] it's the one slide I did not make. So um
+[01:19:16] it's the one slide I did not make. So um but I my co-orker made this slide and
+[01:19:18] but I my co-orker made this slide and
+[01:19:18] but I my co-orker made this slide and it's just so good that our entire team
+[01:19:20] it's just so good that our entire team
+[01:19:20] it's just so good that our entire team has been using it over and over again.
+[01:19:22] has been using it over and over again.
+[01:19:22] has been using it over and over again. Uh so eval are a team sport. Um I really
+[01:19:24] Uh so eval are a team sport. Um I really
+[01:19:24] Uh so eval are a team sport. Um I really like this. Uh eval uh on the right you
+[01:19:27] like this. Uh eval uh on the right you
+[01:19:27] like this. Uh eval uh on the right you can see they comprise of a lot of
+[01:19:29] can see they comprise of a lot of
+[01:19:29] can see they comprise of a lot of different steps. If you've ever done an
+[01:19:30] different steps. If you've ever done an
+[01:19:30] different steps. If you've ever done an eval before you'll understand that it's
+[01:19:32] eval before you'll understand that it's
+[01:19:32] eval before you'll understand that it's a living breathing machine and it
+[01:19:35] a living breathing machine and it
+[01:19:35] a living breathing machine and it requires a lot of um components. So um
+[01:19:39] requires a lot of um components. So um
+[01:19:39] requires a lot of um components. So um you have like the AI engineer engineer
+[01:19:41] you have like the AI engineer engineer
+[01:19:41] you have like the AI engineer engineer that is bringing data to the platform as
+[01:19:43] that is bringing data to the platform as
+[01:19:44] that is bringing data to the platform as well as obviously making the uh bug
+[01:19:46] well as obviously making the uh bug
+[01:19:46] well as obviously making the uh bug changes and feature uh feature changes
+[01:19:49] changes and feature uh feature changes
+[01:19:49] changes and feature uh feature changes as well. Um then you have the product
+[01:19:52] as well. Um then you have the product
+[01:19:52] as well. Um then you have the product manager um who uh
+[01:19:56] manager um who uh
+[01:19:56] manager um who uh you know if you work at kilo codes might
+[01:19:58] you know if you work at kilo codes might
+[01:19:58] you know if you work at kilo codes might just be the same as engineer because
+[01:19:59] just be the same as engineer because
+[01:19:59] just be the same as engineer because they don't believe in product managers
+[01:20:01] they don't believe in product managers
+[01:20:01] they don't believe in product managers but um I mean the sorry that was not
+[01:20:04] but um I mean the sorry that was not
+[01:20:04] but um I mean the sorry that was not that did not that came out aggressive.
+[01:20:07] that did not that came out aggressive.
+[01:20:07] that did not that came out aggressive. Um but like they could be the same thing
+[01:20:10] Um but like they could be the same thing
+[01:20:10] Um but like they could be the same thing which is totally fine. Um but they are
+[01:20:12] which is totally fine. Um but they are
+[01:20:12] which is totally fine. Um but they are the people who develop hypotheses or um
+[01:20:15] the people who develop hypotheses or um
+[01:20:15] the people who develop hypotheses or um also tell you what the success criteria
+[01:20:18] also tell you what the success criteria
+[01:20:18] also tell you what the success criteria is. Um then you have subject matter
+[01:20:20] is. Um then you have subject matter
+[01:20:20] is. Um then you have subject matter experts um who help label the data or
+[01:20:23] experts um who help label the data or
+[01:20:23] experts um who help label the data or tweak the prompt. Um this is especially
+[01:20:26] tweak the prompt. Um this is especially
+[01:20:26] tweak the prompt. Um this is especially useful um I've seen in like medicine
+[01:20:28] useful um I've seen in like medicine
+[01:20:28] useful um I've seen in like medicine fields or law fields or insurance fields
+[01:20:31] fields or law fields or insurance fields
+[01:20:31] fields or law fields or insurance fields where they are very niche subsets of
+[01:20:33] where they are very niche subsets of
+[01:20:34] where they are very niche subsets of knowledge and you need subject matter
+[01:20:35] knowledge and you need subject matter
+[01:20:35] knowledge and you need subject matter experts to help you like label data. Uh
+[01:20:38] experts to help you like label data. Uh
+[01:20:38] experts to help you like label data. Uh and then you have data analysts that
+[01:20:40] and then you have data analysts that
+[01:20:40] and then you have data analysts that help you um define the scores and
+[01:20:43] help you um define the scores and
+[01:20:43] help you um define the scores and obviously analyze data. So eval are a
+[01:20:46] obviously analyze data. So eval are a
+[01:20:46] obviously analyze data. So eval are a team sport.
+[01:20:48] team sport.
+[01:20:48] team sport. Okay. So now that we've kind of gone
+[01:20:51] Okay. So now that we've kind of gone
+[01:20:52] Okay. So now that we've kind of gone through a lot of the concepts of evals,
+[01:20:54] through a lot of the concepts of evals,
+[01:20:54] through a lot of the concepts of evals, um I thought it would be interesting to
+[01:20:56] um I thought it would be interesting to
+[01:20:56] um I thought it would be interesting to uh tie it to a real life scenario, a
+[01:20:58] uh tie it to a real life scenario, a
+[01:20:58] uh tie it to a real life scenario, a real life eval. Um so I wanted to talk
+[01:21:02] real life eval. Um so I wanted to talk
+[01:21:02] real life eval. Um so I wanted to talk about an eval that I ran to measure
+[01:21:05] about an eval that I ran to measure
+[01:21:05] about an eval that I ran to measure which one is better, a gentic search or
+[01:21:07] which one is better, a gentic search or
+[01:21:07] which one is better, a gentic search or vector search.
+[01:21:09] vector search.
+[01:21:09] vector search. Uh this was actually an idea from our
+[01:21:11] Uh this was actually an idea from our
+[01:21:11] Uh this was actually an idea from our CEO Anker. Um he often pings me with
+[01:21:15] CEO Anker. Um he often pings me with
+[01:21:15] CEO Anker. Um he often pings me with things I should eval. I do ignore him
+[01:21:17] things I should eval. I do ignore him
+[01:21:18] things I should eval. I do ignore him about 99% of the time. But this one was
+[01:21:21] about 99% of the time. But this one was
+[01:21:21] about 99% of the time. But this one was interesting. So he is on Twitter a lot.
+[01:21:23] interesting. So he is on Twitter a lot.
+[01:21:23] interesting. So he is on Twitter a lot. Um and he sent our Slack channel this
+[01:21:25] Um and he sent our Slack channel this
+[01:21:25] Um and he sent our Slack channel this article from Cursor um talking about how
+[01:21:28] article from Cursor um talking about how
+[01:21:28] article from Cursor um talking about how um they use semantic search also know I
+[01:21:31] um they use semantic search also know I
+[01:21:31] um they use semantic search also know I call it agentic search um to
+[01:21:33] call it agentic search um to
+[01:21:33] call it agentic search um to significantly improve their coding agent
+[01:21:35] significantly improve their coding agent
+[01:21:35] significantly improve their coding agent experience or performance. Um and uh
+[01:21:39] experience or performance. Um and uh
+[01:21:39] experience or performance. Um and uh after a quick search online I did see
+[01:21:41] after a quick search online I did see
+[01:21:41] after a quick search online I did see there was a lot of discourse about
+[01:21:42] there was a lot of discourse about
+[01:21:42] there was a lot of discourse about whether aentic search or vector search
+[01:21:44] whether aentic search or vector search
+[01:21:44] whether aentic search or vector search was better. Um, and I just thought it
+[01:21:46] was better. Um, and I just thought it
+[01:21:46] was better. Um, and I just thought it would be an interesting thing to
+[01:21:47] would be an interesting thing to
+[01:21:48] would be an interesting thing to independently eval. So, we did that.
+[01:21:51] independently eval. So, we did that.
+[01:21:51] independently eval. So, we did that. Um, okay. So, because we were comparing
+[01:21:53] Um, okay. So, because we were comparing
+[01:21:54] Um, okay. So, because we were comparing aentic search and vector search, I just
+[01:21:55] aentic search and vector search, I just
+[01:21:55] aentic search and vector search, I just thought it'd be good to get us all on
+[01:21:57] thought it'd be good to get us all on
+[01:21:57] thought it'd be good to get us all on the same page about what vector search
+[01:21:59] the same page about what vector search
+[01:21:59] the same page about what vector search is. So, um, vector search is essentially
+[01:22:02] is. So, um, vector search is essentially
+[01:22:02] is. So, um, vector search is essentially the process of converting data uh like
+[01:22:05] the process of converting data uh like
+[01:22:05] the process of converting data uh like text or code into numerical
+[01:22:09] text or code into numerical
+[01:22:09] text or code into numerical representations called embeddings. Uh,
+[01:22:11] representations called embeddings. Uh,
+[01:22:11] representations called embeddings. Uh, these embeddings capture semantic
+[01:22:13] these embeddings capture semantic
+[01:22:13] these embeddings capture semantic meaning. So similar items will live
+[01:22:16] meaning. So similar items will live
+[01:22:16] meaning. So similar items will live closer together in a very
+[01:22:18] closer together in a very
+[01:22:18] closer together in a very highdimensional space. So if you look at
+[01:22:20] highdimensional space. So if you look at
+[01:22:20] highdimensional space. So if you look at the chart on the right, you'll see that
+[01:22:23] the chart on the right, you'll see that
+[01:22:23] the chart on the right, you'll see that um words like wild west and broncos are
+[01:22:25] um words like wild west and broncos are
+[01:22:26] um words like wild west and broncos are close together. Uh basketball and soccer
+[01:22:28] close together. Uh basketball and soccer
+[01:22:28] close together. Uh basketball and soccer are close together and antelope and
+[01:22:30] are close together and antelope and
+[01:22:30] are close together and antelope and wildbeast are close together. Um
+[01:22:32] wildbeast are close together. Um
+[01:22:32] wildbeast are close together. Um obviously this is a 2D representation,
+[01:22:34] obviously this is a 2D representation,
+[01:22:34] obviously this is a 2D representation, but you can kind of imagine this in an
+[01:22:36] but you can kind of imagine this in an
+[01:22:36] but you can kind of imagine this in an nspace dimension. Um and then what
+[01:22:40] nspace dimension. Um and then what
+[01:22:40] nspace dimension. Um and then what happens is that these embeddings get
+[01:22:42] happens is that these embeddings get
+[01:22:42] happens is that these embeddings get chunked up and stored into aector
+[01:22:44] chunked up and stored into aector
+[01:22:44] chunked up and stored into aector database like pine cone. Um so for
+[01:22:47] database like pine cone. Um so for
+[01:22:48] database like pine cone. Um so for example if I were to ask uh where does
+[01:22:50] example if I were to ask uh where does
+[01:22:50] example if I were to ask uh where does the database logic in my codebase live?
+[01:22:53] the database logic in my codebase live?
+[01:22:53] the database logic in my codebase live? Um essentially my codebase would be
+[01:22:56] Um essentially my codebase would be
+[01:22:56] Um essentially my codebase would be vectorzed and embedded and stored into
+[01:22:58] vectorzed and embedded and stored into
+[01:22:58] vectorzed and embedded and stored into my vector DB. Uh and then the vector DB
+[01:23:01] my vector DB. Uh and then the vector DB
+[01:23:01] my vector DB. Uh and then the vector DB would find the closest embeddings that
+[01:23:03] would find the closest embeddings that
+[01:23:03] would find the closest embeddings that match my query. So words like database
+[01:23:06] match my query. So words like database
+[01:23:06] match my query. So words like database or logic.
+[01:23:09] or logic.
+[01:23:09] or logic. Okay. So then what is agentic search? Um
+[01:23:12] Okay. So then what is agentic search? Um
+[01:23:12] Okay. So then what is agentic search? Um also known as semantic search. Um so
+[01:23:14] also known as semantic search. Um so
+[01:23:14] also known as semantic search. Um so agentic search is what tools like cloud
+[01:23:16] agentic search is what tools like cloud
+[01:23:16] agentic search is what tools like cloud code uses. Um and essentially what
+[01:23:19] code uses. Um and essentially what
+[01:23:19] code uses. Um and essentially what happens is the LLM has access to CLI uh
+[01:23:23] happens is the LLM has access to CLI uh
+[01:23:23] happens is the LLM has access to CLI uh command tools like GP or find ls cat
+[01:23:26] command tools like GP or find ls cat
+[01:23:26] command tools like GP or find ls cat things like that. And it basically reads
+[01:23:30] things like that. And it basically reads
+[01:23:30] things like that. And it basically reads the code very similar to how a human
+[01:23:33] the code very similar to how a human
+[01:23:33] the code very similar to how a human would. Um, so it would search for a
+[01:23:36] would. Um, so it would search for a
+[01:23:36] would. Um, so it would search for a function name, open the file, read the
+[01:23:38] function name, open the file, read the
+[01:23:38] function name, open the file, read the file, sees that the file calls another
+[01:23:41] file, sees that the file calls another
+[01:23:41] file, sees that the file calls another piece of logic or another function, uh,
+[01:23:43] piece of logic or another function, uh,
+[01:23:43] piece of logic or another function, uh, and then follow that reference and
+[01:23:45] and then follow that reference and
+[01:23:45] and then follow that reference and repeat until it finds whatever it needs
+[01:23:47] repeat until it finds whatever it needs
+[01:23:47] repeat until it finds whatever it needs to. So it's more like how a real human
+[01:23:49] to. So it's more like how a real human
+[01:23:49] to. So it's more like how a real human would act. So that's the difference
+[01:23:52] would act. So that's the difference
+[01:23:52] would act. So that's the difference between agentic and vector search.
+[01:23:54] between agentic and vector search.
+[01:23:54] between agentic and vector search. Okay, so now that we understand the
+[01:23:57] Okay, so now that we understand the
+[01:23:57] Okay, so now that we understand the differences, um, let's build an eval to
+[01:24:00] differences, um, let's build an eval to
+[01:24:00] differences, um, let's build an eval to see which one worked better or works
+[01:24:02] see which one worked better or works
+[01:24:02] see which one worked better or works better.
+[01:24:03] better.
+[01:24:03] better. Um okay so for this uh experiment design
+[01:24:06] Um okay so for this uh experiment design
+[01:24:06] Um okay so for this uh experiment design I created um two different data sets. So
+[01:24:10] I created um two different data sets. So
+[01:24:10] I created um two different data sets. So the first one uh was using Microsoft's
+[01:24:13] the first one uh was using Microsoft's
+[01:24:13] the first one uh was using Microsoft's TypeScript Go repo. Uh essentially what
+[01:24:16] TypeScript Go repo. Uh essentially what
+[01:24:16] TypeScript Go repo. Uh essentially what we did is we pulled merged PRs from that
+[01:24:19] we did is we pulled merged PRs from that
+[01:24:20] we did is we pulled merged PRs from that codebase. Um anything with the word fix
+[01:24:23] codebase. Um anything with the word fix
+[01:24:23] codebase. Um anything with the word fix in the title. Uh and then from there we
+[01:24:26] in the title. Uh and then from there we
+[01:24:26] in the title. Uh and then from there we checked out the parent commit so that
+[01:24:29] checked out the parent commit so that
+[01:24:29] checked out the parent commit so that the codebase was in a known buggy state
+[01:24:32] the codebase was in a known buggy state
+[01:24:32] the codebase was in a known buggy state essentially before the fix. Um and then
+[01:24:34] essentially before the fix. Um and then
+[01:24:34] essentially before the fix. Um and then we used claude to synthesize a bug
+[01:24:37] we used claude to synthesize a bug
+[01:24:38] we used claude to synthesize a bug description for that PR diff. So
+[01:24:40] description for that PR diff. So
+[01:24:40] description for that PR diff. So essentially we're trying to get like a
+[01:24:42] essentially we're trying to get like a
+[01:24:42] essentially we're trying to get like a format like a linear task or like bug
+[01:24:44] format like a linear task or like bug
+[01:24:44] format like a linear task or like bug ticket. Uh and that way we can uh pass
+[01:24:47] ticket. Uh and that way we can uh pass
+[01:24:47] ticket. Uh and that way we can uh pass it into the agent and tell it to find
+[01:24:50] it into the agent and tell it to find
+[01:24:50] it into the agent and tell it to find the bug and fix it. Uh, and then we used
+[01:24:52] the bug and fix it. Uh, and then we used
+[01:24:52] the bug and fix it. Uh, and then we used the Go test suite um, as kind of our
+[01:24:56] the Go test suite um, as kind of our
+[01:24:56] the Go test suite um, as kind of our like if it passes the Go test suite,
+[01:24:58] like if it passes the Go test suite,
+[01:24:58] like if it passes the Go test suite, then it passes the EVO. So hopefully
+[01:25:00] then it passes the EVO. So hopefully
+[01:25:00] then it passes the EVO. So hopefully that makes sense. Um, and then the
+[01:25:03] that makes sense. Um, and then the
+[01:25:03] that makes sense. Um, and then the second data set is essentially using the
+[01:25:05] second data set is essentially using the
+[01:25:05] second data set is essentially using the same thing, but we basically pulled a
+[01:25:07] same thing, but we basically pulled a
+[01:25:07] same thing, but we basically pulled a couple rows from the industry standard
+[01:25:09] couple rows from the industry standard
+[01:25:09] couple rows from the industry standard Swebench verified. Um, have people heard
+[01:25:12] Swebench verified. Um, have people heard
+[01:25:12] Swebench verified. Um, have people heard about do people know what SWEBench
+[01:25:14] about do people know what SWEBench
+[01:25:14] about do people know what SWEBench verified is? Okay, a couple less people
+[01:25:17] verified is? Okay, a couple less people
+[01:25:17] verified is? Okay, a couple less people who knew what eval. It's if you read
+[01:25:19] who knew what eval. It's if you read
+[01:25:20] who knew what eval. It's if you read like any sort of it's it's what like
+[01:25:23] like any sort of it's it's what like
+[01:25:23] like any sort of it's it's what like anthropic and open AI use to like uh
+[01:25:25] anthropic and open AI use to like uh
+[01:25:25] anthropic and open AI use to like uh benchmark their models. So it's like
+[01:25:26] benchmark their models. So it's like
+[01:25:26] benchmark their models. So it's like more of an industry standard. Um so we
+[01:25:29] more of an industry standard. Um so we
+[01:25:29] more of an industry standard. Um so we pulled uh 25 rows from that uh
+[01:25:31] pulled uh 25 rows from that uh
+[01:25:31] pulled uh 25 rows from that uh specifically from the the Django related
+[01:25:35] specifically from the the Django related
+[01:25:35] specifically from the the Django related um data rows but the idea is the same.
+[01:25:39] um data rows but the idea is the same.
+[01:25:39] um data rows but the idea is the same. Um, and then the reason why I used two
+[01:25:41] Um, and then the reason why I used two
+[01:25:41] Um, and then the reason why I used two different data sets is mostly because I
+[01:25:43] different data sets is mostly because I
+[01:25:43] different data sets is mostly because I just wanted to have some variety and I
+[01:25:45] just wanted to have some variety and I
+[01:25:45] just wanted to have some variety and I wanted to test agentic search and vector
+[01:25:47] wanted to test agentic search and vector
+[01:25:47] wanted to test agentic search and vector search on two different uh languages and
+[01:25:50] search on two different uh languages and
+[01:25:50] search on two different uh languages and two different code bases. Um, so Django
+[01:25:52] two different code bases. Um, so Django
+[01:25:52] two different code bases. Um, so Django is much more of a massive legacy
+[01:25:55] is much more of a massive legacy
+[01:25:55] is much more of a massive legacy codebase and TypeScript Go is newer and
+[01:25:58] codebase and TypeScript Go is newer and
+[01:25:58] codebase and TypeScript Go is newer and more modular. So I just wanted to see if
+[01:25:59] more modular. So I just wanted to see if
+[01:25:59] more modular. So I just wanted to see if there was any difference in how they
+[01:26:01] there was any difference in how they
+[01:26:01] there was any difference in how they performed across two very different
+[01:26:03] performed across two very different
+[01:26:03] performed across two very different types of code bases.
+[01:26:06] types of code bases.
+[01:26:06] types of code bases. Um, okay. So the next thing we had to do
+[01:26:08] Um, okay. So the next thing we had to do
+[01:26:08] Um, okay. So the next thing we had to do is implement vector search and agentic
+[01:26:10] is implement vector search and agentic
+[01:26:10] is implement vector search and agentic search. So implementing agentic search
+[01:26:13] search. So implementing agentic search
+[01:26:13] search. So implementing agentic search was really easy because uh cloud code
+[01:26:16] was really easy because uh cloud code
+[01:26:16] was really easy because uh cloud code uses agentic search by default. So all
+[01:26:18] uses agentic search by default. So all
+[01:26:18] uses agentic search by default. So all we did was just set cloud code on all of
+[01:26:21] we did was just set cloud code on all of
+[01:26:21] we did was just set cloud code on all of these tasks. Um for the vector search
+[01:26:24] these tasks. Um for the vector search
+[01:26:24] these tasks. Um for the vector search variant that was a little bit more
+[01:26:26] variant that was a little bit more
+[01:26:26] variant that was a little bit more difficult. So essentially what we did is
+[01:26:28] difficult. So essentially what we did is
+[01:26:28] difficult. So essentially what we did is we um implemented a basic vector search
+[01:26:32] we um implemented a basic vector search
+[01:26:32] we um implemented a basic vector search uh and had the agent call that through a
+[01:26:34] uh and had the agent call that through a
+[01:26:34] uh and had the agent call that through a script. Um but the problem was uh we
+[01:26:38] script. Um but the problem was uh we
+[01:26:38] script. Um but the problem was uh we still wanted to use cloud code to keep
+[01:26:40] still wanted to use cloud code to keep
+[01:26:40] still wanted to use cloud code to keep the eval experiment as consistent as
+[01:26:43] the eval experiment as consistent as
+[01:26:43] the eval experiment as consistent as possible. Uh but the key constraint is
+[01:26:46] possible. Uh but the key constraint is
+[01:26:46] possible. Uh but the key constraint is we actually had to prevent cloud code
+[01:26:49] we actually had to prevent cloud code
+[01:26:49] we actually had to prevent cloud code from falling back to agentic search
+[01:26:51] from falling back to agentic search
+[01:26:51] from falling back to agentic search which it really wanted to do. So this
+[01:26:53] which it really wanted to do. So this
+[01:26:53] which it really wanted to do. So this took like a couple of days. I had to um
+[01:26:56] took like a couple of days. I had to um
+[01:26:56] took like a couple of days. I had to um really block it from using agentic
+[01:26:58] really block it from using agentic
+[01:26:58] really block it from using agentic search um and try to call that vector
+[01:27:01] search um and try to call that vector
+[01:27:01] search um and try to call that vector search script every time. Um to do this
+[01:27:03] search script every time. Um to do this
+[01:27:03] search script every time. Um to do this we basically did two things. So I used
+[01:27:06] we basically did two things. So I used
+[01:27:06] we basically did two things. So I used um cloud codes disallow tools flag to
+[01:27:10] um cloud codes disallow tools flag to
+[01:27:10] um cloud codes disallow tools flag to block any agentric search. So block uh
+[01:27:13] block any agentric search. So block uh
+[01:27:13] block any agentric search. So block uh calling gp or find or things like that.
+[01:27:15] calling gp or find or things like that.
+[01:27:15] calling gp or find or things like that. Uh and the second thing I did is I very
+[01:27:18] Uh and the second thing I did is I very
+[01:27:18] Uh and the second thing I did is I very explicitly said in the prompt uh that
+[01:27:21] explicitly said in the prompt uh that
+[01:27:21] explicitly said in the prompt uh that anytime it wanted to use search it
+[01:27:23] anytime it wanted to use search it
+[01:27:23] anytime it wanted to use search it should use vector search. So I believe
+[01:27:25] should use vector search. So I believe
+[01:27:25] should use vector search. So I believe this is a screenshot of the prompt I
+[01:27:27] this is a screenshot of the prompt I
+[01:27:27] this is a screenshot of the prompt I used. Um but yeah without these two
+[01:27:30] used. Um but yeah without these two
+[01:27:30] used. Um but yeah without these two things it would continue calling agentic
+[01:27:32] things it would continue calling agentic
+[01:27:32] things it would continue calling agentic search which would have uh screwed up
+[01:27:33] search which would have uh screwed up
+[01:27:33] search which would have uh screwed up the whole experiment. So we really had
+[01:27:35] the whole experiment. So we really had
+[01:27:35] the whole experiment. So we really had to make sure that it was only using
+[01:27:37] to make sure that it was only using
+[01:27:37] to make sure that it was only using vector search.
+[01:27:40] vector search. Okay. Um one other thing that was
+[01:27:43] Okay. Um one other thing that was
+[01:27:43] Okay. Um one other thing that was difficult when we were doing this eval
+[01:27:45] difficult when we were doing this eval
+[01:27:45] difficult when we were doing this eval is um that cloud code runs as a
+[01:27:48] is um that cloud code runs as a
+[01:27:48] is um that cloud code runs as a subprocess which means that the traces
+[01:27:51] subprocess which means that the traces
+[01:27:51] subprocess which means that the traces were orphaned and they weren't actually
+[01:27:53] were orphaned and they weren't actually
+[01:27:53] were orphaned and they weren't actually being connected to the parent trace um
+[01:27:56] being connected to the parent trace um
+[01:27:56] being connected to the parent trace um ID. So the fix that we did here was
+[01:27:58] ID. So the fix that we did here was
+[01:27:58] ID. So the fix that we did here was passing in the parent span ids as
+[01:28:01] passing in the parent span ids as
+[01:28:01] passing in the parent span ids as environment variables so that the
+[01:28:03] environment variables so that the
+[01:28:03] environment variables so that the subprocess could actually attach itself
+[01:28:05] subprocess could actually attach itself
+[01:28:05] subprocess could actually attach itself to the right trace tree. Um if you don't
+[01:28:07] to the right trace tree. Um if you don't
+[01:28:07] to the right trace tree. Um if you don't know what that means don't worry I
+[01:28:09] know what that means don't worry I
+[01:28:09] know what that means don't worry I brought pictures. So here is what it
+[01:28:12] brought pictures. So here is what it
+[01:28:12] brought pictures. So here is what it looks what the trace looks like um
+[01:28:15] looks what the trace looks like um
+[01:28:15] looks what the trace looks like um before we did that fix. So you can see
+[01:28:17] before we did that fix. So you can see
+[01:28:17] before we did that fix. So you can see it says uh run claude agent but you
+[01:28:21] it says uh run claude agent but you
+[01:28:21] it says uh run claude agent but you don't actually get any visibility into
+[01:28:23] don't actually get any visibility into
+[01:28:23] don't actually get any visibility into what the cloud agent is doing like what
+[01:28:25] what the cloud agent is doing like what
+[01:28:25] what the cloud agent is doing like what it's actually trying to do.
+[01:28:28] it's actually trying to do.
+[01:28:28] it's actually trying to do. And here's what it looks like after we
+[01:28:30] And here's what it looks like after we
+[01:28:30] And here's what it looks like after we implemented the fix. So you can see that
+[01:28:33] implemented the fix. So you can see that
+[01:28:33] implemented the fix. So you can see that now every single LLM call and uh command
+[01:28:37] now every single LLM call and uh command
+[01:28:37] now every single LLM call and uh command line uh execution is logged in the trace
+[01:28:41] line uh execution is logged in the trace
+[01:28:41] line uh execution is logged in the trace here. So you can see it's calling claude
+[01:28:42] here. So you can see it's calling claude
+[01:28:42] here. So you can see it's calling claude sonnet and it's you know running things
+[01:28:45] sonnet and it's you know running things
+[01:28:45] sonnet and it's you know running things like find um and read and things like
+[01:28:48] like find um and read and things like
+[01:28:48] like find um and read and things like that. Um and you can also see like in
+[01:28:51] that. Um and you can also see like in
+[01:28:51] that. Um and you can also see like in the LLM call like what is actually
+[01:28:54] the LLM call like what is actually
+[01:28:54] the LLM call like what is actually inputting and outputting um to the LLM.
+[01:28:57] inputting and outputting um to the LLM.
+[01:28:58] inputting and outputting um to the LLM. So yeah this was really critical for us
+[01:29:00] So yeah this was really critical for us
+[01:29:00] So yeah this was really critical for us to implement um because it allowed us to
+[01:29:03] to implement um because it allowed us to
+[01:29:03] to implement um because it allowed us to actually debug why certain things were
+[01:29:05] actually debug why certain things were
+[01:29:05] actually debug why certain things were failing or passing.
+[01:29:09] failing or passing.
+[01:29:09] failing or passing. And then in terms of the scoring, we
+[01:29:11] And then in terms of the scoring, we
+[01:29:11] And then in terms of the scoring, we just implemented kind of just one scorer
+[01:29:13] just implemented kind of just one scorer
+[01:29:13] just implemented kind of just one scorer um which is essentially did the um fix
+[01:29:17] um which is essentially did the um fix
+[01:29:17] um which is essentially did the um fix pass all the repos existing tests. So if
+[01:29:20] pass all the repos existing tests. So if
+[01:29:20] pass all the repos existing tests. So if they passed then the eval run got 100%
+[01:29:23] they passed then the eval run got 100%
+[01:29:23] they passed then the eval run got 100% and if they failed um it got a 0%.
+[01:29:26] and if they failed um it got a 0%.
+[01:29:26] and if they failed um it got a 0%. There is one interesting nuance here um
+[01:29:29] There is one interesting nuance here um
+[01:29:29] There is one interesting nuance here um for the SWEBench data set. Uh so
+[01:29:32] for the SWEBench data set. Uh so
+[01:29:32] for the SWEBench data set. Uh so Sweetbench actually uh gave us a test
+[01:29:35] Sweetbench actually uh gave us a test
+[01:29:35] Sweetbench actually uh gave us a test suite called pass or sorry called fail
+[01:29:38] suite called pass or sorry called fail
+[01:29:38] suite called pass or sorry called fail to pass um which is essentially um a a
+[01:29:42] to pass um which is essentially um a a
+[01:29:42] to pass um which is essentially um a a list of tests that were failing before
+[01:29:45] list of tests that were failing before
+[01:29:45] list of tests that were failing before the fix but should be passing after the
+[01:29:47] the fix but should be passing after the
+[01:29:47] the fix but should be passing after the fix. But the interesting thing is if the
+[01:29:50] fix. But the interesting thing is if the
+[01:29:50] fix. But the interesting thing is if the fix passes everything in fail to pass
+[01:29:54] fix passes everything in fail to pass
+[01:29:54] fix passes everything in fail to pass but then fails another test that's not
+[01:29:57] but then fails another test that's not
+[01:29:57] but then fails another test that's not in that test suite um it still passes
+[01:30:00] in that test suite um it still passes
+[01:30:00] in that test suite um it still passes the eval because technically it it did
+[01:30:03] the eval because technically it it did
+[01:30:03] the eval because technically it it did fix that specific issue. Um so that's
+[01:30:05] fix that specific issue. Um so that's
+[01:30:05] fix that specific issue. Um so that's just an interesting nuance I wanted to
+[01:30:07] just an interesting nuance I wanted to
+[01:30:07] just an interesting nuance I wanted to note there. Um and then we also tracked
+[01:30:11] note there. Um and then we also tracked
+[01:30:11] note there. Um and then we also tracked met metrics like uh duration um total
+[01:30:14] met metrics like uh duration um total
+[01:30:14] met metrics like uh duration um total tokens and cost.
+[01:30:16] tokens and cost.
+[01:30:16] tokens and cost. Okay, so here are the results.
+[01:30:19] Okay, so here are the results.
+[01:30:19] Okay, so here are the results. Um, so for the Sweetbench data set,
+[01:30:22] Um, so for the Sweetbench data set,
+[01:30:22] Um, so for the Sweetbench data set, which was again the 25 uh Djingo um
+[01:30:25] which was again the 25 uh Djingo um
+[01:30:26] which was again the 25 uh Djingo um related code bugs, um the vector search
+[01:30:29] related code bugs, um the vector search
+[01:30:29] related code bugs, um the vector search got a 60% uh accuracy. So it passed 60%
+[01:30:34] got a 60% uh accuracy. So it passed 60%
+[01:30:34] got a 60% uh accuracy. So it passed 60% um and then Agentic got a 68% accuracy.
+[01:30:38] um and then Agentic got a 68% accuracy.
+[01:30:38] um and then Agentic got a 68% accuracy. Uh and then for the TypeScript Go uh
+[01:30:41] Uh and then for the TypeScript Go uh
+[01:30:41] Uh and then for the TypeScript Go uh code bugs, the vector search and agentic
+[01:30:44] code bugs, the vector search and agentic
+[01:30:44] code bugs, the vector search and agentic search actually both scored 70%. Um but
+[01:30:47] search actually both scored 70%. Um but
+[01:30:47] search actually both scored 70%. Um but as you can see here, um vector search
+[01:30:49] as you can see here, um vector search
+[01:30:49] as you can see here, um vector search spent a lot more tokens and money. Um
+[01:30:54] spent a lot more tokens and money. Um
+[01:30:54] spent a lot more tokens and money. Um when you look at these results, um I the
+[01:30:56] when you look at these results, um I the
+[01:30:56] when you look at these results, um I the one thing I'll note is I would take this
+[01:30:58] one thing I'll note is I would take this
+[01:30:58] one thing I'll note is I would take this with a grain of salt. Um, I highly doubt
+[01:31:01] with a grain of salt. Um, I highly doubt
+[01:31:01] with a grain of salt. Um, I highly doubt that vector search cost me over $4 per
+[01:31:05] that vector search cost me over $4 per
+[01:31:05] that vector search cost me over $4 per run because if you do the math, that's
+[01:31:07] run because if you do the math, that's
+[01:31:07] run because if you do the math, that's $40 and it didn't cost me $40. So, I I
+[01:31:12] $40 and it didn't cost me $40. So, I I
+[01:31:12] $40 and it didn't cost me $40. So, I I think the exact cost is probably off,
+[01:31:16] think the exact cost is probably off,
+[01:31:16] think the exact cost is probably off, but what I would look at is the
+[01:31:17] but what I would look at is the
+[01:31:17] but what I would look at is the comparison between vector search and
+[01:31:19] comparison between vector search and
+[01:31:19] comparison between vector search and agentic search. Essentially seeing that
+[01:31:21] agentic search. Essentially seeing that
+[01:31:21] agentic search. Essentially seeing that agentic search is X multiplier cheaper.
+[01:31:25] agentic search is X multiplier cheaper.
+[01:31:25] agentic search is X multiplier cheaper. Um, so another thing I'll call out is um
+[01:31:29] Um, so another thing I'll call out is um
+[01:31:29] Um, so another thing I'll call out is um the reason why I don't have the metrics
+[01:31:30] the reason why I don't have the metrics
+[01:31:30] the reason why I don't have the metrics for SweetBench is because I was running
+[01:31:33] for SweetBench is because I was running
+[01:31:33] for SweetBench is because I was running this eval last night and um it takes a
+[01:31:37] this eval last night and um it takes a
+[01:31:37] this eval last night and um it takes a really long time to complete and so I
+[01:31:38] really long time to complete and so I
+[01:31:38] really long time to complete and so I just didn't have time to get the numbers
+[01:31:40] just didn't have time to get the numbers
+[01:31:40] just didn't have time to get the numbers for uh SweetBench but um yeah
+[01:31:45] for uh SweetBench but um yeah
+[01:31:45] for uh SweetBench but um yeah doing this last minute. Um okay so there
+[01:31:48] doing this last minute. Um okay so there
+[01:31:48] doing this last minute. Um okay so there are three main takeaways that I got when
+[01:31:50] are three main takeaways that I got when
+[01:31:50] are three main takeaways that I got when I looked through the results and also
+[01:31:52] I looked through the results and also
+[01:31:52] I looked through the results and also the the cloud code traces. Um the first
+[01:31:55] the the cloud code traces. Um the first
+[01:31:55] the the cloud code traces. Um the first interesting thing was that vector search
+[01:31:58] interesting thing was that vector search
+[01:31:58] interesting thing was that vector search uh returns a lot of chunks of code. Um
+[01:32:01] uh returns a lot of chunks of code. Um
+[01:32:01] uh returns a lot of chunks of code. Um so in these chunks of code um there
+[01:32:04] so in these chunks of code um there
+[01:32:04] so in these chunks of code um there might not be like the relevant imports
+[01:32:07] might not be like the relevant imports
+[01:32:07] might not be like the relevant imports or relevant type definitions or the
+[01:32:09] or relevant type definitions or the
+[01:32:09] or relevant type definitions or the relevant um code uh calling code above
+[01:32:13] relevant um code uh calling code above
+[01:32:13] relevant um code uh calling code above it. Um and so essentially the agent
+[01:32:17] it. Um and so essentially the agent
+[01:32:17] it. Um and so essentially the agent doesn't get enough signal for what else
+[01:32:20] doesn't get enough signal for what else
+[01:32:20] doesn't get enough signal for what else to look for. Um so for example in the um
+[01:32:24] to look for. Um so for example in the um
+[01:32:24] to look for. Um so for example in the um SWEBench data set one of the runs um the
+[01:32:27] SWEBench data set one of the runs um the
+[01:32:27] SWEBench data set one of the runs um the agent made 26 different vector search
+[01:32:30] agent made 26 different vector search
+[01:32:30] agent made 26 different vector search calls um essentially it was just trying
+[01:32:33] calls um essentially it was just trying
+[01:32:33] calls um essentially it was just trying to like guess and check so many times
+[01:32:35] to like guess and check so many times
+[01:32:35] to like guess and check so many times and it just couldn't find the right
+[01:32:36] and it just couldn't find the right
+[01:32:36] and it just couldn't find the right place in the codebase where the bug the
+[01:32:38] place in the codebase where the bug the
+[01:32:38] place in the codebase where the bug the bug was happening. Um and the contrast
+[01:32:43] bug was happening. Um and the contrast
+[01:32:43] bug was happening. Um and the contrast is you know in agentic search the agent
+[01:32:45] is you know in agentic search the agent
+[01:32:45] is you know in agentic search the agent can essentially look for the function
+[01:32:47] can essentially look for the function
+[01:32:47] can essentially look for the function name read the entire file top to bottom
+[01:32:50] name read the entire file top to bottom
+[01:32:50] name read the entire file top to bottom um see the import chain and then follow
+[01:32:53] um see the import chain and then follow
+[01:32:53] um see the import chain and then follow it and solve the task um a lot more
+[01:32:55] it and solve the task um a lot more
+[01:32:55] it and solve the task um a lot more quickly that way. So the way that I like
+[01:32:57] quickly that way. So the way that I like
+[01:32:57] quickly that way. So the way that I like to kind of think about it or conceptual
+[01:32:59] to kind of think about it or conceptual
+[01:32:59] to kind of think about it or conceptual conceptualize it is that vector search
+[01:33:02] conceptualize it is that vector search
+[01:33:02] conceptualize it is that vector search gave the agent a lot of proximity to
+[01:33:04] gave the agent a lot of proximity to
+[01:33:04] gave the agent a lot of proximity to relevant code but didn't um but didn't
+[01:33:08] relevant code but didn't um but didn't
+[01:33:08] relevant code but didn't um but didn't give the connective tissue between the
+[01:33:10] give the connective tissue between the
+[01:33:10] give the connective tissue between the code for it to actually implement a fix.
+[01:33:13] code for it to actually implement a fix.
+[01:33:13] code for it to actually implement a fix. The second thing is agentic search um
+[01:33:15] The second thing is agentic search um
+[01:33:15] The second thing is agentic search um enabled or was able to do a lot of chain
+[01:33:18] enabled or was able to do a lot of chain
+[01:33:18] enabled or was able to do a lot of chain of thought exploration. So, it's kind of
+[01:33:19] of thought exploration. So, it's kind of
+[01:33:19] of thought exploration. So, it's kind of what I mentioned before where it's
+[01:33:21] what I mentioned before where it's
+[01:33:21] what I mentioned before where it's actually able to look at the function um
+[01:33:25] actually able to look at the function um
+[01:33:25] actually able to look at the function um and see what calls it and actually be
+[01:33:27] and see what calls it and actually be
+[01:33:27] and see what calls it and actually be able to travel to different files to
+[01:33:29] able to travel to different files to
+[01:33:29] able to travel to different files to follow the logic whereas vector search
+[01:33:32] follow the logic whereas vector search
+[01:33:32] follow the logic whereas vector search can't really do that at least in the
+[01:33:33] can't really do that at least in the
+[01:33:33] can't really do that at least in the traces that I saw. Uh and the third
+[01:33:36] traces that I saw. Uh and the third
+[01:33:36] traces that I saw. Uh and the third thing is the more searches the more
+[01:33:38] thing is the more searches the more
+[01:33:38] thing is the more searches the more expensive. So the reason why vector
+[01:33:40] expensive. So the reason why vector
+[01:33:40] expensive. So the reason why vector search uh took so many more tokens and
+[01:33:42] search uh took so many more tokens and
+[01:33:42] search uh took so many more tokens and took so much more money is because um it
+[01:33:45] took so much more money is because um it
+[01:33:45] took so much more money is because um it was making so many more calls um because
+[01:33:48] was making so many more calls um because
+[01:33:48] was making so many more calls um because it just couldn't find exactly where in
+[01:33:51] it just couldn't find exactly where in
+[01:33:51] it just couldn't find exactly where in the code um the bug was happening. So
+[01:33:53] the code um the bug was happening. So
+[01:33:53] the code um the bug was happening. So that's why it was so much more
+[01:33:55] that's why it was so much more
+[01:33:55] that's why it was so much more expensive.
+[01:33:57] expensive.
+[01:33:57] expensive. Now um the last thing I'll say is I
+[01:34:00] Now um the last thing I'll say is I
+[01:34:00] Now um the last thing I'll say is I don't consider this eval close to being
+[01:34:03] don't consider this eval close to being
+[01:34:03] don't consider this eval close to being done at all. Like I would not publish a
+[01:34:05] done at all. Like I would not publish a
+[01:34:05] done at all. Like I would not publish a blog post about this yet. Um mostly
+[01:34:08] blog post about this yet. Um mostly
+[01:34:08] blog post about this yet. Um mostly because just from a gut sense I actually
+[01:34:11] because just from a gut sense I actually
+[01:34:11] because just from a gut sense I actually like this eval basically is saying that
+[01:34:14] like this eval basically is saying that
+[01:34:14] like this eval basically is saying that agentic search is 100% better than
+[01:34:16] agentic search is 100% better than
+[01:34:16] agentic search is 100% better than vector search which I don't think that's
+[01:34:18] vector search which I don't think that's
+[01:34:18] vector search which I don't think that's the case. I think there are places where
+[01:34:20] the case. I think there are places where
+[01:34:20] the case. I think there are places where vector search is better and so something
+[01:34:23] vector search is better and so something
+[01:34:23] vector search is better and so something I would do is one I would run multiple
+[01:34:25] I would do is one I would run multiple
+[01:34:25] I would do is one I would run multiple trials per task. um LLMs are very
+[01:34:29] trials per task. um LLMs are very
+[01:34:29] trials per task. um LLMs are very non-deterministic and so I would not be
+[01:34:31] non-deterministic and so I would not be
+[01:34:31] non-deterministic and so I would not be surprised if I ran this eval multiple
+[01:34:34] surprised if I ran this eval multiple
+[01:34:34] surprised if I ran this eval multiple times with all the exact same criteria
+[01:34:36] times with all the exact same criteria
+[01:34:36] times with all the exact same criteria that it might have a difference of 10 to
+[01:34:39] that it might have a difference of 10 to
+[01:34:39] that it might have a difference of 10 to 15%. So um that's one thing that I would
+[01:34:42] 15%. So um that's one thing that I would
+[01:34:42] 15%. So um that's one thing that I would run multiple trials and kind of average
+[01:34:44] run multiple trials and kind of average
+[01:34:44] run multiple trials and kind of average um the scores across them. The second
+[01:34:47] um the scores across them. The second
+[01:34:47] um the scores across them. The second thing is um honestly uh I think this I
+[01:34:51] thing is um honestly uh I think this I
+[01:34:51] thing is um honestly uh I think this I would improve the vector search
+[01:34:53] would improve the vector search
+[01:34:53] would improve the vector search implementation. It was a very basic
+[01:34:55] implementation. It was a very basic
+[01:34:55] implementation. It was a very basic vector search implementation. So maybe
+[01:34:56] vector search implementation. So maybe
+[01:34:56] vector search implementation. So maybe that's why it's not performing that
+[01:34:58] that's why it's not performing that
+[01:34:58] that's why it's not performing that well. Um I'm not an expert on vector
+[01:35:01] well. Um I'm not an expert on vector
+[01:35:01] well. Um I'm not an expert on vector search, but I do think there's things
+[01:35:03] search, but I do think there's things
+[01:35:03] search, but I do think there's things like um like chunk overlapping or
+[01:35:07] like um like chunk overlapping or
+[01:35:07] like um like chunk overlapping or splitting the text or retrieval models
+[01:35:09] splitting the text or retrieval models
+[01:35:09] splitting the text or retrieval models that can be implemented to improve
+[01:35:11] that can be implemented to improve
+[01:35:11] that can be implemented to improve vector search. So it might just be that
+[01:35:14] vector search. So it might just be that
+[01:35:14] vector search. So it might just be that my vector search implementation was just
+[01:35:16] my vector search implementation was just
+[01:35:16] my vector search implementation was just bad. Um and then the third one, which is
+[01:35:19] bad. Um and then the third one, which is
+[01:35:19] bad. Um and then the third one, which is not really a blocker, but it would be
+[01:35:21] not really a blocker, but it would be
+[01:35:21] not really a blocker, but it would be interesting, is to try a hybrid
+[01:35:22] interesting, is to try a hybrid
+[01:35:22] interesting, is to try a hybrid approach. I do think a lot of companies
+[01:35:24] approach. I do think a lot of companies
+[01:35:24] approach. I do think a lot of companies now are doing a hybrid between vector
+[01:35:26] now are doing a hybrid between vector
+[01:35:26] now are doing a hybrid between vector search and agentic search. Um and then
+[01:35:28] search and agentic search. Um and then
+[01:35:28] search and agentic search. Um and then the fourth is to expand the data set. So
+[01:35:31] the fourth is to expand the data set. So
+[01:35:31] the fourth is to expand the data set. So obviously a data set of 10 um 10 rows if
+[01:35:35] obviously a data set of 10 um 10 rows if
+[01:35:35] obviously a data set of 10 um 10 rows if it fails one of them that's a swing of
+[01:35:37] it fails one of them that's a swing of
+[01:35:37] it fails one of them that's a swing of 10% in the score. So just expanding data
+[01:35:39] 10% in the score. So just expanding data
+[01:35:39] 10% in the score. So just expanding data set um adding more rows and also adding
+[01:35:41] set um adding more rows and also adding
+[01:35:41] set um adding more rows and also adding potentially more languages or more uh
+[01:35:44] potentially more languages or more uh
+[01:35:44] potentially more languages or more uh code bases.
+[01:35:46] code bases.
+[01:35:46] code bases. And that's it. That's kind of eval and
+[01:35:48] And that's it. That's kind of eval and
+[01:35:48] And that's it. That's kind of eval and also example of how to use an eval in
+[01:35:51] also example of how to use an eval in
+[01:35:51] also example of how to use an eval in real life. Um, yeah. I I think I only
+[01:35:54] real life. Um, yeah. I I think I only
+[01:35:54] real life. Um, yeah. I I think I only have one minute for questions. Um, but
+[01:35:56] have one minute for questions. Um, but
+[01:35:56] have one minute for questions. Um, but we can do like one or two if that's
+[01:35:59] we can do like one or two if that's
+[01:35:59] we can do like one or two if that's helpful. Um, yeah. Does anyone have any
+[01:36:02] helpful. Um, yeah. Does anyone have any
+[01:36:02] helpful. Um, yeah. Does anyone have any questions?
+[01:36:07] &gt;&gt; Thanks.
+[01:36:08] &gt;&gt; Thanks. &gt;&gt; Hi. I uh I wonder if you did anything uh
+[01:36:12] &gt;&gt; Hi. I uh I wonder if you did anything uh
+[01:36:12] &gt;&gt; Hi. I uh I wonder if you did anything uh to to try and isolate or characterize
+[01:36:15] to to try and isolate or characterize
+[01:36:15] to to try and isolate or characterize the uh the token usage from
+[01:36:19] the uh the token usage from
+[01:36:19] the uh the token usage from restricting Claude from going into
+[01:36:21] restricting Claude from going into
+[01:36:21] restricting Claude from going into agentic mode.
+[01:36:23] agentic mode.
+[01:36:23] agentic mode. &gt;&gt; Yeah. Yeah. Um that is so that would be
+[01:36:25] &gt;&gt; Yeah. Yeah. Um that is so that would be
+[01:36:26] &gt;&gt; Yeah. Yeah. Um that is so that would be something I'd add to the improvements.
+[01:36:28] something I'd add to the improvements.
+[01:36:28] something I'd add to the improvements. It was something I thought of. Um the
+[01:36:31] It was something I thought of. Um the
+[01:36:31] It was something I thought of. Um the the short answer is no, I didn't, but I
+[01:36:33] the short answer is no, I didn't, but I
+[01:36:33] the short answer is no, I didn't, but I did think of it. That's
+[01:36:35] did think of it. That's
+[01:36:35] did think of it. That's &gt;&gt; um so it was definitely something I
+[01:36:37] &gt;&gt; um so it was definitely something I
+[01:36:37] &gt;&gt; um so it was definitely something I thought could be inflating the token
+[01:36:39] thought could be inflating the token
+[01:36:39] thought could be inflating the token count. Um and so as I'm trying to
+[01:36:41] count. Um and so as I'm trying to
+[01:36:41] count. Um and so as I'm trying to iterate on this eval, I would definitely
+[01:36:43] iterate on this eval, I would definitely
+[01:36:43] iterate on this eval, I would definitely probably look through the traces like
+[01:36:45] probably look through the traces like
+[01:36:45] probably look through the traces like the cloud code traces and see if it's um
+[01:36:48] the cloud code traces and see if it's um
+[01:36:48] the cloud code traces and see if it's um inflating the token count every time
+[01:36:49] inflating the token count every time
+[01:36:50] inflating the token count every time it's trying to essentially do an agentic
+[01:36:52] it's trying to essentially do an agentic
+[01:36:52] it's trying to essentially do an agentic call but can't do it and then has to
+[01:36:53] call but can't do it and then has to
+[01:36:53] call but can't do it and then has to switch over to vector. So yes. Uh yeah.
+[01:36:56] switch over to vector. So yes. Uh yeah.
+[01:36:56] switch over to vector. So yes. Uh yeah. &gt;&gt; And one more question if I could. Have
+[01:36:58] &gt;&gt; And one more question if I could. Have
+[01:36:58] &gt;&gt; And one more question if I could. Have you run against uh human respondents
+[01:37:02] you run against uh human respondents
+[01:37:02] you run against uh human respondents &gt;&gt; like having a human
+[01:37:04] &gt;&gt; like having a human
+[01:37:04] &gt;&gt; like having a human &gt;&gt; as a control group for uh for for a
+[01:37:07] &gt;&gt; as a control group for uh for for a
+[01:37:07] &gt;&gt; as a control group for uh for for a similar set of questions or a subset of
+[01:37:09] similar set of questions or a subset of
+[01:37:09] similar set of questions or a subset of the questions that you're asking the
+[01:37:10] the questions that you're asking the
+[01:37:10] the questions that you're asking the AIS?
+[01:37:12] AIS?
+[01:37:12] AIS? &gt;&gt; Wait, sorry, say that again.
+[01:37:14] &gt;&gt; Wait, sorry, say that again.
+[01:37:14] &gt;&gt; Wait, sorry, say that again. &gt;&gt; As a control group for questions that
+[01:37:17] &gt;&gt; As a control group for questions that
+[01:37:17] &gt;&gt; As a control group for questions that you're asking AIS, have you considered
+[01:37:19] you're asking AIS, have you considered
+[01:37:19] you're asking AIS, have you considered asking humans for responses to those and
+[01:37:22] asking humans for responses to those and
+[01:37:22] asking humans for responses to those and measuring differences?
+[01:37:24] measuring differences?
+[01:37:24] measuring differences? &gt;&gt; Yeah, that's a good question. So um the
+[01:37:26] &gt;&gt; Yeah, that's a good question. So um the
+[01:37:26] &gt;&gt; Yeah, that's a good question. So um the Swebench data set actually comes with a
+[01:37:29] Swebench data set actually comes with a
+[01:37:29] Swebench data set actually comes with a golden golden answer. So SweetBench
+[01:37:33] golden golden answer. So SweetBench
+[01:37:33] golden golden answer. So SweetBench because it's an industry standard
+[01:37:34] because it's an industry standard
+[01:37:34] because it's an industry standard already has like the answer key
+[01:37:36] already has like the answer key
+[01:37:36] already has like the answer key essentially that was like human coded.
+[01:37:39] essentially that was like human coded.
+[01:37:39] essentially that was like human coded. So we could technically compare it
+[01:37:41] So we could technically compare it
+[01:37:41] So we could technically compare it against that human like golden the the
+[01:37:44] against that human like golden the the
+[01:37:44] against that human like golden the the answer set essentially for SWEBench for
+[01:37:47] answer set essentially for SWEBench for
+[01:37:47] answer set essentially for SWEBench for the TypeScript Go ones. I guess
+[01:37:50] the TypeScript Go ones. I guess
+[01:37:50] the TypeScript Go ones. I guess technically because these are merged
+[01:37:51] technically because these are merged
+[01:37:51] technically because these are merged PRs, we can also just compare it against
+[01:37:53] PRs, we can also just compare it against
+[01:37:53] PRs, we can also just compare it against the actual fix from the PR. So I guess
+[01:37:56] the actual fix from the PR. So I guess
+[01:37:56] the actual fix from the PR. So I guess we could actually compare it against um
+[01:37:59] we could actually compare it against um
+[01:37:59] we could actually compare it against um the actual code and probably use some
+[01:38:02] the actual code and probably use some
+[01:38:02] the actual code and probably use some sort of like LLM as a judge to see how
+[01:38:04] sort of like LLM as a judge to see how
+[01:38:04] sort of like LLM as a judge to see how close the code is. So I didn't I haven't
+[01:38:06] close the code is. So I didn't I haven't
+[01:38:06] close the code is. So I didn't I haven't done that, but I think that's a really
+[01:38:07] done that, but I think that's a really
+[01:38:07] done that, but I think that's a really good suggestion.
+[01:38:08] good suggestion.
+[01:38:08] good suggestion. &gt;&gt; Yeah.
+[01:38:10] &gt;&gt; Yeah. &gt;&gt; Um first of all, thank you for the
+[01:38:12] &gt;&gt; Um first of all, thank you for the
+[01:38:12] &gt;&gt; Um first of all, thank you for the presentation.
+[01:38:13] presentation.
+[01:38:13] presentation. &gt;&gt; I'm curious about this. Um I I work
+[01:38:16] &gt;&gt; I'm curious about this. Um I I work
+[01:38:16] &gt;&gt; I'm curious about this. Um I I work closer to the users and uh one of the
+[01:38:19] closer to the users and uh one of the
+[01:38:19] closer to the users and uh one of the things that we are seeing as we're
+[01:38:20] things that we are seeing as we're
+[01:38:20] things that we are seeing as we're building a conversation conversational
+[01:38:23] building a conversation conversational
+[01:38:23] building a conversation conversational product on top of data is that we are
+[01:38:25] product on top of data is that we are
+[01:38:25] product on top of data is that we are starting to deal with a lot more people
+[01:38:26] starting to deal with a lot more people
+[01:38:26] starting to deal with a lot more people who have smaller attention spans and
+[01:38:29] who have smaller attention spans and
+[01:38:29] who have smaller attention spans and what that means in translation of the
+[01:38:31] what that means in translation of the
+[01:38:31] what that means in translation of the product is they will start a question
+[01:38:33] product is they will start a question
+[01:38:33] product is they will start a question for example thinking about where can I
+[01:38:36] for example thinking about where can I
+[01:38:36] for example thinking about where can I get a matcha from there they will go to
+[01:38:38] get a matcha from there they will go to
+[01:38:38] get a matcha from there they will go to where can I buy a Lululemon from there
+[01:38:40] where can I buy a Lululemon from there
+[01:38:40] where can I buy a Lululemon from there they will go to the latest price of
+[01:38:42] they will go to the latest price of
+[01:38:42] they will go to the latest price of Tesla from there they'll go to something
+[01:38:44] Tesla from there they'll go to something
+[01:38:44] Tesla from there they'll go to something else about, you know, Elon Musk's latest
+[01:38:45] else about, you know, Elon Musk's latest
+[01:38:45] else about, you know, Elon Musk's latest conspiracy, whatever. Now, what I'm
+[01:38:47] conspiracy, whatever. Now, what I'm
+[01:38:47] conspiracy, whatever. Now, what I'm curious about is it is becoming
+[01:38:49] curious about is it is becoming
+[01:38:50] curious about is it is becoming increasingly harder for me to think
+[01:38:51] increasingly harder for me to think
+[01:38:51] increasingly harder for me to think about evals in that perspective because
+[01:38:54] about evals in that perspective because
+[01:38:54] about evals in that perspective because the idea of a golden data set suddenly
+[01:38:56] the idea of a golden data set suddenly
+[01:38:56] the idea of a golden data set suddenly doesn't make sense to me. I it's
+[01:38:58] doesn't make sense to me. I it's
+[01:38:58] doesn't make sense to me. I it's impossible for me to emulate the thought
+[01:39:00] impossible for me to emulate the thought
+[01:39:00] impossible for me to emulate the thought of this person, I've thought about maybe
+[01:39:03] of this person, I've thought about maybe
+[01:39:03] of this person, I've thought about maybe getting a synthetic uh agent to like
+[01:39:05] getting a synthetic uh agent to like
+[01:39:05] getting a synthetic uh agent to like think about this, but for a for a case
+[01:39:07] think about this, but for a for a case
+[01:39:07] think about this, but for a for a case like this where there's no going to be
+[01:39:09] like this where there's no going to be
+[01:39:09] like this where there's no going to be there's not going to be a straight chain
+[01:39:11] there's not going to be a straight chain
+[01:39:11] there's not going to be a straight chain of thought. there's not going to be a
+[01:39:12] of thought. there's not going to be a
+[01:39:12] of thought. there's not going to be a consistent golden data set. How do you
+[01:39:15] consistent golden data set. How do you
+[01:39:15] consistent golden data set. How do you think about evals and are this something
+[01:39:17] think about evals and are this something
+[01:39:17] think about evals and are this something that you may have published that we
+[01:39:19] that you may have published that we
+[01:39:19] that you may have published that we should probably be thinking about or
+[01:39:20] should probably be thinking about or
+[01:39:20] should probably be thinking about or reading about?
+[01:39:21] reading about?
+[01:39:21] reading about? &gt;&gt; Yeah, definitely. So, I think if you are
+[01:39:23] &gt;&gt; Yeah, definitely. So, I think if you are
+[01:39:24] &gt;&gt; Yeah, definitely. So, I think if you are seeing it in your application or if
+[01:39:25] seeing it in your application or if
+[01:39:25] seeing it in your application or if you're seeing it in whatever product
+[01:39:27] you're seeing it in whatever product
+[01:39:27] you're seeing it in whatever product that you're building, um that's enough
+[01:39:30] that you're building, um that's enough
+[01:39:30] that you're building, um that's enough because essentially you should be able
+[01:39:32] because essentially you should be able
+[01:39:32] because essentially you should be able to log that and turn that and add that
+[01:39:34] to log that and turn that and add that
+[01:39:34] to log that and turn that and add that to your data set. Um, so if you're
+[01:39:36] to your data set. Um, so if you're
+[01:39:36] to your data set. Um, so if you're seeing people who have short attention
+[01:39:38] seeing people who have short attention
+[01:39:38] seeing people who have short attention spans or are jumping through different
+[01:39:40] spans or are jumping through different
+[01:39:40] spans or are jumping through different questions or different parts of your
+[01:39:42] questions or different parts of your
+[01:39:42] questions or different parts of your app, um, that should be logged somewhere
+[01:39:47] app, um, that should be logged somewhere
+[01:39:47] app, um, that should be logged somewhere and you should be able to turn that, uh,
+[01:39:49] and you should be able to turn that, uh,
+[01:39:49] and you should be able to turn that, uh, add that to your data set. Um, so that
+[01:39:51] add that to your data set. Um, so that
+[01:39:51] add that to your data set. Um, so that would be my answer. Um then from there,
+[01:39:53] would be my answer. Um then from there,
+[01:39:53] would be my answer. Um then from there, sure you can use AI to add more
+[01:39:56] sure you can use AI to add more
+[01:39:56] sure you can use AI to add more synthetic uh rows to your data set based
+[01:39:58] synthetic uh rows to your data set based
+[01:39:58] synthetic uh rows to your data set based off of that. But I think that's the
+[01:40:00] off of that. But I think that's the
+[01:40:00] off of that. But I think that's the biggest thing is just to turn your
+[01:40:02] biggest thing is just to turn your
+[01:40:02] biggest thing is just to turn your actual user journey into just something
+[01:40:04] actual user journey into just something
+[01:40:04] actual user journey into just something in your data set. Yeah. Okay.
+[01:40:06] in your data set. Yeah. Okay.
+[01:40:06] in your data set. Yeah. Okay. &gt;&gt; Awesome.
+[01:40:07] &gt;&gt; Awesome. &gt;&gt; Yeah.
+[01:40:07] &gt;&gt; Yeah. &gt;&gt; Thank you.
+[01:40:09] &gt;&gt; Thank you. &gt;&gt; Thank you so much.

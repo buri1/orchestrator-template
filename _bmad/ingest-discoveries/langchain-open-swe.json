@@ -1,0 +1,58 @@
+{
+  "source_url": "https://github.com/langchain-ai/open-swe",
+  "title": "LangChain Open-SWE — Open-source asynchronous coding agent",
+  "type": "tool",
+  "source_channel": "whatsapp",
+  "ingested_at": "2026-03-21",
+  "catalogue_path": "research/catalogue/agent-harnesses/open-swe.md",
+  "category": "agent-harnesses",
+  "relevance": 7,
+  "stars": 7800,
+  "license": "MIT",
+  "language": "Python",
+  "publisher": "LangChain / Harrison Chase",
+  "discoveries": [
+    {
+      "id": "deterministic-middleware-safety-net",
+      "pattern": "3 deterministic middleware hooks wrapping agent LLM loop (message queue injection, automatic PR creation backstop, tool error handling) — ensures safety-critical operations execute regardless of LLM behavior",
+      "actionable": true,
+      "phase": 2,
+      "priority": "high"
+    },
+    {
+      "id": "multi-channel-invocation-thread-routing",
+      "pattern": "Slack/Linear/GitHub invocation with deterministic thread ID routing to running agent instances — enables real-time follow-up messaging during task execution",
+      "actionable": true,
+      "phase": 3,
+      "priority": "medium"
+    },
+    {
+      "id": "enterprise-coding-agent-pattern",
+      "pattern": "Open-source replication of Stripe Minions / Ramp Inspect / Coinbase Cloudbot architecture — channel invocation → sandbox isolation → automatic PR creation → thread notifications",
+      "actionable": false,
+      "phase": 3,
+      "priority": "medium"
+    },
+    {
+      "id": "curated-toolset-15-tools",
+      "pattern": "Intentional limitation to ~15 tools following 'tool curation matters more than tool quantity' — includes fetch_url and http_request as additions to standard file/shell tools",
+      "actionable": true,
+      "phase": 2,
+      "priority": "low"
+    },
+    {
+      "id": "sandbox-per-task-isolation",
+      "pattern": "Pluggable cloud sandbox providers (Modal/Daytona/Runloop/LangSmith) with per-task isolation, persistence across follow-ups, and auto-recreation on failure",
+      "actionable": false,
+      "phase": 4,
+      "priority": "low"
+    }
+  ],
+  "related_catalogue_entries": [
+    "research/catalogue/agent-harnesses/deep-agents.md",
+    "research/catalogue/orchestration-platforms/stripe-minions.md",
+    "research/catalogue/agent-protocols/agents-md.md",
+    "research/catalogue/agent-protocols/12-factor-agents.md"
+  ],
+  "key_takeaway": "Open SWE is LangChain's productized enterprise coding agent — the open-source version of Stripe Minions. Its 3-middleware deterministic safety net wrapping the LLM loop is the cleanest implementation of the 70/30 principle. Multi-channel invocation with thread routing is the reference design for Phase 3 client-facing triggers. Study patterns; don't adopt Python/LangChain stack."
+}

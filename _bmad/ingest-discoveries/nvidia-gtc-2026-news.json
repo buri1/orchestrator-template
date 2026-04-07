@@ -1,0 +1,65 @@
+{
+  "url": "https://blogs.nvidia.com/blog/gtc-2026-news/",
+  "name": "NVIDIA GTC 2026 News Roundup",
+  "announcements": [
+    {
+      "name": "NVIDIA OpenShell",
+      "what": "Open-source agent sandbox runtime with kernel-level isolation, policy engine, privacy router",
+      "relevance": 7,
+      "verdict": "WATCH",
+      "notes": "Covered in NemoClaw catalogue entry"
+    },
+    {
+      "name": "NVIDIA NemoClaw",
+      "what": "OpenClaw + OpenShell + Nemotron bundle for secure autonomous agents",
+      "relevance": 7,
+      "verdict": "WATCH",
+      "notes": "Full catalogue entry created"
+    },
+    {
+      "name": "NVIDIA Agent Toolkit / AI-Q",
+      "what": "Python framework for building multi-agent workflows with MCP/A2A support",
+      "relevance": 3,
+      "verdict": "WATCH",
+      "notes": "Python-only, enterprise-focused, not applicable to our CLI+tmux stack"
+    },
+    {
+      "name": "NVIDIA cuOpt",
+      "what": "GPU-accelerated combinatorial optimization (MILP, vehicle routing)",
+      "relevance": 2,
+      "verdict": "SKIP",
+      "notes": "Logistics optimization, not software agent orchestration"
+    },
+    {
+      "name": "Vera Rubin Platform",
+      "what": "Full-stack computing platform for agentic AI (7 chips, 5 rack systems)",
+      "relevance": 1,
+      "verdict": "SKIP",
+      "notes": "Hardware platform, not applicable"
+    },
+    {
+      "name": "DGX Spark / DGX Station",
+      "what": "Desktop/deskside AI supercomputers for local model inference",
+      "relevance": 2,
+      "verdict": "SKIP",
+      "notes": "Interesting for local model hosting but we use Claude Max subscriptions"
+    },
+    {
+      "name": "Nemotron 3",
+      "what": "Frontier open model family for language, reasoning, speech, vision",
+      "relevance": 3,
+      "verdict": "WATCH",
+      "notes": "Open model alternative, but we use Claude/GPT via subscriptions"
+    },
+    {
+      "name": "OpenClaw",
+      "what": "Open-source autonomous agent framework (100K+ GitHub stars)",
+      "relevance": 4,
+      "verdict": "WATCH",
+      "notes": "Primarily robotics/embodied AI focused, but 100K stars signals massive community"
+    }
+  ],
+  "overall_relevance": 4,
+  "summary": "GTC 2026 is overwhelmingly hardware + robotics + enterprise. The only items relevant to our coding agent orchestrator are OpenShell (sandbox runtime, 7/10) and NemoClaw (the bundled deployment, 7/10). Everything else targets enterprise GPU pipelines, physical AI, or logistics — not CLI-based coding agents. AI-Q is a WATCH for MCP/A2A protocol convergence signals.",
+  "fetched_at": "2026-03-19T10:05:00Z"
+}

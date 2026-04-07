@@ -1,0 +1,73 @@
+{
+  "source_url": "https://x.com/GoogleCloudTech/status/2033953579824758855",
+  "ingested_at": "2026-03-21T00:00:00Z",
+  "catalogue_path": "research/catalogue/posts/2026-03/googlecloudtech-5-adk-skill-design-patterns.md",
+  "type": "post",
+  "title": "5 Agent Skill Design Patterns Every ADK Developer Should Know",
+  "author": "@GoogleCloudTech (amplifying @Saboo_Shubham_ and @lavinigam)",
+  "date": "2026-03-17",
+  "relevance_score": 8,
+  "discoveries": [
+    {
+      "type": "pattern",
+      "name": "Tool Wrapper Pattern",
+      "description": "Package library docs/API references as reusable agent context — instant expertise on any library. Simplest skill pattern.",
+      "actionable": true,
+      "action": "Apply to our MCP tool skills — wrap each tool's documentation as a skill that agents load on demand"
+    },
+    {
+      "type": "pattern",
+      "name": "Generator Pattern",
+      "description": "Produce structured documents from reusable templates. Can compose with Inversion to gather variables first.",
+      "actionable": true,
+      "action": "Formalize our existing template-based code generation as Generator skills"
+    },
+    {
+      "type": "pattern",
+      "name": "Reviewer Pattern",
+      "description": "Score code/content against severity-organized checklists. Embeddable as Pipeline checkpoint.",
+      "actionable": true,
+      "action": "Map to our multi-model review quality gate — structure review prompts as severity-scored checklists"
+    },
+    {
+      "type": "pattern",
+      "name": "Inversion Pattern",
+      "description": "Agent interviews user before acting. Flips control from 'guess and act' to 'ask first, then act'.",
+      "actionable": true,
+      "action": "Apply to roadblock recovery — agents should gather context before attempting fixes"
+    },
+    {
+      "type": "pattern",
+      "name": "Pipeline Pattern",
+      "description": "Strict sequential workflow with checkpoints. Composes with Reviewer and other patterns.",
+      "actionable": true,
+      "action": "Our orchestrator loop is already a Pipeline — formalize as a named skill pattern"
+    },
+    {
+      "type": "insight",
+      "name": "Progressive Disclosure via SkillToolset",
+      "description": "ADK's SkillToolset loads skill context only when triggered, not upfront. Agents only spend tokens on patterns needed at runtime.",
+      "actionable": true,
+      "action": "Aligns with context-is-zero-sum principle — adopt progressive skill loading in our agent prompts"
+    },
+    {
+      "type": "insight",
+      "name": "Patterns Compose",
+      "description": "The five patterns are combinable: Pipeline+Reviewer, Generator+Inversion, etc. Building blocks, not rigid templates.",
+      "actionable": false,
+      "action": null
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://google.github.io/adk-docs/skills/",
+      "reason": "Official ADK Skills docs — L1/L2/L3 structure, SkillToolset API",
+      "suggested_command": "/ingest-article"
+    },
+    {
+      "url": "https://developers.googleblog.com/developers-guide-to-multi-agent-patterns-in-adk/",
+      "reason": "Complementary multi-agent patterns guide for ADK",
+      "suggested_command": "/ingest-article"
+    }
+  ]
+}

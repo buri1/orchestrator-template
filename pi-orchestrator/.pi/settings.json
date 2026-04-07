@@ -1,0 +1,7 @@
+{
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-5.4",
+  "steeringMode": "all",
+  "followUpMode": "all",
+  "theme": "dracula"
+}

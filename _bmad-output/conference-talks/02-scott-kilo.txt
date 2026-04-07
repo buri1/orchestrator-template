@@ -1,0 +1,1474 @@
+# Talk: AI-Driven Development Transformation at Kilo
+# Speaker: Scott (Kilo)
+# Conference: Coding Agents: AI Driven Dev Conference 2026
+# Source: https://www.youtube.com/watch?v=99Kxkemj1g8
+# Timestamp: 00:45:54 - 01:11:39
+# Lines: 1467
+
+[00:45:54] Hey, he's there. You give a big round of applause for Scott.
+[00:45:59] &gt;&gt; Yes. There you go.
+[00:46:02] &gt;&gt; Yes. There you go. Come on up, man.
+[00:46:03] Come on up, man.
+[00:46:03] Come on up, man. &gt;&gt; You got the pointer here
+[00:46:05] &gt;&gt; You got the pointer here
+[00:46:05] &gt;&gt; You got the pointer here &gt;&gt; and it is all yours.
+[00:46:06] &gt;&gt; and it is all yours.
+[00:46:06] &gt;&gt; and it is all yours. &gt;&gt; I thought you were going to make me grab
+[00:46:07] &gt;&gt; I thought you were going to make me grab
+[00:46:07] &gt;&gt; I thought you were going to make me grab one of the chairs, too, so I was
+[00:46:09] one of the chairs, too, so I was
+[00:46:09] one of the chairs, too, so I was preparing. Um,
+[00:46:10] preparing. Um,
+[00:46:10] preparing. Um, &gt;&gt; you never know.
+[00:46:11] &gt;&gt; you never know.
+[00:46:11] &gt;&gt; you never know. &gt;&gt; Cool. Thanks, Demetrius.
+[00:46:13] &gt;&gt; Cool. Thanks, Demetrius.
+[00:46:13] &gt;&gt; Cool. Thanks, Demetrius. &gt;&gt; Um, hi folks. I'm Scott. I'm co-founder
+[00:46:16] &gt;&gt; Um, hi folks. I'm Scott. I'm co-founder
+[00:46:16] &gt;&gt; Um, hi folks. I'm Scott. I'm co-founder and CEO at Kilo. We are the all-in-one
+[00:46:18] and CEO at Kilo. We are the all-in-one
+[00:46:18] and CEO at Kilo. We are the all-in-one agentic engineering platform. Um,
+[00:46:21] agentic engineering platform. Um,
+[00:46:21] agentic engineering platform. Um, there's a lot of slides. Um, so I'm here
+[00:46:24] there's a lot of slides. Um, so I'm here
+[00:46:24] there's a lot of slides. Um, so I'm here to tell you about all the lessons we
+[00:46:26] to tell you about all the lessons we
+[00:46:26] to tell you about all the lessons we learned. So Kilo we we started as a
+[00:46:29] learned. So Kilo we we started as a
+[00:46:29] learned. So Kilo we we started as a company in March so this time last year
+[00:46:31] company in March so this time last year
+[00:46:31] company in March so this time last year we launched in May and since then we've
+[00:46:34] we launched in May and since then we've
+[00:46:34] we launched in May and since then we've processed over I think the agenda
+[00:46:36] processed over I think the agenda
+[00:46:36] processed over I think the agenda originally said 20 trillion tokens but
+[00:46:39] originally said 20 trillion tokens but
+[00:46:39] originally said 20 trillion tokens but since we submitted this talk a month ago
+[00:46:41] since we submitted this talk a month ago
+[00:46:41] since we submitted this talk a month ago we are now at 25 trillion tokens. Um and
+[00:46:44] we are now at 25 trillion tokens. Um and
+[00:46:44] we are now at 25 trillion tokens. Um and so our goal is just to kind of share
+[00:46:45] so our goal is just to kind of share
+[00:46:46] so our goal is just to kind of share some of the learnings some of the
+[00:46:47] some of the learnings some of the
+[00:46:47] some of the learnings some of the bruises some of the bumps we've had
+[00:46:48] bruises some of the bumps we've had
+[00:46:48] bruises some of the bumps we've had along the way. Um we probably learned
+[00:46:50] along the way. Um we probably learned
+[00:46:50] along the way. Um we probably learned maybe 25 trillion lessons but I will
+[00:46:53] maybe 25 trillion lessons but I will
+[00:46:53] maybe 25 trillion lessons but I will keep it to a handful because I know we
+[00:46:54] keep it to a handful because I know we
+[00:46:54] keep it to a handful because I know we only have like 20 minutes. Um but really
+[00:46:57] only have like 20 minutes. Um but really
+[00:46:57] only have like 20 minutes. Um but really excited to share what we've learned.
+[00:46:58] excited to share what we've learned.
+[00:46:58] excited to share what we've learned. I've got some time for questions at the
+[00:46:59] I've got some time for questions at the
+[00:47:00] I've got some time for questions at the end. Um feel free to save them up and
+[00:47:02] end. Um feel free to save them up and
+[00:47:02] end. Um feel free to save them up and then we can dig in. So uh before we dig
+[00:47:06] then we can dig in. So uh before we dig
+[00:47:06] then we can dig in. So uh before we dig into the lessons, I really want to talk
+[00:47:07] into the lessons, I really want to talk
+[00:47:07] into the lessons, I really want to talk about the transformation that we're
+[00:47:10] about the transformation that we're
+[00:47:10] about the transformation that we're seeing within the entire industry and
+[00:47:11] seeing within the entire industry and
+[00:47:12] seeing within the entire industry and this is this is pretty personal for Kilo
+[00:47:14] this is this is pretty personal for Kilo
+[00:47:14] this is this is pretty personal for Kilo because this is the journey I've seen in
+[00:47:16] because this is the journey I've seen in
+[00:47:16] because this is the journey I've seen in the Kilo team. Um what's changing is um
+[00:47:20] the Kilo team. Um what's changing is um
+[00:47:20] the Kilo team. Um what's changing is um the the dev team is evolving. Uh if you
+[00:47:23] the the dev team is evolving. Uh if you
+[00:47:23] the the dev team is evolving. Uh if you looked at what a team was capable of
+[00:47:25] looked at what a team was capable of
+[00:47:25] looked at what a team was capable of maybe a year ago, this time in March, um
+[00:47:29] maybe a year ago, this time in March, um
+[00:47:29] maybe a year ago, this time in March, um they were shipping one feature every two
+[00:47:31] they were shipping one feature every two
+[00:47:31] they were shipping one feature every two to three weeks and kilo included. Uh
+[00:47:34] to three weeks and kilo included. Uh
+[00:47:34] to three weeks and kilo included. Uh where we are today, it's orders of
+[00:47:37] where we are today, it's orders of
+[00:47:37] where we are today, it's orders of magnitude different. We are shipping one
+[00:47:39] magnitude different. We are shipping one
+[00:47:39] magnitude different. We are shipping one to two features a week. And what's
+[00:47:42] to two features a week. And what's
+[00:47:42] to two features a week. And what's changing is not, you know, we didn't
+[00:47:44] changing is not, you know, we didn't
+[00:47:44] changing is not, you know, we didn't quadruple the team. We didn't change the
+[00:47:46] quadruple the team. We didn't change the
+[00:47:46] quadruple the team. We didn't change the deadlines. We're not 996ing. Um what
+[00:47:49] deadlines. We're not 996ing. Um what
+[00:47:50] deadlines. We're not 996ing. Um what we're doing is we stopped working like
+[00:47:51] we're doing is we stopped working like
+[00:47:51] we're doing is we stopped working like it's 2023 and we started working like
+[00:47:54] it's 2023 and we started working like
+[00:47:54] it's 2023 and we started working like it's 2027. Um and that's just that kind
+[00:47:57] it's 2027. Um and that's just that kind
+[00:47:57] it's 2027. Um and that's just that kind of fundamental shift uh that I'm going
+[00:47:59] of fundamental shift uh that I'm going
+[00:47:59] of fundamental shift uh that I'm going to unpack a little bit on the next
+[00:48:00] to unpack a little bit on the next
+[00:48:00] to unpack a little bit on the next slide. Um what's what's really changing
+[00:48:03] slide. Um what's what's really changing
+[00:48:03] slide. Um what's what's really changing and again we've seen this firsthand at
+[00:48:05] and again we've seen this firsthand at
+[00:48:05] and again we've seen this firsthand at Kilo is um the role of the developers
+[00:48:09] Kilo is um the role of the developers
+[00:48:09] Kilo is um the role of the developers completely changing. Um you know there's
+[00:48:11] completely changing. Um you know there's
+[00:48:11] completely changing. Um you know there's some people that are already doing this
+[00:48:13] some people that are already doing this
+[00:48:13] some people that are already doing this and there are going to be some people
+[00:48:14] and there are going to be some people
+[00:48:14] and there are going to be some people that are going to take another five 10 5
+[00:48:15] that are going to take another five 10 5
+[00:48:15] that are going to take another five 10 5 to 10 years to get there. But this is
+[00:48:17] to 10 years to get there. But this is
+[00:48:17] to 10 years to get there. But this is what high performing teams are doing
+[00:48:19] what high performing teams are doing
+[00:48:19] what high performing teams are doing right now. Um the old paradigm developer
+[00:48:22] right now. Um the old paradigm developer
+[00:48:22] right now. Um the old paradigm developer is code monkey. You are writing every
+[00:48:24] is code monkey. You are writing every
+[00:48:24] is code monkey. You are writing every line of code. You're doing templates.
+[00:48:26] line of code. You're doing templates.
+[00:48:26] line of code. You're doing templates. You're doing boilerplate. Um you're
+[00:48:28] You're doing boilerplate. Um you're
+[00:48:28] You're doing boilerplate. Um you're collaborating. There's an alignment
+[00:48:30] collaborating. There's an alignment
+[00:48:30] collaborating. There's an alignment meeting and there's a review meeting and
+[00:48:32] meeting and there's a review meeting and
+[00:48:32] meeting and there's a review meeting and then there's like a dock that you know
+[00:48:34] then there's like a dock that you know
+[00:48:34] then there's like a dock that you know with the product requirements that sits
+[00:48:36] with the product requirements that sits
+[00:48:36] with the product requirements that sits open for two weeks that someone
+[00:48:38] open for two weeks that someone
+[00:48:38] open for two weeks that someone everybody has to like touch before you
+[00:48:40] everybody has to like touch before you
+[00:48:40] everybody has to like touch before you even start coding. Um, and then you're
+[00:48:43] even start coding. Um, and then you're
+[00:48:43] even start coding. Um, and then you're always just kind of waiting on someone
+[00:48:45] always just kind of waiting on someone
+[00:48:45] always just kind of waiting on someone or context switching like I'm doing a
+[00:48:47] or context switching like I'm doing a
+[00:48:47] or context switching like I'm doing a task, I'm sending it, you know, for an
+[00:48:49] task, I'm sending it, you know, for an
+[00:48:49] task, I'm sending it, you know, for an input and then I got to switch to
+[00:48:51] input and then I got to switch to
+[00:48:51] input and then I got to switch to another task. Um, what's happening
+[00:48:53] another task. Um, what's happening
+[00:48:53] another task. Um, what's happening instead is that um the developer is
+[00:48:56] instead is that um the developer is
+[00:48:56] instead is that um the developer is becoming the orchestrator. They're um
+[00:48:58] becoming the orchestrator. They're um
+[00:48:58] becoming the orchestrator. They're um managing AI agents. They're guiding the
+[00:49:00] managing AI agents. They're guiding the
+[00:49:00] managing AI agents. They're guiding the vision. They're doing the things that
+[00:49:01] vision. They're doing the things that
+[00:49:01] vision. They're doing the things that humans are are really really good at.
+[00:49:05] humans are are really really good at.
+[00:49:05] humans are are really really good at. Um, and then what we're also doing at
+[00:49:07] Um, and then what we're also doing at
+[00:49:07] Um, and then what we're also doing at Kilo, um, and take this, please take
+[00:49:10] Kilo, um, and take this, please take
+[00:49:10] Kilo, um, and take this, please take this the right way, is like we try to
+[00:49:12] this the right way, is like we try to
+[00:49:12] this the right way, is like we try to avoid collaboration at all costs. We are
+[00:49:14] avoid collaboration at all costs. We are
+[00:49:14] avoid collaboration at all costs. We are very anti- collaboration. Um, big, you
+[00:49:17] very anti- collaboration. Um, big, you
+[00:49:17] very anti- collaboration. Um, big, you know, shout out to the Post Hog team.
+[00:49:19] know, shout out to the Post Hog team.
+[00:49:19] know, shout out to the Post Hog team. They have a great blog post on kind of
+[00:49:20] They have a great blog post on kind of
+[00:49:20] They have a great blog post on kind of the downside of collaboration. Um, yes,
+[00:49:23] the downside of collaboration. Um, yes,
+[00:49:23] the downside of collaboration. Um, yes, our our engineers do talk to other
+[00:49:24] our our engineers do talk to other
+[00:49:24] our our engineers do talk to other engineers, but we make sure it's not the
+[00:49:27] engineers, but we make sure it's not the
+[00:49:27] engineers, but we make sure it's not the default. We you only are supposed to
+[00:49:29] default. We you only are supposed to
+[00:49:29] default. We you only are supposed to kind of collaborate with someone if you
+[00:49:31] kind of collaborate with someone if you
+[00:49:31] kind of collaborate with someone if you really need to, and it adds value. Um
+[00:49:33] really need to, and it adds value. Um
+[00:49:33] really need to, and it adds value. Um because I think a lot of times a lot of
+[00:49:34] because I think a lot of times a lot of
+[00:49:34] because I think a lot of times a lot of this collaboration is kind of like
+[00:49:35] this collaboration is kind of like
+[00:49:36] this collaboration is kind of like almost like a I know like a safety
+[00:49:37] almost like a I know like a safety
+[00:49:37] almost like a I know like a safety blanket that that people do just to feel
+[00:49:39] blanket that that people do just to feel
+[00:49:39] blanket that that people do just to feel comfortable and when you strip it away
+[00:49:41] comfortable and when you strip it away
+[00:49:41] comfortable and when you strip it away it's like you really don't need it. Um
+[00:49:44] it's like you really don't need it. Um
+[00:49:44] it's like you really don't need it. Um and then so you've got these you know
+[00:49:46] and then so you've got these you know
+[00:49:46] and then so you've got these you know and I guess the other thing is just
+[00:49:47] and I guess the other thing is just
+[00:49:47] and I guess the other thing is just because we're not collaborating we're
+[00:49:48] because we're not collaborating we're
+[00:49:48] because we're not collaborating we're doing N10 ownership. So at Kilo every
+[00:49:51] doing N10 ownership. So at Kilo every
+[00:49:51] doing N10 ownership. So at Kilo every engineer owns a feature. It is not a
+[00:49:53] engineer owns a feature. It is not a
+[00:49:53] engineer owns a feature. It is not a team that owns a feature. There's only
+[00:49:55] team that owns a feature. There's only
+[00:49:55] team that owns a feature. There's only one engineer per feature. Uh Sesh, for
+[00:49:57] one engineer per feature. Uh Sesh, for
+[00:49:57] one engineer per feature. Uh Sesh, for example, owns code reviews from end to
+[00:49:59] example, owns code reviews from end to
+[00:49:59] example, owns code reviews from end to end, from conception to coding to
+[00:50:02] end, from conception to coding to
+[00:50:02] end, from conception to coding to deploying to actually working directly
+[00:50:04] deploying to actually working directly
+[00:50:04] deploying to actually working directly with the end users to get feedback and
+[00:50:05] with the end users to get feedback and
+[00:50:05] with the end users to get feedback and to iterate. And so we're we're we're
+[00:50:08] to iterate. And so we're we're we're
+[00:50:08] to iterate. And so we're we're we're kind of avoiding those velocity killers
+[00:50:10] kind of avoiding those velocity killers
+[00:50:10] kind of avoiding those velocity killers and we're instead leaning into these
+[00:50:11] and we're instead leaning into these
+[00:50:11] and we're instead leaning into these velocity multipliers. And and what we
+[00:50:13] velocity multipliers. And and what we
+[00:50:13] velocity multipliers. And and what we found is like in the age of AI, I guess
+[00:50:16] found is like in the age of AI, I guess
+[00:50:16] found is like in the age of AI, I guess coding is the easy part and the
+[00:50:18] coding is the easy part and the
+[00:50:18] coding is the easy part and the bottleneck is no longer the coding, it's
+[00:50:20] bottleneck is no longer the coding, it's
+[00:50:20] bottleneck is no longer the coding, it's kind of all the process. And so those
+[00:50:22] kind of all the process. And so those
+[00:50:22] kind of all the process. And so those are some of the biggest gains we've seen
+[00:50:23] are some of the biggest gains we've seen
+[00:50:23] are some of the biggest gains we've seen at Kilo and what's really kind of
+[00:50:25] at Kilo and what's really kind of
+[00:50:25] at Kilo and what's really kind of unlocked our speed. And you know, we
+[00:50:26] unlocked our speed. And you know, we
+[00:50:26] unlocked our speed. And you know, we have a saying at Kilo, which is the
+[00:50:28] have a saying at Kilo, which is the
+[00:50:28] have a saying at Kilo, which is the proof is in production. Uh, I encourage
+[00:50:30] proof is in production. Uh, I encourage
+[00:50:30] proof is in production. Uh, I encourage you all to take a look at like our
+[00:50:31] you all to take a look at like our
+[00:50:31] you all to take a look at like our product product release notes every
+[00:50:33] product product release notes every
+[00:50:33] product product release notes every Friday. Um, we ship and we ship fast.
+[00:50:36] Friday. Um, we ship and we ship fast.
+[00:50:36] Friday. Um, we ship and we ship fast. And I think we only have like um 15
+[00:50:38] And I think we only have like um 15
+[00:50:38] And I think we only have like um 15 engineers at the time. And, uh, just
+[00:50:39] engineers at the time. And, uh, just
+[00:50:39] engineers at the time. And, uh, just kind of that's kind of showing you you
+[00:50:41] kind of that's kind of showing you you
+[00:50:41] kind of that's kind of showing you you what's what's possible when um when
+[00:50:43] what's what's possible when um when
+[00:50:43] what's what's possible when um when you've kind of gone all in on AI and and
+[00:50:46] you've kind of gone all in on AI and and
+[00:50:46] you've kind of gone all in on AI and and minimizing velocity killers. Uh, but I
+[00:50:49] minimizing velocity killers. Uh, but I
+[00:50:49] minimizing velocity killers. Uh, but I think what's important to remember is
+[00:50:50] think what's important to remember is
+[00:50:50] think what's important to remember is that everybody in this room, I think, is
+[00:50:53] that everybody in this room, I think, is
+[00:50:53] that everybody in this room, I think, is very bought into everything I said. Like
+[00:50:55] very bought into everything I said. Like
+[00:50:55] very bought into everything I said. Like I'm sure you were nodding like uhhuh
+[00:50:57] I'm sure you were nodding like uhhuh
+[00:50:57] I'm sure you were nodding like uhhuh uhhuh uhhuh we do that we do that we'd
+[00:50:58] uhhuh uhhuh we do that we do that we'd
+[00:50:58] uhhuh uhhuh we do that we do that we'd like to do that but not everybody is um
+[00:51:02] like to do that but not everybody is um
+[00:51:02] like to do that but not everybody is um over kind of half of engine around half
+[00:51:04] over kind of half of engine around half
+[00:51:04] over kind of half of engine around half of devs don't even use AI
+[00:51:07] of devs don't even use AI
+[00:51:07] of devs don't even use AI every day uh threearters aren't using it
+[00:51:10] every day uh threearters aren't using it
+[00:51:10] every day uh threearters aren't using it to do kind of monitoring and deployment
+[00:51:12] to do kind of monitoring and deployment
+[00:51:12] to do kind of monitoring and deployment and you know at kilo we've seen some of
+[00:51:14] and you know at kilo we've seen some of
+[00:51:14] and you know at kilo we've seen some of the biggest gains and honestly some of
+[00:51:15] the biggest gains and honestly some of
+[00:51:15] the biggest gains and honestly some of the most boring things have been
+[00:51:17] the most boring things have been
+[00:51:17] the most boring things have been automated away in terms of monitoring
+[00:51:19] automated away in terms of monitoring
+[00:51:19] automated away in terms of monitoring and deployment and yet 75% of people
+[00:51:22] and deployment and yet 75% of people
+[00:51:22] and deployment and yet 75% of people three quarters are not doing that um and
+[00:51:24] three quarters are not doing that um and
+[00:51:24] three quarters are not doing that um and And then you've got the kind of 16% that
+[00:51:27] And then you've got the kind of 16% that
+[00:51:27] And then you've got the kind of 16% that I call like, you know, putting their
+[00:51:28] I call like, you know, putting their
+[00:51:28] I call like, you know, putting their head in the sand. Um that's that's real
+[00:51:31] head in the sand. Um that's that's real
+[00:51:31] head in the sand. Um that's that's real like outside of the bay, outside of this
+[00:51:34] like outside of the bay, outside of this
+[00:51:34] like outside of the bay, outside of this room. Um there's a lot of people in the
+[00:51:36] room. Um there's a lot of people in the
+[00:51:36] room. Um there's a lot of people in the world that are still kind of getting up
+[00:51:37] world that are still kind of getting up
+[00:51:37] world that are still kind of getting up that learning curve. And um you know,
+[00:51:39] that learning curve. And um you know,
+[00:51:40] that learning curve. And um you know, I'm going to talk to you about how we've
+[00:51:41] I'm going to talk to you about how we've
+[00:51:41] I'm going to talk to you about how we've at Kilo have ourselves got up that
+[00:51:43] at Kilo have ourselves got up that
+[00:51:43] at Kilo have ourselves got up that learning curve and um how we've seen our
+[00:51:47] learning curve and um how we've seen our
+[00:51:47] learning curve and um how we've seen our end users uh get up that learning curve.
+[00:51:49] end users uh get up that learning curve.
+[00:51:49] end users uh get up that learning curve. Uh and we speak from experience. We've
+[00:51:51] Uh and we speak from experience. We've
+[00:51:51] Uh and we speak from experience. We've had 25 plus trillion tokens processed
+[00:51:54] had 25 plus trillion tokens processed
+[00:51:54] had 25 plus trillion tokens processed since we launched in May. Um, and over
+[00:51:56] since we launched in May. Um, and over
+[00:51:56] since we launched in May. Um, and over 1.5 million developers. And so what
+[00:51:58] 1.5 million developers. And so what
+[00:51:58] 1.5 million developers. And so what we've done is we've kind of combined
+[00:51:59] we've done is we've kind of combined
+[00:51:59] we've done is we've kind of combined some anecdotes from talking to users and
+[00:52:02] some anecdotes from talking to users and
+[00:52:02] some anecdotes from talking to users and actually the the data we min to to pull
+[00:52:04] actually the the data we min to to pull
+[00:52:04] actually the the data we min to to pull some lessons on kind of what mistakes we
+[00:52:07] some lessons on kind of what mistakes we
+[00:52:07] some lessons on kind of what mistakes we made and maybe uh you can avoid making.
+[00:52:10] made and maybe uh you can avoid making.
+[00:52:10] made and maybe uh you can avoid making. Um, I think the first thing is that
+[00:52:12] Um, I think the first thing is that
+[00:52:12] Um, I think the first thing is that developers don't just like jump into AI.
+[00:52:13] developers don't just like jump into AI.
+[00:52:14] developers don't just like jump into AI. They're not like, you know, um, the
+[00:52:16] They're not like, you know, um, the
+[00:52:16] They're not like, you know, um, the Matrix. It's not like I know gung fu
+[00:52:18] Matrix. It's not like I know gung fu
+[00:52:18] Matrix. It's not like I know gung fu right away. You plug in. Um, it's a
+[00:52:20] right away. You plug in. Um, it's a
+[00:52:20] right away. You plug in. Um, it's a journey. You have to climb and you have
+[00:52:22] journey. You have to climb and you have
+[00:52:22] journey. You have to climb and you have to earn it. And so I kind of think of it
+[00:52:24] to earn it. And so I kind of think of it
+[00:52:24] to earn it. And so I kind of think of it as like autocomplete is that like
+[00:52:26] as like autocomplete is that like
+[00:52:26] as like autocomplete is that like gateway drug. You know, you're in
+[00:52:28] gateway drug. You know, you're in
+[00:52:28] gateway drug. You know, you're in control. You're tabbing. Um, you don't
+[00:52:31] control. You're tabbing. Um, you don't
+[00:52:31] control. You're tabbing. Um, you don't even think of it as like AI. It's just,
+[00:52:33] even think of it as like AI. It's just,
+[00:52:33] even think of it as like AI. It's just, you know, autocomplete. Um, and again,
+[00:52:35] you know, autocomplete. Um, and again,
+[00:52:35] you know, autocomplete. Um, and again, you don't have to think about it. Then
+[00:52:37] you don't have to think about it. Then
+[00:52:37] you don't have to think about it. Then you start to chat. You're you're still
+[00:52:39] you start to chat. You're you're still
+[00:52:39] you start to chat. You're you're still in control. You're asking questions.
+[00:52:41] in control. You're asking questions.
+[00:52:41] in control. You're asking questions. You're you're kind of giving it the
+[00:52:42] You're you're kind of giving it the
+[00:52:42] You're you're kind of giving it the right context. Um and you know and then
+[00:52:46] right context. Um and you know and then
+[00:52:46] right context. Um and you know and then you've got um like single agent you're
+[00:52:49] you've got um like single agent you're
+[00:52:49] you've got um like single agent you're delegating you know one task and you're
+[00:52:50] delegating you know one task and you're
+[00:52:50] delegating you know one task and you're kind of watching it and like honestly
+[00:52:52] kind of watching it and like honestly
+[00:52:52] kind of watching it and like honestly that's where we were probably August
+[00:52:53] that's where we were probably August
+[00:52:53] that's where we were probably August September is single agent. I kind of
+[00:52:55] September is single agent. I kind of
+[00:52:55] September is single agent. I kind of think of that as you know when you were
+[00:52:57] think of that as you know when you were
+[00:52:57] think of that as you know when you were kind of getting your driver's lesson
+[00:52:59] kind of getting your driver's lesson
+[00:52:59] kind of getting your driver's lesson when like you're in a car but there's
+[00:53:00] when like you're in a car but there's
+[00:53:00] when like you're in a car but there's like you're in the driver's seat but
+[00:53:02] like you're in the driver's seat but
+[00:53:02] like you're in the driver's seat but there's also like the instructor has
+[00:53:04] there's also like the instructor has
+[00:53:04] there's also like the instructor has their own steering wheel. That's like
+[00:53:06] their own steering wheel. That's like
+[00:53:06] their own steering wheel. That's like you give AI the steering wheel but you
+[00:53:08] you give AI the steering wheel but you
+[00:53:08] you give AI the steering wheel but you also have a secret steering wheel and a
+[00:53:09] also have a secret steering wheel and a
+[00:53:09] also have a secret steering wheel and a secret brake that you can stop at any
+[00:53:11] secret brake that you can stop at any
+[00:53:11] secret brake that you can stop at any time. Um, and then the last step is is
+[00:53:14] time. Um, and then the last step is is
+[00:53:14] time. Um, and then the last step is is orchestration where you're kind of going
+[00:53:16] orchestration where you're kind of going
+[00:53:16] orchestration where you're kind of going deep. You are actually your role has
+[00:53:18] deep. You are actually your role has
+[00:53:18] deep. You are actually your role has changed to being very hands-off and
+[00:53:19] changed to being very hands-off and
+[00:53:19] changed to being very hands-off and letting the agents run. Um, and at that
+[00:53:22] letting the agents run. Um, and at that
+[00:53:22] letting the agents run. Um, and at that point, it's like AI's got the wheel, you
+[00:53:24] point, it's like AI's got the wheel, you
+[00:53:24] point, it's like AI's got the wheel, you better pray. Um, and in order to get up
+[00:53:27] better pray. Um, and in order to get up
+[00:53:27] better pray. Um, and in order to get up that that kind of ladder, you have to
+[00:53:29] that that kind of ladder, you have to
+[00:53:29] that that kind of ladder, you have to give more and more trust. And we saw
+[00:53:31] give more and more trust. And we saw
+[00:53:31] give more and more trust. And we saw that even at Kilo when when a developer
+[00:53:34] that even at Kilo when when a developer
+[00:53:34] that even at Kilo when when a developer you know we will often have developers
+[00:53:36] you know we will often have developers
+[00:53:36] you know we will often have developers join Kilo and um they'll come from a
+[00:53:39] join Kilo and um they'll come from a
+[00:53:39] join Kilo and um they'll come from a traditional company that's operating in
+[00:53:41] traditional company that's operating in
+[00:53:41] traditional company that's operating in 2023 and we'll see that journey is you
+[00:53:43] 2023 and we'll see that journey is you
+[00:53:43] 2023 and we'll see that journey is you know usually it takes a week but you
+[00:53:45] know usually it takes a week but you
+[00:53:46] know usually it takes a week but you know at first they're kind of very much
+[00:53:47] know at first they're kind of very much
+[00:53:47] know at first they're kind of very much in control and then they start to see
+[00:53:49] in control and then they start to see
+[00:53:49] in control and then they start to see the people around them moving faster and
+[00:53:50] the people around them moving faster and
+[00:53:50] the people around them moving faster and faster and kind of see what's capable
+[00:53:52] faster and kind of see what's capable
+[00:53:52] faster and kind of see what's capable and then they earn the trust and they
+[00:53:53] and then they earn the trust and they
+[00:53:53] and then they earn the trust and they get up to orchestration and so now at
+[00:53:55] get up to orchestration and so now at
+[00:53:55] get up to orchestration and so now at Kilo at any given time our developers
+[00:53:57] Kilo at any given time our developers
+[00:53:57] Kilo at any given time our developers are using two three four um parallel
+[00:54:00] are using two three four um parallel
+[00:54:00] are using two three four um parallel agents breaking up what their tasks are
+[00:54:02] agents breaking up what their tasks are
+[00:54:02] agents breaking up what their tasks are and and kind of their role is is
+[00:54:05] and and kind of their role is is
+[00:54:05] and and kind of their role is is essentially orchestrator of agents. Um
+[00:54:08] essentially orchestrator of agents. Um
+[00:54:08] essentially orchestrator of agents. Um but I think on that ladder what we
+[00:54:10] but I think on that ladder what we
+[00:54:10] but I think on that ladder what we really learned from kind of looking at
+[00:54:12] really learned from kind of looking at
+[00:54:12] really learned from kind of looking at user data from our experience is that
+[00:54:14] user data from our experience is that
+[00:54:14] user data from our experience is that like at any point the the the trust can
+[00:54:17] like at any point the the the trust can
+[00:54:17] like at any point the the the trust can can be broken and you kind of just fall
+[00:54:19] can be broken and you kind of just fall
+[00:54:19] can be broken and you kind of just fall down the ladder. Um, you know, for
+[00:54:21] down the ladder. Um, you know, for
+[00:54:21] down the ladder. Um, you know, for example, if you're getting a few set
+[00:54:23] example, if you're getting a few set
+[00:54:23] example, if you're getting a few set slow suggestions in a row, I'm turning
+[00:54:26] slow suggestions in a row, I'm turning
+[00:54:26] slow suggestions in a row, I'm turning off autocomplete. And you know, we even
+[00:54:29] off autocomplete. And you know, we even
+[00:54:29] off autocomplete. And you know, we even noticed that when our latency peaked at
+[00:54:31] noticed that when our latency peaked at
+[00:54:31] noticed that when our latency peaked at uh 200 milliseconds, usage went down.
+[00:54:34] uh 200 milliseconds, usage went down.
+[00:54:34] uh 200 milliseconds, usage went down. And I mean, I think that's what we've
+[00:54:36] And I mean, I think that's what we've
+[00:54:36] And I mean, I think that's what we've been obsessively focused on is
+[00:54:37] been obsessively focused on is
+[00:54:37] been obsessively focused on is monitoring how how usage is kind of
+[00:54:40] monitoring how how usage is kind of
+[00:54:40] monitoring how how usage is kind of trending and obsessing about how to make
+[00:54:43] trending and obsessing about how to make
+[00:54:43] trending and obsessing about how to make it faster and faster because latency is
+[00:54:44] it faster and faster because latency is
+[00:54:44] it faster and faster because latency is real. If you're t typing and it's like
+[00:54:48] real. If you're t typing and it's like
+[00:54:48] real. If you're t typing and it's like suggest something and you've already
+[00:54:49] suggest something and you've already
+[00:54:49] suggest something and you've already moved on or it's not relevant again,
+[00:54:51] moved on or it's not relevant again,
+[00:54:51] moved on or it's not relevant again, trust is lost. Um, if your agent is
+[00:54:54] trust is lost. Um, if your agent is
+[00:54:54] trust is lost. Um, if your agent is editing in the wrong file path, you're
+[00:54:56] editing in the wrong file path, you're
+[00:54:56] editing in the wrong file path, you're just like, whoa, this is scary. I'm not
+[00:54:58] just like, whoa, this is scary. I'm not
+[00:54:58] just like, whoa, this is scary. I'm not going to do it. Um, and then if you have
+[00:55:00] going to do it. Um, and then if you have
+[00:55:00] going to do it. Um, and then if you have an orchestrator and you know,
+[00:55:02] an orchestrator and you know,
+[00:55:02] an orchestrator and you know, everybody's like, "Yeah, you just tell
+[00:55:03] everybody's like, "Yeah, you just tell
+[00:55:03] everybody's like, "Yeah, you just tell AI and it just does stuff." Um, and then
+[00:55:06] AI and it just does stuff." Um, and then
+[00:55:06] AI and it just does stuff." Um, and then every 30 30 seconds it's like, "Hey, uh,
+[00:55:09] every 30 30 seconds it's like, "Hey, uh,
+[00:55:09] every 30 30 seconds it's like, "Hey, uh, can I have permission or can you review
+[00:55:10] can I have permission or can you review
+[00:55:10] can I have permission or can you review that?" or maybe it's just coming up with
+[00:55:12] that?" or maybe it's just coming up with
+[00:55:12] that?" or maybe it's just coming up with terrible suggestions and therefore you
+[00:55:13] terrible suggestions and therefore you
+[00:55:13] terrible suggestions and therefore you feel like you have to review it and you
+[00:55:15] feel like you have to review it and you
+[00:55:15] feel like you have to review it and you you end up actually moving slower
+[00:55:17] you end up actually moving slower
+[00:55:17] you end up actually moving slower because you're using AI. Again, that's
+[00:55:18] because you're using AI. Again, that's
+[00:55:18] because you're using AI. Again, that's an opportunity where like trust is lost.
+[00:55:20] an opportunity where like trust is lost.
+[00:55:20] an opportunity where like trust is lost. And so what we found is really important
+[00:55:22] And so what we found is really important
+[00:55:22] And so what we found is really important at Kilo um for the kind of engineering
+[00:55:24] at Kilo um for the kind of engineering
+[00:55:24] at Kilo um for the kind of engineering experience is like we need to be very
+[00:55:26] experience is like we need to be very
+[00:55:26] experience is like we need to be very careful about these moments where trust
+[00:55:29] careful about these moments where trust
+[00:55:29] careful about these moments where trust can be created or it can be lost. Um and
+[00:55:32] can be created or it can be lost. Um and
+[00:55:32] can be created or it can be lost. Um and and we we we consistently see AI, you
+[00:55:36] and we we we consistently see AI, you
+[00:55:36] and we we we consistently see AI, you know, adoption breaking at the same
+[00:55:39] know, adoption breaking at the same
+[00:55:39] know, adoption breaking at the same three points. It's it's context. It's
+[00:55:41] three points. It's it's context. It's
+[00:55:41] three points. It's it's context. It's just making sure that AI, you know, the
+[00:55:43] just making sure that AI, you know, the
+[00:55:43] just making sure that AI, you know, the your agentic engineering tool knows what
+[00:55:45] your agentic engineering tool knows what
+[00:55:46] your agentic engineering tool knows what it's talking about, has the right
+[00:55:47] it's talking about, has the right
+[00:55:47] it's talking about, has the right information. Um, and again, you know, we
+[00:55:49] information. Um, and again, you know, we
+[00:55:49] information. Um, and again, you know, we were chatting about context in the in
+[00:55:51] were chatting about context in the in
+[00:55:51] were chatting about context in the in the in the last talk. And I mean, just
+[00:55:52] the in the last talk. And I mean, just
+[00:55:52] the in the last talk. And I mean, just context is so important. And again, you
+[00:55:54] context is so important. And again, you
+[00:55:54] context is so important. And again, you got to get it right. The next is having
+[00:55:56] got to get it right. The next is having
+[00:55:56] got to get it right. The next is having the right model for the job. We're big
+[00:55:58] the right model for the job. We're big
+[00:55:58] the right model for the job. We're big believers that you need the right model
+[00:56:00] believers that you need the right model
+[00:56:00] believers that you need the right model for the right task and you need a tool
+[00:56:02] for the right task and you need a tool
+[00:56:02] for the right task and you need a tool that helps you, you know, again, there's
+[00:56:04] that helps you, you know, again, there's
+[00:56:04] that helps you, you know, again, there's some people that want to know all the
+[00:56:05] some people that want to know all the
+[00:56:05] some people that want to know all the dials and and kind of select which
+[00:56:07] dials and and kind of select which
+[00:56:07] dials and and kind of select which model. I think most of us just want it
+[00:56:09] model. I think most of us just want it
+[00:56:09] model. I think most of us just want it to be done and it to find the right
+[00:56:11] to be done and it to find the right
+[00:56:11] to be done and it to find the right model for us. Um, and then the last bit
+[00:56:13] model for us. Um, and then the last bit
+[00:56:13] model for us. Um, and then the last bit is, you know, AI is changing so fast in
+[00:56:16] is, you know, AI is changing so fast in
+[00:56:16] is, you know, AI is changing so fast in AI tooling. You you want a tool that
+[00:56:19] AI tooling. You you want a tool that
+[00:56:19] AI tooling. You you want a tool that just gets better every day that like,
+[00:56:21] just gets better every day that like,
+[00:56:21] just gets better every day that like, you know, there's, you know, AI is
+[00:56:23] you know, there's, you know, AI is
+[00:56:23] you know, there's, you know, AI is moving fast and so your tool might have
+[00:56:24] moving fast and so your tool might have
+[00:56:24] moving fast and so your tool might have a sharp edge, but you're the expectation
+[00:56:26] a sharp edge, but you're the expectation
+[00:56:26] a sharp edge, but you're the expectation is that sharp edge is gone later that
+[00:56:28] is that sharp edge is gone later that
+[00:56:28] is that sharp edge is gone later that day, the next day or the next day. And
+[00:56:30] day, the next day or the next day. And
+[00:56:30] day, the next day or the next day. And so you want to we've we've been really
+[00:56:32] so you want to we've we've been really
+[00:56:32] so you want to we've we've been really focused that whenever we kind of get
+[00:56:33] focused that whenever we kind of get
+[00:56:34] focused that whenever we kind of get feedback um we're learning from it and
+[00:56:36] feedback um we're learning from it and
+[00:56:36] feedback um we're learning from it and we're like the autocomplete we're making
+[00:56:38] we're like the autocomplete we're making
+[00:56:38] we're like the autocomplete we're making it faster and faster every single time.
+[00:56:40] it faster and faster every single time.
+[00:56:40] it faster and faster every single time. Uh, and so what's what's kind of the
+[00:56:43] Uh, and so what's what's kind of the
+[00:56:43] Uh, and so what's what's kind of the ironic thing is like for you kind of got
+[00:56:46] ironic thing is like for you kind of got
+[00:56:46] ironic thing is like for you kind of got to give trust to get trust, which is
+[00:56:49] to give trust to get trust, which is
+[00:56:49] to give trust to get trust, which is essentially like saying as you get
+[00:56:51] essentially like saying as you get
+[00:56:51] essentially like saying as you get deeper and deeper down that AI rabbit
+[00:56:53] deeper and deeper down that AI rabbit
+[00:56:53] deeper and deeper down that AI rabbit hole or further up the ladder. What's
+[00:56:55] hole or further up the ladder. What's
+[00:56:56] hole or further up the ladder. What's really important is as a user you need
+[00:56:57] really important is as a user you need
+[00:56:57] really important is as a user you need to be kind of opening up the books kind
+[00:56:59] to be kind of opening up the books kind
+[00:56:59] to be kind of opening up the books kind of giving more and more information to
+[00:57:01] of giving more and more information to
+[00:57:01] of giving more and more information to your agentic engineering platform uh to
+[00:57:03] your agentic engineering platform uh to
+[00:57:03] your agentic engineering platform uh to your AI tool to be more and more
+[00:57:05] your AI tool to be more and more
+[00:57:05] your AI tool to be more and more effective and therefore it will have
+[00:57:07] effective and therefore it will have
+[00:57:07] effective and therefore it will have more effective results which will then
+[00:57:09] more effective results which will then
+[00:57:09] more effective results which will then kind of lead to more trust. So it's kind
+[00:57:10] kind of lead to more trust. So it's kind
+[00:57:10] kind of lead to more trust. So it's kind of that trust cycle and so when you
+[00:57:12] of that trust cycle and so when you
+[00:57:12] of that trust cycle and so when you first start autocomplete you don't
+[00:57:14] first start autocomplete you don't
+[00:57:14] first start autocomplete you don't really have to give it much context. It
+[00:57:15] really have to give it much context. It
+[00:57:16] really have to give it much context. It has to look at the file, maybe some
+[00:57:17] has to look at the file, maybe some
+[00:57:17] has to look at the file, maybe some imports, may maybe some some relevant
+[00:57:19] imports, may maybe some some relevant
+[00:57:19] imports, may maybe some some relevant files, but it it's you don't really have
+[00:57:21] files, but it it's you don't really have
+[00:57:21] files, but it it's you don't really have to open up the books. When um you're
+[00:57:24] to open up the books. When um you're
+[00:57:24] to open up the books. When um you're looking at chat, then you're starting to
+[00:57:26] looking at chat, then you're starting to
+[00:57:26] looking at chat, then you're starting to kind of have a look at multiple files,
+[00:57:28] kind of have a look at multiple files,
+[00:57:28] kind of have a look at multiple files, the broader repository, related files,
+[00:57:30] the broader repository, related files,
+[00:57:30] the broader repository, related files, the docs. Um and then, you know, when
+[00:57:33] the docs. Um and then, you know, when
+[00:57:33] the docs. Um and then, you know, when you've got agents, full repo,
+[00:57:35] you've got agents, full repo,
+[00:57:35] you've got agents, full repo, dependencies, upstream, downstream, they
+[00:57:37] dependencies, upstream, downstream, they
+[00:57:37] dependencies, upstream, downstream, they it needs to know the ecosystem. And then
+[00:57:39] it needs to know the ecosystem. And then
+[00:57:39] it needs to know the ecosystem. And then lastly, when you're doing orchestration,
+[00:57:40] lastly, when you're doing orchestration,
+[00:57:40] lastly, when you're doing orchestration, it's not just it needs to know uh the
+[00:57:43] it's not just it needs to know uh the
+[00:57:43] it's not just it needs to know uh the agent just needs to know one repo. it
+[00:57:45] agent just needs to know one repo. it
+[00:57:45] agent just needs to know one repo. it needs to know all your repos. And so I I
+[00:57:47] needs to know all your repos. And so I I
+[00:57:47] needs to know all your repos. And so I I I'll give you an example. Um I'm a data
+[00:57:49] I'll give you an example. Um I'm a data
+[00:57:49] I'll give you an example. Um I'm a data guy by background. Uh and you know,
+[00:57:52] guy by background. Uh and you know,
+[00:57:52] guy by background. Uh and you know, we've got an amazing data team at Kilo.
+[00:57:55] we've got an amazing data team at Kilo.
+[00:57:55] we've got an amazing data team at Kilo. It's a like all teams at Kilo, it's it's
+[00:57:57] It's a like all teams at Kilo, it's it's
+[00:57:57] It's a like all teams at Kilo, it's it's like a team of one. Um his name is
+[00:57:59] like a team of one. Um his name is
+[00:57:59] like a team of one. Um his name is Pedro. He's a oneperson army. Uh when he
+[00:58:02] Pedro. He's a oneperson army. Uh when he
+[00:58:02] Pedro. He's a oneperson army. Uh when he came into Kilo, we did not have much in
+[00:58:04] came into Kilo, we did not have much in
+[00:58:04] came into Kilo, we did not have much in terms of kind of data infrastructure.
+[00:58:06] terms of kind of data infrastructure.
+[00:58:06] terms of kind of data infrastructure. What he did really effectively was he
+[00:58:08] What he did really effectively was he
+[00:58:08] What he did really effectively was he built in a week or two from the ground
+[00:58:11] built in a week or two from the ground
+[00:58:11] built in a week or two from the ground up um our whole DBT data model. um it
+[00:58:14] up um our whole DBT data model. um it
+[00:58:14] up um our whole DBT data model. um it would have taken I don't know six months
+[00:58:16] would have taken I don't know six months
+[00:58:16] would have taken I don't know six months in a previous world and how he did it
+[00:58:18] in a previous world and how he did it
+[00:58:18] in a previous world and how he did it was he didn't just interrogate the data
+[00:58:20] was he didn't just interrogate the data
+[00:58:20] was he didn't just interrogate the data he gave he did it all in kilo he gave
+[00:58:23] he gave he did it all in kilo he gave
+[00:58:23] he gave he did it all in kilo he gave kilo the repository that he was working
+[00:58:25] kilo the repository that he was working
+[00:58:25] kilo the repository that he was working with the project he was working on he
+[00:58:27] with the project he was working on he
+[00:58:27] with the project he was working on he gave it access to the actually the
+[00:58:29] gave it access to the actually the
+[00:58:29] gave it access to the actually the repository that had the application code
+[00:58:31] repository that had the application code
+[00:58:31] repository that had the application code so what was important is his agent that
+[00:58:33] so what was important is his agent that
+[00:58:34] so what was important is his agent that was developing transformations for a
+[00:58:35] was developing transformations for a
+[00:58:35] was developing transformations for a data warehouse actually was aware of the
+[00:58:39] data warehouse actually was aware of the
+[00:58:39] data warehouse actually was aware of the application itself and how it was
+[00:58:40] application itself and how it was
+[00:58:40] application itself and how it was structured the application that was
+[00:58:42] structured the application that was
+[00:58:42] structured the application that was creating the data
+[00:58:43] creating the data
+[00:58:44] creating the data Um, and that was the huge unlock for him
+[00:58:45] Um, and that was the huge unlock for him
+[00:58:45] Um, and that was the huge unlock for him is that kind of he went deep in that
+[00:58:47] is that kind of he went deep in that
+[00:58:47] is that kind of he went deep in that orchestration um, kind of tier because
+[00:58:50] orchestration um, kind of tier because
+[00:58:50] orchestration um, kind of tier because he really embraced and said, "Hey, I
+[00:58:51] he really embraced and said, "Hey, I
+[00:58:51] he really embraced and said, "Hey, I want this agent to have all the context
+[00:58:53] want this agent to have all the context
+[00:58:53] want this agent to have all the context about the entire organization." Um, and
+[00:58:55] about the entire organization." Um, and
+[00:58:55] about the entire organization." Um, and it it meant that he could move 10 times
+[00:58:57] it it meant that he could move 10 times
+[00:58:57] it it meant that he could move 10 times faster than he would have because it
+[00:58:59] faster than he would have because it
+[00:58:59] faster than he would have because it knew where how the data was created. It
+[00:59:00] knew where how the data was created. It
+[00:59:00] knew where how the data was created. It had the origin story. It didn't have to
+[00:59:02] had the origin story. It didn't have to
+[00:59:02] had the origin story. It didn't have to ask.
+[00:59:03] ask.
+[00:59:03] ask. Um,
+[00:59:05] Um,
+[00:59:05] Um, another kind of philosophy that that is
+[00:59:07] another kind of philosophy that that is
+[00:59:07] another kind of philosophy that that is really important for us at Kilo is is
+[00:59:09] really important for us at Kilo is is
+[00:59:09] really important for us at Kilo is is picking the right model for the job. Um,
+[00:59:11] picking the right model for the job. Um,
+[00:59:11] picking the right model for the job. Um, and I I'll be honest, like we messed up
+[00:59:14] and I I'll be honest, like we messed up
+[00:59:14] and I I'll be honest, like we messed up here when we were first started. We were
+[00:59:15] here when we were first started. We were
+[00:59:15] here when we were first started. We were just like, "Fuck yeah, let's like send
+[00:59:17] just like, "Fuck yeah, let's like send
+[00:59:17] just like, "Fuck yeah, let's like send it to the most expensive model. I'll get
+[00:59:19] it to the most expensive model. I'll get
+[00:59:19] it to the most expensive model. I'll get the best result." And sometimes that is
+[00:59:23] the best result." And sometimes that is
+[00:59:23] the best result." And sometimes that is the right way to go. Um, Opus is a
+[00:59:25] the right way to go. Um, Opus is a
+[00:59:25] the right way to go. Um, Opus is a phenomenal model. Great to start with
+[00:59:27] phenomenal model. Great to start with
+[00:59:27] phenomenal model. Great to start with architecture, but some of these big
+[00:59:28] architecture, but some of these big
+[00:59:28] architecture, but some of these big models are expensive. Um, and a little
+[00:59:31] models are expensive. Um, and a little
+[00:59:31] models are expensive. Um, and a little slower because they're big and complex.
+[00:59:33] slower because they're big and complex.
+[00:59:33] slower because they're big and complex. Uh, and so you might kind of get in a
+[00:59:35] Uh, and so you might kind of get in a
+[00:59:35] Uh, and so you might kind of get in a state where you if you throw everything
+[00:59:36] state where you if you throw everything
+[00:59:36] state where you if you throw everything at the latest state-of-the-art model,
+[00:59:38] at the latest state-of-the-art model,
+[00:59:38] at the latest state-of-the-art model, um, you spend a lot of money. you're
+[00:59:40] um, you spend a lot of money. you're
+[00:59:40] um, you spend a lot of money. you're essentially heating your home with
+[00:59:41] essentially heating your home with
+[00:59:42] essentially heating your home with inference. It's just like churning. Um,
+[00:59:44] inference. It's just like churning. Um,
+[00:59:44] inference. It's just like churning. Um, and it's slow and you're not moving
+[00:59:45] and it's slow and you're not moving
+[00:59:46] and it's slow and you're not moving fast. What we're big believers on is um,
+[00:59:49] fast. What we're big believers on is um,
+[00:59:49] fast. What we're big believers on is um, picking the right model for the job. You
+[00:59:51] picking the right model for the job. You
+[00:59:51] picking the right model for the job. You know, for those complex architecture
+[00:59:52] know, for those complex architecture
+[00:59:52] know, for those complex architecture tasks, yeah, start with a
+[00:59:53] tasks, yeah, start with a
+[00:59:53] tasks, yeah, start with a state-of-the-art model for when you're
+[00:59:55] state-of-the-art model for when you're
+[00:59:55] state-of-the-art model for when you're coding, debugging, and you want to move
+[00:59:56] coding, debugging, and you want to move
+[00:59:56] coding, debugging, and you want to move fast. Use one of those more
+[00:59:58] fast. Use one of those more
+[00:59:58] fast. Use one of those more cost-effective models like um, Kimmy or
+[01:00:00] cost-effective models like um, Kimmy or
+[01:00:00] cost-effective models like um, Kimmy or Miniax or GLM. And I think what the
+[01:00:03] Miniax or GLM. And I think what the
+[01:00:03] Miniax or GLM. And I think what the power is and what we've seen across all
+[01:00:05] power is and what we've seen across all
+[01:00:05] power is and what we've seen across all of our users is not when they use one
+[01:00:07] of our users is not when they use one
+[01:00:07] of our users is not when they use one model or this model. It's when they
+[01:00:09] model or this model. It's when they
+[01:00:10] model or this model. It's when they combine the models and use the right
+[01:00:11] combine the models and use the right
+[01:00:11] combine the models and use the right model for the job.
+[01:00:14] model for the job.
+[01:00:14] model for the job. Um the the the other thing that we've
+[01:00:16] Um the the the other thing that we've
+[01:00:16] Um the the the other thing that we've learned is that you know trust is
+[01:00:19] learned is that you know trust is
+[01:00:19] learned is that you know trust is measurable. It's not like this like oo
+[01:00:21] measurable. It's not like this like oo
+[01:00:21] measurable. It's not like this like oo like in the air like it's trust. It's
+[01:00:24] like in the air like it's trust. It's
+[01:00:24] like in the air like it's trust. It's actually trust is it's measurable to see
+[01:00:27] actually trust is it's measurable to see
+[01:00:27] actually trust is it's measurable to see if people actually are using the feature
+[01:00:29] if people actually are using the feature
+[01:00:29] if people actually are using the feature um and kind of trusting the result. And
+[01:00:32] um and kind of trusting the result. And
+[01:00:32] um and kind of trusting the result. And it, you know, to be transparent, gets
+[01:00:35] it, you know, to be transparent, gets
+[01:00:35] it, you know, to be transparent, gets harder and harder the further someone
+[01:00:36] harder and harder the further someone
+[01:00:36] harder and harder the further someone goes up that level of advancement in
+[01:00:39] goes up that level of advancement in
+[01:00:39] goes up that level of advancement in agentic engineering. Um, when you first
+[01:00:41] agentic engineering. Um, when you first
+[01:00:41] agentic engineering. Um, when you first start with autocomplete, we're like, you
+[01:00:43] start with autocomplete, we're like, you
+[01:00:43] start with autocomplete, we're like, you get great signal uh to noise. Um, you
+[01:00:46] get great signal uh to noise. Um, you
+[01:00:46] get great signal uh to noise. Um, you get like is someone accepting your
+[01:00:48] get like is someone accepting your
+[01:00:48] get like is someone accepting your autocomplete or is it not? And I think
+[01:00:50] autocomplete or is it not? And I think
+[01:00:50] autocomplete or is it not? And I think that's like that's the scoreboard and
+[01:00:52] that's like that's the scoreboard and
+[01:00:52] that's like that's the scoreboard and that's the thing you optimize for and
+[01:00:54] that's the thing you optimize for and
+[01:00:54] that's the thing you optimize for and you get huge volume of it because like
+[01:00:56] you get huge volume of it because like
+[01:00:56] you get huge volume of it because like just you know tab autocomplete is the
+[01:00:59] just you know tab autocomplete is the
+[01:00:59] just you know tab autocomplete is the kind of the biggest um kind of request
+[01:01:01] kind of the biggest um kind of request
+[01:01:01] kind of the biggest um kind of request quantity versus kind of just chat or any
+[01:01:03] quantity versus kind of just chat or any
+[01:01:03] quantity versus kind of just chat or any other category. Um what happens though
+[01:01:05] other category. Um what happens though
+[01:01:05] other category. Um what happens though when you start to get into chat is that
+[01:01:07] when you start to get into chat is that
+[01:01:07] when you start to get into chat is that like you know someone will um you know
+[01:01:10] like you know someone will um you know
+[01:01:10] like you know someone will um you know make a uh make a request uh they'll get
+[01:01:13] make a uh make a request uh they'll get
+[01:01:13] make a uh make a request uh they'll get back a result. Um are they copying it?
+[01:01:15] back a result. Um are they copying it?
+[01:01:15] back a result. Um are they copying it? Are they ignoring it? It's not
+[01:01:17] Are they ignoring it? It's not
+[01:01:17] Are they ignoring it? It's not necessarily clear if they're moving
+[01:01:18] necessarily clear if they're moving
+[01:01:18] necessarily clear if they're moving you're they're taking action on on it on
+[01:01:20] you're they're taking action on on it on
+[01:01:20] you're they're taking action on on it on it and it's there's a little bit of a
+[01:01:21] it and it's there's a little bit of a
+[01:01:21] it and it's there's a little bit of a delay. It's seconds and so you still we
+[01:01:23] delay. It's seconds and so you still we
+[01:01:23] delay. It's seconds and so you still we still get signal. We still get signal if
+[01:01:24] still get signal. We still get signal if
+[01:01:24] still get signal. We still get signal if if our agent is the prompt is right, the
+[01:01:27] if our agent is the prompt is right, the
+[01:01:27] if our agent is the prompt is right, the model's working well, but it's not
+[01:01:29] model's working well, but it's not
+[01:01:29] model's working well, but it's not nearly as effective as autocomplete. Um,
+[01:01:31] nearly as effective as autocomplete. Um,
+[01:01:31] nearly as effective as autocomplete. Um, what starts to get tricky is when you
+[01:01:33] what starts to get tricky is when you
+[01:01:33] what starts to get tricky is when you start to get an agent, someone that's
+[01:01:34] start to get an agent, someone that's
+[01:01:34] start to get an agent, someone that's running kind of long-term autonomously
+[01:01:36] running kind of long-term autonomously
+[01:01:36] running kind of long-term autonomously or multiple agents because you may find
+[01:01:39] or multiple agents because you may find
+[01:01:39] or multiple agents because you may find that like the task that's running and
+[01:01:41] that like the task that's running and
+[01:01:41] that like the task that's running and the result happens, you know, minutes,
+[01:01:44] the result happens, you know, minutes,
+[01:01:44] the result happens, you know, minutes, hours, days later. Um, we found that's
+[01:01:48] hours, days later. Um, we found that's
+[01:01:48] hours, days later. Um, we found that's kind of when it starts to get really
+[01:01:49] kind of when it starts to get really
+[01:01:49] kind of when it starts to get really really challenging in understanding if
+[01:01:51] really challenging in understanding if
+[01:01:51] really challenging in understanding if you know the request uh to to the
+[01:01:54] you know the request uh to to the
+[01:01:54] you know the request uh to to the orchestrator, the request to that agent
+[01:01:55] orchestrator, the request to that agent
+[01:01:56] orchestrator, the request to that agent was effective. Um, and so we've really
+[01:01:58] was effective. Um, and so we've really
+[01:01:58] was effective. Um, and so we've really spent a lot of time on instrumentation
+[01:01:59] spent a lot of time on instrumentation
+[01:01:59] spent a lot of time on instrumentation just to make sure that we're knowing and
+[01:02:01] just to make sure that we're knowing and
+[01:02:01] just to make sure that we're knowing and getting as much signal as we can on
+[01:02:03] getting as much signal as we can on
+[01:02:03] getting as much signal as we can on whether the features um in kind of kilo
+[01:02:06] whether the features um in kind of kilo
+[01:02:06] whether the features um in kind of kilo are are trustworthy and people are using
+[01:02:09] are are trustworthy and people are using
+[01:02:09] are are trustworthy and people are using it. And it's been really really helpful
+[01:02:10] it. And it's been really really helpful
+[01:02:10] it. And it's been really really helpful in refining and finding areas where we
+[01:02:12] in refining and finding areas where we
+[01:02:12] in refining and finding areas where we honestly need to improve. And what's
+[01:02:14] honestly need to improve. And what's
+[01:02:14] honestly need to improve. And what's great is because we ship so fast, we're
+[01:02:16] great is because we ship so fast, we're
+[01:02:16] great is because we ship so fast, we're able to quickly quickly get rid of those
+[01:02:17] able to quickly quickly get rid of those
+[01:02:17] able to quickly quickly get rid of those rough edges.
+[01:02:20] rough edges.
+[01:02:20] rough edges. Um, let's see. Uh the the the other
+[01:02:24] Um, let's see. Uh the the the other
+[01:02:24] Um, let's see. Uh the the the other thing I want to chat about is and I've
+[01:02:25] thing I want to chat about is and I've
+[01:02:25] thing I want to chat about is and I've seen this at at uh in Kilo at our team
+[01:02:28] seen this at at uh in Kilo at our team
+[01:02:28] seen this at at uh in Kilo at our team is
+[01:02:30] is
+[01:02:30] is the the work is not going away. Like
+[01:02:32] the the work is not going away. Like
+[01:02:32] the the work is not going away. Like it's not like people are working any
+[01:02:33] it's not like people are working any
+[01:02:33] it's not like people are working any less at Kilo. Um and and kind of the the
+[01:02:36] less at Kilo. Um and and kind of the the
+[01:02:36] less at Kilo. Um and and kind of the the users of Kilo. It's it's shifting. And
+[01:02:39] users of Kilo. It's it's shifting. And
+[01:02:39] users of Kilo. It's it's shifting. And so I kind of think like if before your
+[01:02:41] so I kind of think like if before your
+[01:02:41] so I kind of think like if before your world was 20% really deep brain thinking
+[01:02:44] world was 20% really deep brain thinking
+[01:02:44] world was 20% really deep brain thinking and 80% coding. And again coding is work
+[01:02:46] and 80% coding. And again coding is work
+[01:02:46] and 80% coding. And again coding is work in its own. But what's what's shifting
+[01:02:48] in its own. But what's what's shifting
+[01:02:48] in its own. But what's what's shifting is you're going to like 80% thinking,
+[01:02:51] is you're going to like 80% thinking,
+[01:02:51] is you're going to like 80% thinking, 20% coding or even less coding. And
+[01:02:53] 20% coding or even less coding. And
+[01:02:53] 20% coding or even less coding. And that's quite taxing. I mean, I think
+[01:02:55] that's quite taxing. I mean, I think
+[01:02:55] that's quite taxing. I mean, I think what what I've what's been really
+[01:02:57] what what I've what's been really
+[01:02:57] what what I've what's been really interesting to to observe is as someone
+[01:02:59] interesting to to observe is as someone
+[01:02:59] interesting to to observe is as someone joins the kilo engineering team, how
+[01:03:01] joins the kilo engineering team, how
+[01:03:02] joins the kilo engineering team, how they kind of have to like warm up their
+[01:03:03] they kind of have to like warm up their
+[01:03:03] they kind of have to like warm up their muscle to the brain to like be spending
+[01:03:05] muscle to the brain to like be spending
+[01:03:05] muscle to the brain to like be spending that much time thinking. Um it's a real
+[01:03:08] that much time thinking. Um it's a real
+[01:03:08] that much time thinking. Um it's a real shift and I I I I think like we all as
+[01:03:11] shift and I I I I think like we all as
+[01:03:11] shift and I I I I think like we all as an industry need to figure out how to
+[01:03:13] an industry need to figure out how to
+[01:03:13] an industry need to figure out how to adjust because it is much harder to do
+[01:03:15] adjust because it is much harder to do
+[01:03:15] adjust because it is much harder to do 40 hours a week where you are the
+[01:03:17] 40 hours a week where you are the
+[01:03:17] 40 hours a week where you are the architect and orchestrator and you know
+[01:03:19] architect and orchestrator and you know
+[01:03:19] architect and orchestrator and you know you are supporting it's called 200 hours
+[01:03:21] you are supporting it's called 200 hours
+[01:03:22] you are supporting it's called 200 hours a week of someone an agent coding versus
+[01:03:25] a week of someone an agent coding versus
+[01:03:25] a week of someone an agent coding versus 4 hours a week of architecture and
+[01:03:26] 4 hours a week of architecture and
+[01:03:26] 4 hours a week of architecture and thinking uh and kind of 36 hours of
+[01:03:29] thinking uh and kind of 36 hours of
+[01:03:29] thinking uh and kind of 36 hours of coding. And I think that's that's
+[01:03:30] coding. And I think that's that's
+[01:03:30] coding. And I think that's that's something that we've been really
+[01:03:31] something that we've been really
+[01:03:31] something that we've been really conscious to support our engineers as
+[01:03:33] conscious to support our engineers as
+[01:03:33] conscious to support our engineers as they kind of get used to that balance.
+[01:03:34] they kind of get used to that balance.
+[01:03:34] they kind of get used to that balance. But it is something I think we all need
+[01:03:36] But it is something I think we all need
+[01:03:36] But it is something I think we all need to be aware of as the world shifts and
+[01:03:38] to be aware of as the world shifts and
+[01:03:38] to be aware of as the world shifts and the the role of an engineer shifts. Um
+[01:03:41] the the role of an engineer shifts. Um
+[01:03:42] the the role of an engineer shifts. Um and so ultimately what does the shift
+[01:03:43] and so ultimately what does the shift
+[01:03:43] and so ultimately what does the shift look like? The developer is the
+[01:03:45] look like? The developer is the
+[01:03:45] look like? The developer is the conductor of an orchestra. Um they are
+[01:03:48] conductor of an orchestra. Um they are
+[01:03:48] conductor of an orchestra. Um they are the tastemaker, the architect, the
+[01:03:50] the tastemaker, the architect, the
+[01:03:50] the tastemaker, the architect, the they're deciding the quality gates and
+[01:03:52] they're deciding the quality gates and
+[01:03:52] they're deciding the quality gates and then the agent is just handling all the
+[01:03:54] then the agent is just handling all the
+[01:03:54] then the agent is just handling all the execution. It's doing all the typing the
+[01:03:56] execution. It's doing all the typing the
+[01:03:56] execution. It's doing all the typing the boil the boiler plate. It's hunting for
+[01:03:57] boil the boiler plate. It's hunting for
+[01:03:57] boil the boiler plate. It's hunting for that missing comma or semicolon. It's
+[01:03:59] that missing comma or semicolon. It's
+[01:04:00] that missing comma or semicolon. It's looking up the documentation. It's
+[01:04:01] looking up the documentation. It's
+[01:04:01] looking up the documentation. It's writing your documentation. And again,
+[01:04:03] writing your documentation. And again,
+[01:04:03] writing your documentation. And again, at Kilo, everything is reviewed by a
+[01:04:05] at Kilo, everything is reviewed by a
+[01:04:05] at Kilo, everything is reviewed by a human. Maybe not every single line. We
+[01:04:07] human. Maybe not every single line. We
+[01:04:07] human. Maybe not every single line. We leave it to the discretion of the
+[01:04:08] leave it to the discretion of the
+[01:04:08] leave it to the discretion of the developer to to kind of conduct the
+[01:04:10] developer to to kind of conduct the
+[01:04:10] developer to to kind of conduct the level of review that's needed. But what
+[01:04:11] level of review that's needed. But what
+[01:04:12] level of review that's needed. But what happens when you get to this world, um,
+[01:04:15] happens when you get to this world, um,
+[01:04:15] happens when you get to this world, um, you're seeing that's when you're seeing
+[01:04:16] you're seeing that's when you're seeing
+[01:04:16] you're seeing that's when you're seeing the the 10% improvements in shipping
+[01:04:18] the the 10% improvements in shipping
+[01:04:18] the the 10% improvements in shipping velocity. And again, like I said, we
+[01:04:20] velocity. And again, like I said, we
+[01:04:20] velocity. And again, like I said, we have a saying at Kilo, which is the
+[01:04:22] have a saying at Kilo, which is the proof is in production. Um, really don't
+[01:04:24] proof is in production. Um, really don't
+[01:04:24] proof is in production. Um, really don't believe me on these stats. Just take a
+[01:04:26] believe me on these stats. Just take a
+[01:04:26] believe me on these stats. Just take a look at kind of our product road map and
+[01:04:28] look at kind of our product road map and
+[01:04:28] look at kind of our product road map and see how quickly we're shipping features.
+[01:04:29] see how quickly we're shipping features.
+[01:04:30] see how quickly we're shipping features. if you really do embrace this new role
+[01:04:31] if you really do embrace this new role
+[01:04:31] if you really do embrace this new role of a of a developer um velocity follows.
+[01:04:36] of a of a developer um velocity follows.
+[01:04:36] of a of a developer um velocity follows. And so just you know here's here's a
+[01:04:37] And so just you know here's here's a
+[01:04:37] And so just you know here's here's a quick example um of the five out of the
+[01:04:39] quick example um of the five out of the
+[01:04:40] quick example um of the five out of the box agents that come at Kilo. We've got
+[01:04:41] box agents that come at Kilo. We've got
+[01:04:41] box agents that come at Kilo. We've got our orchestrator, we've got our
+[01:04:42] our orchestrator, we've got our
+[01:04:42] our orchestrator, we've got our architect, code agent, ask agent, debug
+[01:04:45] architect, code agent, ask agent, debug
+[01:04:45] architect, code agent, ask agent, debug agent. And so, for example, Sash who
+[01:04:47] agent. And so, for example, Sash who
+[01:04:47] agent. And so, for example, Sash who ends who owns uh code reviews end to
+[01:04:50] ends who owns uh code reviews end to
+[01:04:50] ends who owns uh code reviews end to end. You know, as soon as he joined
+[01:04:52] end. You know, as soon as he joined
+[01:04:52] end. You know, as soon as he joined Kilo, he used ask agent. He's like,
+[01:04:53] Kilo, he used ask agent. He's like,
+[01:04:53] Kilo, he used ask agent. He's like, "Yeah, tell me about Kilo. Um, teach
+[01:04:55] "Yeah, tell me about Kilo. Um, teach
+[01:04:55] "Yeah, tell me about Kilo. Um, teach me." Like, he wasn't going to a
+[01:04:57] me." Like, he wasn't going to a
+[01:04:57] me." Like, he wasn't going to a colleague to get briefed on the
+[01:04:59] colleague to get briefed on the
+[01:04:59] colleague to get briefed on the codebase. He was going to the ask agent
+[01:05:01] codebase. He was going to the ask agent
+[01:05:01] codebase. He was going to the ask agent and then he was going to the architect
+[01:05:02] and then he was going to the architect
+[01:05:02] and then he was going to the architect agent to help them help him construct
+[01:05:05] agent to help them help him construct
+[01:05:05] agent to help them help him construct and design the features he wants to
+[01:05:06] and design the features he wants to
+[01:05:06] and design the features he wants to build. And then he went to the code
+[01:05:07] build. And then he went to the code
+[01:05:07] build. And then he went to the code agent to actually implement. And then as
+[01:05:09] agent to actually implement. And then as
+[01:05:09] agent to actually implement. And then as he felt those sharp edges, he was
+[01:05:11] he felt those sharp edges, he was
+[01:05:11] he felt those sharp edges, he was debugging it in the debug agent. And
+[01:05:13] debugging it in the debug agent. And
+[01:05:13] debugging it in the debug agent. And then you know we also have a lot of
+[01:05:15] then you know we also have a lot of
+[01:05:15] then you know we also have a lot of custom agents and custom modes that
+[01:05:16] custom agents and custom modes that
+[01:05:16] custom agents and custom modes that developers have made within Kilo. Um one
+[01:05:19] developers have made within Kilo. Um one
+[01:05:19] developers have made within Kilo. Um one of our engineers called Brian and so he
+[01:05:21] of our engineers called Brian and so he
+[01:05:21] of our engineers called Brian and so he made Brian mode. Um and so a lot of our
+[01:05:23] made Brian mode. Um and so a lot of our
+[01:05:23] made Brian mode. Um and so a lot of our developers use Brian mode which has
+[01:05:25] developers use Brian mode which has
+[01:05:25] developers use Brian mode which has Brian settings. And so what's really
+[01:05:26] Brian settings. And so what's really
+[01:05:26] Brian settings. And so what's really important is to customize your team. You
+[01:05:28] important is to customize your team. You
+[01:05:28] important is to customize your team. You know in a world where where the
+[01:05:30] know in a world where where the
+[01:05:30] know in a world where where the developer is the manager of a team of
+[01:05:32] developer is the manager of a team of
+[01:05:32] developer is the manager of a team of agents, you really need to have the
+[01:05:34] agents, you really need to have the
+[01:05:34] agents, you really need to have the right team. Uh and so just to review
+[01:05:37] right team. Uh and so just to review
+[01:05:37] right team. Uh and so just to review where we're at. Um, you know, you got to
+[01:05:39] where we're at. Um, you know, you got to
+[01:05:39] where we're at. Um, you know, you got to meet users where they are. You can't
+[01:05:40] meet users where they are. You can't
+[01:05:40] meet users where they are. You can't kind of shove AI down their throat. You
+[01:05:42] kind of shove AI down their throat. You
+[01:05:42] kind of shove AI down their throat. You know, if they are just just starting,
+[01:05:45] know, if they are just just starting,
+[01:05:45] know, if they are just just starting, you know, start them on tab
+[01:05:45] you know, start them on tab
+[01:05:46] you know, start them on tab autocomplete. Get them start them to get
+[01:05:47] autocomplete. Get them start them to get
+[01:05:47] autocomplete. Get them start them to get into the chat. Build the trust and be
+[01:05:49] into the chat. Build the trust and be
+[01:05:49] into the chat. Build the trust and be very conscious of those opportunities
+[01:05:51] very conscious of those opportunities
+[01:05:51] very conscious of those opportunities where you can lose trust. Um, solve
+[01:05:53] where you can lose trust. Um, solve
+[01:05:54] where you can lose trust. Um, solve those infrastructure uh, you know,
+[01:05:55] those infrastructure uh, you know,
+[01:05:56] those infrastructure uh, you know, issues early. Again, if you are not, you
+[01:05:59] issues early. Again, if you are not, you
+[01:05:59] issues early. Again, if you are not, you know, solving the issues where people
+[01:06:00] know, solving the issues where people
+[01:06:00] know, solving the issues where people might potentially lose trust, you can
+[01:06:02] might potentially lose trust, you can
+[01:06:02] might potentially lose trust, you can very very quickly lose people along the
+[01:06:04] very very quickly lose people along the
+[01:06:04] very very quickly lose people along the journey. Um, and then trust is key. I
+[01:06:06] journey. Um, and then trust is key. I
+[01:06:06] journey. Um, and then trust is key. I mean, you got to build it to be
+[01:06:08] mean, you got to build it to be
+[01:06:08] mean, you got to build it to be successful. You've got to have that
+[01:06:09] successful. You've got to have that
+[01:06:09] successful. You've got to have that feedback loop. Um, and yeah, I mean, if
+[01:06:12] feedback loop. Um, and yeah, I mean, if
+[01:06:12] feedback loop. Um, and yeah, I mean, if you do that, I think what we found is
+[01:06:13] you do that, I think what we found is
+[01:06:13] you do that, I think what we found is that's helped us move fast, helped us
+[01:06:15] that's helped us move fast, helped us
+[01:06:15] that's helped us move fast, helped us get our kind of 1.5 million users up
+[01:06:18] get our kind of 1.5 million users up
+[01:06:18] get our kind of 1.5 million users up that uh up that learning curve. Uh, and
+[01:06:20] that uh up that learning curve. Uh, and
+[01:06:20] that uh up that learning curve. Uh, and it's been something that we've been
+[01:06:22] it's been something that we've been
+[01:06:22] it's been something that we've been really focused since day one at Kilo.
+[01:06:23] really focused since day one at Kilo.
+[01:06:24] really focused since day one at Kilo. Um, cool. That's it for me. I think
+[01:06:26] Um, cool. That's it for me. I think
+[01:06:26] Um, cool. That's it for me. I think we've got four minutes of questions.
+[01:06:29] we've got four minutes of questions.
+[01:06:29] we've got four minutes of questions. Maybe Demetrius is giving one and a half
+[01:06:31] Maybe Demetrius is giving one and a half
+[01:06:31] Maybe Demetrius is giving one and a half thumbs up.
+[01:06:32] thumbs up.
+[01:06:32] thumbs up. &gt;&gt; Two thumbs up. Okay, cool. Um any
+[01:06:35] &gt;&gt; Two thumbs up. Okay, cool. Um any
+[01:06:35] &gt;&gt; Two thumbs up. Okay, cool. Um any questions?
+[01:06:37] questions?
+[01:06:37] questions? &gt;&gt; Hi. So you mentioned that now um one
+[01:06:40] &gt;&gt; Hi. So you mentioned that now um one
+[01:06:40] &gt;&gt; Hi. So you mentioned that now um one engineer is responsible for multiple
+[01:06:42] engineer is responsible for multiple
+[01:06:42] engineer is responsible for multiple features.
+[01:06:43] features.
+[01:06:43] features. &gt;&gt; What one feature? One engineer, one
+[01:06:45] &gt;&gt; What one feature? One engineer, one
+[01:06:45] &gt;&gt; What one feature? One engineer, one feature.
+[01:06:46] feature.
+[01:06:46] feature. &gt;&gt; Okay. Um when it's not a team and just
+[01:06:49] &gt;&gt; Okay. Um when it's not a team and just
+[01:06:49] &gt;&gt; Okay. Um when it's not a team and just one engineer, how do you deal with
+[01:06:51] one engineer, how do you deal with
+[01:06:51] one engineer, how do you deal with things like vacations, other times off,
+[01:06:54] things like vacations, other times off,
+[01:06:54] things like vacations, other times off, maybe they have an emergency from an
+[01:06:55] maybe they have an emergency from an
+[01:06:55] maybe they have an emergency from an organizational perspective?
+[01:06:57] organizational perspective?
+[01:06:57] organizational perspective? &gt;&gt; Yeah, I mean a great question. We don't
+[01:06:58] &gt;&gt; Yeah, I mean a great question. We don't
+[01:06:58] &gt;&gt; Yeah, I mean a great question. We don't allow time off. No. Um no, it's it's a
+[01:07:01] allow time off. No. Um no, it's it's a
+[01:07:01] allow time off. No. Um no, it's it's a No, we do. We do. But it's really
+[01:07:03] No, we do. We do. But it's really
+[01:07:03] No, we do. We do. But it's really interesting. So, I'll tell you what,
+[01:07:04] interesting. So, I'll tell you what,
+[01:07:04] interesting. So, I'll tell you what, we've got a whole product road map inapp
+[01:07:06] we've got a whole product road map inapp
+[01:07:06] we've got a whole product road map inapp key, though. And what's next to it is a
+[01:07:08] key, though. And what's next to it is a
+[01:07:08] key, though. And what's next to it is a lot of our new features is just a blank
+[01:07:10] lot of our new features is just a blank
+[01:07:10] lot of our new features is just a blank line. And the single thing that's gating
+[01:07:12] line. And the single thing that's gating
+[01:07:12] line. And the single thing that's gating us starting that feature is hiring a
+[01:07:14] us starting that feature is hiring a
+[01:07:14] us starting that feature is hiring a person. And honestly, when that person
+[01:07:16] person. And honestly, when that person
+[01:07:16] person. And honestly, when that person goes away for a week, that product might
+[01:07:19] goes away for a week, that product might
+[01:07:19] goes away for a week, that product might not move for a week. And we're cool with
+[01:07:20] not move for a week. And we're cool with
+[01:07:20] not move for a week. And we're cool with it because the gains we have when that
+[01:07:22] it because the gains we have when that
+[01:07:22] it because the gains we have when that person is on is so much more. Um, yeah,
+[01:07:25] person is on is so much more. Um, yeah,
+[01:07:25] person is on is so much more. Um, yeah, we'll make sure we have coverage. we
+[01:07:26] we'll make sure we have coverage. we
+[01:07:26] we'll make sure we have coverage. we always haven't won call but I think you
+[01:07:28] always haven't won call but I think you
+[01:07:28] always haven't won call but I think you know it's it's one person team and um
+[01:07:31] know it's it's one person team and um
+[01:07:31] know it's it's one person team and um you know when they they're off for a
+[01:07:33] you know when they they're off for a
+[01:07:33] you know when they they're off for a week you know that if code reviews
+[01:07:35] week you know that if code reviews
+[01:07:35] week you know that if code reviews doesn't progress for a week SES was
+[01:07:37] doesn't progress for a week SES was
+[01:07:37] doesn't progress for a week SES was probably on vacation that week but yeah
+[01:07:39] probably on vacation that week but yeah
+[01:07:39] probably on vacation that week but yeah great question
+[01:07:42] &gt;&gt; oh thank you uh what if it's a
+[01:07:44] &gt;&gt; oh thank you uh what if it's a production issue
+[01:07:46] production issue
+[01:07:46] production issue &gt;&gt; a production issue so we always have one
+[01:07:48] &gt;&gt; a production issue so we always have one
+[01:07:48] &gt;&gt; a production issue so we always have one on call engineer at all times and so
+[01:07:51] on call engineer at all times and so
+[01:07:51] on call engineer at all times and so night or day they'll jump in if it is
+[01:07:54] night or day they'll jump in if it is
+[01:07:54] night or day they'll jump in if it is during the day and it is related to that
+[01:07:56] during the day and it is related to that
+[01:07:56] during the day and it is related to that person's feature, they might jump in as
+[01:07:58] person's feature, they might jump in as
+[01:07:58] person's feature, they might jump in as well. But what's great is um we've got
+[01:08:01] well. But what's great is um we've got
+[01:08:01] well. But what's great is um we've got great um proactive monitoring. So we
+[01:08:04] great um proactive monitoring. So we
+[01:08:04] great um proactive monitoring. So we discover these issues ideally ideally
+[01:08:06] discover these issues ideally ideally
+[01:08:06] discover these issues ideally ideally before they become big issues. Um and
+[01:08:08] before they become big issues. Um and
+[01:08:08] before they become big issues. Um and then you know the uh the kind of on call
+[01:08:11] then you know the uh the kind of on call
+[01:08:11] then you know the uh the kind of on call developers using the ask agent to kind
+[01:08:13] developers using the ask agent to kind
+[01:08:13] developers using the ask agent to kind of understand the problem literally and
+[01:08:16] of understand the problem literally and
+[01:08:16] of understand the problem literally and what's the most one of the most popular
+[01:08:17] what's the most one of the most popular
+[01:08:17] what's the most one of the most popular features at kilo is our slackbot. You
+[01:08:19] features at kilo is our slackbot. You
+[01:08:19] features at kilo is our slackbot. You know if I'm making a change to our
+[01:08:21] know if I'm making a change to our
+[01:08:21] know if I'm making a change to our website I just I don't go into kilo
+[01:08:22] website I just I don't go into kilo
+[01:08:22] website I just I don't go into kilo anymore. just say kilo extend this
+[01:08:24] anymore. just say kilo extend this
+[01:08:24] anymore. just say kilo extend this promotion one more week or change the
+[01:08:26] promotion one more week or change the
+[01:08:26] promotion one more week or change the color on this page. Um the first thing a
+[01:08:29] color on this page. Um the first thing a
+[01:08:29] color on this page. Um the first thing a lot of times the the on call engineer
+[01:08:31] lot of times the the on call engineer
+[01:08:31] lot of times the the on call engineer will do is like at kilo analyze the
+[01:08:34] will do is like at kilo analyze the
+[01:08:34] will do is like at kilo analyze the problem tell me what's going on and I
+[01:08:35] problem tell me what's going on and I
+[01:08:35] problem tell me what's going on and I think that's it's been like a huge
+[01:08:36] think that's it's been like a huge
+[01:08:36] think that's it's been like a huge unlock because they don't have to search
+[01:08:38] unlock because they don't have to search
+[01:08:38] unlock because they don't have to search around the you know search where the the
+[01:08:40] around the you know search where the the
+[01:08:40] around the you know search where the the right context is the agent is kind of
+[01:08:42] right context is the agent is kind of
+[01:08:42] right context is the agent is kind of pointing them in the right direction
+[01:08:43] pointing them in the right direction
+[01:08:43] pointing them in the right direction from day one. Um but yeah great great
+[01:08:45] from day one. Um but yeah great great
+[01:08:45] from day one. Um but yeah great great question really really great question
+[01:08:48] question really really great question
+[01:08:48] question really really great question cool is it
+[01:08:49] cool is it
+[01:08:49] cool is it &gt;&gt; uh yeah uh you talked about say uh from
+[01:08:52] &gt;&gt; uh yeah uh you talked about say uh from
+[01:08:52] &gt;&gt; uh yeah uh you talked about say uh from agent then to orchestration um for many
+[01:08:55] agent then to orchestration um for many
+[01:08:55] agent then to orchestration um for many people they may just use maybe a single
+[01:08:57] people they may just use maybe a single
+[01:08:57] people they may just use maybe a single agent say for building for debugging for
+[01:08:59] agent say for building for debugging for
+[01:08:59] agent say for building for debugging for many things uh how how will you really
+[01:09:02] many things uh how how will you really
+[01:09:02] many things uh how how will you really do like the orchestration say maybe by
+[01:09:05] do like the orchestration say maybe by
+[01:09:05] do like the orchestration say maybe by hand say I use several agents and I try
+[01:09:07] hand say I use several agents and I try
+[01:09:07] hand say I use several agents and I try to orchestrate by a person or you may
+[01:09:10] to orchestrate by a person or you may
+[01:09:10] to orchestrate by a person or you may build some workflow to really you know
+[01:09:11] build some workflow to really you know
+[01:09:12] build some workflow to really you know do the orcation
+[01:09:13] do the orcation
+[01:09:13] do the orcation &gt;&gt; so out of the box our orchestration
+[01:09:15] &gt;&gt; so out of the box our orchestration
+[01:09:15] &gt;&gt; so out of the box our orchestration agent you run like ask the orchestrator
+[01:09:17] agent you run like ask the orchestrator
+[01:09:17] agent you run like ask the orchestrator it will break up the task and give it to
+[01:09:19] it will break up the task and give it to
+[01:09:19] it will break up the task and give it to the right agent and so you don't even
+[01:09:20] the right agent and so you don't even
+[01:09:20] the right agent and so you don't even have to think of like I want to go multi
+[01:09:23] have to think of like I want to go multi
+[01:09:23] have to think of like I want to go multi multiple agent you'll just say or like
+[01:09:25] multiple agent you'll just say or like
+[01:09:26] multiple agent you'll just say or like orchestrator this is the thing I want to
+[01:09:27] orchestrator this is the thing I want to
+[01:09:27] orchestrator this is the thing I want to do it'll come up with a plan it will
+[01:09:29] do it'll come up with a plan it will
+[01:09:29] do it'll come up with a plan it will kick off several agents and it will just
+[01:09:30] kick off several agents and it will just
+[01:09:30] kick off several agents and it will just do it so I mean it's just the idea is to
+[01:09:33] do it so I mean it's just the idea is to
+[01:09:33] do it so I mean it's just the idea is to make it seamless but really great
+[01:09:34] make it seamless but really great
+[01:09:34] make it seamless but really great question
+[01:09:36] question
+[01:09:36] question &gt;&gt; I have a question on uh PM to engineer
+[01:09:38] &gt;&gt; I have a question on uh PM to engineer
+[01:09:38] &gt;&gt; I have a question on uh PM to engineer ratios I think to use the uh 2023
+[01:09:41] ratios I think to use the uh 2023
+[01:09:41] ratios I think to use the uh 2023 mindset to use your term We usually, you
+[01:09:44] mindset to use your term We usually, you
+[01:09:44] mindset to use your term We usually, you know, if we think about it, one product
+[01:09:45] know, if we think about it, one product
+[01:09:45] know, if we think about it, one product would be like six to eight engineers.
+[01:09:47] would be like six to eight engineers.
+[01:09:47] would be like six to eight engineers. Um, it sounds like you guys are more
+[01:09:49] Um, it sounds like you guys are more
+[01:09:49] Um, it sounds like you guys are more towards like closer to a one to one. Do
+[01:09:51] towards like closer to a one to one. Do
+[01:09:51] towards like closer to a one to one. Do you see that one to one is sort of like
+[01:09:53] you see that one to one is sort of like
+[01:09:53] you see that one to one is sort of like the ideal where it gets and and in and I
+[01:09:56] the ideal where it gets and and in and I
+[01:09:56] the ideal where it gets and and in and I guess a second part of the question is
+[01:09:57] guess a second part of the question is
+[01:09:57] guess a second part of the question is for the your customers that are using
+[01:10:00] for the your customers that are using
+[01:10:00] for the your customers that are using your product um are the best ones
+[01:10:03] your product um are the best ones
+[01:10:03] your product um are the best ones getting like what do those ratios look
+[01:10:04] getting like what do those ratios look
+[01:10:04] getting like what do those ratios look like?
+[01:10:05] like?
+[01:10:05] like? &gt;&gt; Yeah, that's a great question. Um, we
+[01:10:08] &gt;&gt; Yeah, that's a great question. Um, we
+[01:10:08] &gt;&gt; Yeah, that's a great question. Um, we don't really believe in PMs at Kilo. Um
+[01:10:10] don't really believe in PMs at Kilo. Um
+[01:10:10] don't really believe in PMs at Kilo. Um so that's like you know every engineer
+[01:10:12] so that's like you know every engineer
+[01:10:12] so that's like you know every engineer is their own PM. Um they are they
+[01:10:16] is their own PM. Um they are they
+[01:10:16] is their own PM. Um they are they setting the product roadmap they are
+[01:10:18] setting the product roadmap they are
+[01:10:18] setting the product roadmap they are kind of u they're doing the building
+[01:10:20] kind of u they're doing the building
+[01:10:20] kind of u they're doing the building they're implementing they are kind of
+[01:10:22] they're implementing they are kind of
+[01:10:22] they're implementing they are kind of everything. Um so we we have actually we
+[01:10:25] everything. Um so we we have actually we
+[01:10:25] everything. Um so we we have actually we have one PM in in the entire company and
+[01:10:27] have one PM in in the entire company and
+[01:10:27] have one PM in in the entire company and you know this is a great question to
+[01:10:29] you know this is a great question to
+[01:10:29] you know this is a great question to kind of you know when it was a
+[01:10:30] kind of you know when it was a
+[01:10:30] kind of you know when it was a production issue question um over there
+[01:10:32] production issue question um over there
+[01:10:32] production issue question um over there it's like where we found the value of
+[01:10:35] it's like where we found the value of
+[01:10:35] it's like where we found the value of having a PM is kind of on that platform
+[01:10:37] having a PM is kind of on that platform
+[01:10:37] having a PM is kind of on that platform on the horizontal. So if you can imagine
+[01:10:40] on the horizontal. So if you can imagine
+[01:10:40] on the horizontal. So if you can imagine all of the kind of the the developers
+[01:10:42] all of the kind of the the developers
+[01:10:42] all of the kind of the the developers own these kind of vertical type features
+[01:10:44] own these kind of vertical type features
+[01:10:44] own these kind of vertical type features that are owned by a broader kilo
+[01:10:46] that are owned by a broader kilo
+[01:10:46] that are owned by a broader kilo platform. That's where we've seen the
+[01:10:48] platform. That's where we've seen the
+[01:10:48] platform. That's where we've seen the value of having the PM is focusing on
+[01:10:50] value of having the PM is focusing on
+[01:10:50] value of having the PM is focusing on that that kind of horizontal underlying
+[01:10:51] that that kind of horizontal underlying
+[01:10:51] that that kind of horizontal underlying platform that kind of supports all of
+[01:10:53] platform that kind of supports all of
+[01:10:53] platform that kind of supports all of the features that each of the engineers
+[01:10:55] the features that each of the engineers
+[01:10:55] the features that each of the engineers own. The ratio I think it's all over the
+[01:10:57] own. The ratio I think it's all over the
+[01:10:57] own. The ratio I think it's all over the place. I mean I think like we've
+[01:10:58] place. I mean I think like we've
+[01:10:58] place. I mean I think like we've definitely drank the the bright yellow
+[01:11:00] definitely drank the the bright yellow
+[01:11:00] definitely drank the the bright yellow Kool-Aid of Kilo and like are all in the
+[01:11:02] Kool-Aid of Kilo and like are all in the
+[01:11:02] Kool-Aid of Kilo and like are all in the one one. I think we're probably in the
+[01:11:04] one one. I think we're probably in the
+[01:11:04] one one. I think we're probably in the 1% of folks like most of our our of you
+[01:11:08] 1% of folks like most of our our of you
+[01:11:08] 1% of folks like most of our our of you know we're we're very big on encouraging
+[01:11:10] know we're we're very big on encouraging
+[01:11:10] know we're we're very big on encouraging all of our um our users to be kind of as
+[01:11:14] all of our um our users to be kind of as
+[01:11:14] all of our um our users to be kind of as full stack as possible but I I think a
+[01:11:16] full stack as possible but I I think a
+[01:11:16] full stack as possible but I I think a lot of organizations are somewhere in
+[01:11:18] lot of organizations are somewhere in
+[01:11:18] lot of organizations are somewhere in that journey between peanut buttering AI
+[01:11:20] that journey between peanut buttering AI
+[01:11:20] that journey between peanut buttering AI on the existing like you know org
+[01:11:22] on the existing like you know org
+[01:11:22] on the existing like you know org structure to making a fundamental change
+[01:11:24] structure to making a fundamental change
+[01:11:24] structure to making a fundamental change and like somewhere in that journey but I
+[01:11:26] and like somewhere in that journey but I
+[01:11:26] and like somewhere in that journey but I think we're we're definitely on the deep
+[01:11:27] think we're we're definitely on the deep
+[01:11:27] think we're we're definitely on the deep end on that one but happy to I'm I'm
+[01:11:29] end on that one but happy to I'm I'm
+[01:11:29] end on that one but happy to I'm I'm going to hop but happy to chat about
+[01:11:30] going to hop but happy to chat about
+[01:11:30] going to hop but happy to chat about that I'll be in the back after this. All
+[01:11:32] that I'll be in the back after this. All
+[01:11:32] that I'll be in the back after this. All right,
+[01:11:32] right,
+[01:11:32] right, &gt;&gt; cool.
+[01:11:33] &gt;&gt; cool.
+[01:11:33] &gt;&gt; cool. &gt;&gt; Thank you. Appreciate it. That was
+[01:11:35] &gt;&gt; Thank you. Appreciate it. That was
+[01:11:35] &gt;&gt; Thank you. Appreciate it. That was great.
+[01:11:35] great.
+[01:11:36] great. &gt;&gt; Thank you.
+[01:11:37] &gt;&gt; Thank you. &gt;&gt; That was great. All right, so we're
+[01:11:39] &gt;&gt; That was great. All right, so we're
+[01:11:39] &gt;&gt; That was great. All right, so we're going to keep that applause going.

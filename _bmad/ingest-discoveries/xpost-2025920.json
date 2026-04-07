@@ -1,0 +1,20 @@
+{
+  "source_url": "https://x.com/i/status/2025920521871716562",
+  "source_title": "OpenClaw + Codex/ClaudeCode Agent Swarm: The One-Person Dev Team [Full Setup]",
+  "catalogue_path": "research/catalogue/posts/2026-03/elvissun-openclaw-codex-claude-agent-swarm-setup.md",
+  "ingested_at": "2026-03-12T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://x.com/i/article/2025654698590748672",
+      "context": "The X Article containing the full setup guide linked from this tweet — the actual substance of the post",
+      "suggested_type": "article",
+      "relevance_hint": "Elvis's canonical production agent swarm setup documentation. If X Article fetching becomes possible, this is the highest-priority re-ingest target — it contains the full step-by-step playbook that generated 12.3K likes"
+    },
+    {
+      "url": "https://medialyst.ai",
+      "context": "Elvis's production SaaS product built entirely by the Zoe agent swarm",
+      "suggested_type": "tool",
+      "relevance_hint": "Real-world validation of the one-person-dev-team thesis — a production SaaS with paying customers ($420 MRR + $3,600/mo agency) built and maintained by an agent swarm"
+    }
+  ]
+}

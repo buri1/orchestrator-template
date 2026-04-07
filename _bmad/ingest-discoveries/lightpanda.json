@@ -1,0 +1,14 @@
+{
+  "source_url": "https://lightpanda.io/",
+  "source_title": "Lightpanda - The Headless Browser Built in Zig",
+  "catalogue_path": "research/catalogue/infrastructure/lightpanda.md",
+  "ingested_at": "2026-03-22T11:22:41Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/lightpanda-io/browser",
+      "context": "Lightpanda GitHub repository - open source headless browser in Zig",
+      "suggested_type": "tool",
+      "relevance_hint": "11x faster, 9x less memory than Chrome; CDP-compatible for E2E testing acceleration"
+    }
+  ]
+}

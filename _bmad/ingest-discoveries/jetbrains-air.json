@@ -1,0 +1,28 @@
+{
+  "source_url": "https://air.dev/",
+  "source_title": "JetBrains Air — Agentic Development Environment (multi-agent IDE)",
+  "catalogue_path": "research/catalogue/developer-gui/jetbrains-air.md",
+  "ingested_at": "2026-03-21T00:00:00Z",
+  "relevance_score": 6,
+  "verdict": "WATCH — validates multi-agent concurrent development paradigm at enterprise scale (JetBrains, 2300+ employees, 26 years); proprietary GUI-first approach is opposite of our headless automation architecture; HN community confirms review bottleneck thesis (Master Blueprint principle #5); ACP protocol worth monitoring but competes with A2A (22K stars)",
+  "discovered_urls": [
+    {
+      "url": "https://blog.jetbrains.com/air/2026/03/air-launches-as-public-preview-a-new-wave-of-dev-tooling-built-on-26-years-of-experience/",
+      "title": "Air Launches as Public Preview — JetBrains Blog",
+      "relevance": 6,
+      "notes": "Launch blog post with architectural philosophy details. Key quote: 'Complex codebases aren't yet ready for pure agentic coding.' Describes ACP protocol, Docker+worktree sandboxing, BYOK model."
+    },
+    {
+      "url": "https://news.ycombinator.com/item?id=46139905",
+      "title": "HN Discussion: Agentic Development Environment by JetBrains (74 pts, 64 comments)",
+      "relevance": 7,
+      "notes": "Community reception confirms review bottleneck as primary constraint. cube2222: 'my reviewing throughput is usually saturated by a single agent already.' Validates our Master Blueprint principle #5 and #4 (coordination overhead exponent 1.724). faizshah: long-time JetBrains user disappointed, wants deep debugger/diff integration not just parallel agent UI."
+    },
+    {
+      "url": "https://news.ycombinator.com/item?id=46350939",
+      "title": "JetBrains abandons Fleet, pins hopes on Air (HN, 3 pts)",
+      "relevance": 3,
+      "notes": "Fleet abandonment context. Low engagement but confirms Fleet->Air strategic pivot."
+    }
+  ]
+}

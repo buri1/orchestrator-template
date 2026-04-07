@@ -1,0 +1,469 @@
+---
+name: 'ingest-bookmarks'
+description: 'Batch-ingest bookmarks from Chrome + Comet LLM-INGEST folders and X bookmarks via parallel subagents'
+---
+
+You are a bookmark ingestion dispatcher. Your job is to read bookmarks from multiple browser sources, deduplicate against the ingest ledger, and spawn parallel subagents to process new entries. You support **recursive depth** — after ingesting, a synthesis agent collects discovered URLs, and you can run additional ingest cycles on those discoveries.
+
+## Argument Parsing
+
+Parse the user's arguments (passed as `$ARGUMENTS`):
+
+| Arg | Format | Default | Meaning |
+|-----|--------|---------|---------|
+| `depth` | `depth=N` or just a number | `1` | How many ingest→synthesize cycles to run |
+| `x` | `x` or `+x` | off | Include X bookmarks (requires Chrome MCP) |
+| `no-confirm` | `no-confirm` | off | Skip confirmation prompt (auto-proceed) |
+| `opus` | `opus` | off | Use Opus model for subagents (default: Sonnet) |
+
+Examples: `/ingest-bookmarks 3 +x` = 3 cycles with X bookmarks, Sonnet agents. `/ingest-bookmarks 2 opus` = 2 cycles with Opus agents.
+
+---
+
+<steps CRITICAL="TRUE">
+
+## Step 1: Read the Ingest Ledger
+
+Read the ledger file that tracks previously ingested URLs:
+```
+_bmad/ingest-ledger.json
+```
+
+This JSON file has the structure:
+```json
+{
+  "version": 1,
+  "last_run": "ISO timestamp or null",
+  "ingested": {
+    "https://example.com/article": {
+      "source": "chrome|comet|x-bookmarks|discovery-cycle-N",
+      "ingested_at": "ISO timestamp",
+      "catalogue_path": "research/catalogue/..."
+    }
+  }
+}
+```
+
+Build a Set of already-ingested URLs from the `ingested` keys. You'll use this to skip duplicates.
+
+**If the ledger has fewer than 50 entries**, it likely hasn't been backfilled. Warn the user: "Ledger looks sparse (N entries). Run the backfill first to avoid re-ingesting existing catalogue entries. Continue anyway?" This prevents the false-positive problem of missing dedup data.
+
+## Step 2: Collect URLs for This Cycle
+
+### Cycle 1: Read Browser Bookmarks
+
+Read bookmarks from ALL browser sources. For each browser, find the `"LLM-INGEST"` folder in the bookmark bar children. Extract only direct URL children (NOT subfolders).
+
+#### Source 1: Chrome
+```
+/Users/buraksmac/Library/Application Support/Google/Chrome/Default/Bookmarks
+```
+
+#### Source 2: Comet (Perplexity's Chrome fork)
+```
+/Users/buraksmac/Library/Application Support/Comet/Default/Bookmarks
+```
+
+#### Source 3: X Bookmarks (via Chrome DevTools MCP)
+
+**ONLY if `+x` flag is set.** Otherwise skip and note "X bookmarks: skipped (flag not set)".
+
+When enabled:
+1. Use `mcp__chrome-devtools__navigate_page` to go to `https://x.com/i/bookmarks` with timeout 15000
+2. Wait for page load, then use `mcp__chrome-devtools__evaluate_script` with this TESTED extraction function:
+   ```js
+   async () => {
+     // Scroll to load all bookmarks (X lazy-loads)
+     let prevHeight = 0;
+     let attempts = 0;
+     while (attempts < 15) {
+       window.scrollTo(0, document.body.scrollHeight);
+       await new Promise(r => setTimeout(r, 2000));
+       const newHeight = document.body.scrollHeight;
+       if (newHeight === prevHeight) {
+         await new Promise(r => setTimeout(r, 2000));
+         window.scrollTo(0, document.body.scrollHeight);
+         await new Promise(r => setTimeout(r, 2000));
+         if (document.body.scrollHeight === newHeight) break;
+       }
+       prevHeight = newHeight;
+       attempts++;
+     }
+     // Extract all unique bookmarked tweet URLs
+     const articles = document.querySelectorAll('article');
+     const bookmarks = [];
+     const seen = new Set();
+     articles.forEach(a => {
+       const timeEl = a.querySelector('time');
+       const linkEl = timeEl?.closest('a');
+       if (linkEl && !seen.has(linkEl.href)) {
+         seen.add(linkEl.href);
+         bookmarks.push({
+           url: linkEl.href,
+           text: a.querySelector('[data-testid="tweetText"]')?.textContent?.substring(0, 120) || '',
+           author: a.querySelector('[data-testid="User-Name"]')?.textContent?.split('@')?.[0]?.trim() || ''
+         });
+       }
+     });
+     return { total: bookmarks.length, bookmarks };
+   }
+   ```
+3. Mark these with source `"x-bookmarks"`
+4. If the page shows a login wall or returns 0 bookmarks, report "X bookmarks: login required or empty" and continue
+
+### Cycle 2+: Read Discovery Sidecars
+
+For cycles after the first, instead of reading browser bookmarks, read all `.json` files from `_bmad/ingest-discoveries/`. Each file contains URLs discovered by previous cycle's ingest agents. Collect all `discovered_urls[].url` entries as the input for this cycle. Mark source as `"discovery-cycle-N"`.
+
+**Deduplication across sources**: If the same URL appears in multiple sources, process it only once.
+
+## Step 3: Filter Against Ledger
+
+The ledger is the **authoritative dedup source** (backfilled from all catalogue entries). Do NOT fall back to grepping INDEX.md — the ledger is comprehensive.
+
+For each collected URL:
+- If the URL exists in the ledger's `ingested` keys → **SKIP (already ingested)**
+- Otherwise → **NEW**
+
+### Resolve t.co shortlinks
+
+Before filtering, resolve ALL `t.co` URLs to their expanded destinations using Chrome DevTools MCP:
+
+1. For each URL starting with `https://t.co/`:
+   - Use `mcp__chrome-devtools__navigate_page` with `type: "url"` and the t.co URL
+   - The browser will follow the redirect. The response will show the final URL in the page list.
+   - Use `mcp__chrome-devtools__evaluate_script` with `() => window.location.href` to capture the resolved URL
+   - Replace the t.co URL with the resolved URL (keep original title)
+   - If resolution fails (timeout, error), keep the t.co URL and flag it in the plan
+
+2. After resolution, deduplicate again — a resolved t.co may now match another bookmark's URL. Keep the one with the better title.
+
+**Batch efficiency**: If multiple t.co URLs exist, resolve them sequentially (each needs a page navigation). Show progress: "Resolving N shortlinks..."
+
+### Apply filters
+
+- **Image-only URLs** (ends in `.jpg`, `.png`, `.gif`, `.webp`, or is `pbs.twimg.com`) → **SKIP (image, not content)**
+- **Paywalled/gated URLs** (`clientclub.net`, `augmented-intelligence.app`) → **SKIP (gated content)** — flag to user
+
+## Step 4: Classify Each New URL
+
+| URL Pattern | Type | Skill |
+|---|---|---|
+| `youtube.com` or `youtu.be` | talk | `/ingest-talk` |
+| `x.com` or `twitter.com` | post | `/ingest-post` |
+| `github.com` (repo root, not file/issue) | tool | `/tool-catalogue` |
+| Everything else | article | `/ingest-article` |
+
+## Step 5: Show Plan and Confirm
+
+Present a table grouped by source:
+
+```
+## Cycle N — Ingest Plan
+
+### Chrome LLM-INGEST (X new / Y total / Z skipped)
+| # | Type    | Title (truncated)     | URL |
+|---|---------|----------------------|-----|
+
+### Comet LLM-INGEST (X new / Y total / Z skipped)
+| # | Type    | Title (truncated)     | URL |
+|---|---------|----------------------|-----|
+
+### X Bookmarks (X new / Y total / Z skipped)
+[skipped or table]
+
+### Discoveries from Cycle N-1 (X new / Y total / Z skipped)
+[only for cycle 2+]
+
+### Skipped
+| URL | Reason |
+|-----|--------|
+```
+
+Unless `no-confirm` flag is set, ask: "Ready to ingest N new items in cycle {N}/{depth}? (Y to proceed, or specify numbers to skip)"
+
+## Step 6: Spawn Parallel Ingest Subagents
+
+For EACH new URL, spawn a subagent using the `Agent` tool with `subagent_type: "general-purpose"` and `model: "sonnet"` (default). If the user passed the `opus` flag, use `model: "opus"` instead. Launch ALL agents in a single message for maximum parallelism.
+
+**Model selection**: Sonnet is the default for all ingest subagents — it handles research/ingest at the same quality as Opus at lower cost and rate limit impact. Only use Opus when explicitly requested via the `opus` flag.
+
+Each agent prompt MUST include the discovery sidecar instruction:
+
+```
+You are ingesting a single resource into the knowledge catalogue.
+
+URL: {url}
+Title: {title}
+Type: {article|post|talk|tool}
+Source: {chrome|comet|x-bookmarks|discovery-cycle-N}
+
+## YOUR MISSION
+
+### Part 1: Ingest
+
+Run the appropriate skill with the URL above. Use the Skill tool:
+- skill: "ingest-{type}", args: "{url}"
+  (for type "tool", use skill: "tool-catalogue", args: "{url}")
+
+If the Skill tool is not available, follow these steps manually:
+1. Read the template: research/catalogue/_TEMPLATE-{TYPE}.md
+2. Fetch the URL content using WebFetch
+3. Read the master blueprint: research/2026-03-06_MASTER-BLUEPRINT-system-architecture.md
+4. Read the catalogue index: research/catalogue/INDEX.md
+5. Create the profile following the template format
+6. Save to the correct path under research/catalogue/{type}s/YYYY-MM/
+7. Update research/catalogue/INDEX.md with the new entry
+
+IMPORTANT: Do NOT skip the INDEX.md update.
+
+### Part 2: Write Discovery Sidecar
+
+After ingesting, write a JSON file to: _bmad/ingest-discoveries/{unique-slug}.json
+
+The slug should be derived from the URL (e.g., "factory-floor-dev" or "trq212-status-2027463795").
+
+File format:
+```json
+{
+  "source_url": "{url}",
+  "source_title": "{title from the ingested content}",
+  "catalogue_path": "research/catalogue/...",
+  "ingested_at": "{ISO timestamp}",
+  "discovered_urls": [
+    {
+      "url": "https://...",
+      "context": "Why this was mentioned — quote or describe the reference",
+      "suggested_type": "tool|article|post|talk",
+      "relevance_hint": "Why it might be valuable for our research"
+    }
+  ]
+}
+```
+
+Rules for discovered_urls:
+- ONLY include URLs that seem genuinely valuable (would score 6+ relevance)
+- Include URLs from "Deep Dive Candidates" section if the ingest skill created one
+- Include URLs from linked tools, referenced papers, mentioned repos
+- Do NOT include generic links (docs, legal, social media profiles)
+- Do NOT include URLs that are already in the catalogue INDEX.md
+- If no valuable URLs were discovered, set discovered_urls to an empty array []
+
+### Part 3: Return Summary
+
+Return this exact JSON:
+{"url": "{url}", "status": "done|failed", "catalogue_path": "research/catalogue/...", "discoveries": N, "error": null}
+```
+
+## Step 7: Update Ledger
+
+After all agents complete, update `_bmad/ingest-ledger.json`:
+
+1. Read the current ledger file
+2. For each SUCCESSFULLY ingested URL, add an entry:
+   ```json
+   "https://the-url.com": {
+     "source": "chrome|comet|x-bookmarks|discovery-cycle-N",
+     "ingested_at": "2026-03-12T...",
+     "catalogue_path": "research/catalogue/..."
+   }
+   ```
+3. Update `last_run` to the current ISO timestamp
+4. Write the updated ledger back
+
+**CRITICAL**: Only add entries for URLs that were successfully ingested. Failed ones should NOT be added so they get retried.
+
+## Step 7.5: Move Bookmarks to LLM-INGEST-DONE
+
+After updating the ledger, move SUCCESSFULLY ingested bookmarks from `LLM-INGEST` to `LLM-INGEST-DONE` in both Chrome and Comet bookmark files. This prevents re-processing on future runs.
+
+Run this Python script via Bash for EACH browser (Chrome and Comet):
+
+```python
+python3 -c "
+import json, sys, os
+from datetime import datetime
+
+browser = sys.argv[1]  # 'Chrome' or 'Comet'
+urls_to_move = json.loads(sys.argv[2])  # list of successfully ingested URLs
+
+if browser == 'Chrome':
+    path = os.path.expanduser('~/Library/Application Support/Google/Chrome/Default/Bookmarks')
+elif browser == 'Comet':
+    path = os.path.expanduser('~/Library/Application Support/Comet/Default/Bookmarks')
+else:
+    sys.exit(1)
+
+if not os.path.exists(path):
+    print(f'{browser}: bookmark file not found, skipping')
+    sys.exit(0)
+
+with open(path, 'r') as f:
+    data = json.load(f)
+
+url_set = set(urls_to_move)
+
+def find_folder(node, name):
+    if node.get('name') == name and node.get('type') == 'folder':
+        return node
+    for child in node.get('children', []):
+        result = find_folder(child, name)
+        if result:
+            return result
+    return None
+
+def find_parent_of(node, name):
+    for child in node.get('children', []):
+        if child.get('name') == name:
+            return node
+        result = find_parent_of(child, name)
+        if result:
+            return result
+    return None
+
+# Find LLM-INGEST folder
+root = data['roots']['bookmark_bar']
+ingest_folder = find_folder(root, 'LLM-INGEST')
+if not ingest_folder:
+    print(f'{browser}: LLM-INGEST folder not found')
+    sys.exit(0)
+
+# Find or create LLM-INGEST-DONE as sibling
+parent = find_parent_of(root, 'LLM-INGEST') or root
+done_folder = find_folder(root, 'LLM-INGEST-DONE')
+if not done_folder:
+    max_id = 0
+    def find_max_id(n):
+        global max_id
+        nid = int(n.get('id', '0'))
+        if nid > max_id: max_id = nid
+        for c in n.get('children', []): find_max_id(c)
+    find_max_id(data['roots']['bookmark_bar'])
+    find_max_id(data['roots'].get('other', {}))
+    done_folder = {
+        'children': [],
+        'date_added': str(int(datetime.now().timestamp() * 1000000) + 11644473600000000),
+        'date_last_used': '0',
+        'date_modified': '0',
+        'id': str(max_id + 1),
+        'name': 'LLM-INGEST-DONE',
+        'type': 'folder'
+    }
+    # Insert right after LLM-INGEST
+    idx = next((i for i, c in enumerate(parent['children']) if c.get('name') == 'LLM-INGEST'), -1)
+    if idx >= 0:
+        parent['children'].insert(idx + 1, done_folder)
+    else:
+        parent['children'].append(done_folder)
+
+# Move matching bookmarks
+moved = 0
+remaining = []
+for child in ingest_folder.get('children', []):
+    if child.get('type') == 'url' and child.get('url') in url_set:
+        done_folder['children'].append(child)
+        moved += 1
+    else:
+        remaining.append(child)
+
+ingest_folder['children'] = remaining
+
+with open(path, 'w') as f:
+    json.dump(data, f, indent=3)
+
+print(f'{browser}: moved {moved} bookmarks to LLM-INGEST-DONE')
+" "$BROWSER" "$URLS_JSON"
+```
+
+Pass the list of successfully ingested URLs as a JSON array. Run for Chrome first, then Comet.
+
+**Edge cases**:
+- If Chrome/Comet is actively writing bookmarks at the same moment, the write could conflict. This is rare and acceptable — the next run will retry.
+- If LLM-INGEST-DONE doesn't exist, the script creates it as a sibling of LLM-INGEST.
+- Only move URLs that were in THIS browser's LLM-INGEST folder (a URL from Comet shouldn't be moved in Chrome).
+
+## Step 8: Synthesis (if depth > current cycle)
+
+If there are more cycles remaining, spawn a SINGLE synthesis agent with the same model as ingest agents (`model: "sonnet"` by default, `model: "opus"` if flag set):
+
+```
+You are the discovery synthesizer for the ingest pipeline.
+
+## YOUR MISSION
+
+1. Read ALL .json files in _bmad/ingest-discoveries/
+2. Collect all discovered_urls from all files
+3. Deduplicate by URL
+4. Check each URL against _bmad/ingest-ledger.json — remove already-ingested
+5. Check each URL against research/catalogue/INDEX.md — remove already-catalogued
+6. Write a consolidated DISCOVERIES.md to _bmad/ingest-discoveries/DISCOVERIES.md:
+
+Format:
+```markdown
+# Discovery Synthesis — Cycle {N}
+Generated: {ISO timestamp}
+Source sidecars: {count} files, {total_discoveries} raw URLs, {unique_new} unique new
+
+## New URLs to Ingest (Cycle {N+1})
+
+| # | Type | URL | Discovered From | Relevance Hint |
+|---|------|-----|-----------------|----------------|
+| 1 | tool | ... | factory-floor article | Implements durable execution |
+
+## Already Catalogued (skipped)
+| URL | Existing Entry |
+|-----|---------------|
+
+## Low Relevance (dropped)
+| URL | Reason |
+|-----|--------|
+```
+
+7. Return: {"new_urls": N, "skipped": M, "dropped": K}
+```
+
+After the synthesis agent completes:
+- If `new_urls > 0` AND more cycles remain → **go back to Step 2** with the discovered URLs as input
+- If `new_urls == 0` → report "No new discoveries, stopping early at cycle {N}/{depth}"
+- Clean up: delete individual `.json` sidecar files (keep DISCOVERIES.md)
+
+## Step 9: Final Report
+
+After all cycles complete:
+
+```
+## Ingest Complete — {N} Cycles
+
+### Per-Cycle Summary
+| Cycle | Source | Ingested | Discovered | Failed |
+|-------|--------|----------|------------|--------|
+| 1     | bookmarks | 25 | 40 URLs | 2 |
+| 2     | discoveries | 15 | 12 URLs | 1 |
+| 3     | discoveries | 8 | 0 URLs | 0 |
+
+### Totals
+**Ingested**: X new catalogue entries
+**Discovered**: Y unique URLs across all cycles
+**Failed**: Z (list)
+**Ledger**: N total entries
+**Remaining leads**: see _bmad/ingest-discoveries/DISCOVERIES.md
+
+### Failed Items (retry with /ingest-bookmarks)
+| URL | Error |
+|-----|-------|
+```
+
+</steps>
+
+## Edge Cases
+
+- **Empty folders**: Report per-source "LLM-INGEST folder is empty" and continue with other sources
+- **Missing browser**: If a bookmark file doesn't exist (e.g., Comet not installed), skip silently and note in plan
+- **Nested folders**: Only process direct URL children of LLM-INGEST, not subfolders
+- **Browser not flushed**: If a bookmark count seems low, tell the user to switch browser tabs or close/reopen bookmark manager to force a disk flush
+- **Ledger corruption**: If `_bmad/ingest-ledger.json` is not valid JSON, recreate it with `{"version": 1, "last_run": null, "ingested": {}}` and warn the user
+- **X rate limiting**: If Chrome DevTools returns empty results from X bookmarks page, suggest the user scroll manually first and retry
+- **t.co URLs**: Resolve via `mcp__chrome-devtools__navigate_page` + `evaluate_script(() => window.location.href)` before filtering. If Chrome MCP is unavailable (e.g., `+x` not set and no other MCP use), fall back to WebFetch HEAD redirect. After resolution, re-deduplicate against the full URL list
+- **Cycle with 0 new URLs**: Stop early, don't spawn empty cycles
+- **Discovery explosion**: If a cycle produces >30 new URLs, show the list and ask user to confirm or prune before proceeding (unless `no-confirm` is set)
+- **Sidecar write conflicts**: Each agent writes its OWN file with a unique slug — no conflicts possible
