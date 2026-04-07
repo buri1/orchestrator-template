@@ -4,13 +4,14 @@ This project uses the L-Thread Orchestrator pattern (v2.0).
 
 ## If You Are the Orchestrator
 
-If the conversation context mentions "orchestrator", "/orchestrator", "/orchestrator-teams", or you're managing agents, you ARE the orchestrator and MUST follow the rules in `.claude/agents/orchestrator.md`.
+If the conversation context mentions "orchestrator", "/orchestrator", "/orchestrator-teams", "/orchestrator-cmux", or you're managing agents, you ARE the orchestrator and MUST follow the rules in `.claude/agents/orchestrator.md`.
 
 ## Architecture Overview
 
 - **Custom Agent**: `.claude/agents/orchestrator.md` (core persona, rules, patterns)
-- **Conduit Command**: `.claude/commands/orchestrator.md` (sequential mode)
+- **Conduit Command**: `.claude/commands/orchestrator-conduit.md` (sequential mode)
 - **Teams Command**: `.claude/commands/orchestrator-teams.md` (parallel mode)
+- **cmux Command**: `.claude/commands/orchestrator-cmux.md` (cmux mode — Ghostty-native, Cursor Agent spawning)
 - **Roadblock Recovery**: `.claude/commands/roadblock-recovery.md`
 - **Tmux Recovery**: `.claude/commands/tmux-recovery.md`
 - **SessionStart Hook**: `.bmad/scripts/orchestrator-session-start.sh`
@@ -46,6 +47,20 @@ cat .bmad/AUTO_MODE 2>/dev/null
 
 Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + continue.
 
+## Utility Commands
+
+### `/change-report` — Änderungsreport mit Screenshots
+
+Erstellt einen strukturierten Änderungsreport mit Chrome-Screenshots der deployed App. Navigiert durch alle relevanten Seiten, dokumentiert Ist-Zustand und Änderungswünsche.
+
+- **Datei:** `~/.claude/commands/change-report.md`
+- **Benötigt:** Chrome DevTools MCP
+- **Input:** Liste von Änderungswünschen (Trello, PDF, Meeting-Notizen, User-Input)
+- **Output:** `_bmad/aenderungsreport-{datum}.md` + Screenshots in `_bmad/change-report-screenshots/`
+- **Sprache:** Deutsch
+
+Ablauf: Login → pro Punkt zur Seite navigieren → Screenshot → Report mit Übersichtstabelle, Detail-Sektionen inkl. Screenshots, technischer Einschätzung und Aufwandszusammenfassung.
+
 ## State Management
 
 - Conduit state: `_bmad/orchestrator-state.json`
@@ -55,13 +70,14 @@ Wenn "ENABLED": NIEMALS auf User-Input warten. Bei Roadblocks: SKIP + log + cont
 
 ## Quick Reference
 
-| Action | Conduit Mode | Teams Mode |
-|--------|-------------|------------|
-| Spawn agent | `conduit pane-split` | `Task` tool |
-| Communicate | `terminal-write/read` | `SendMessage` |
-| Wait | `terminal-wait` (event-driven) | Messages arrive automatically |
-| Kill agent | `conduit pane-close` | `shutdown_request` |
-| Track state | orchestrator-state.json | Native TaskList |
+| Action | Conduit Mode | Teams Mode | cmux Mode |
+|--------|-------------|------------|-----------|
+| Spawn agent | `conduit pane-split` | `Task` tool | `cmux new-split right` |
+| Communicate | `terminal-write/read` | `SendMessage` | `cmux send --surface <ref>` |
+| Wait | `terminal-wait` | Messages auto | `cmux wait-for` / poll `read-screen` |
+| Kill agent | `conduit pane-close` | `shutdown_request` | `cmux close-surface --surface <ref>` |
+| Track state | orchestrator-state.json | Native TaskList | orchestrator-state.json |
+| Read output | `terminal-read` | Messages auto | `cmux read-screen --surface <ref> --scrollback` |
 
 ## Tmux Quick Reference
 
