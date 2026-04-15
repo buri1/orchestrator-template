@@ -1,0 +1,115 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=20502s",
+  "source_title": "Building on ACP at OpenClaw — Agent-Client Protocol and Orchestration (Honor Solaz, Text Cortex / OpenClaw maintainer)",
+  "source_type": "talk",
+  "source_event": "AI Engineer Europe 2026, London",
+  "source_date": "2026-04-09",
+  "speaker": "Honor Solaz",
+  "speaker_affiliation": "Founding Engineer at Text Cortex; OpenClaw maintainer (day-one); ACPX author; MS Teams integration contributor",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-honor-solaz-acp-openclaw.md",
+  "ingested_at": "2026-04-04T12:00:00.000Z",
+  "relevance": 9,
+  "novelty": 8,
+  "actionable": 9,
+  "relevance_for_orchestrator": "HIGH",
+  "key_insight": "ACP (Zed's Agent-Client Protocol) + ACPX CLI as the protocol substrate for standardized agent-to-agent handoff; SOPs-for-agents ('automating the automator') as the scaling pattern once PR volume explodes; Spritz (Text Cortex open-source Go K8s operator) as the enterprise dispatch template for on-demand disposable agents.",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/zed-industries/agent-client-protocol",
+      "context": "Agent-Client Protocol (ACP) spec and reference implementation from Zed — the foundation Honor built ACPX on top of. Standardizes how a host client (editor, chat, IDE, CLI) talks to an agent. Explicitly NOT MCP (which is agent-to-tool).",
+      "suggested_type": "protocol-spec",
+      "relevance_hint": "Direct candidate to replace our ad-hoc tmux send-keys worker handoff with a protocol-native layer. Compatible with Codex, Claude Code, and OpenClaw via Zed's existing adapters."
+    },
+    {
+      "url": "https://zed.dev/docs/agent-panel",
+      "context": "Zed editor's agent panel documentation — the canonical ACP host implementation, showing how a client drives an ACP-compliant agent",
+      "suggested_type": "docs",
+      "relevance_hint": "Reference implementation of ACP client side; useful for understanding what our orchestrator would need to implement if we became an ACP client"
+    },
+    {
+      "url": "https://github.com/textcortex/acpx",
+      "context": "ACPX — Honor's Swiss-army-knife CLI that wraps ACP and lets any agent call any other agent over command line. Also supports Codex app-server protocol (contributed by Herald). Repo URL is inferred from Text Cortex org + project name; needs verification.",
+      "suggested_type": "tool",
+      "relevance_hint": "Candidate replacement for our tmux-based worker handoff. Lets our orchestrator call Codex/Claude Code/OpenClaw through one uniform protocol. Also positioned as general-purpose workflow engine with structured JSON output — could encode our review/fix loop SOP."
+    },
+    {
+      "url": "https://github.com/textcortex/spritz",
+      "context": "Spritz — Text Cortex's open-source Go Kubernetes operator for on-demand disposable dispatchable agents. Concierge agent on Slack spawns task-specific agents in full K8s pods backed by Firecracker microVMs. Currently used for error reporting at Text Cortex. Repo URL is inferred; needs verification.",
+      "suggested_type": "tool",
+      "relevance_hint": "Template for enterprise-tier orchestrator deployment. If we scale past one client running in parallel, this is the pattern we'd copy rather than invent: concierge on chat → dispatch agent per task → user gets a link to the fresh session."
+    },
+    {
+      "url": "https://textcortex.com",
+      "context": "Text Cortex company site — Honor's employer; builder of the Ship-of-Theseus production harness (started 2022 as Jupyter Lab extension over OG Codex/Davinci-Code-2) and Spritz",
+      "suggested_type": "company",
+      "relevance_hint": "Peer startup in the coding harness space; reference for personal-to-enterprise agent spectrum framing"
+    },
+    {
+      "url": "https://github.com/openclaw/openclaw",
+      "context": "OpenClaw main repo — Honor is a day-one maintainer. Context for the PR firehose anecdote (60K+ PRs, 300-500/day, 90% AI slop) that motivated the SOP tooling work",
+      "suggested_type": "orchestration-platform",
+      "relevance_hint": "Already catalogued. This talk adds interop-layer detail (ACP adapter, Discord/Telegram bridges) that should refresh the existing entry"
+    },
+    {
+      "url": "https://github.com/openai/codex",
+      "context": "OpenAI Codex — the 'reliable coder' end of Honor's telephone game (Opus → Codex via CLI when Opus was unreliable for complex coding). Target of Honor's ACP adapter via ACPX.",
+      "suggested_type": "tool",
+      "relevance_hint": "Already referenced in other catalogue entries; this talk confirms Codex as the interop target for ACPX"
+    },
+    {
+      "url": "https://zed.dev",
+      "context": "Zed editor (Rust) — originator of ACP; shipped Codex and Claude Code adapters first, which is why Honor chose ACP over the competing Agent Protocol",
+      "suggested_type": "editor",
+      "relevance_hint": "Reference for why ACP won the adapter race; Zed is worth tracking as a peer host implementation"
+    },
+    {
+      "url": "https://github.com/firecracker-microvm/firecracker",
+      "context": "Firecracker microVMs — the isolation layer Spritz uses under its Kubernetes pods for dispatchable agent sessions",
+      "suggested_type": "infrastructure",
+      "relevance_hint": "Candidate isolation primitive if we move beyond tmux workers to true per-agent VMs"
+    },
+    {
+      "url": "https://steipete.me",
+      "context": "Peter Steinberger's blog — home of the 'Cloud Code is my computer' article Honor cites as the founding text of this whole thread of work",
+      "suggested_type": "blog",
+      "relevance_hint": "Historical reference for the OpenClaw origin story; worth ingesting the founding article"
+    }
+  ],
+  "related_catalogue_entries": [
+    "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-swyx-ama.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-radik-giving-keys-openclaw.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-nick-taylor-openclaw-trusted-proxy.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-ryan-lopopolo-harness-engineering.md",
+    "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+    "research/catalogue/talks/2026-04/sandipan-bhaumik-chaos-to-choreography-multi-agent-orchestration.md",
+    "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md"
+  ],
+  "topics": [
+    "acp",
+    "agent-client-protocol",
+    "acpx",
+    "spritz",
+    "openclaw",
+    "orchestration",
+    "interoperability",
+    "sops-for-agents",
+    "workflow-engine",
+    "discord-driven-development",
+    "kubernetes-agents",
+    "firecracker",
+    "disposable-agents",
+    "slack-teams-multi-agent",
+    "codex-adapter",
+    "zed",
+    "text-cortex"
+  ],
+  "action_items": [
+    "Evaluate ACPX as a protocol-native replacement for our tmux send-keys worker handoff layer",
+    "Add ACPX, ACP, and Spritz as tool/protocol catalogue entries once repo URLs are confirmed",
+    "Encode our orchestrator's review/fix loop as an explicit SOP matching Honor's abstract workflow (intent → judge → conflicts → CI → review → make CI pass); store as .bmad/sops/review-fix-loop.yaml",
+    "Track Agent Protocol vs ACP adoption over the next 6 months — winner decides the agent interop standard",
+    "Cross-reference with State of the Claw (same conference) for the PR firehose context from Peter Steinberger's platform-level view",
+    "Cross-reference with Ryan Lopopolo's harness engineering talk — SOPs-for-agents is a direct parallel to his 'prompts as lint' framing"
+  ]
+}

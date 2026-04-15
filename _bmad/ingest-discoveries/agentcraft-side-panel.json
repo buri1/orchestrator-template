@@ -1,0 +1,76 @@
+{
+  "source_url": "https://www.getagentcraft.com/docs/features/side-panel",
+  "source_type": "article",
+  "title": "AgentCraft — Side Panel",
+  "author": "AgentCraft Docs",
+  "date_published": "2026-04",
+  "date_ingested": "2026-04-11",
+  "catalogue_path": "research/catalogue/articles/2026-04/agentcraft-side-panel-docs.md",
+  "topics": [
+    "agent-gui",
+    "developer-ux",
+    "side-panel",
+    "workflow-design",
+    "heroes-metaphor",
+    "context-bar",
+    "permission-gating"
+  ],
+  "relevance": 7,
+  "actionable": 8,
+  "summary": "AgentCraft's Side Panel is the primary per-agent interface: Chat/Git/Files tabs + a vitals header with model selector, color-coded context bar (green<70%, yellow 70-90%, red>90%), current activity, and last-mission summary. Inline tool-use and thinking blocks; WebSocket streaming; operation ticker; scroll management with 'new content' badge; @-file autocomplete + Cmd+Enter composer; full-screen plan-mode takeover with markdown + gold-highlighted file paths + feedback textarea; yellow-glow + Y/N permission requests; Git tab (Codex) with status labels 'altered/sealed/newly scribed/destroyed'; handoff/fork citations. Game-like 'heroes / missions / scribed' metaphor. Reference design for per-agent IDEs.",
+  "key_takeaways": [
+    "Three-tab side panel (Chat/Git/Files) as the primary agent IDE; opened by pressing Enter on a selected hero",
+    "Agent vitals header with color-coded context bar (green<70%, yellow 70-90%, red>90%) + model selector + current activity + last-mission summary",
+    "Tool-use and thinking blocks rendered inline; WebSocket streaming with an operation ticker showing fine-grained activity",
+    "Full-screen Plan Review when an agent enters plan mode (markdown, gold-highlighted file paths, section nav, feedback textarea)",
+    "Yellow-glow + Y/N hotkey permission requests instead of modal dialogs"
+  ],
+  "relevance_notes": "AgentCraft is an adjacent agent-authoring product. Its side panel is a directly usable reference design for the cmux + orchestrator dashboard: vitals header, color-coded context bar, inline tool-use/thinking blocks, plan-mode takeover, and low-friction Y/N permission gating are all primitives we want. The game-like 'heroes/missions' metaphor is distinctive but lower priority than the UX mechanics.",
+  "deep_dive_candidates": [
+    {
+      "url": "https://www.getagentcraft.com/docs/features/teams",
+      "why": "Multi-agent team coordination UX — likely relevant to L-Thread multi-worker pattern",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.getagentcraft.com/docs/features/remote-access",
+      "why": "Remote access model — web/cloud surface for agents",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.getagentcraft.com/docs/features/voice-input",
+      "why": "Voice composer — intersects Burak's Voice AI portfolio + ColdyAI",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.getagentcraft.com/docs/keyboard-shortcuts",
+      "why": "Full hotkey reference — benchmark against our own coverage",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.getagentcraft.com/",
+      "why": "Homepage / overview — classify AgentCraft as harness vs GUI vs orchestration",
+      "suggested_ingest": "/tool-catalogue"
+    }
+  ],
+  "referenced_tools": [
+    {
+      "name": "AgentCraft",
+      "context": "The product being documented; agent authoring tool with 'heroes/missions' metaphor",
+      "in_catalogue": false,
+      "action": "Run /tool-catalogue on getagentcraft.com homepage"
+    },
+    {
+      "name": "Codex",
+      "context": "Git tab is labelled '(Codex)' — unclear if OpenAI Codex or a local Codex module",
+      "in_catalogue": "partial"
+    }
+  ],
+  "action_items": [
+    "Run /tool-catalogue on getagentcraft.com homepage to classify AgentCraft",
+    "Port the color-coded context bar (green/yellow/red) into the cmux + orchestrator dashboard",
+    "Adopt the yellow-glow + Y/N permission pattern as replacement for --dangerously-skip-permissions",
+    "Benchmark @-file autocomplete + Cmd+Enter composer against Claude Code native composer",
+    "Ingest AgentCraft Teams doc for multi-agent coordination model"
+  ]
+}

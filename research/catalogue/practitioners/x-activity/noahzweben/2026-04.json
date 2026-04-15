@@ -1,0 +1,26 @@
+{
+  "handle": "noahzweben",
+  "practitioner_ref": null,
+  "month": "2026-04",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2042332268450963774",
+      "url": "https://x.com/noahzweben/status/2042332268450963774",
+      "type": "post",
+      "date": "2026-04-09",
+      "text": "Thrilled to announce the Monitor tool which lets Claude create background scripts that wake the agent up when needed. Big token saver and great way to move away from polling in the agent loop. Claude can now: * Follow logs for errors * Poll PRs via script * and more!",
+      "media": ["video"],
+      "metrics": { "likes": 5952, "retweets": 451, "replies": 223, "views": 1077906, "bookmarks": 5100 },
+      "links": [],
+      "topics": ["claude-code", "coding-tools", "agent-orchestration", "ai-ops", "observability"],
+      "relevance": 10,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "HIGHEST SIGNAL. Monitor tool launched Apr 9 2026 by Claude Code PM. Background scripts stream stdout into the agent conversation — event-driven vs poll-driven. 1.08M views, 5,100 bookmarks. Anthropic's official framing: 'big token saver and great way to move away from polling in the agent loop'. CRITICAL FOR L-THREAD: matches exactly the AIE Europe 2026 thesis ('2025 = token maxing, 2026 = not wasting them' — Vincent Kottsch) AND our own orchestrator rule NIEMALS bash sleep for waiting. This is the Anthropic-blessed replacement for capture-pane polling loops. Pair with alistair's technical launch tweet (2042345049980362819). Direct ingest target."
+    }
+  ]
+}

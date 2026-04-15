@@ -1,0 +1,57 @@
+{
+  "source_url": "https://www.marktechpost.com/2026/04/05/meet-autoagent-the-open-source-library-that-lets-an-ai-engineer-and-optimize-its-own-agent-harness-overnight/",
+  "source_title": "Meet AutoAgent — The Open-Source Library That Lets an AI Engineer and Optimize Its Own Agent Harness Overnight",
+  "catalogue_path": "research/catalogue/articles/2026-04/marktechpost-autoagent-self-optimizing-harness.md",
+  "ingested_at": "2026-04-11T00:00:00.000Z",
+  "ingest_note": "Marktechpost body did not extract cleanly via WebFetch; reconstructed from WebSearch snippets plus awesomeagents.ai and decodethefuture.org secondary coverage. Self-reported benchmark claims flagged for verification against official leaderboards.",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/kevinrgu/autoagent",
+      "context": "Kevin Gu's official AutoAgent repository (MIT license). Contains the mutable agent.py harness pattern, program.md meta-directive format, Harbor task adapter, and Docker sandbox runner. Directly forkable.",
+      "suggested_type": "tool",
+      "relevance_hint": "10/10 — first open-source self-optimizing harness; should be catalogued under agent-harnesses/ immediately"
+    },
+    {
+      "url": "https://arxiv.org/abs/2603.28052",
+      "context": "Stanford/MIT Meta-Harness paper (Lee, Nair, Zhang, Lee, Khattab, Finn, March 2026). Scientific backing for the '6x performance swing from harness alone' claim. Already summarized via @omarsar0 post but not yet ingested as primary article.",
+      "suggested_type": "article",
+      "relevance_hint": "9/10 — academic foundation of the entire meta-harness pattern; convergence proof for our harness-engineering thesis"
+    },
+    {
+      "url": "https://yoonholee.com/meta-harness",
+      "context": "Official project page for the Stanford Meta-Harness paper with benchmarks, demos, and code artifact links.",
+      "suggested_type": "article",
+      "relevance_hint": "8/10 — companion to arxiv:2603.28052 with practical artifacts"
+    },
+    {
+      "url": "https://github.com/stanford-iris-lab/meta-harness-tbench2-artifact",
+      "context": "Stanford's open-source meta-harness implementation against TerminalBench-2. Academic predecessor to Gu's AutoAgent, runs the same optimization pattern.",
+      "suggested_type": "tool",
+      "relevance_hint": "9/10 — reference implementation from the original research team"
+    },
+    {
+      "url": "https://www.marktechpost.com/2026/03/08/andrej-karpathy-open-sources-autoresearch-a-630-line-python-tool-letting-ai-agents-run-autonomous-ml-experiments-on-single-gpus/",
+      "context": "Karpathy's Autoresearch — the 630-line direct architectural ancestor that AutoAgent cites as inspiration. Same three-file self-improving loop pattern applied to ML experiments instead of agent engineering.",
+      "suggested_type": "article",
+      "relevance_hint": "8/10 — architectural ancestor; required reading to understand AutoAgent's design lineage"
+    },
+    {
+      "url": "https://www.ycombinator.com/companies/joindex",
+      "context": "ThirdLayer (aka joindex) company page on Y Combinator W25. Kevin Gu's company, creator of AutoAgent.",
+      "suggested_type": "reference",
+      "relevance_hint": "6/10 — founder/company context; validates solo-founder-ships-meta-harness narrative"
+    },
+    {
+      "url": "https://spreadsheetbench.github.io/",
+      "context": "SpreadsheetBench official leaderboard; used to verify/falsify Gu's 96.5% #1 claim. Official leaderboard currently shows Claude Opus 4.6 at 34.89% — discrepancy flagged by decodethefuture.org analysis.",
+      "suggested_type": "reference",
+      "relevance_hint": "7/10 — verification source for benchmark claims"
+    },
+    {
+      "url": "https://www.tbench.ai/leaderboard/terminal-bench/2.0",
+      "context": "TerminalBench 2.0 official leaderboard; used to verify Gu's 55.1% (GPT-5) and 76.4% (Opus) claims. Already referenced by our akshay_pachaar Anatomy of Harness entry.",
+      "suggested_type": "reference",
+      "relevance_hint": "7/10 — canonical harness-engineering benchmark"
+    }
+  ]
+}

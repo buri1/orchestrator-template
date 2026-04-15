@@ -1,0 +1,106 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-03-25T14:00:00Z",
+  "projects": {
+    "omniport-hh": {
+      "name": "OmniPort Hildesheim",
+      "path": "/Users/buraksmac/Desktop/code2/omniport-hh",
+      "repo": "buri1/omniport-hildesheim",
+      "tier": 1,
+      "lifecycle": "active-dev",
+      "stack": ["next.js", "supabase", "shadcn-ui", "tailwindcss", "typescript", "react"],
+      "description": "City portal for Hildesheim with sub-portals (HiArbeit, HiEngagement, HiErleben, HiGruendung). Client project, $50K contract.",
+      "budget_share": 0.40,
+      "day_theme": "monday"
+    },
+    "cityhub": {
+      "name": "CityHub",
+      "path": "/Users/buraksmac/Desktop/code2/CityHub",
+      "repo": "buri1/CityHub",
+      "tier": 1,
+      "lifecycle": "waiting",
+      "stack": ["next.js", "supabase", "railway", "pnpm", "recharts", "typescript"],
+      "description": "Monorepo city platform (web + API + mobile). Apps: web, api, mobile. Packages: api-client, db, types, validation.",
+      "budget_share": 0.25,
+      "day_theme": "tuesday",
+      "pause_context": {
+        "reason": "Waiting for Lot-Bewerbung result",
+        "unblock_condition": "Grant decision",
+        "expected_date": null,
+        "paused_since": "2026-02-12"
+      }
+    },
+    "adwo-2": {
+      "name": "ADWO v2",
+      "path": "/Users/buraksmac/Desktop/code2/adwo-2",
+      "repo": "buri1/adwo-2",
+      "tier": 2,
+      "lifecycle": "waiting",
+      "stack": ["next.js", "turborepo", "pnpm", "opentelemetry", "better-sqlite3", "typescript"],
+      "description": "Monorepo with dashboard app. Turbo-based build system with shared packages.",
+      "budget_share": 0.15,
+      "day_theme": "wednesday",
+      "pause_context": {
+        "reason": "TODO: fill in pause reason",
+        "unblock_condition": "TODO: what unblocks this?",
+        "expected_date": null,
+        "paused_since": "2026-02-02"
+      }
+    },
+    "finance-agent": {
+      "name": "Finance Agent",
+      "path": "/Users/buraksmac/Desktop/code2/Finance-agent",
+      "repo": "buri1/finance-agent",
+      "tier": 2,
+      "lifecycle": "maintenance",
+      "stack": ["bash", "launchd", "claude-code"],
+      "description": "CLI finance agent with scheduler (launchd), Gmail/Drive integration planned. German tax research and writing style context.",
+      "budget_share": 0.05,
+      "day_theme": "thursday"
+    },
+    "vaseo": {
+      "name": "VASEO",
+      "path": "/Users/buraksmac/Desktop/code2/hackathon",
+      "repo": "buri1/VASEO",
+      "tier": 3,
+      "lifecycle": "paused",
+      "stack": ["react", "express", "shopify-polaris", "supabase", "vite", "openai", "graphql"],
+      "description": "Shopify app with AI-powered product descriptions. Hackathon origin. 6 open issues remaining.",
+      "budget_share": 0.05,
+      "day_theme": "any"
+    },
+    "contentos": {
+      "name": "ContentOS",
+      "path": "/Users/buraksmac/Desktop/code2/ContentOS",
+      "repo": "buri1/ContentOS",
+      "tier": 3,
+      "lifecycle": "ideation",
+      "stack": [],
+      "description": "Content strategy and operations system. Currently docs-only, no code yet.",
+      "budget_share": 0.00,
+      "day_theme": "any"
+    },
+    "hoyo-kingdom": {
+      "name": "Hoyo Kingdom",
+      "path": "/Users/buraksmac/Desktop/code2/Hoyo Kingdom",
+      "repo": "buri1/hoyo_base",
+      "tier": 3,
+      "lifecycle": "paused",
+      "stack": ["python"],
+      "description": "Game project. Sprint 1 complete, Sprint 2 partial (TTS blocked). On hold.",
+      "budget_share": 0.00,
+      "day_theme": "any"
+    },
+    "orchestrator": {
+      "name": "L-Thread Orchestrator",
+      "path": "/Users/buraksmac/Desktop/code2/orchestrator",
+      "repo": "buri1/orchestrator-template",
+      "tier": 1,
+      "lifecycle": "active-dev",
+      "stack": ["bash", "tmux", "claude-code", "node.js"],
+      "description": "Meta-orchestration system for autonomous agent management. Houses Venture Spine, research catalogue, and orchestrator agents.",
+      "budget_share": 0.10,
+      "day_theme": "friday"
+    }
+  }
+}

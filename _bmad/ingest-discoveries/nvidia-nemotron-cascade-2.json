@@ -1,0 +1,40 @@
+{
+  "url": "https://www.marktechpost.com/2026/03/20/nvidia-releases-nemotron-cascade-2-an-open-30b-moe-with-3b-active-parameters-delivering-better-reasoning-and-strong-agentic-capabilities/",
+  "title": "NVIDIA Releases Nemotron-Cascade 2: An Open 30B MoE with 3B Active Parameters",
+  "type": "article",
+  "source": "manual",
+  "ingested_at": "2026-03-25",
+  "catalogue_path": "research/catalogue/articles/2026-03/nvidia-nemotron-cascade-2-open-30b-moe.md",
+  "relevance": 6,
+  "actionable": 4,
+  "discoveries": 2,
+  "key_discoveries": [
+    {
+      "id": 1,
+      "type": "technique",
+      "title": "Multi-Domain On-Policy Distillation (MOPD)",
+      "description": "Token-level distillation advantage from best intermediate teacher models during Cascade RL. Reaches teacher-level AIME25 performance in 30 steps vs GRPO's lower score in same budget. Substantially more sample-efficient than sequence-level reward algorithms.",
+      "actionability": "Phase 3+ — relevant if doing custom post-training; not immediately applicable on Claude Max flat rate"
+    },
+    {
+      "id": 2,
+      "type": "model",
+      "title": "Nemotron-Cascade 2 as local inference tier candidate",
+      "description": "30B MoE with 3B active parameters — open-weight, Gold Medal reasoning, purpose-built tool calling (`<tools>`/`<tool_call>` XML) and thinking mode toggle (`<think>`). NVIDIA's Privacy Router in OpenShell can route inference to local Nemotron models. Candidate for sub-frontier cost tier in Phase 3+ model routing.",
+      "actionability": "Phase 3+ — only relevant when we leave Claude Max flat rate and need cost-tiered model routing"
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://research.nvidia.com/labs/nemotron/files/Nemotron-Cascade-2.pdf",
+      "reason": "Full technical paper with complete MOPD math, Cascade RL pipeline stages, and benchmark tables",
+      "suggested_skill": "ingest-article"
+    }
+  ],
+  "related_catalogue_entries": [
+    "research/catalogue/infrastructure/nvidia-nemoclaw.md",
+    "research/catalogue/orchestration-platforms/nvidia-orchestrator-8b.md",
+    "research/catalogue/articles/2026-03/nvidia-ai-agents-gtc-2026.md"
+  ],
+  "error": null
+}

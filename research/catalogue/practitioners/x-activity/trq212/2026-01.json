@@ -1,0 +1,29 @@
+{
+  "handle": "trq212",
+  "practitioner_ref": null,
+  "month": "2026-01",
+  "synced_at": "2026-03-25T00:00:00Z",
+  "posts": [
+    {
+      "id": "2014836841846132761",
+      "url": "https://x.com/trq212/status/2014836841846132761",
+      "type": "post",
+      "date": "2026-01-23",
+      "text": "Merging Slash Commands into Skills in Claude Code",
+      "media": [],
+      "metrics": { "likes": 1769, "retweets": 161, "replies": 129, "views": 555095, "bookmarks": 2048 },
+      "links": [
+        "https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills",
+        "https://code.claude.com/docs/en/skills"
+      ],
+      "topics": ["claude-code", "agent-orchestration", "llm-engineering"],
+      "relevance": 9,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Official announcement: Slash Commands merged into Skills in Claude Code. Subagent integration with Skills now supported. Links to Anthropic engineering blog + Skills docs. 555K views, 2048 bookmarks."
+    }
+  ]
+}

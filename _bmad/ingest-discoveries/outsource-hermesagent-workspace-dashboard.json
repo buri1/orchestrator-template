@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/outsource_/status/2040279851815276861",
+  "source_title": "HermesAgent Workspace Dashboard — Remote Agent Management from Anywhere",
+  "catalogue_path": "research/catalogue/posts/2026-04/outsource-hermesagent-workspace-dashboard.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://hermes-workspace.com",
+      "context": "HermesAgent web dashboard for remote agent session management",
+      "suggested_type": "tool",
+      "relevance_hint": "Web-based agent management UI — could inform our dashboard strategy"
+    }
+  ]
+}

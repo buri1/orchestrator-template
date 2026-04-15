@@ -1,0 +1,44 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=3DNkDIVKtK8",
+  "source_title": "Crashing out at Anthropic and getting Pi pilled",
+  "catalogue_path": "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md",
+  "ingested_at": "2026-04-04T23:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://shittycodingagent.ai/",
+      "title": "Pi Coding Agent — official site",
+      "relevance": 9,
+      "note": "Already catalogued but Theo's endorsement adds new context on minimalist agent design"
+    },
+    {
+      "url": "https://github.com/badlogic/pi-mono",
+      "title": "Pi mono-repo (coding agent CLI, unified LLM API, TUI & web UI, Slack bot, vLLM pods)",
+      "relevance": 9,
+      "note": "Mario Zechner's full Pi toolkit; extension system and SDK discussed extensively in video"
+    },
+    {
+      "url": "https://github.com/pingdotgg/t3code",
+      "title": "T3 Code — minimal web GUI for coding agents (Codex, Claude)",
+      "relevance": 7,
+      "note": "Theo's open-source wrapper for Claude Code and Codex; implements Claude Agent SDK integration"
+    },
+    {
+      "url": "https://blog.kilo.ai/p/claude-code-source-leak-a-timeline",
+      "title": "Claude Code Source Leak: A Timeline (Kilo Blog)",
+      "relevance": 7,
+      "note": "Comprehensive timeline of the source code leak incident discussed in the video"
+    },
+    {
+      "url": "https://github.com/github/dmca/blob/master/2026/03/2026-03-31-anthropic.md",
+      "title": "Anthropic DMCA notice on GitHub (official record)",
+      "relevance": 6,
+      "note": "The actual DMCA filing that caused 8,100+ repo takedowns"
+    },
+    {
+      "url": "https://open.spotify.com/episode/35bNQMbjsClen3XaCmIWOT",
+      "title": "TBPN Episode 1 on Spotify",
+      "relevance": 6,
+      "note": "Audio-only version of this episode"
+    }
+  ]
+}

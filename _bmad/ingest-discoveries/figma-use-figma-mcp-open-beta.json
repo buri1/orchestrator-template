@@ -1,0 +1,20 @@
+{
+  "source_url": "https://x.com/figma/status/2036434766661296602",
+  "source_title": "Figma use_figma MCP Tool: AI Agents Can Now Design Directly on the Canvas (Open Beta)",
+  "catalogue_path": "research/catalogue/posts/2026-03/figma-use-figma-mcp-open-beta.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.figma.com/mcp",
+      "context": "Official Figma MCP documentation — setup, capabilities, API reference",
+      "suggested_type": "article",
+      "relevance_hint": "Setup guide for integrating Figma MCP into our agent workflows for design-to-code"
+    },
+    {
+      "url": "https://github.com/figma/figma-mcp",
+      "context": "Likely open-source Figma MCP server implementation",
+      "suggested_type": "tool",
+      "relevance_hint": "Official MCP server for Figma — high priority for our design-to-code pipeline"
+    }
+  ]
+}

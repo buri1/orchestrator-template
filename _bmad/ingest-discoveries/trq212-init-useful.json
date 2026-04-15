@@ -1,0 +1,16 @@
+{
+  "source_url": "https://x.com/trq212/status/2029455580444934627",
+  "source_title": "@trq212 — /init Community Requirements Thread: What Should It Do to Help Setup Claude Code in a Repo?",
+  "catalogue_path": "research/catalogue/posts/2026-03/trq212-init-useful-community-feedback.md",
+  "ingested_at": "2026-03-25T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://x.com/trq212/status/2035801140940410886",
+      "title": "Thariq's elaboration reply: /init scans the repo + runs interview rounds",
+      "type": "post",
+      "why": "Thariq's own detail reply about how the new /init works: scans repo, multiple interview rounds, works for new and existing repos. Adds implementation detail not in the main announcement.",
+      "suggested_action": "/ingest-post",
+      "priority": "low"
+    }
+  ]
+}

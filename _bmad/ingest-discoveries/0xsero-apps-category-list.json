@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/0xSero/status/2037511983361061340?s=20",
+  "source_title": "Please List All ADE Apps: The Mythic Agent Development Environment",
+  "catalogue_path": "research/catalogue/posts/2026-04/0xsero-mythic-ade-apps-category-list.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/0xSero/factory-cursor-bridge",
+      "context": "0xSero's own BYOK proxy bridging Factory config.json models into Cursor IDE via OpenAI Base URL override",
+      "suggested_type": "tool",
+      "relevance_hint": "Concrete BYOK proxy pattern for multi-model routing across ADEs; validates model-agnostic agent development"
+    }
+  ]
+}

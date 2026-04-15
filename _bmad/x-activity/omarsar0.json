@@ -1,0 +1,15 @@
+{
+  "handle": "@omarsar0",
+  "practitioner_profile": null,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 3,
+  "total_tracked": 17,
+  "stats": {
+    "high": 16,
+    "medium": 1,
+    "low": 0,
+    "noise": 0,
+    "ingested": 0
+  },
+  "notes": "Scan 3 (2026-04-11). Added 6 new posts: 2024115697702625597 (LongCLI-Bench, Feb 18), 2027385998993420571 (Sakana Doc-to-LoRA, Feb 27), 2028464607753654711 (AGENTS.md empirical study, Mar 2 — 80K views), 2029926242640912429 (Phi-4-reasoning-vision-15B, Mar 6), 2031426008285421933 (context engineering -> harness engineering, Mar 10 — THESIS statement), 2038627572108743001 (CMU CAID async coding worktrees, Mar 30 — 563 bookmarks, mirrors our v3 tmux+worktree architecture). Total 17 tracked. Note: post 2040099881008652634 (LLM Knowledge Base diagram, Apr 3) is being ingested separately per instructions — NOT added to shard here. TOP ingest candidates: 2038627572108743001 (CAID — directly validates our orchestrator architecture), 2031426008285421933 (harness engineering thesis), 2028464607753654711 (AGENTS.md guardrail insight)."
+}

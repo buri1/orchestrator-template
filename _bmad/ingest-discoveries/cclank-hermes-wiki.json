@@ -1,0 +1,73 @@
+{
+  "source_url": "https://github.com/cclank/Hermes-Wiki",
+  "source_type": "tool",
+  "source_platform": "chrome",
+  "title": "cclank/Hermes-Wiki — Hermes agent + LLM Wiki",
+  "ingested_at": "2026-04-11",
+  "catalogue_path": "research/catalogue/agent-harnesses/hermes-wiki.md",
+  "category": "agent-harnesses",
+  "relevance": 8,
+  "novelty": 7,
+  "actionable": 8,
+  "github_stars": 73,
+  "github_forks": 7,
+  "created_at": "2026-04-08",
+  "last_pushed": "2026-04-10",
+  "publisher": "cclank (solo community contributor)",
+  "license": "MIT (per README badge, no LICENSE file)",
+  "language": "Markdown + Chinese prose + English source refs",
+  "project_scope": "Documentation / reverse-engineered wiki (not a runnable tool)",
+  "related_to": [
+    "research/catalogue/agent-protocols/hermes-function-calling.md",
+    "research/catalogue/posts/2026-04/mattshumer-memory-systems-openclaw-hermes.md",
+    "research/catalogue/posts/2026-04/outsource-hermesagent-workspace-dashboard.md",
+    "research/catalogue/posts/2026-04/karpathy-llm-wiki-knowledge-bases.md",
+    "research/catalogue/2026-04-04_SYNTHESIS_obsidian-llm-wiki-second-brain.md"
+  ],
+  "key_patterns": [
+    "SCHEMA.md as governance primitive (YAML frontmatter + fixed tag taxonomy + 200-line split threshold)",
+    "log.md append-only audit of all wiki operations",
+    "Wiki-as-skill-pack dual use (skills.config.wiki.path)",
+    "13-FailoverReason error classifier (agent/error_classifier.py, 789 lines)",
+    "Spawn-per-call terminal backend unification (6 backends: local/docker/ssh/singularity/modal/daytona)",
+    "3-layer large-tool-result overflow (intra-tool truncation -> single-result persistence -> round-aggregation budget)",
+    "4-mechanism multi-agent taxonomy (delegate_task / MoA / Background Review / send_message)",
+    "Frozen snapshot prefix cache = 75% cost savings",
+    "8-strategy fuzzy matching chain",
+    "min_tail=3 context compression",
+    "15-platform gateway with PII scrubbing (Telegram/Discord/WhatsApp/Slack/BlueBubbles/iMessage/etc.)",
+    "Worktree-isolation as independent convergent pattern",
+    "Dual-hook system (Gateway Hooks + Plugin System)",
+    "Commit-range changelogs (commit_range: 4f467700..268ee6bd)"
+  ],
+  "content_inventory": {
+    "concept_pages": 36,
+    "entity_pages": 2,
+    "changelog_pages": 1,
+    "categories": [
+      "core-architecture (6)",
+      "memory-and-sessions (5)",
+      "tools-and-capabilities (7)",
+      "performance (3)",
+      "security-and-reliability (3)",
+      "multi-agent (2)",
+      "platform-and-extensions (10)"
+    ]
+  },
+  "actions_taken": [
+    "Created /Users/buraksmac/Desktop/code2/orchestrator/research/catalogue/agent-harnesses/hermes-wiki.md",
+    "Updated /Users/buraksmac/Desktop/code2/orchestrator/research/catalogue/INDEX.md total entries (524 -> 525, 212 -> 213 tools)",
+    "Added Hermes-Wiki row to Top Tier Quick Reference table",
+    "Added Hermes-Wiki row to Agent Harnesses category table",
+    "Created discovery sidecar at _bmad/ingest-discoveries/cclank-hermes-wiki.json"
+  ],
+  "followups": [
+    "Translate concepts/error_classifier + concepts/worktree-isolation pages to English and cross-link from ADOPTABLE-PATTERNS.md",
+    "Lift SCHEMA.md frontmatter + tag taxonomy into research/catalogue/_TEMPLATE.md",
+    "Adopt log.md append-only audit pattern for _bmad/devlog.md",
+    "Build RoadblockClassifier modeled on 13-FailoverReason taxonomy for /roadblock-recovery",
+    "Disambiguate 'Hermes Agent' naming collision (Nous Research hermes-agent vs Matt Shumer OpenClaw HermesAgent) in a catalogue note"
+  ],
+  "notes": "This is a community reverse-engineering wiki, not official Nous Research output. All 36 concept pages are in Chinese prose but use English file paths, class names, and commit hashes, making them fully grep-able by English speakers. The author appears to generate pages on a cron schedule (log.md mentions 'Hermes Wiki 专题编写 (每小时一个), 8 次重复') — likely agent-assisted + human-reviewed. Treat as high-value reference, not runnable code.",
+  "status": "done"
+}

@@ -1,0 +1,14 @@
+{
+  "source_url": "https://www.anthropic.com/engineering/harness-design-long-running-apps",
+  "source_title": "Harness Design for Long-Running Application Development",
+  "catalogue_path": "research/catalogue/articles/2026-03/anthropic-harness-design-long-running-apps.md",
+  "ingested_at": "2026-03-28T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/anthropics/claude-code/blob/main/plugins/frontend-design/skills/frontend-design/SKILL.md",
+      "context": "Official Anthropic frontend design skill referenced as the implementation powering the generator-evaluator loop",
+      "suggested_type": "article",
+      "relevance_hint": "Reference implementation of the GAN-inspired design harness pattern"
+    }
+  ]
+}

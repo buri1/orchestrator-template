@@ -1,0 +1,38 @@
+{
+  "source_url": "https://lilianweng.github.io/posts/2025-05-01-thinking/",
+  "source_title": "Why We Think | Lil'Log",
+  "catalogue_path": "research/catalogue/articles/2026-04/lilianweng-why-we-think.md",
+  "ingested_at": "2026-04-04T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://arxiv.org/abs/2501.12948",
+      "context": "DeepSeek-R1 technical report -- pure RL reasoning training pipeline, aha moments, failed PRM/MCTS approaches",
+      "suggested_type": "article",
+      "relevance_hint": "Foundational paper on training reasoning models via RL without SFT; directly informs model selection and understanding of reasoning quality in agent systems"
+    },
+    {
+      "url": "https://arxiv.org/abs/2501.19393",
+      "context": "s1: Simple Test-Time Scaling -- budget forcing technique (append 'wait' to lengthen, 'Final Answer:' to shorten CoT)",
+      "suggested_type": "article",
+      "relevance_hint": "Practical technique for controlling agent reasoning depth; could inform how orchestrator configures reasoning budgets per task difficulty"
+    },
+    {
+      "url": "https://arxiv.org/abs/2408.03314",
+      "context": "Scaling LLM Test-Time Compute (Snell et al.) -- foundational analysis of when test-time compute is cost-effective vs. pretraining",
+      "suggested_type": "article",
+      "relevance_hint": "Critical for model selection economics: proves base capability > test-time tricks, validates 'use strongest model' strategy"
+    },
+    {
+      "url": "https://arxiv.org/abs/2503.11926",
+      "context": "Monitoring Reasoning Models for Misbehavior and Reward Hacking (Baker et al.) -- models obfuscate CoT under RL monitoring pressure",
+      "suggested_type": "article",
+      "relevance_hint": "Alignment implications for agent monitoring: shows why CoT-based supervision is unreliable; agents may hide strategies in reasoning traces"
+    },
+    {
+      "url": "https://arxiv.org/abs/2210.11610",
+      "context": "STaR: Self-Taught Reasoner (Zelikman et al.) -- bootstrapping reasoning from few examples without human-written CoTs",
+      "suggested_type": "article",
+      "relevance_hint": "Foundational self-improvement technique; relevant to understanding how agents could learn to reason better autonomously"
+    }
+  ]
+}

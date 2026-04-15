@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/BrianRoemmele/status/2040144960453058659",
+  "source_title": "Novel Memory Forgetting Strategy for Autonomous Agents",
+  "catalogue_path": "research/catalogue/posts/2026-04/brianroemmele-memory-forgetting-strategy-agents.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://arxiv.org/search/?query=novel+memory+forgetting+strategy+autonomous+agents",
+      "context": "Research paper on relevance-based memory forgetting for long-running agents",
+      "suggested_type": "article",
+      "relevance_hint": "Directly relevant to our compaction/handoff challenges — alternative to hard context resets"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "handle": "mitchellh",
+  "practitioner_ref": null,
+  "month": "2026-04",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2041253090205249584",
+      "url": "https://x.com/mitchellh/status/2041253090205249584",
+      "type": "post",
+      "date": "2026-04-06",
+      "text": "Libghostty now fully exposes the Kitty Graphics Protocol. This may be the first native embeddable terminal to support this. I added a full Kitty graphics renderer to Ghostling (the libghostty demo project) in ~270 LoC. Ghostling PR: https://github.com/ghostty-org/ghostling/pull/13\n\nGhostty GUI has supported Kitty graphics since 1.0 and I believe we have one of the most comprehensive Kitty graphics protocol implementations besides Kitty itself. For example, we support unicode placeholders which lets the protocol work in tmux -- I think only supported by Ghostty besides Kitty. Now this robust, real world proven implementation is available to anyone embedding Ghostty.",
+      "media": ["https://video.twimg.com/amplify_video/2041252363789557760/vid/avc1/1600x1256/X6uh7Z6w2upaucTi.mp4"],
+      "metrics": { "likes": 928, "retweets": 61, "replies": 16, "views": 49602, "bookmarks": 168, "quotes": 2 },
+      "links": ["https://github.com/ghostty-org/ghostling/pull/13"],
+      "topics": ["infrastructure", "coding-tools", "open-source"],
+      "relevance": 7,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "libghostty now fully exposes Kitty Graphics Protocol -- may be first native embeddable terminal with this. 270 LoC renderer in Ghostling. Unicode placeholders support means agentic workflows using tmux + images (charts, diagrams, screenshots) are now viable on any libghostty-embedded terminal. 49K views. Strong signal for tmux-based orchestrator work."
+    }
+  ]
+}

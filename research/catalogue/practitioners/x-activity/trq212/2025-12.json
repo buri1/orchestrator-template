@@ -1,0 +1,26 @@
+{
+  "handle": "trq212",
+  "practitioner_ref": null,
+  "month": "2025-12",
+  "synced_at": "2026-03-25T00:00:00Z",
+  "posts": [
+    {
+      "id": "2005315275026260309",
+      "url": "https://x.com/trq212/status/2005315275026260309",
+      "type": "post",
+      "date": "2025-12-28",
+      "text": "my favorite way to use Claude Code to build large features is spec based\n\nstart with a minimal spec or prompt and ask Claude to interview you using the AskUserQuestionTool\n\nthen make a new session to execute the spec",
+      "media": ["https://pbs.twimg.com/media/G9ROmpcWgAIcamR.jpg"],
+      "metrics": { "likes": 8143, "retweets": 577, "replies": 313, "views": 2263037, "bookmarks": 14683 },
+      "links": [],
+      "topics": ["claude-code", "prompt-engineering", "llm-engineering", "agent-orchestration"],
+      "relevance": 9,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Spec-based workflow tip: minimal spec → interview via AskUserQuestionTool → new session to execute. 2.26M views, 14,683 bookmarks. Foundational technique post from the primary Claude Code engineer at Anthropic."
+    }
+  ]
+}

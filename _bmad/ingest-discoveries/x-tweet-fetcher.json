@@ -1,0 +1,85 @@
+{
+  "url": "https://github.com/ythx-101/x-tweet-fetcher/blob/main/scripts/fetch_tweet.py",
+  "repo_root": "https://github.com/ythx-101/x-tweet-fetcher",
+  "title": "x-tweet-fetcher fetch_tweet.py script (ythx-101)",
+  "type": "article",
+  "subtype": "tool-reference",
+  "source": "chrome",
+  "ingested_at": "2026-04-11",
+  "catalogue_path": "research/catalogue/articles/2026-04/x-tweet-fetcher-python-script.md",
+  "relevance": 9,
+  "actionable": 9,
+  "topics": [
+    "x-scraping",
+    "twitter-api-alternatives",
+    "nitter",
+    "fxtwitter",
+    "camofox",
+    "playwright",
+    "agent-ingest",
+    "bookmarks-workflow",
+    "mention-monitoring",
+    "zero-auth"
+  ],
+  "key_patterns": [
+    "Three-backend auto-routing fallback (FxTwitter -> Nitter -> Camofox/Playwright)",
+    "Zero-dependency Python stdlib path for single tweets via FxTwitter public API",
+    "Custom Nitter aria accessibility-tree snapshot parsers for timelines/replies",
+    "supplement_views() batch enrichment of Nitter data with FxTwitter view counts",
+    "Incremental mention-monitoring with persistent cache at ~/.x-tweet-fetcher/",
+    "Cron-friendly exit codes (0=no new, 1=new, 2=error)",
+    "Structured JSON output + bilingual zh/en surface",
+    "SKILL.md documents the tool as a drop-in Claude skill"
+  ],
+  "direct_relevance_to_our_blockers": {
+    "blocker": "X virtualized DOM makes manual bookmark/x-activity scraping fragile",
+    "solution_offered": "fetch_tweet.py --url/--user/--monitor work without login or API key using FxTwitter + Nitter stdlib path (Claude-Code-compatible zero-dep mode)",
+    "immediate_wins": [
+      "Replace manual Chrome ingest of 8 tracked handles (doodlestein/ctatedev/jennyzhangzt/mitchellh/noahzweben/omarsar0/scobleizer/trq212) with --user polling",
+      "Wire --monitor @buri into launchd as a free inbound-lead signal",
+      "Port the backend-routing pattern into a TypeScript worker inside pi-orchestrator"
+    ]
+  },
+  "deep_dive_candidates": [
+    {
+      "url": "https://api.fxtwitter.com",
+      "why": "Underlying zero-auth tweet API",
+      "suggested_ingest": "/tool-catalogue"
+    },
+    {
+      "url": "https://github.com/zedeus/nitter",
+      "why": "Nitter upstream, needed if we self-host",
+      "suggested_ingest": "/tool-catalogue"
+    },
+    {
+      "url": "https://github.com/daijro/camoufox",
+      "why": "Camofox anti-detection Firefox fork on port 9377",
+      "suggested_ingest": "/tool-catalogue"
+    },
+    {
+      "url": "https://github.com/ythx-101/x-tweet-fetcher/blob/main/scripts/nitter_client.py",
+      "why": "The actual Nitter client used by fetch_tweet.py — the code we would port",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://github.com/ythx-101/x-tweet-fetcher/blob/main/scripts/x-profile-analyzer.py",
+      "why": "LLM-driven profile analyzer built on top of fetch_tweet.py",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://github.com/ythx-101/x-tweet-fetcher/blob/main/SKILL.md",
+      "why": "Full Claude-skill documentation for the tool",
+      "suggested_ingest": "/ingest-article"
+    }
+  ],
+  "action_items": [
+    "Clone and run python3 scripts/fetch_tweet.py --url <bookmark> to validate stdlib-only path",
+    "Decide vendor-vs-port for TypeScript worker inside pi-orchestrator/",
+    "Run --user against 8 tracked handles and diff against _bmad/x-activity/*.json",
+    "Stand up private Nitter instance on VPS (Redis + Nim + X cookies, localhost:8788)",
+    "Wire --monitor for Burak's handles into launchd with exit-code triggers",
+    "Read nitter_client.py and snapshot parsers before designing our own",
+    "Cross-link from ADOPTABLE-PATTERNS.md under x-activity ingest pattern"
+  ],
+  "status": "done"
+}

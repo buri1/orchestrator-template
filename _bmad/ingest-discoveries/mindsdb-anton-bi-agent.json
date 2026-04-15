@@ -1,0 +1,46 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=QhJyVpj_tFE",
+  "source_type": "talk",
+  "ingested_at": "2026-04-03T21:00:00Z",
+  "catalogue_path": "research/catalogue/talks/2026-04/mindsdb-anton-autonomous-bi-agent.md",
+  "title": "The Launch of Anton — Open Source Autonomous BI Agent",
+  "speaker": "Aliando Canu (MindsDB)",
+  "relevance_score": 6,
+  "discoveries": [
+    {
+      "type": "pattern",
+      "name": "Scratchpad as Auditable Execution Environment",
+      "description": "Anton uses an isolated scratchpad where all SQL and Python code is written, executed, and persisted. Every step is visible to the user, solving the trust/auditability problem for autonomous agents. Variables and state persist across steps within a session, functioning like a notebook the agent owns.",
+      "relevance": 6,
+      "tags": ["execution-environment", "auditability", "scratchpad", "agent-transparency"]
+    },
+    {
+      "type": "pattern",
+      "name": "Four-Layer Agent Memory Taxonomy",
+      "description": "Anton's memory system uses four distinct layers: rules (business logic constraints like 'exclude test accounts'), definitions (data semantics), topics (domain context), and lessons (corrections and learnings from past sessions). Memory operates on autopilot, auto-distilling key learnings after each session.",
+      "relevance": 7,
+      "tags": ["agent-memory", "memory-taxonomy", "auto-learning", "session-memory"]
+    },
+    {
+      "type": "pattern",
+      "name": "Credential Vault Isolation from LLM Context",
+      "description": "Database credentials are stored in a local vault and never sent to the language model. The agent accesses data through code execution paths, not by injecting secrets into prompts. Clean separation between credential management and LLM reasoning.",
+      "relevance": 5,
+      "tags": ["security", "credentials", "agent-security", "vault"]
+    },
+    {
+      "type": "tool",
+      "name": "MindsDB Anton",
+      "description": "Open-source autonomous BI agent (AGPL-3.0, Python, 58 stars). CLI-first, connects to MySQL/Postgres/etc, writes and executes SQL+Python in isolated scratchpad, generates dashboards and reports. Managed cloud at mdb.ai ($35/month) with multi-model routing and audit trails.",
+      "relevance": 5,
+      "tags": ["business-intelligence", "data-analytics", "autonomous-agent", "open-source", "cli"]
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://github.com/mindsdb/anton",
+      "title": "MindsDB Anton GitHub Repository",
+      "suggested_ingest": "/ingest-post"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "source_url": "https://www.engguidebook.com/",
+  "source_title": "The Software Engineer's Guidebook",
+  "catalogue_path": "research/catalogue/general-interest/software-engineers-guidebook.md",
+  "ingested_at": "2026-04-04T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://de.scribd.com/document/982717005/The-Software-Engineer-s-Guidebook-Bonus-Chapters",
+      "context": "Free bonus chapters extending each part of the main book",
+      "suggested_type": "article",
+      "relevance_hint": "System migration and product mindset chapters have indirect orchestrator applicability"
+    }
+  ]
+}

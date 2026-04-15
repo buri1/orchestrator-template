@@ -1,0 +1,10 @@
+{
+  "source_url": "https://x.com/jerryjliu0/status/2035764914300854753",
+  "source_title": "Jerry Liu — LlamaParse agents skill for complex PDFs",
+  "catalogue_path": "research/catalogue/posts/2026-03/jerryjliu0-llamaparse-agents-skill.md",
+  "ingested_at": "2026-03-25T00:00:00.000Z",
+  "discovered_urls": [
+    "https://developers.llamaindex.ai/python/cloud/llamaparse/agent-skill",
+    "https://github.com/run-llama/llamaparse-agent-skills"
+  ]
+}

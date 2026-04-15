@@ -1,0 +1,118 @@
+{
+  "url": "https://github.com/karpathy/KarpathyTalk",
+  "live_url": "https://karpathytalk.com/",
+  "deepwiki_url": "https://deepwiki.com/karpathy/KarpathyTalk",
+  "title": "KarpathyTalk — agent-first developer social platform",
+  "type": "tool",
+  "category": "orchestration-platforms",
+  "subcategory": "agent-native-social-substrate",
+  "catalogue_path": "research/catalogue/orchestration-platforms/karpathytalk.md",
+  "publisher": {
+    "name": "Andrej Karpathy",
+    "type": "solo",
+    "affiliations": ["OpenAI (co-founder, former)", "Tesla (former Director of AI)", "Eureka Labs"]
+  },
+  "tech_stack": {
+    "language": "Go",
+    "go_version": "1.26+",
+    "database": "SQLite via modernc.org/sqlite (pure-Go driver)",
+    "frontend": "htmx + server-side Go html/template",
+    "markdown": "goldmark (GFM with syntax highlighting)",
+    "auth": "GitHub OAuth2",
+    "reverse_proxy": "Caddy (auto-TLS)",
+    "process_manager": "systemd",
+    "deployment": "single static binary, embedded SQLite, local /uploads/ directory"
+  },
+  "license": "open-source (likely MIT per Karpathy convention, not explicitly verified from excerpted README)",
+  "stars": null,
+  "stars_note": "repo returns 404 via gh API from this environment; DeepWiki and Google Search confirm existence; mirrored at anAirdrop/karpathytalk",
+  "maturity": "early",
+  "last_analyzed": "2026-04-11",
+  "relevance_scores": {
+    "vision": 6,
+    "novelty": 7,
+    "actionable": 5
+  },
+  "key_patterns": [
+    "URL-suffix content negotiation: /post/X (HTML), /post/X.md (Markdown), /api/posts/X (JSON), /feed.xml (RSS)",
+    "Go 1.26 + SQLite (modernc pure-Go) + single binary — identical stack to Karpathy's AgentHub (March 2026)",
+    "goldmark GFM renderer chosen so agent output is immediately consumable by other agents",
+    "Token-bucket rate limiter with 4-tier per-endpoint rules (auth 0.5/s burst 20, read 2/s burst 60, write 1/s burst 20, page views 4/s burst 120) + hourly post/reply caps (30/60)",
+    "Content limits: 10k chars post, 5k chars reply, 5MB image (PNG/JPEG/GIF/WebP)",
+    "GitHub OAuth2-only auth — zero password management",
+    "Revision history as first-class feature on every post",
+    "Deploy model: single Go binary + Caddy + systemd on a Linux VPS"
+  ],
+  "content_surfaces": [
+    "HTML (htmx-driven human UI)",
+    "Markdown (.md suffix) — raw GFM for agents and note-taking humans",
+    "JSON (/api/*) — REST for programmatic agent consumption",
+    "RSS (.xml) — chronological feeds"
+  ],
+  "setup": {
+    "build_command": "go build -o karpathytalk ./cmd/karpathytalk",
+    "required_env": ["GITHUB_CLIENT_ID", "GITHUB_CLIENT_SECRET", "BASE_URL"],
+    "cli_flags": {
+      "-addr": "TCP address (default :8080)",
+      "-db": "SQLite DB path (default karpathytalk.db)"
+    },
+    "production_paths": {
+      "binary": "/opt/karpathytalk/",
+      "data": "/var/lib/karpathytalk/",
+      "config": "/etc/karpathytalk.env"
+    }
+  },
+  "design_philosophy": [
+    "Social data should not be locked behind walled gardens",
+    "First-class support for machine-readable formats (JSON + Markdown + RSS)",
+    "Agents are first-class users, not API consumers bolted on afterward",
+    "Simplicity: single binary, embedded SQLite, minimal external deps",
+    "URL-suffix content negotiation easier for agents than HTTP Accept headers"
+  ],
+  "provenance_note": "Karpathy has stated the code was written approximately 50/50 by Claude Code and OpenAI Codex — KarpathyTalk is itself a datapoint for agent-assisted greenfield development by an experienced human+agent pair.",
+  "connections": [
+    {
+      "related": "research/catalogue/orchestration-platforms/agenthub-karpathy.md",
+      "relationship": "Same author, same stack (Go 1.26 + SQLite + single binary), same philosophy applied to git/code coordination instead of social/discourse"
+    },
+    {
+      "related": "research/catalogue/posts/2026-04/karpathy-llm-wiki-knowledge-bases.md",
+      "relationship": "Karpathy's April 2026 thesis that 'Markdown is the programming language of the AI era' — KarpathyTalk is that thesis deployed as a live product"
+    },
+    {
+      "related": "https://github.com/karpathy/autoresearch",
+      "relationship": "Plausible first real use case — agent-driven research feed posting findings to the KarpathyTalk social layer"
+    },
+    {
+      "related": "research/catalogue/agent-protocols/agents-md.md",
+      "relationship": "Shared 'make content machine-readable by convention' philosophy"
+    }
+  ],
+  "what_is_valuable_for_us": [
+    "Dual-surface content pattern validates our existing JSON sidecar + Markdown catalogue architecture by independent arrival",
+    "Go + SQLite + single-binary is the reference path if we ever build a tiny public publishing hub",
+    "goldmark GFM renderer — known-good choice for agent-readable output",
+    "Token-bucket rate limiter with per-endpoint rules — transferable reference",
+    "GitHub OAuth-only auth pattern for dev-facing tools"
+  ],
+  "what_is_not_relevant": [
+    "Social graph primitives (likes/reposts/follows) — no community to model in our orchestrator",
+    "Revision history on posts — git already handles this for us",
+    "Image uploads — catalogue is text-first",
+    "htmx frontend — not building a UI for this system",
+    "Running it as-is — it's a social platform, not an orchestration tool"
+  ],
+  "future_use_cases": {
+    "phase_3": "Public catalogue publication using URL-suffix content negotiation pattern",
+    "phase_4_plus": "Agent-to-agent / agent-to-human discovery layer — fork or mimic KarpathyTalk as reference",
+    "immediate": "Validates that our catalogue sidecar architecture (JSON + Markdown) is on the right path"
+  },
+  "key_takeaway": "Karpathy's second agent-infrastructure experiment after AgentHub converges on Go 1.26 + SQLite + single-binary + goldmark-markdown-everywhere, and validates by independent arrival that our own JSON+Markdown dual-surface catalogue architecture is the right pattern for agent-legible content.",
+  "status": "ingested",
+  "sources": [
+    "https://github.com/karpathy/KarpathyTalk",
+    "https://deepwiki.com/karpathy/KarpathyTalk",
+    "https://karpathytalk.com/",
+    "https://github.com/anAirdrop/karpathytalk (mirror)"
+  ]
+}

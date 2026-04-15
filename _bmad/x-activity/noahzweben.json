@@ -1,0 +1,15 @@
+{
+  "handle": "@noahzweben",
+  "practitioner_profile": null,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 2,
+  "total_tracked": 10,
+  "stats": {
+    "high": 8,
+    "medium": 0,
+    "low": 2,
+    "noise": 0,
+    "ingested": 0
+  },
+  "notes": "Second scan (2026-04-11). 3 new posts discovered since last scan (2026-03-28): (1) Monitor tool launch 2026-04-09 [HIGH — 10/10 — 1.08M views, 5.1K bookmarks — direct L-Thread relevance, event-driven replacement for polling loops, validates AIE Europe 2026 'token maxing is over' thesis]; (2) Feb 27 values/DoW quote [LOW — off-topic]; (3) Mar 6 Microsoft/Amazon/Google thank-you [LOW — off-topic]. Top ingest target: 2042332268450963774 (Monitor tool) — should be catalogued alongside alistair's 2042345049980362819 technical launch tweet as a joint Claude Code Monitor tool reference entry. Arc so far (Feb-Apr 2026): Remote Control → /loop → Remote Control session spawning → /schedule cloud tasks → /schedule internal use cases → Claude Code auto-fix in cloud → Monitor tool. Claude Code is hardening into cloud-native autonomous agent infrastructure with event-driven primitives — every monthly feature drop is directly relevant. RECOMMEND: create noahzweben practitioner profile; ingest Monitor tool post as catalogue entry."
+}

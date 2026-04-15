@@ -1,0 +1,62 @@
+{
+  "handle": "scobleizer",
+  "practitioner_ref": null,
+  "month": "2026-04",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2041252096880816587",
+      "url": "https://x.com/Scobleizer/status/2041252096880816587",
+      "type": "post",
+      "date": "2026-04-06",
+      "text": "AI is changing the Internet into a platform where you can build literally anything. Travel site? Check. Weather site? Check. An app to watch your favorite sports team? Check. Automatic shopping? Check. And millions of other things. Arlan lays out how to turn the Web into a file system. A new web is here. The autonomous web. Agents are like autonomous vehicles. Get in a Tesla and it will take you to In-N-Out. Or anywhere. It turns the world into a thrill park ride. Same for your agents on the Web. They are like little autonomous vehicles that can do anything. Why do you think the OpenClaw got the nerds so excited? They are building systems to do millions of things automatically on the Web. Where's @timoreilly? He wrote the Web 2.0 memo that gave that its name. Is this Web 4.0? I'd rather call it the autonomous web.",
+      "media": [],
+      "metrics": { "likes": 54, "retweets": 4, "replies": 10, "views": 9754, "bookmarks": 50 },
+      "links": ["https://www.agentsearch.sh/"],
+      "topics": ["agent-orchestration", "infrastructure", "ai-economics"],
+      "relevance": 5,
+      "signal_tier": "MEDIUM",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Scoble's 'autonomous web' framing — response to AgentSearch.sh (Web-as-filesystem concept). Pitches agents as 'autonomous vehicles for the Web'. Calls for Tim O'Reilly to name it Web 4.0. Framing/positioning post, limited technical content but captures the narrative direction of the ecosystem."
+    },
+    {
+      "id": "2040234612249842115",
+      "url": "https://x.com/Scobleizer/status/2040234612249842115",
+      "type": "post",
+      "date": "2026-04-04",
+      "text": "Best local model? My AI says @MiniMax_AI What do you say?",
+      "media": [],
+      "metrics": { "likes": 98, "retweets": 3, "replies": 56, "views": 18394, "bookmarks": 38 },
+      "links": [],
+      "topics": ["llm-engineering", "open-source"],
+      "relevance": 4,
+      "signal_tier": "MEDIUM",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Crowdsourcing local model recommendations. MiniMax M2.5 continues to surface as top-tier local candidate (cross-refs MaxClaw thread). 56 replies is unusually high engagement-per-view ratio — useful for sampling community opinion on local models."
+    },
+    {
+      "id": "2039155698882515193",
+      "url": "https://x.com/Scobleizer/status/2039155698882515193",
+      "type": "post",
+      "date": "2026-04-01",
+      "text": "Anthropic should announce it is now open source 'since you have it anyway.' Notice no one said the code is slop. In every painful moment there are always gifts. The gift is that we all know now that Anthropic's code is pretty damn good.",
+      "media": [],
+      "metrics": { "likes": 160, "retweets": 10, "replies": 29, "views": 23682, "bookmarks": 26 },
+      "links": ["https://x.com/Jeremybtc/status/2039077799643005198"],
+      "topics": ["claude-code", "open-source", "ai-economics"],
+      "relevance": 6,
+      "signal_tier": "MEDIUM",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Reaction to Claude Code source leak (cross-refs latentspacepod-claude-code-source-leak already in catalogue). Scoble's take: the leak validates Anthropic's code quality, and they should embrace it by open-sourcing. Community sentiment signal — not technical substance but relevant to the 'harness > model' thesis now that the harness is public."
+    }
+  ]
+}

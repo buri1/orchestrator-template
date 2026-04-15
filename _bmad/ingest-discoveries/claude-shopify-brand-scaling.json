@@ -1,0 +1,17 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=kpxmrQWoXb0",
+  "source_title": "I Used Claude AI to Scale My Shopify Brand in 30 Days",
+  "source_type": "talk",
+  "source_author": "Jesse Frimpong",
+  "ingested_at": "2026-04-04",
+  "catalogue_path": "research/catalogue/talks/2026-04/jesse-frimpong-claude-ai-shopify-brand-scaling.md",
+  "discovered_urls": [
+    {
+      "url": "https://ecombos.ai",
+      "title": "Ecom BOS — AI e-commerce operating system",
+      "relevance": 6,
+      "reason": "AI-powered e-commerce operating system; could reveal SaaS patterns for AI-assisted business tools",
+      "suggested_ingest": "/ingest-article"
+    }
+  ]
+}

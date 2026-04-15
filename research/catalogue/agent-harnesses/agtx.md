@@ -81,7 +81,7 @@ The TUI provides a multi-project dashboard where you can monitor all running age
 │  (Each task = separate worktree)    │
 └─────────────────────────────────────┘
 ```
-
+    
 **Key design decisions:**
 - **Dedicated tmux server**: All agtx sessions run on a dedicated tmux server named `agtx`, separate from user's tmux sessions
 - **Project → Session, Task → Window**: Clean mapping from project/task hierarchy to tmux primitives

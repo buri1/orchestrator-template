@@ -8,7 +8,7 @@
 |-------|-------|
 | Type | Living Backlog |
 | Created | 2026-03-21 |
-| Last Updated | 2026-03-22 (Wave 2-3 synthesis + Jensen Huang GTC panel patterns) |
+| Last Updated | 2026-04-03 ("Engineered Enough" complexity gate added from Garry Tan post) |
 | Status | Active — append new patterns as they're discovered |
 
 ---
@@ -159,6 +159,12 @@ Configured verification commands (lint, test, build) run after every task. Failu
 After each slice/story completes, the roadmap is reassessed against new information. Slices can be reordered, added, or removed. The plan evolves based on what the agent learned during execution.
 **Implementation**: After each story is Done, orchestrator reads remaining stories in the epic and asks: "Given what was learned in this story, should the remaining stories be reordered or modified?" Update epic file if needed.
 **Priority**: Medium — valuable for longer sprints (5+ stories) where early stories reveal architectural changes.
+
+#### "Engineered Enough" Complexity Gate (from Garry Tan / YC CEO)
+**Source**: [posts/2026-04/amank1412-yc-ceo-claude-md-prompt.md](./posts/2026-04/amank1412-yc-ceo-claude-md-prompt.md) | [Original post](https://x.com/Amank1412/status/2023754885473394918)
+Before writing code, force the agent to evaluate whether its plan is overbuilt, underbuilt, or "engineered enough." Structured review flow: architecture → code quality → tests → performance → tradeoff presentation → pause for feedback. Garry Tan ships 4K+ LOC features with full tests in ~1 hour using this pattern; it later evolved into gstack (23 skills, 600K+ LOC in 60 days).
+**Implementation**: Add to worker spawn prompts: "Before implementing, assess: is this plan overbuilt (enterprise complexity for a simple feature), underbuilt (missing edge cases, no tests), or engineered enough? Present your assessment with tradeoffs. Then proceed only if engineered enough." Pairs with PreCompletionChecklist (Section 2.1) — this is the entry gate, that's the exit gate.
+**Priority**: High — prevents the two most expensive failure modes: over-engineering simple features AND under-engineering complex ones. Zero-cost prompt addition.
 
 ### 2.2 MEDIUM PRIORITY — Next Sprint
 
@@ -399,6 +405,7 @@ Achieves **93% context reduction** via "Snapshot + Refs" — semantic locators (
 **Priority**: High for tmux (replaces fragile Chrome DevTools MCP). Medium for cmux (enhances already-working `cmux browser`).
 
 **Alternatives evaluated**:
+- **dev-browser** (Sawyer Hood, 4K stars, MIT): NEW — "let agents write code" paradigm. Agent generates sandboxed Playwright scripts (QuickJS WASM) instead of multi-turn MCP calls. Benchmarks: 14% faster, 39% cheaper, 43% fewer turns than Playwright MCP at 100% success rate. `snapshotForAI()` for compact page representation. CLI-first (`npm i -g dev-browser`). No 93% context reduction like agent-browser, no per-worktree isolation like Rodney. Best as Playwright MCP replacement for Claude Code users wanting simplest CLI path. [Source](./posts/2026-03/sawyerhood-dev-browser-cli.md)
 - **Rodney** (G. Huntley / Simon Willison): Go CLI + headless Chrome, 50+ commands, shell-native assertions (exit code 1), accessibility audit commands (`ax-tree`, `ax-find`). Zero infrastructure overhead but no context compression. Good for lightweight smoke tests.
 - **Bowser** (IndyDevDan): Four-layer composable architecture (Skills → Subagents → Commands → Justfile), YAML user story format, both headless Playwright and real Chrome with cookies. Good for authenticated testing.
 
@@ -996,3 +1003,52 @@ Empty repo to working terminal emulator using libghostty C API. Validates that a
 | Incidents | 8+ | Pi INC-001–008, L-INC-001–015, CMUX-BUG-01–05, MAST taxonomy (1,642 traces) |
 | Synthesis | 30 | Full catalogue analysis (2026-03-21): 11 agents, 344 entries → SYNTHESIS-REPORT.md |
 | Wave 2-3 | 33 | LangChain context eng. (6), Vercel/Ghostty (7), NVIDIA enterprise security (7), GSD-2/ADK/security harnesses (6), Siemens/Adobe/Atlassian industrial (7) — 100 patterns analyzed, 42 new after dedup |
+| Wave 4 (2026-04-11) | 5 | Harness Convergence wave — see section 7 below |
+
+---
+
+## 7. Wave 4 — 2026-04-11 Harness Convergence Wave
+
+> **Source**: [Harness Convergence Wave Synthesis](./reference/synthesis-2026-04-11-harness-convergence-wave.md) — 16 entries analyzed across OpenAI Symphony, Google Scion, Microsoft Aspire, GitHub Copilot Applied Science, AutoAgent, AutoKernel, ACPX, Hermes-Wiki, Karpathy LLM Wiki, Jack Chen open-multi-agent, and 6 more.
+>
+> The week the "general harness" stopped being a category pitch and became shipped industry consensus.
+
+### Pattern W4-1 — Event-Driven Agent Loop (retire capture-pane polling)
+**Sources**: [Noah Zweben Monitor tool](./practitioners/x-activity/noahzweben/2026-04.json) + [openclaw/acpx](./agent-harnesses/openclaw-acpx.md)
+Replace all `tmux capture-pane -p -S -50` polling in the orchestrator loop with two event sources: (1) Anthropic's Monitor tool (shipped 2026-04-09) for in-process events (file changes, PR status, log errors) that wake the agent inside its own Claude Code session; (2) ACPX `--format json` NDJSON event stream for out-of-process agent lifecycle events (`turn_end`, `tool_call`, `diff`, `session/cancel`). The orchestrator stops polling; it waits on stdin for events. Retires the fragility of ANSI-escape scraping. Pairs directly with Vincent Kottsch's 2026 token-efficiency thesis ("2025 was token maxing, 2026 is about not wasting them — agent in the loop").
+**Implementation**: Replace `tmux capture-pane` reads in `.claude/agents/orchestrator.md` Rule #3 with `acpx claude --format json -s <issue-id>` + `jq -c 'select(.type == "turn_end")'`. Wire Noah's Monitor tool into Claude Code worker sessions as the in-process event stream.
+**Priority**: **CRITICAL** — highest-ROI change in the catalogue this month. 2-day effort.
+
+### Pattern W4-2 — Run-Attempt Phase Enum (Symphony)
+**Source**: [OpenAI Symphony](./agent-harnesses/openai-symphony.md)
+Replace ad-hoc status strings (`spawning`, `working`, `blocked`) in `_bmad/orchestrator-tmux-state.json` with Symphony's run-attempt phase enum: `PreparingWorkspace` → `BuildingPrompt` → `LaunchingAgentProcess` → `InitializingSession` → `StreamingTurn` → `Finishing` → `{Succeeded | Failed | TimedOut | Stalled | CanceledByReconciliation}`. Gives us a formal language for worker state aligned with OpenAI's public specification. Enables precise recovery dispatch — `/tmux-recovery` can branch on `Stalled` vs `TimedOut` vs `CanceledByReconciliation`.
+**Implementation**: Schema upgrade to `orchestrator-tmux-state.template.json`; migration script for existing state.
+**Priority**: **HIGH** — foundational schema change. 1-day effort.
+
+### Pattern W4-3 — ACPX Capability-Scoped Permissions (retire --dangerously-skip-permissions)
+**Sources**: [openclaw/acpx](./agent-harnesses/openclaw-acpx.md) + [AIE Europe 2026 Synthesis — Sunil Pai Code Mode](./conference-reports/aie-europe-2026-synthesis.md)
+Replace `claude --dangerously-skip-permissions` with `acpx claude --approve-reads -s <issue-id>` for reviewer workers (read-only) and `acpx claude --approve-all -s <issue-id>` for fixer workers (write allowed). Per-call capability scoping instead of ambient "allow everything". First layer of the capability-based sandbox bet from AIE Europe 2026; intermediate step before the Deno capability-bounded worker sandbox prototype. Plugs directly into AgentShield's 102-rule scanner primary attack surface.
+**Implementation**: Update `run-tmux.sh` worker launch to use `acpx` wrapper with permission flag per worker role (reviewer vs fixer vs orchestrator).
+**Priority**: **HIGH** — security + AgentShield-alignment. 1-day effort.
+
+### Pattern W4-4 — AutoAgent 3-File Meta-Harness Architecture
+**Sources**: [AutoAgent (MarkTechPost)](./articles/2026-04/marktechpost-autoagent-self-optimizing-harness.md) + [AutoKernel (MarkTechPost)](./articles/2026-04/marktechpost-autokernel-gpu-kernel-agent.md)
+Structure the orchestrator prompt layer as a three-file contract: (1) `agent.md` — the mutable harness (prompts, tools, rules) the orchestrator actually runs; (2) `program.md` — human-authored, natural-language optimization directive ("minimize human interventions", "maximize E2E pass rate", "never produce slop"); (3) `tasks/` — directory of scorable task definitions (omniport-hh E2E suite is the obvious candidate). Makes the harness introspectable and creates substrate on which AutoAgent-style meta-optimization could actually run against our orchestrator overnight. Adjacent win: forces explicit definition of what "good orchestrator run" means as a scoring function.
+**Implementation**: Split `.claude/agents/orchestrator.md` into `orchestrator-agent.md` + `orchestrator-program.md`; define initial 5 task scorers (E2E pass, PR merge, review-fix cycles, token cost, human-intervention count).
+**Priority**: **MEDIUM** — foundational for Phase-3 self-optimization. 3-day effort. Blocker: needs omniport-hh E2E stable for scoring substrate.
+
+### Pattern W4-5 — Spike-then-Harden Pivot Workflow (Cody Seibert uncertainty gate)
+**Source**: [Cody Seibert — 2 AI Coding Strategies](./talks/2026-04/web-dev-cody-2-ai-coding-strategies.md)
+Add an explicit **uncertainty gate** at issue intake. Well-defined acceptance criteria → route to plan-mode + deterministic gates (current path). Exploratory / uncertain → route to prototype-mode (vibes + parallel agent windows, no plan doc). When uncertain-mode discovers the true requirements, workflow transitions: `UNCERTAIN_PROTOTYPE` → `DISCOVERED_REQUIREMENTS` → `DISCARD_PROTOTYPE` → `PLAN_MODE_RESTART`. Stop treating prototype code as final. Cody's quote: "Sometimes you start adding more slop into your code base" — iterative mode is for discovery only. Pairs with Matt Pocock's "bad code is more expensive than ever" thesis.
+**Implementation**: Add pre-flight intake check to orchestrator loop; add `UNCERTAIN_PROTOTYPE` state to phase enum; devlog tagging for mode transitions.
+**Priority**: **MEDIUM** — addresses real failure mode in single-track flow. 2-day effort.
+
+### Honorable Mentions from Wave 4
+
+- **Amdahl's-law target ranking** (AutoKernel) — Profile orchestrator loop, rank targets by time share, optimize where the numbers say. More principled than our current fixed retry counts.
+- **5-stage correctness harness** (AutoKernel) — smoke → shape sweep → adversarial → determinism → edge cases. Adapt to UI/E2E gate as a staged pattern.
+- **Workflow.md governance model** (Symphony) — Single file with YAML front matter + Markdown body for orchestrator config + prompt template. Hot reload without restart. Better than our CLAUDE.md + settings.local.json split.
+- **Model empathy** (AutoAgent) — Same-model pairing beats cross-model for meta-level optimization. Reinforces "Opus only" memory rule; the rule does NOT weaken just because cheaper models exist.
+- **Karpathy Lint operation** (LLM Wiki) — The third leg of Ingest/Query/Lint. `/catalogue-lint` skill for weekly health checks on orphan pages, stale claims, missing cross-references. 1-day build; closes Karpathy's triangle for our catalogue.
+- **Isolation over constraints** (Google Scion) — Philosophical summary of our own architecture in four words; good client-pitch language.
+- **Dual-surface content pattern** (KarpathyTalk) — HTML + Markdown + JSON per URL; content negotiation by suffix, not `Accept` header. Our catalogue already does this; Karpathy is independent validation.

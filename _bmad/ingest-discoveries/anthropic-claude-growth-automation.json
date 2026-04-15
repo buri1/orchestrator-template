@@ -1,0 +1,30 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=k-H4nsOTuxU",
+  "source_title": "Head of Growth (Anthropic): \"Claude is growing itself at this point\" | Amol Avasare",
+  "ingested_as": "talk",
+  "catalogue_path": "research/catalogue/talks/2026-04/amol-avasare-anthropic-growth-claude-automation.md",
+  "ingested_at": "2026-04-04T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.lennysnewsletter.com/p/head-of-claude-code-what-happens",
+      "title": "Head of Claude Code: What happens after coding is solved | Boris Cherny",
+      "relevance": 8,
+      "reason": "Boris Cherny (Head of Claude Code) discusses what happens when coding is solved -- directly relevant to our agent architecture and the post-coding agent future",
+      "suggested_ingest": "talk"
+    },
+    {
+      "url": "https://www.lennysnewsletter.com/p/the-design-process-is-dead",
+      "title": "The design process is dead. Here's what's replacing it. | Jenny Wen (Head of Design at Claude)",
+      "relevance": 7,
+      "reason": "Jenny Wen (Head of Design at Claude) on how AI transforms design process -- relevant to agent-assisted design workflows and PM-to-engineer ratio discussion",
+      "suggested_ingest": "talk"
+    },
+    {
+      "url": "https://www.lennysnewsletter.com/p/anthropics-1b-to-19b-growth-run",
+      "title": "Anthropic's $1B to $19B growth run: full show notes and transcript",
+      "relevance": 6,
+      "reason": "Full show notes with timestamps and paid transcript of this episode -- deeper detail on CASH tool and growth strategy",
+      "suggested_ingest": "article"
+    }
+  ]
+}

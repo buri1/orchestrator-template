@@ -1,0 +1,44 @@
+{
+  "url": "https://github.com/node9ai/node9",
+  "title": "node9 - Execution security layer for AI agents (intercepts every tool call, DLP scanner, AI negotiation loop, flight recorder, shadow undo)",
+  "type": "tool",
+  "source": "manual",
+  "ingested_at": "2026-03-25",
+  "catalogue_path": "research/catalogue/infrastructure/node9-security-layer.md",
+  "category": "infrastructure",
+  "relevance_scores": {
+    "relevance_to_vision": 8,
+    "novelty": 9,
+    "actionable": 6
+  },
+  "verdict": "Extract DLP regex patterns as a PreToolUse hook now; defer binary adoption until source is auditable",
+  "key_insight": "Three patterns not found elsewhere in catalogue: multi-channel approval racing (fire all channels simultaneously, first response wins), AI negotiation loop on block (structured explanation + safer path suggestion), and shadow undo (silent git snapshot before every AI file write). The DLP scanner covering AWS/GitHub/Stripe/PEM is always-on with zero config — the right default for --dangerously-skip-permissions environments.",
+  "install": {
+    "homebrew": "brew install node9",
+    "npm": "npm install -g @node9/proxy",
+    "pip": "pip install node9"
+  },
+  "pricing": "$29 USD one-time",
+  "integrations": {
+    "agents": ["Claude Code", "Gemini CLI", "Cursor"],
+    "mcp": "proxy mode via npx @node9/proxy",
+    "python": "@protect decorator, LangChain, CrewAI"
+  },
+  "features": [
+    "Multi-Channel Approval Race — native popup, browser, Slack, terminal fire simultaneously",
+    "DLP Scanner — every tool call scanned for secrets (AWS, GitHub, Stripe, PEM); always on, zero config",
+    "AI Negotiation Loop — when blocked, tells AI why and guides to safer path",
+    "Flight Recorder — node9 tail streams live tool calls; --history for audit trail; --clear to reset",
+    "Shadow Undo — silent git snapshot before every AI file edit; node9 undo --steps N to roll back"
+  ],
+  "concerns": [
+    "GitHub repo returned 404 (private or unpublished at time of analysis)",
+    "Proprietary binary ($29 pricing implies closed source)",
+    "Cannot safely inject closed-source binary into PreToolUse chain without source audit",
+    "No known team background, funding, or track record"
+  ],
+  "actionable_now": [
+    "Extract DLP regex patterns (AWS/GitHub/Stripe/PEM) and implement as 20-line PreToolUse hook alongside DCG",
+    "Implement multi-channel approval race pattern (Telegram + terminal) in roadblock-recovery skill"
+  ]
+}

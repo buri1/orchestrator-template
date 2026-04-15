@@ -1,0 +1,181 @@
+# Venture Spine — Portfolio State
+# Source of truth for portfolio-wide health and configuration.
+# Updated by triage.sh and manually during weekly reviews.
+#
+# Last manual review: 2026-03-25
+
+version: "1.0.0"
+last_updated: "2026-03-25T14:00:00Z"
+
+meta:
+  current_focus: omniport-hh
+  day_theme:
+    monday: omniport-hh
+    tuesday: cityhub
+    wednesday: adwo-2
+    thursday: finance-agent
+    friday: orchestrator
+  context_switches_today: 0
+  shape_up_cycle:
+    number: 1
+    started: "2026-03-25"
+    ends: "2026-05-06"
+    bets:
+      - omniport-hh
+      - orchestrator
+
+projects:
+  omniport-hh:
+    health: red
+    phase: active-dev
+    stale_days: 8
+    open_issues: 0
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      Client project ($50K). API-Wrapper + 4 missing sub-pages still open.
+      Google Imagen API key invalid — using Unsplash fallback.
+      Meeting with client completed 2026-03-17. Demo well received.
+
+  cityhub:
+    health: red
+    phase: active-dev
+    stale_days: 40
+    open_issues: 1
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      CI is failing. Needs cleanup pass (Post-Wave 1-3 review).
+      Currently on staging branch. 40 days stale — urgent.
+
+  adwo-2:
+    health: red
+    phase: active-dev
+    stale_days: 51
+    open_issues: 0
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      Turborepo monorepo with dashboard app. 51 days stale.
+      Consider downgrading lifecycle to paused if no work planned this cycle.
+
+  finance-agent:
+    health: green
+    phase: maintenance
+    stale_days: 39
+    open_issues: 1
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      CLI finance agent with launchd scheduler.
+      Gmail/Drive integration issue open but not blocking.
+
+  vaseo:
+    health: green
+    phase: paused
+    stale_days: 53
+    open_issues: 6
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      Shopify hackathon app. 6 issues remaining (deployment + testing).
+      Paused — no active development planned.
+
+  contentos:
+    health: green
+    phase: ideation
+    stale_days: 39
+    open_issues: 0
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      Strategy docs only. No code yet.
+      Tier 3 — will activate when content pipeline is needed.
+
+  hoyo-kingdom:
+    health: green
+    phase: paused
+    stale_days: 65
+    open_issues: 0
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      Game project. Sprint 2 blocked on TTS.
+      No plans to resume this cycle.
+
+  orchestrator:
+    health: green
+    phase: active-dev
+    stale_days: 2
+    open_issues: 0
+    open_prs: 0
+    active_workers: 0
+    notes: |
+      Meta-orchestration system. Houses Venture Spine.
+      Active research + catalogue curation ongoing.
+      Wave 3 implementation spike in progress.
+
+budget:
+  provider: claude-max
+  monthly_cost_usd: 200
+  used_today_pct: 0
+  allocation_strategy: priority-weighted
+  allocations:
+    omniport-hh: 0.40
+    cityhub: 0.25
+    adwo-2: 0.15
+    orchestrator: 0.10
+    finance-agent: 0.05
+    vaseo: 0.05
+    contentos: 0.00
+    hoyo-kingdom: 0.00
+
+tier_summary:
+  tier_1:
+    - omniport-hh
+    - cityhub
+    - orchestrator
+  tier_2:
+    - adwo-2
+    - finance-agent
+  tier_3:
+    - vaseo
+    - contentos
+    - hoyo-kingdom
+
+learnings:
+  - id: L-001
+    text: "git worktree per worker prevents session hash collisions"
+    confidence: 0.95
+    source_project: orchestrator
+    applies_to: ["*"]
+
+  - id: L-002
+    text: "Sonnet gets stuck on complex tasks — use Opus only for workers"
+    confidence: 0.99
+    source_project: orchestrator
+    applies_to: ["*"]
+
+  - id: L-003
+    text: "Simplicity over ego — prefer tmux+Claude Code over complex infra"
+    confidence: 0.95
+    source_project: orchestrator
+    applies_to: ["*"]
+
+  - id: L-004
+    text: "Customer design is law — pixel-match PDF mockups exactly"
+    confidence: 1.00
+    source_project: omniport-hh
+    applies_to: ["omniport-hh", "cityhub"]
+
+  - id: L-005
+    text: "Coordination overhead exponent 1.724 — max 2-3 agents optimal"
+    confidence: 0.95
+    source_project: orchestrator
+    applies_to: ["*"]
+
+  - id: L-006
+    text: "Ingest dedup: use backfilled ledger, never grep INDEX.md"
+    confidence: 0.90
+    source_project: orchestrator
+    applies_to: ["orchestrator"]

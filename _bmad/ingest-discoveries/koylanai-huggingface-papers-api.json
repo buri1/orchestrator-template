@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/koylanai/status/2035787531586064663",
+  "source_title": "Most Important Skill for AI Building: HuggingFace Papers API for Hybrid Semantic Search",
+  "catalogue_path": "research/catalogue/posts/2026-03/koylanai-huggingface-papers-api.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://huggingface.co/papers",
+      "context": "HuggingFace Papers platform with hybrid semantic search over AI papers",
+      "suggested_type": "tool",
+      "relevance_hint": "Could enhance our Research Librarian pipeline with programmatic paper discovery"
+    }
+  ]
+}

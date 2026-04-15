@@ -1,0 +1,96 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=29358s",
+  "source_type": "talk",
+  "source_title": "Past, Present, and Future of Productivity and Personal Agents",
+  "speaker": "K (Kitze, founder of sizzy.co / creator of Benji / author of Wolver personal agent framework)",
+  "event": "AI Engineer Europe 2026, London",
+  "event_date": "2026-04-09",
+  "duration_minutes": 20,
+  "ingested_at": "2026-04-04T00:00:00.000Z",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-k-benji-personal-agents.md",
+  "relevance": 6,
+  "novelty": 6,
+  "actionable": 6,
+  "key_insight": "The most honest public critique yet of OpenClaw as a life-OS container (cron/multi-agent/memory unreliable, Discord/Telegram wrong substrate, 'OpenClaw Anonymous' meetups), paired with Wolver's hierarchical-topic context injection and cron-as-first-class-UI-object patterns, and a role-inversion future where AI prompts the user with the next task instead of the user prompting the AI.",
+  "discovered_urls": [
+    {
+      "url": "https://sizzy.co",
+      "context": "K's day-job company — responsive browser / dev tools. Background reference for the speaker",
+      "suggested_type": "product",
+      "suggested_ingest": "/ingest-article (low priority)",
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://benji.app",
+      "context": "K's 4-year 'one app to rule them all' life-OS attempt — 60+ features, no landing page, named after his dog. Anti-pattern case study for 'one more feature' scope creep",
+      "suggested_type": "product",
+      "suggested_ingest": "/ingest-article when findable",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://twitter.com/thekitze",
+      "context": "K's primary public channel — Wolver progress, life-OS critiques, OpenClaw community posts. Add to x-activity tracking for ongoing signal",
+      "suggested_type": "x-profile",
+      "suggested_ingest": "Add to research/catalogue/practitioners/x-activity/thekitze/",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/thekitze/wolver",
+      "context": "Wolver personal agent framework — not yet public per the talk. The hierarchical-topic context injection and cron-as-typed-message patterns are directly adoptable if the repo becomes available",
+      "suggested_type": "repo",
+      "suggested_ingest": "Monitor for public release; add as research/catalogue/agent-harnesses/wolver.md when ready",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/openclaw/openclaw",
+      "context": "K was among the first <100 users, made the original logo at 2am. This talk is a direct critique of OpenClaw as a life-OS container (cron/multi-agent/memory unreliable)",
+      "suggested_type": "repo",
+      "suggested_ingest": "Already catalogued — cross-reference this talk as a reality-check source",
+      "priority": "medium",
+      "already_catalogued": true
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=O_IMsEg91g8",
+      "context": "Full AIE Europe 2026 London session recording — K's talk starts ~t=29358s; other talks in the same stream may be worth additional ingestion passes",
+      "suggested_type": "talk-index",
+      "suggested_ingest": "Review for additional talks",
+      "priority": "medium",
+      "already_catalogued": true
+    }
+  ],
+  "cross_references": [
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+      "relation": "Peter is the creator of OpenClaw; K made the original OpenClaw logo and was among the first <100 users. K's critique of OpenClaw as a life-OS container is the honest counterpoint to Peter's growth narrative"
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-swyx-ama.md",
+      "relation": "Same AIE Europe 2026 day. Peter's AMA covers the Star Trek 'computer' dream stack; K's Wolver is one concrete attempt at that stack for a single user"
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md",
+      "relation": "Theo's talk independently argues Anthropic model changes hurt agent quality; K's 'Benthropic / box of oatmeal' critique of GPT 5.4 is the adjacent personality-nerfing complaint"
+    },
+    {
+      "path": "research/catalogue/talks/2026-04-01_felixba-ki-leben-satire-openclaw.md",
+      "relation": "Felixba's satire on OpenClaw-goes-rogue life-OS scenarios is the comedic version of K's serious 'OpenClaw Anonymous' critique"
+    },
+    {
+      "path": "research/catalogue/talks/2026-03/indydevdan-pi-ceo-agents-claude-1m-context.md",
+      "relation": "IndyDevDan's CEO Agent pattern is the orchestration equivalent of K's hierarchical topics — both use parent context to constrain child interactions"
+    }
+  ],
+  "action_items_for_our_orchestrator": [
+    "Prototype hierarchical-topic-with-description-inheritance as a context-injection primitive in our worker spawn templates",
+    "Label cron / scheduled tasks as a distinct message type in our state log (not interleaved with worker chat)",
+    "Add capability-visible agent panel (current agent + model + capabilities) to /debug snapshot output",
+    "Add OpenClaw cron/multi-agent/memory unreliability to our known-failure-mode list when evaluating peer patterns",
+    "Prototype a role-inversion next-task notification on session start (supervisor greets with prioritized open decisions)",
+    "Track Wolver for public release; add agent-harnesses/wolver.md entry when ready",
+    "Resist the Benji trap — cut scope aggressively, no 'one more feature' before release"
+  ]
+}

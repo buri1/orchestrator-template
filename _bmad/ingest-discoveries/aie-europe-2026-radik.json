@@ -1,0 +1,139 @@
+{
+  "url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=11570s",
+  "title": "Giving the Keys to My Life to OpenClaw",
+  "authors": ["Radik Shankovich"],
+  "speaker_role": "OpenClaw maintainer, personal agent power user",
+  "publication": "AI Engineer Europe 2026 (London)",
+  "date": "2026-04-09",
+  "type": "talk",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-radik-giving-keys-openclaw.md",
+  "relevance": 6,
+  "novelty": 6,
+  "actionable": 7,
+  "topics": [
+    "personal agents",
+    "incremental trust",
+    "Obsidian knowledge base",
+    "ambient operations",
+    "attention filtering",
+    "critical rules MD",
+    "markdown memory",
+    "soul.md",
+    "Discord agent interface",
+    "OpenClaw",
+    "personal productivity",
+    "knowledge base architecture",
+    "5 job type taxonomy"
+  ],
+  "speaker_bio": "Radik Shankovich is a maintainer of OpenClaw who became a contributor after hitting errors with his first PRs to the project. Personal agent power user. Stack evolved WhatsApp -> Telegram -> Discord. Gave his agent incremental access over time: email, notes, files, calendars, tools, OS, memory. 3,000-note Obsidian vault as long-term memory.",
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Incremental trust approach — the only safe on-ramp to a life-scale agent",
+      "description": "Never grant the agent a large new capability in a single step. Add one small capability at a time (WhatsApp -> Telegram -> Discord -> email read -> email write -> calendar -> files -> OS), stabilize, then add the next. When something breaks, step back exactly one capability, fix it, add a guardrail, then re-advance. Because increments are small, the blast radius of any failure is bounded and the system never 'completely bricks.' Transfer: formalize 'step back one step' in /roadblock-recovery.md as the first recovery action."
+    },
+    {
+      "id": 2,
+      "title": "Obsidian knowledge base as agent long-term memory (3,000 nodes)",
+      "description": "A personal Obsidian vault of ~3,000 markdown notes is the force multiplier that makes the agent useful. Work notes, tasks, projects, research, articles, inbox of links. All markdown, multiple retrieval strategies (QMD search, memory stores, dedicated memories). When new content lands in the inbox, the agent tags it, adds context, finds related existing notes, and writes back-links. A nice emergent behavior: adding a new bookmark surfaces forgotten related nodes, making the agent a memory defibrillator. Explicitly cited Karpathy's LLM Knowledge Bases tweet as the same pattern.",
+      "url": "https://x.com/karpathy"
+    },
+    {
+      "id": 3,
+      "title": "Nightly ambient operations at 4am (systemd-style service)",
+      "description": "A nightly job runs while Radik sleeps: indexes the vault, refreshes all indexes (QMD/memory/Obsidian), backs everything up, updates OpenClaw to the latest version via custom pre-verified scripts (NOT blind 'upgrade --latest'). Key discipline: custom update scripts that know what breaks, why, and how to verify before restart. 'Fresh and ready for me as I get up.' Transfer to our system: we have NO ambient ops layer today; build a launchd 4am job for catalogue reindex, _bmad state backup, pre-verified harness version check."
+    },
+    {
+      "id": 4,
+      "title": "Five-job taxonomy for personal agents",
+      "description": "Every job the agent performs classifies into five mutually exclusive buckets: (1) Ambient operations — plumbing/updates/backups/indexing; (2) Attention filtering — urgent/important surfacing with full context; (3) Execution support — drafted replies from email + project context; (4) Synthesis — knowledge base building from inbox; (5) Proactive suggestions — morning briefings and wake-up alerts. Useful gap-analysis frame: our orchestrator is heavy on execution support, partial on synthesis, zero coverage of ambient/attention/proactive."
+    },
+    {
+      "id": 5,
+      "title": "Attention filtering prevented real financial and operational damage",
+      "description": "Concrete examples from production use: (a) Netflix payment failure detected and fixed within 5 minutes; (b) domain renewal email that would have been missed, picked up, notified, renewed; (c) customer emails already drafted in the drafts folder with project context when Radik arrived at his laptop. These are the ROI justifications for the whole stack — not toy demos."
+    },
+    {
+      "id": 6,
+      "title": "Discord as unified agent UI with one channel per context",
+      "description": "Private Discord server with channel-per-purpose: General (conversations/experiments), Inbox (link drops -> KB building), Consulting (client context), Video Research, Briefing (morning digest), Instagram, YouTube, OpenClaw (maintainer work), Playground (testing models/workspaces/memory configs). The channel itself scopes the context the agent uses — elegant separation of concerns without a custom UI."
+    },
+    {
+      "id": 7,
+      "title": "Three-part architecture: LLM + Files/Tools/Scripts + Optimized Memory/soul.md",
+      "description": "Radik insists the architecture has three working parts: (1) LLM for judgment — understanding, connections, context; (2) Files, tools, scripts — deterministic if-this-then-that that skips the LLM entirely for rule-based jobs; (3) Optimized memory / soul.md — agent identity and rules. Markdown everywhere because it's inspectable, editable, human-readable, versionable, and it just works. This is the same 70/30 deterministic/LLM split we see from Stripe Minions and 12 Factor Agents, framed personally."
+    },
+    {
+      "id": 8,
+      "title": "Critical Rules MD — dedicated file for rules the agent keeps forgetting",
+      "description": "When the agent kept forgetting important constraints, Radik carved them out of the general memory/soul file into a dedicated 'critical rules MD' placed high in the context hierarchy. Not general identity — just the hard rules that kept being violated. Transfer: we already have this de facto in the '4 Absolute Rules' section at the top of .claude/agents/orchestrator.md; could be formalized as a separate file loaded first to survive context compaction. Parallels Cole Medin's SOUL.md/USER.md/MEMORY.md layering."
+    },
+    {
+      "id": 9,
+      "title": "Memory lifecycle: one file -> folder -> dreaming/promoting",
+      "description": "Memory evolution pattern: started with a single memory.md, grew too big, became a folder with topic files, then added a 'dreaming' step — an ambient job that promotes frequently-used memories up the hierarchy and demotes stale ones. Without active maintenance, bad memory compounds: brittle automations break, noisy nodes accumulate, weak boundaries in soul files let the agent drift."
+    },
+    {
+      "id": 10,
+      "title": "Past/Present/Future Me philosophy as agent ROI frame",
+      "description": "Radik's closing philosophy: 'Past me is stupid, lazy, didn't do anything. Present me has to do everything for past me. Future me is a godlike creature, all-powerful. The job of my agent is to become friends with future me and treat future me as a person to help.' Useful mental model for deciding which automations are worth building — does it help future me, or just amuse present me? Closing actionable advice: 'Start with one recurring pain, grow trust incrementally. Build the knowledge base. Move as much as you can to markdown. Optimize for the future you.'"
+    }
+  ],
+  "adoptable_patterns": [
+    {
+      "name": "Incremental Trust Approach",
+      "priority": "HIGH",
+      "description": "Never grant a new capability in a single step. Add one at a time, stabilize, then advance. On failure: step back exactly one step, diagnose, add guardrail, re-advance.",
+      "transfer": "Formalize 'step back one step' as first recovery action in /roadblock-recovery.md. Gate new tools behind 'one per week' rule. Use same discipline for .claude/agents/orchestrator.md persona edits — one rule at a time."
+    },
+    {
+      "name": "Obsidian Knowledge Base as Agent Memory",
+      "priority": "MEDIUM",
+      "description": "Markdown vault as agent long-term memory with automatic tagging, back-linking, and related-node surfacing on new ingests.",
+      "transfer": "research/catalogue/ already IS this vault (~510 entries). Missing piece: auto back-linking and related-node surfacing on new ingests. Extend research librarian to query for related entries before writing sidecar, add cross-links in both directions."
+    },
+    {
+      "name": "Nightly Ambient Operations Pattern (4am launchd)",
+      "priority": "HIGH",
+      "description": "Nightly systemd/launchd job runs while you sleep: refresh indexes, backup state, pre-verified harness version bump with custom scripts (not blind 'upgrade --latest'). Leaves the system fresh for morning.",
+      "transfer": "Build .bmad/scripts/orchestrator-nightly.sh + launchd plist. Candidates: (a) rebuild INDEX.md/TIMELINE.md from sidecars; (b) backup _bmad/ state; (c) pre-populate tomorrow's backlog from gh issue list; (d) refresh research librarian ingest queue; (e) pre-verified Claude Code version check with smoke test."
+    },
+    {
+      "name": "Critical Rules MD for Agent Reliability",
+      "priority": "MEDIUM",
+      "description": "Dedicated file for hard rules the agent keeps forgetting, placed high in context hierarchy (not buried in general soul.md).",
+      "transfer": "We already have '4 Absolute Rules' at the top of .claude/agents/orchestrator.md. Consider formalizing as a separate critical-rules.md loaded first in every subagent's context, isolated from compaction. When recurring violations surface in devlog.md, promote them to critical-rules.md rather than burying deeper in orchestrator.md."
+    },
+    {
+      "name": "5 Job Types Classification",
+      "priority": "HIGH",
+      "description": "Classify every agent job into Ambient Operations / Attention Filtering / Execution Support / Synthesis / Proactive Suggestions. Use as gap-analysis frame for capability planning.",
+      "transfer": "Our orchestrator coverage: Ambient=NONE, Attention=NONE, Execution=HEAVY, Synthesis=PARTIAL, Proactive=NONE. Add this table to _bmad/orchestrator-roadmap.md as prioritization frame. Three of five buckets are empty — these are our biggest capability gaps."
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://github.com/openclaw/openclaw",
+      "reason": "OpenClaw repo itself — understand the harness Radik maintains and compare primitives to our L-Thread orchestrator",
+      "suggested_skill": "ingest-tool"
+    },
+    {
+      "url": "https://x.com/karpathy",
+      "reason": "Karpathy's LLM Knowledge Bases tweet — already catalogued at posts/2026-04/karpathy-llm-wiki-knowledge-bases.md (10/10 relevance); cross-link from Radik's entry",
+      "suggested_skill": "already-ingested"
+    }
+  ],
+  "referenced_tools": [
+    {"name": "OpenClaw", "in_catalogue": "partial", "notes": "Referenced in multiple posts/talks (Malte Ubl keynote, Theo Browne, Felixba satire, mattshumer-memory-systems-openclaw-hermes, better-openclaw sidecar); no dedicated tool entry yet — consider creating one"},
+    {"name": "Obsidian", "in_catalogue": "yes", "notes": "Multiple entries — steph-ango-obsidian-ceo-notes, greg-isenberg-vin, cole-medin-ai-second-brain, rick-mulready, mark-kashef, ballred-obsidian-claude-pkm, omarsar0-personal-knowledge-base-agents-obsidian"},
+    {"name": "Discord (as agent UI)", "in_catalogue": "partial", "notes": "Pattern referenced in other personal agent setups"},
+    {"name": "Karpathy LLM Wiki / Knowledge Bases", "in_catalogue": "yes", "notes": "posts/2026-04/karpathy-llm-wiki-knowledge-bases.md (10/10 relevance) — explicitly cited by Radik"},
+    {"name": "QMD search", "in_catalogue": "no", "notes": "Query engine across the vault, one of several retrieval strategies"},
+    {"name": "soul.md / memory.md / critical-rules.md", "in_catalogue": "partial", "notes": "soul.md referenced in Felixba (April Fools satire); Cole Medin uses SOUL.md/USER.md/MEMORY.md layering"},
+    {"name": "launchd / systemd", "in_catalogue": "no", "notes": "Implicit — we're on Darwin; needed for nightly ambient ops pattern"}
+  ],
+  "relevance_for_orchestrator": "HIGH for personal productivity agent patterns, MEDIUM for our specific enterprise/multi-agent orchestrator focus. Not a direct transfer target — Radik's stack is OpenClaw + Obsidian + Discord; ours is Claude Code + tmux + cmux + GitHub. But four patterns port cleanly: (1) incremental trust as a hard recovery rule in /roadblock-recovery; (2) catalogue-as-Obsidian-vault with auto back-linking in the research librarian; (3) nightly 4am ambient ops via launchd (we have none — this is a capability gap, not an optimization); (4) five-job classification as a gap-analysis frame showing our heavy weighting on execution support and zero coverage of ambient/attention/proactive.",
+  "key_insight": "Incremental trust + markdown knowledge base + nightly ambient ops + critical-rules.md is the four-part recipe for a life-scale personal agent — and three of those four patterns are missing from our orchestrator today.",
+  "ingested_at": "2026-04-04T00:00:00Z"
+}

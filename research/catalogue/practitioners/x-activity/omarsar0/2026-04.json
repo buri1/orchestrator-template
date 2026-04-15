@@ -1,0 +1,45 @@
+{
+  "handle": "omarsar0",
+  "practitioner_ref": null,
+  "month": "2026-04",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2040099881008652634",
+      "url": "https://x.com/omarsar0/status/2040099881008652634",
+      "type": "quote-post",
+      "date": "2026-04-03",
+      "text": "Diagram of the LLM Knowledge Base system. Feed this to your favorite agent and get your own LLM knowledge base going.",
+      "quoted_tweet": {
+        "author": "karpathy",
+        "url": "https://x.com/karpathy/status/2039805659525644595",
+        "summary": "Karpathy's original post introducing the LLM Knowledge Bases Idea File (3,500-word gist). 3-layer (Raw/Wiki/Schema) + 3 ops (Ingest/Query/Lint) pattern."
+      },
+      "media": [
+        {
+          "type": "photo",
+          "description": "System diagram showing Data Ingest -> Wiki -> IDE (Obsidian) -> Q&A / Output / Linting blocks with flow arrows"
+        }
+      ],
+      "metrics": {
+        "likes": 1643,
+        "retweets": 188,
+        "replies": 52,
+        "bookmarks": 2535,
+        "views": 143289
+      },
+      "links": [
+        "https://x.com/karpathy/status/2039805659525644595",
+        "https://academy.dair.ai"
+      ],
+      "topics": ["llm-knowledge-base", "knowledge-management", "obsidian", "karpathy", "rag-alternative", "dair-ai"],
+      "relevance": 9,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": true,
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-llm-knowledge-base-diagram.md",
+      "enriched": true,
+      "notes": "Elvis's one-image distillation of Karpathy's LLM Knowledge Base pattern. Ships as a diagram you can feed directly to an agent as a build spec. 1.54:1 bookmark-to-like ratio = strong practitioner save-for-later signal. Third entry in the 2026-04-03 LLM KB cluster (karpathy gist + Elvis text post + this diagram). Directly validates our research/catalogue/ architecture."
+    }
+  ]
+}

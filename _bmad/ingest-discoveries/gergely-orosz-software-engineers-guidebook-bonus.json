@@ -1,0 +1,14 @@
+{
+  "source_url": "https://de.scribd.com/document/982717005/The-Software-Engineer-s-Guidebook-Bonus-Chapters",
+  "source_title": "The Software Engineer's Guidebook: Bonus Chapters",
+  "catalogue_path": "research/catalogue/general-interest/software-engineers-guidebook-bonus.md",
+  "ingested_at": "2026-04-04T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.engguidebook.com/",
+      "context": "Main book homepage with full table of contents and purchase links",
+      "suggested_type": "reference",
+      "relevance_hint": "Companion to bonus chapters; catalogued separately"
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "url": "https://www.marktechpost.com/2026/04/06/rightnow-ai-releases-autokernel-an-open-source-framework-that-applies-an-autonomous-agent-loop-to-gpu-kernel-optimization-for-arbitrary-pytorch-models/",
+  "title": "RightNow AI Releases AutoKernel: An Open-Source Framework that Applies an Autonomous Agent Loop to GPU Kernel Optimization for Arbitrary PyTorch Models",
+  "author": "Asif Razzaq",
+  "publication": "MarkTechPost",
+  "published_date": "2026-04-06",
+  "ingested_date": "2026-04-11",
+  "type": "article",
+  "catalogue_path": "research/catalogue/articles/2026-04/marktechpost-autokernel-gpu-kernel-agent.md",
+  "relevance": 9,
+  "actionable": 8,
+  "topics": [
+    "gpu-kernels",
+    "triton",
+    "cuda",
+    "autonomous-agents",
+    "karpathy-autoresearch",
+    "ralph-loop",
+    "kernel-optimization",
+    "pytorch",
+    "amdahls-law",
+    "back-pressure",
+    "correctness-gates",
+    "git-as-state-machine"
+  ],
+  "thesis": "An autonomous LLM agent loop — write candidate kernel, benchmark, keep or revert, commit to git — can mechanize GPU kernel optimization across arbitrary PyTorch models, beating torch.compile on 12/16 H100 configurations and even outperforming hand-tuned CUTLASS on specific shapes. The expert kernel engineer's workflow is itself a simple loop, and agents can run it at 40 experiments/hour for 10+ hours without human intervention.",
+  "key_insights": [
+    "Ralph Wiggum edit-benchmark-keep/revert loop mechanized with git-as-state-machine (commit = keep, git reset = revert, tab-separated results.tsv for logs)",
+    "5-stage correctness harness gates every speedup: smoke test, shape sweep (8-10 configs x FP16/BF16/FP32), adversarial numerical stability, 3x determinism check, non-power-of-two edges (1023/4097/1537)",
+    "Amdahl's-law target ranking via torch.profiler with shape recording — effort allocated by runtime share, not per-kernel benchmark",
+    "909-line program.md encodes 6-tier optimization playbook (block sizes -> memory access -> compute -> advanced -> architecture-specific -> kernel-specific algorithms) so agent runs 10+ hours without getting stuck",
+    "Orchestrator transitions when any of: 5 consecutive reverts / 90% GPU peak reached / 2hr elapsed / 2x speedup achieved",
+    "Each iteration = 90 seconds (30s correctness + 30s benchmark via Triton do_bench + 30s agent reasoning), 40 experiments/hour, 300-400 experiments per overnight 10hr run on 1 GPU",
+    "Direct intellectual transplant of Andrej Karpathy's autoresearch loop (which found 20 LLM training optimizations in 700 experiments over 2 days on 1 GPU)"
+  ],
+  "benchmark_results": {
+    "hardware": "NVIDIA H100 80GB HBM3 (132 SMs, CC 9.0, CUDA 12.8)",
+    "rmsnorm": "5.29x over PyTorch eager, 2.83x over torch.compile (max-autotune), 2788 GB/s = 83% of 3352 GB/s HBM3 peak",
+    "softmax": "2.82x over eager, 3.44x over torch.compile, 2800 GB/s",
+    "cross_entropy": "2.21x over eager, 2.94x over torch.compile, 2070 GB/s",
+    "matmul_2048_cubed": "1.55x over torch.compile max-autotune (cuBLAS gap not yet closed)",
+    "community_fp4_matmul": "beats hand-tuned CUTLASS C++ by 1.63x-2.15x across shapes (single ~3min agent run)",
+    "vectorsum_v2_b200_leaderboard": "1st place at 44.086us (vs 44.249us 2nd, 46.553us 3rd)",
+    "summary": "Beats torch.compile on 12 of 16 representative configurations"
+  },
+  "correctness_harness_stages": [
+    "Stage 1 — Smoke test: small input, catches compile errors and shape mismatches, <1s",
+    "Stage 2 — Shape sweep: 8-10 input configurations x 3 dtypes (FP16/BF16/FP32), catches size-dependent bugs (boundary handling, tile remainder)",
+    "Stage 3 — Adversarial numerical stability: large identical softmax rows, extreme matmul dynamic range, near-zero normalization variance",
+    "Stage 4 — Determinism: 3x bitwise-identical runs catches race conditions in parallel reductions and non-deterministic atomics",
+    "Stage 5 — Non-power-of-two edges: 1023, 4097, 1537 dimensions expose masking bugs and tile remainder errors",
+    "Dtype tolerances: FP16 atol=1e-2, BF16=2e-2, FP32=1e-4",
+    "Paper eval: 34/34 H100 configurations passed with 0 failures"
+  ],
+  "covered_kernels": [
+    "matmul",
+    "flash_attention",
+    "fused_mlp",
+    "softmax",
+    "layernorm",
+    "rmsnorm",
+    "cross_entropy",
+    "rotary_embedding",
+    "reduce"
+  ],
+  "backends": {
+    "triton": "Primary backend — Python-like DSL, JIT compiles in 1-5s, reaches 80-95% of cuBLAS matmul throughput, ideal for rapid agent iteration",
+    "cuda_cpp": "Secondary — for warp-level primitives, WMMA tensor core 16x16x16 fragments, float4/half2 vectorized loads, bank-conflict-free shared memory, double buffering",
+    "unified_interface": "Both expose kernel_fn(), benchmark infrastructure runs identically regardless of backend"
+  },
+  "hardware_support": {
+    "nvidia": ["H100", "A100", "L40S", "L4", "A10", "RTX 4090", "RTX 4080", "RTX 3090", "RTX 3080"],
+    "amd": ["MI300X", "MI325X", "MI350X", "MI355X"],
+    "unknown_gpus": "Estimates peak FP16 throughput from SM count, clock rate, compute capability"
+  },
+  "file_architecture": {
+    "kernel.py": "Single-file target the agent edits",
+    "program.md": "909-line instruction document with 6-tier optimization playbook",
+    "orchestrate.py": "Orchestrator with 4-condition kernel transition logic",
+    "reference.py": "PyTorch reference implementation = correctness oracle",
+    "results.tsv": "Plain TSV experiment log — dependency-free, human-readable, agent-parseable"
+  },
+  "deep_dive_candidates": [
+    {
+      "url": "https://arxiv.org/pdf/2603.21331",
+      "why": "The AutoKernel paper itself — likely contains full 34-config H100 benchmark table, the 909-line program.md playbook, ablations, and the orchestrator state machine. Highly relevant for our harness design patterns.",
+      "suggested_ingest": "/ingest-paper"
+    },
+    {
+      "url": "https://github.com/karpathy (autoresearch project)",
+      "why": "Direct intellectual parent of AutoKernel; same keep/revert loop applied to LLM training code; 20 optimizations across 700 experiments in 2 days on 1 GPU. Closes the loop on Karpathy's broader body of work alongside his LLM Wiki and AgentHub posts already in our catalogue.",
+      "suggested_ingest": "/ingest-repo or /ingest-article"
+    },
+    {
+      "url": "https://github.com/ScalingIntelligence/KernelBench",
+      "why": "The 250-problem GPU kernel benchmark AutoKernel was designed to beat. Frontier LLMs match PyTorch baseline in <20% of cases one-shot. Useful reference for agent capability on systems-engineering tasks.",
+      "suggested_ingest": "/ingest-paper or /ingest-repo"
+    },
+    {
+      "url": "https://rightnow.ai/",
+      "why": "RightNow AI commercial IDE product. AutoKernel is their research release. Worth a tool-catalogue pass to understand commercial angle and how the research connects to their IDE offering.",
+      "suggested_ingest": "/tool-catalogue"
+    }
+  ],
+  "referenced_tools": [
+    "AutoKernel",
+    "RightNow AI",
+    "Triton (OpenAI)",
+    "CUDA C++",
+    "PyTorch",
+    "torch.profiler",
+    "torch.compile max-autotune",
+    "TorchInductor",
+    "cuBLAS",
+    "cuDNN",
+    "CUTLASS",
+    "KernelBench",
+    "Karpathy autoresearch",
+    "Triton do_bench",
+    "git (commit/reset as state machine)"
+  ],
+  "action_items": [
+    "Pull arxiv paper 2603.21331 and extract program.md structure as reference for encoding multi-tier expert knowledge into one instruction doc",
+    "Adapt 5-stage correctness harness pattern into our E2E gate checklist for UI work (currently single Chrome DevTools MCP gate)",
+    "Steal orchestrator transition conditions (5 reverts / 90% peak / 2hr / 2x achieved) as template for when orchestrator moves worker off task",
+    "Add AutoKernel entry to ADOPTABLE-PATTERNS.md under new 'Agents in Systems Engineering' section",
+    "Evaluate whether this pattern applies to OmniPort-HH Next.js bundle-size/perf optimization",
+    "Ingest Karpathy autoresearch project as separate catalogue entry"
+  ],
+  "why_this_matters": "First clear demonstration that the Ralph Wiggum edit-benchmark-keep/revert loop generalizes from application code into systems engineering domains where human expertise takes years to develop. Validates the thesis that agents will eat every domain with a tight feedback loop. The 5-stage correctness harness is a concrete template we should steal for our E2E gate. The git-as-state-machine pattern (commit = keep, reset = revert) is exactly how we use worktrees — now with production benchmark results beating torch.compile and even hand-tuned CUTLASS on specific shapes.",
+  "discoveries_count": 4
+}

@@ -1,0 +1,26 @@
+{
+  "source_url": "https://github.blog/ai-and-ml/github-copilot/agent-driven-development-in-copilot-applied-science/",
+  "source_title": "Agent-Driven Development in Copilot Applied Science",
+  "catalogue_path": "research/catalogue/articles/2026-04/github-copilot-agent-driven-development-applied-science.md",
+  "ingested_at": "2026-04-11T00:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-in-the-cli",
+      "context": "Copilot CLI is the primary coding agent used for the eval-agents project; article recommends downloading and running /plan to assess repository readiness",
+      "suggested_type": "tool",
+      "relevance_hint": "8/10 — Copilot CLI confirmed to use Claude Opus 4.6 as backing model inside GitHub research; first-class tool entry needed"
+    },
+    {
+      "url": "https://github.com/features/copilot/code-review",
+      "context": "Copilot Code Review agent is stage 3 of McGoffin's four-stage feature loop (/plan -> /autopilot -> Code Review agent -> human)",
+      "suggested_type": "tool",
+      "relevance_hint": "7/10 — automated review gate parallels our reviewer-fixer loop"
+    },
+    {
+      "url": "https://githubnext.com/projects/agentic-workflows/",
+      "context": "GitHub Agentic Workflows referenced as part of GitHub's broader agent ecosystem alongside Copilot Code Review",
+      "suggested_type": "tool",
+      "relevance_hint": "7/10 — first-party GitHub agentic workflow primitive; comparable to Inngest/Trigger.dev orchestration tier"
+    }
+  ]
+}

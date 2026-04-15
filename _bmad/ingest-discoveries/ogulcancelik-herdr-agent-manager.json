@@ -1,0 +1,20 @@
+{
+  "source_url": "https://github.com/ogulcancelik/herdr",
+  "source_title": "ogulcancelik/herdr - terminal workspace manager for AI coding agents",
+  "ingested_at": "2026-04-04",
+  "catalogue_path": "research/catalogue/orchestration-platforms/herdr.md",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/ogulcancelik/pi-extensions",
+      "title": "ogulcancelik/pi-extensions - Extensions for Pi agent (includes web-browse)",
+      "relevance": 6,
+      "reason": "Same author's Pi agent extensions; relevant to our Pi harness evaluation pipeline and integration hook patterns"
+    },
+    {
+      "url": "https://herdr.dev",
+      "title": "Herdr - official website/docs",
+      "relevance": 6,
+      "reason": "May contain additional architecture docs, tutorials, or roadmap information not present in the GitHub README"
+    }
+  ]
+}

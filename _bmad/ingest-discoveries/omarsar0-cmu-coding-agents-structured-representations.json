@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/omarsar0/status/2038627572108743001",
+  "source_title": "CMU: Biggest Unlock for Coding Agents Is Structured Representations",
+  "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-cmu-coding-agents-structured-representations.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://arxiv.org/abs/2603.21489",
+      "context": "CMU research paper on structured representations for coding agents",
+      "suggested_type": "article",
+      "relevance_hint": "Directly applicable to improving agent context quality — structured code representations outperform raw text"
+    }
+  ]
+}

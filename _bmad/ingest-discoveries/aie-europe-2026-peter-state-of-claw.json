@@ -1,0 +1,115 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=5100s",
+  "source_type": "talk",
+  "source_title": "State of the Claw — OpenClaw Update",
+  "speaker": "Peter Steinberger (Creator of OpenClaw, now at OpenAI)",
+  "event": "AI Engineer Europe 2026, London",
+  "event_date": "2026-04-09",
+  "duration_minutes": 17,
+  "ingested_at": "2026-04-04T00:00:00.000Z",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+  "relevance": 9,
+  "novelty": 8,
+  "actionable": 8,
+  "key_insight": "OpenClaw's 5-month track record proves multi-agent orchestrators face nation-state supply chain attacks, CVSS-slop noise, and unnerfed-model sandbox escapes — Lethal Trifecta mitigation and foundation governance are mandatory.",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/openclaw/openclaw",
+      "context": "Primary OpenClaw repo — cited stats (~30K commits, ~2K contributors, ~30K PRs, highest GH star count for non-educational OSS project)",
+      "suggested_type": "repo",
+      "suggested_ingest": "Refresh existing research/catalogue/orchestration-platforms/openclaw.md",
+      "priority": "high",
+      "already_catalogued": true
+    },
+    {
+      "url": "https://openclaw.org",
+      "context": "Open Claw Foundation — to be launched; governance model inspired by Ghostty Foundation; bank setup almost complete; full-time maintainer hiring planned",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article (when live)",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://ghostty.org/foundation",
+      "context": "Ghostty Foundation — the explicit template Peter copied for Open Claw Foundation structure; relevant blueprint for any OSS orchestrator transitioning to neutral governance",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://simonwillison.net/series/prompt-injection/",
+      "context": "Simon Willison's Lethal Trifecta series — original framing Peter cites as the canonical agent-security threat model; directly applicable to our tmux worker permission matrix",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/openai/symphony",
+      "context": "OpenAI's Symphony orchestration layer — cited by Peter as evidence OpenAI supports open-source agent infra; Elixir-based process supervision for Codex fleets",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://arxiv.org/abs/2402.agents-of-chaos",
+      "context": "'Agents of Chaos' paper — academic fearmongering example Peter criticizes; spent 4 pages explaining OpenClaw architecture, ignored published security docs, ran in 'pseudo mode' requiring code changes. Exact arxiv ID needs verification",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article (verify arxiv ID first)",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/advisories",
+      "context": "Baseline comparison: Peter's 1,142 advisories / 16.6 per day claim vs Linux kernel ~8-9/day and curl ~600 lifetime. Worth validating these numbers for our own security-reporting heuristics",
+      "suggested_type": "reference",
+      "suggested_ingest": null,
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://www.axios.com/cve (Axios supply chain compromise)",
+      "context": "Axios NPM supply chain compromise — MS Teams and Slack pulled Axios unpinned, re-exposing OpenClaw indirectly. Reference case for transitive dependency hygiene in agentic frameworks",
+      "suggested_type": "security-advisory",
+      "suggested_ingest": null,
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=O_IMsEg91g8",
+      "context": "Full AIE Europe 2026 London session recording — Peter's talk starts ~timestamp t=5100s; other talks in same stream should be reviewed for additional ingestions",
+      "suggested_type": "talk-index",
+      "suggested_ingest": "Review for additional talks to ingest",
+      "priority": "medium",
+      "already_catalogued": true
+    }
+  ],
+  "cross_references": [
+    {
+      "path": "research/catalogue/orchestration-platforms/openclaw.md",
+      "relation": "Subject of the talk — needs refresh with foundation transition, updated metrics, and CVSS-slop lessons"
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md",
+      "relation": "Same AIE Europe 2026 day (2026-04-09); discusses the 'OpenClaw ban' episode from the Anthropic side"
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+      "relation": "Peter references Symphony (OpenAI's Elixir orchestration layer) which is the subject of Lopopolo's talk"
+    },
+    {
+      "path": "research/catalogue/articles/2026-03/nvidia-ai-agents-gtc-2026.md",
+      "relation": "NemoClaw is where Peter found 5 sandbox escapes in 30 min using unnerfed Codex"
+    }
+  ],
+  "action_items_for_our_orchestrator": [
+    "Apply Lethal Trifecta matrix to every worker role in _bmad/orchestrator-tmux-state.json",
+    "Pin transitive dependencies and audit for Axios-class unpinned vulnerabilities",
+    "Adopt CVSS-slop heuristic ('higher scream = more likely slop') for any security reports we receive",
+    "Publish authoritative SECURITY.md + threat model to preempt academic fearmongering",
+    "Red-team our sandbox with unnerfed Codex proactively",
+    "Refresh existing OpenClaw catalogue entry with 2026-04-09 foundation transition and metrics"
+  ]
+}

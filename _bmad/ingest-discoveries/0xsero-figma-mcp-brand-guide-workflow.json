@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/0xSero/status/2026805260300238913",
+  "source_title": "Figma Remote MCP + Brand Guide Workflow",
+  "catalogue_path": "research/catalogue/posts/2026-02/0xsero-figma-mcp-brand-guide-workflow.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.figma.com/developers/mcp",
+      "context": "Figma's official remote MCP server for agent integration",
+      "suggested_type": "tool",
+      "relevance_hint": "Could replace manual design token extraction from PDFs in our OmniPort workflow"
+    }
+  ]
+}

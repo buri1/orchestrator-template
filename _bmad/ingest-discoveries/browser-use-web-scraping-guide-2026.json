@@ -1,0 +1,14 @@
+{
+  "source_url": "https://browser-use.com/posts/web-scraping-guide-2026",
+  "source_title": "The Ultimate Guide to Web Scraping (2026)",
+  "catalogue_path": "research/catalogue/articles/2026-03/browser-use-web-scraping-guide-2026.md",
+  "ingested_at": "2026-03-28T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.firecrawl.dev",
+      "context": "Firecrawl produces clean markdown output for LLM ingestion at $0.001/scrape — potential ingest pipeline tool",
+      "suggested_type": "tool",
+      "relevance_hint": "Could replace WebFetch for batch URL content extraction in our ingest pipeline"
+    }
+  ]
+}

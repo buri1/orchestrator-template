@@ -1,0 +1,20 @@
+{
+  "source_url": "https://sweep.dev/",
+  "source_title": "Sweep - AI for JetBrains IDEs",
+  "catalogue_path": "research/catalogue/general-interest/sweep-ai-jetbrains.md",
+  "ingested_at": "2026-04-04T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://plugins.jetbrains.com/plugin/26860-sweep-ai-autocomplete--coding-agent",
+      "context": "JetBrains Marketplace listing -- 40k+ installs, 4.9 stars",
+      "suggested_type": "tool",
+      "relevance_hint": "Check user reviews for real-world agent reliability feedback and feature requests"
+    },
+    {
+      "url": "https://github.com/sweepai/sweep",
+      "context": "Original open-source GitHub PR bot (7k+ stars) -- predecessor to the JetBrains plugin pivot",
+      "suggested_type": "tool",
+      "relevance_hint": "Study why they pivoted from async PR bot to IDE plugin; architecture of the original agent"
+    }
+  ]
+}

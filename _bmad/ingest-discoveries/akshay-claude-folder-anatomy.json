@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/akshay_pachaar/status/2035341800739877091",
+  "source_title": "Anatomy of the .claude/ folder",
+  "catalogue_path": "research/catalogue/posts/2026-03/akshay-claude-folder-anatomy.md",
+  "ingested_at": "2026-03-25T00:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://x.com/akshay_pachaar/status/2035706568142893229",
+      "title": "How to setup your Claude code project? (TL;DR quote-tweet)",
+      "relevance": 7,
+      "reason": "1.9M-view quote-tweet summarizing the anatomy article; contains the distilled 6-point TL;DR version; useful companion to the full article"
+    }
+  ]
+}

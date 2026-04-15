@@ -1,0 +1,29 @@
+{
+  "source_url": "https://github.com/vaayne/mori",
+  "source_title": "vaayne/mori - Native macOS workspace terminal with tmux and libghostty",
+  "ingested_at": "2026-04-04",
+  "catalogue_path": "research/catalogue/developer-gui/mori.md",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/vaayne/anna",
+      "title": "Anna - AI assistant with LCM memory, multi-channel, built-in scheduler",
+      "type": "tool",
+      "relevance": 6,
+      "note": "Same author's Go-based AI assistant with long-context memory and scheduling; interesting memory patterns for agent architectures"
+    },
+    {
+      "url": "https://github.com/vaayne/mori/blob/main/Sources/Mori/Resources/mori-agent-hook.sh",
+      "title": "Mori agent hook for Claude Code lifecycle state tracking",
+      "type": "reference",
+      "relevance": 7,
+      "note": "Clean pattern for tracking agent state via tmux pane options; directly adoptable for our tmux orchestrator"
+    },
+    {
+      "url": "https://github.com/vaayne/mori/blob/main/Packages/MoriIPC/Sources/MoriIPC/IPCProtocol.swift",
+      "title": "Mori IPC protocol - typed Swift enum command pattern",
+      "type": "reference",
+      "relevance": 6,
+      "note": "Reference for designing typed, compile-time-safe IPC command protocols; simpler alternative to JSON-RPC v2"
+    }
+  ]
+}

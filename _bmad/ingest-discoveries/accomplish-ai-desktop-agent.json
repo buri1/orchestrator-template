@@ -1,0 +1,20 @@
+{
+  "source_url": "https://accomplish.ai/",
+  "source_title": "Accomplish - AI Desktop Agent with Built-In Intelligence",
+  "catalogue_path": "research/catalogue/general-interest/accomplish-ai-desktop-agent.md",
+  "ingested_at": "2026-04-04T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/accomplish-ai/accomplish",
+      "context": "Primary GitHub repository -- MIT licensed open-source desktop AI agent",
+      "suggested_type": "tool",
+      "relevance_hint": "Study the Skills system for reusable workflow macros and AGENTS.md adoption in a consumer app"
+    },
+    {
+      "url": "https://accomplish.ai/blog/announcing_accomplish",
+      "context": "Official launch blog post -- Accomplish (formerly Openwork) public launch announcement",
+      "suggested_type": "article",
+      "relevance_hint": "Founding narrative and pivot from Openwork; distribution strategy rationale"
+    }
+  ]
+}

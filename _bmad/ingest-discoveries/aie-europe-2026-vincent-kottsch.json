@@ -1,0 +1,197 @@
+{
+  "url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=10491s",
+  "title": "Dark Factories — How OpenClaw Ships Faster Than You Can Read the Diff",
+  "authors": ["Vincent Kottsch"],
+  "speaker_role": "OpenClaw Core Maintainer; Research Engineer / DevRel at Comet (eval space)",
+  "publication": "AI Engineer Europe 2026 (London)",
+  "date": "2026-04-09",
+  "type": "talk",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-vincent-dark-factories.md",
+  "relevance": 10,
+  "novelty": 8,
+  "actionable": 9,
+  "topics": [
+    "dark factories",
+    "swim lanes",
+    "commit maxing",
+    "bart looping",
+    "ralph looping",
+    "codex sessions",
+    "git worktrees",
+    "git clones",
+    "matrix intuition",
+    "agent development environment",
+    "skills gym",
+    "recursive skills",
+    "semantic pr graphing",
+    "vector embeddings",
+    "eval infrastructure",
+    "fake slack",
+    "token efficiency",
+    "agent in the loop",
+    "soft skills",
+    "openclaw",
+    "great refactor",
+    "plugin architecture",
+    "nvidia",
+    "peter steinberger",
+    "overfit unit tests",
+    "self heal"
+  ],
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Velocity metrics — 800 commits/day collective, 3000 commits/day personal peak",
+      "description": "OpenClaw maintainer collective peaks at 800 commits/day. Vincent personally peaked at 3,000 commits on 2026-03-15. His commit stream stops when he sleeps — git history is literally a sleep tracker. Vincent claims this velocity will be the norm for serious maintainers by end of 2026."
+    },
+    {
+      "id": 2,
+      "title": "Denial phase parallel to ChatGPT era — Anthropic, Spotify, Yegge, OpenClaw as open adopters",
+      "description": "Same denial pattern as early ChatGPT usage — everyone is using agents at scale but few will admit it. Open adopters Vincent names: Anthropic (writing their C compiler with agents), Spotify (reportedly 'no hand coding'), Steve Yegge (50 PRs/day), OpenClaw itself."
+    },
+    {
+      "id": 3,
+      "title": "Commit Maxing vs Bart Looping — opinionated reward shaping",
+      "description": "Raw 8-9 hour Ralph loops are dumb. Vincent proposes 'Bart Looping' — a loop with an opinionated reward mechanism that injects broader project-state context per iteration. The bottleneck is not tokens; it is structured context about what is happening."
+    },
+    {
+      "id": 4,
+      "title": "The Great Refactor — 2700 commits, ~1M lines, 82% of core touched, plugin architecture launch",
+      "description": "At 2am in the NVIDIA office alongside Peter Steinberger, Vincent committed to a full plugin-architecture refactor of OpenClaw. 2,700 commits, ~1M lines changed, 82% of the core codebase touched. Result: plugin architecture where every provider owns their own plugin code. Saving grace: AI-generated unit tests that were previously overfit on the old code paths served as a refactor safety net. Vincent: 'Was Icarus — did I fly too close to the sun?'"
+    },
+    {
+      "id": 5,
+      "title": "Swim lane architecture — 5-10-20 Codex sessions, 'In harness we trust'",
+      "description": "Vincent runs 5 (calm) / 10 (normal) / 20 (push) parallel swim lanes, each a Codex session. Lanes specialize: CI, features, bugs, P0/P1, exploration. 'Tokens are NOT the problem — raw compute and brain space are.' Mantra: 'In harness we trust.'"
+    },
+    {
+      "id": 6,
+      "title": "Git worktrees collapse at 70-80 — Peter Steinberger's 10-clones counter-pattern",
+      "description": "Vincent adopted git worktrees at scale and regrets it. 70-80 active worktrees nukes the host machine (inodes, file watchers, build caches). Peter Steinberger's alternative: clone the repo 10 times and point 10 Codex sessions at the 10 clones. Heavier on disk, lighter on everything else. Vincent had to build custom Codex session awareness of worktrees with crash self-heal."
+    },
+    {
+      "id": 7,
+      "title": "Matrix intuition — reasoning-token waffle detection",
+      "description": "Monitoring 10-20 concurrent agents is like Neo reading the Matrix: 'I can see woman in red dress, guy walking dog.' Vincent senses off-rails sessions not from WHAT they are doing but from HOW they explain — waffling, over-hedging, filler reasoning. Kill and respawn. Same signal he uses managing humans who are bullshitting."
+    },
+    {
+      "id": 8,
+      "title": "Agent Development Environment (ADE) + recursive skills via Vercel skills.sh",
+      "description": "Vincent runs a personal ADE with a skills gym nicknamed 'ager'. Recursive loop: Codex reviews Codex session transcripts, proposes skill improvements, deploys back into OpenClaw. Orchestrated via Vercel's skills.sh. 'Scoping to reuse patterns in agents who are agents.' His skills live in a partially private `dots/skills` GitHub repo."
+    },
+    {
+      "id": 9,
+      "title": "Semantic PR graphing — 6000+ PRs, 106 edges on one PR",
+      "description": "OpenClaw has 6000+ open PRs. Every new maintainer fails trying to cluster/tag them. Vincent's approach: vector embeddings + semantic graphing over the full PR graph. One PR had 106 edges to other PRs. Triage heuristic: 'pressure on one issue' (comments, reactions, repeated PRs) = signal it is big enough to address."
+    },
+    {
+      "id": 10,
+      "title": "Fake Slack eval infrastructure for multi-provider regression testing",
+      "description": "Post-Great-Refactor, Vincent built a 'fake Slack' — a synthetic messaging environment populated with both real and synthetic LLM actors. Runs continuous eval loops across every provider and channel to catch regressions before they hit live users. Comet eval experience applied to an OSS harness."
+    },
+    {
+      "id": 11,
+      "title": "2025 = token maxing, 2026 = token efficiency, 'agent in the loop'",
+      "description": "Closing thesis. Audience asks 'how do you manage 10 agents?' Vincent counter: 'how do you manage 10 staff?' — no new paradigm; he managed 30-40 people in airline and AI roles. The shift: 2025 was about maxing tokens, 2026 is about not wasting them. 'Agent in the loop' replaces 'human in the loop' — agent is steady state, human is intermittent quality signal."
+    }
+  ],
+  "key_quotes": [
+    "In harness we trust.",
+    "Imagine you're a factory manager and you have a production line blow.",
+    "This feels a lot like how I would manage people.",
+    "2025 was about token maxing. 2026 is about not wasting them.",
+    "Tokens are not the problem — raw compute and brain space are.",
+    "I can see woman in red dress, guy walking dog.",
+    "Was Icarus — did I fly too close to the sun?",
+    "Pressure on one issue = signal it's big enough to address.",
+    "Scoping to reuse patterns in agents who are agents."
+  ],
+  "adoptable_patterns": [
+    {
+      "name": "Swim Lane Architecture (5-10-20 sizing)",
+      "effort": "S",
+      "impact": "High",
+      "summary": "Formally label tmux windows by lane (CI, features, bugs, P0/P1, exploration) and enforce a 5/10/20 parallelism ceiling."
+    },
+    {
+      "name": "Matrix Intuition for Agent Monitoring",
+      "effort": "M",
+      "impact": "High",
+      "summary": "Add reasoning-token waffle detection to roadblock-recovery skill; kill+respawn sessions whose reasoning goes filler-heavy."
+    },
+    {
+      "name": "Clone-vs-Worktree Scale Policy",
+      "effort": "L",
+      "impact": "Critical",
+      "summary": "Hard-cap worktree count at ~20 per host. Beyond that, switch to clones-per-session per Peter Steinberger. Add crash-self-heal for abandoned worktrees/clones."
+    },
+    {
+      "name": "Recursive Skills Improvement Loop (ADE)",
+      "effort": "M",
+      "impact": "High",
+      "summary": "Point the orchestrator at its own telemetry nightly. Mine for reusable patterns. Stage candidates in a gym before promotion. Vercel skills.sh as reference."
+    },
+    {
+      "name": "Bart Loop with Opinionated Reward Shaping",
+      "effort": "M",
+      "impact": "High",
+      "summary": "Replace raw Ralph loops with per-iteration project-state context injection. Reward forward progress on labeled objectives, not tokens burned."
+    },
+    {
+      "name": "Overfit Unit Tests as Refactor Safety Net",
+      "effort": "S",
+      "impact": "Medium",
+      "summary": "Before planned large refactors, AI-generate and deliberately overfit unit tests on current paths. Use as change detector during the refactor."
+    },
+    {
+      "name": "Semantic PR Graphing for Backlog Triage",
+      "effort": "L",
+      "impact": "Medium",
+      "summary": "Vector embeddings over issues/PRs. Rank by cluster density and 'pressure on one issue'. Surface high-edge-count nodes."
+    },
+    {
+      "name": "Fake Slack Eval Infrastructure",
+      "effort": "L",
+      "impact": "Medium",
+      "summary": "Synthetic multi-provider eval harness exercising every supported model/provider on fixed scenarios. Run nightly. Catches provider regressions."
+    },
+    {
+      "name": "2026 = Token Efficiency OKR Reframe",
+      "effort": "S",
+      "impact": "High",
+      "summary": "Replace raw-token-burn OKRs with commits-per-token, PRs-merged-per-token, session-waste-rate metrics."
+    },
+    {
+      "name": "Sleep Schedule as Legitimacy Signal",
+      "effort": "S",
+      "impact": "Low",
+      "summary": "Preserve clear on/off pauses in our commit history as human-legitimacy evidence for client trust conversations."
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://github.com/openclaw/openclaw/pulls",
+      "reason": "OpenClaw PR graph — target for replicating Vincent's semantic graphing experiment",
+      "suggested_skill": "ingest-tool"
+    },
+    {
+      "url": "https://www.comet.com/site/",
+      "reason": "Comet eval platform — Vincent's day job; likely source of the fake Slack eval pattern",
+      "suggested_skill": "ingest-tool"
+    },
+    {
+      "url": "https://vercel.com/blog",
+      "reason": "Vercel skills.sh automation layer Vincent uses to drive the recursive skills loop",
+      "suggested_skill": "ingest-tool"
+    },
+    {
+      "url": "https://github.com/openai/codex",
+      "reason": "Codex session lifecycle — referenced for clone-based parallelism scaling",
+      "suggested_skill": "ingest-tool"
+    }
+  ],
+  "relevance_for_orchestrator": "EXTREMELY HIGH. Vincent is a direct peer — OpenClaw core maintainer describing exactly the multi-agent orchestration patterns our L-Thread v3 is built on. Every talking point maps 1:1 to a concrete piece of our architecture: swim lanes = tmux windows, 'in harness we trust' = our state machine + hooks, matrix intuition = roadblock-recovery skill, worktrees-vs-clones = our git worktree design (which he now regrets at scale past 20 parallel workers), recursive skills = our _bmad/agent-activity.jsonl mining, fake Slack = multi-provider eval we have not yet built. Critical warning for our current worktree-heavy architecture. Directly adoptable playbook for 2026 token efficiency reframe.",
+  "key_insight": "OpenClaw core maintainer codifies the multi-agent 'dark factory' playbook — swim lanes, in-harness trust, matrix intuition, and the clones-over-worktrees scale pattern — and declares 2026 the year of token efficiency over token maxing.",
+  "ingested_at": "2026-04-04T00:00:00Z"
+}

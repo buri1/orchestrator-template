@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/latentspacepod/status/2039227555132354802",
+  "source_title": "Claude Code Source Leak — Mega-Compilation of All Discoveries",
+  "catalogue_path": "research/catalogue/posts/2026-04/latentspacepod-claude-code-source-leak.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://latent.space",
+      "context": "Latent.Space mega-compilation of Claude Code source analysis findings",
+      "suggested_type": "article",
+      "relevance_hint": "Primary reference for understanding Claude Code internals — directly informs our orchestrator configuration and agent prompt design"
+    }
+  ]
+}

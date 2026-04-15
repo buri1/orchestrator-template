@@ -1,0 +1,51 @@
+{
+  "handle": "jennyzhangzt",
+  "practitioner_ref": null,
+  "month": "2026-03",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2036099940456206759",
+      "url": "https://x.com/jennyzhangzt/status/2036099940456206759",
+      "type": "thread-reply",
+      "thread_root": "2036099935083618487",
+      "date": "2026-03-23",
+      "text": "To understand hyperagents, it helps to start with a prior self-improving AI system, the Darwin Gödel Machine (DGM). In the DGM, a coding agent repeatedly generates modified versions of itself, evaluates them on coding tasks, and stores successful variants in an archive of...",
+      "media": [
+        {
+          "type": "photo",
+          "url": "https://pbs.twimg.com/media/HEGs6XQakAAM2To.jpg?name=orig",
+          "dimensions": "4096x1828"
+        }
+      ],
+      "metrics": { "likes": 94, "retweets": 13, "replies": 2, "views": 14916, "bookmarks": 52 },
+      "links": [],
+      "topics": ["research", "agent-orchestration", "llm-engineering"],
+      "relevance": 8,
+      "signal_tier": "HIGH",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": "../../../posts/2026-03/jennyzhangzt-hyperagents-dgm.md",
+      "enriched": true,
+      "notes": "Thread-reply (#2) to Hyperagents announcement. Explains DGM lineage: coding agent repeatedly generates modified versions of itself, evaluates on coding tasks, archives successful variants. Attached 4096x1828 diagram. Already covered by existing catalogue entry jennyzhangzt-hyperagents-dgm.md — no separate ingest needed."
+    },
+    {
+      "id": "2036099935083618487",
+      "url": "https://x.com/jennyzhangzt/status/2036099935083618487",
+      "type": "post",
+      "date": "2026-03-23",
+      "text": "Introducing Hyperagents: an AI system that not only improves at solving tasks, but also improves how it improves itself. The Darwin Gödel Machine (DGM) demonstrated that open-ended self-improvement is possible by iteratively generating and evaluating improved agents, yet it relies on a key assumption: that improvements in task performance translate into improvements in the self-improvement process itself. We introduce Hyperagents – self-referential agents that can modify both their task-solving behavior and the process that generates future improvements. This enables what we call metacognitive self-modification: learning not just to perform better, but to improve at improving. DGM-H outperforms baselines across diverse domains: coding, paper review, robotics reward design, and Olympiad-level math solution grading. Meta-level improvements (persistent memory, performance tracking) transfer across domains and accumulate across runs.",
+      "media": [],
+      "metrics": { "likes": 3596, "retweets": 647, "replies": 154, "views": 492814, "bookmarks": 4515, "quotes": 99 },
+      "links": ["https://arxiv.org/abs/2603.19461", "https://github.com/facebookresearch/Hyperagents"],
+      "topics": ["agent-orchestration", "research", "memory-systems", "llm-engineering"],
+      "relevance": 9,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": true,
+      "catalogue_path": "../../../posts/2026-03/jennyzhangzt-hyperagents-dgm.md",
+      "enriched": true,
+      "notes": "Hyperagents paper from Meta/UBC (lead author Jenny Zhang). Metrics refreshed 2026-04-11: 492K views (up from 476K), 4,515 bookmarks, 3,596 likes, 99 quotes. Self-referential agents: modify task-solving behavior AND the improvement process itself (metacognitive self-modification). Builds on Darwin Gödel Machine. Domains: coding, paper review, robotics, Olympiad math. Meta-level improvements (persistent memory, performance tracking) transfer cross-domain. ICLR 2026 accepted. Already ingested as catalogue entry."
+    }
+  ]
+}

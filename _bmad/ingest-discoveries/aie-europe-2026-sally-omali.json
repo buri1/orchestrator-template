@@ -1,0 +1,180 @@
+{
+  "url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=12834s",
+  "title": "Running OpenClaw in Containers — Kubernetes for Personal AI Agents",
+  "speaker": "Sally Omali",
+  "speaker_role": "Principal Software Engineer, Red Hat (Emerging Tech org, AI focus)",
+  "event": "AI Engineer Europe 2026",
+  "event_location": "London",
+  "date": "2026-04-09",
+  "duration_minutes": 22,
+  "type": "talk",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-sally-omali-openclaw-containers.md",
+  "relevance": 7,
+  "novelty": 6,
+  "actionable": 8,
+  "topics": [
+    "containers",
+    "podman",
+    "podman secrets",
+    "kubernetes",
+    "openshift",
+    "openclaw",
+    "secrets management",
+    "volumes",
+    "pvcs",
+    "backup recovery",
+    "enterprise deployment",
+    "sandboxing",
+    "ssh sandbox",
+    "double isolation",
+    "team workspace baseline",
+    "sub-agents",
+    "observability",
+    "opentelemetry",
+    "jaeger",
+    "openrouter",
+    "gemma",
+    "red hat"
+  ],
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Double-Secrets Pattern: Podman Secret + OpenClaw secret_ref",
+      "description": "Two-layer secrets architecture where raw API keys live in Podman secrets (or Docker envvars) on the host and OpenClaw's secret_ref config creates a pointer, not a raw value. Keys never appear in OpenClaw logs, config files, git history, or backup archives. Key rotation is 'podman secret rm && podman secret create' with no config edits. Directly adoptable today using macOS Keychain as the host layer even without containers."
+    },
+    {
+      "id": 2,
+      "title": "Forever Claw: Personal Long-Running Agent Reference Deployment",
+      "description": "Omali's home setup — Mclaw (main instance in Montreal), Joy (Jyotish astrology sub-agent for weekly readings), Bruno (Boston Bruins daily NHL playoff briefings) — all containerized with nightly volume backups via launchd. Personal infrastructure story that proves the pattern scales from hobby to enterprise without architectural change."
+    },
+    {
+      "id": 3,
+      "title": "Volume-Based Backup Story — Podman Volume → Kubernetes PVC",
+      "description": "All runtime state (conversation history, memory, skills, MCP state, SSH known_hosts) lives in a single named Podman volume. Backup = snapshot volume. Restore = restore volume. Same mental model carries through from Podman volume on a laptop to PVC on OpenShift with zero architectural change. Directly applicable to our tmux setup today by treating _bmad/ and ~/.claude/projects/<project>/ as 'the volume'."
+    },
+    {
+      "id": 4,
+      "title": "Enterprise Workspace Base Template Pattern",
+      "description": "Platform team curates a baseline OpenClaw image with company-approved MCP servers, authentication, skills, and policy. New hires run podman run (or oc apply) on day one and get the team's standard agent pre-connected to Jira, GitHub, Slack, SSO. Updates propagate through image tags. Replaces the 'sit next to someone and copy their repo' anti-pattern with a curated, versioned, portable onboarding artifact. Maps 1:1 to our future SaaS client Enterprise Workspace roadmap."
+    },
+    {
+      "id": 5,
+      "title": "SSH-Box Inside the Container (Double Isolation)",
+      "description": "Agent runs inside a container (sandbox layer 1) AND routes risky command execution over SSH into a second sandboxed box via a dedicated keypair (sandbox layer 2). Container isolates agent from host; SSH box isolates destructive commands from the container. Adopt even without containers using Lima/OrbStack as the SSH-sandbox target; wire DCG (Destructive Command Guard) to divert matched commands into the box instead of blocking them."
+    },
+    {
+      "id": 6,
+      "title": "Same Install Tool, Local → Kubernetes → OpenShift",
+      "description": "Omali's installer tool targets Podman locally, Docker as fallback, kind for local Kubernetes dev, and OpenShift for enterprise — without configuration divergence between substrates. Named per-instance containers with configurable ports, secrets, and MCP servers. Gives a straight-line path from 'personal agent on my laptop' to 'multi-tenant agent hosting for SaaS clients'."
+    },
+    {
+      "id": 7,
+      "title": "NVIDIA Case Study: 10 Engineers, 10 Kubernetes OpenClaw Model Eval Instances",
+      "description": "NVIDIA runs model evaluation agents as 10 concurrent Kubernetes-hosted OpenClaw instances — periodic checks on model eval status reported back to a small engineering team. Omali's framing: 'doing the job of six engineers with one himself.' First public data point on production multi-instance agent deployment at Kubernetes scale and validates the per-tenant PVC + per-tenant secrets pattern for multi-tenant SaaS scenarios."
+    },
+    {
+      "id": 8,
+      "title": "Harness/Exec Co-location Fix Is Containers, Not Permissions",
+      "description": "Complements Ubl's opening keynote critique ('harness and exec in the same trust boundary = 1999-era security hole'). Omali's answer is operational: the container IS the trust boundary. You can still give the agent --dangerously-skip-permissions *inside* the container because the container itself is sandboxed from the host. Inverts the security debate from 'don't give agents full permission' to 'give them full permission inside an isolated substrate.'"
+    },
+    {
+      "id": 9,
+      "title": "OTel + Jaeger Observability Sidecar as Install-Tool Option",
+      "description": "Optional OpenTelemetry collector and Jaeger trace visualizer sidecar wired in by the installer tool. Claude Code's OTel support is mature enough that this is a config change, not a rewrite. Gives full agent trace inspection for free when running 3+ concurrent workers. Immediately useful for our orchestrator's /debug command when the current tmux capture-pane approach hits its limits."
+    },
+    {
+      "id": 10,
+      "title": "Model Swapping Is Free — Harness Is the Durable Investment",
+      "description": "OpenRouter integration makes GPT/Gemma/Claude/local-model swapping a config change. Omali specifically endorses Gemma as 'great' for her day-to-day workloads — notable because the rest of AIE Europe 2026 was Claude- and GPT-centric. Validates Ubl's model-commoditization thesis and suggests cost-sensitive worker lanes (linting, formatting, doc generation) should route to Gemma via OpenRouter while reserving Opus for the work that needs it."
+    }
+  ],
+  "notable_quotes": [
+    "I'd just rather have it in a container — I don't like putting stuff on my computer.",
+    "That's what Red Hat does — if we can't take an application and run it securely, come on, this is our golden opportunity.",
+    "People say it's hard to spin up OpenClaw. That took two seconds.",
+    "Yes, we're going to AI workloads running everywhere.",
+    "Guys, AI is 1000x better than me at writing code.",
+    "I don't need to write tedious code anymore — I get to do fun stuff."
+  ],
+  "adoptable_patterns": [
+    {
+      "name": "Podman Secrets + OpenClaw secret_ref Double Layer",
+      "description": "Host secret store holds raw keys; agent config holds pointers. Log-safe, rotation-cheap, portable. Works today with macOS Keychain as the host layer even without containers.",
+      "priority": "high",
+      "effort": "low"
+    },
+    {
+      "name": "Curated Team Workspace Baseline",
+      "description": "Platform-engineered baseline image (or template repo as pre-container version) with approved MCP servers, skills, agent personas, and policy. New engineers inherit and personalize.",
+      "priority": "high",
+      "effort": "medium"
+    },
+    {
+      "name": "Volume-Based Backup Story (Podman → PVC)",
+      "description": "All runtime state in one named volume, nightly snapshot via launchd, restore is one command. Pre-container version: treat _bmad/ and ~/.claude/projects/ as the volume, add nightly tar.gz backup job.",
+      "priority": "high",
+      "effort": "low"
+    },
+    {
+      "name": "Kubernetes Deployment Pattern for Enterprise",
+      "description": "Package orchestrator as image, run on OpenShift/kind, per-tenant PVCs and secrets, namespace isolation. Same install tool, same config surface. NVIDIA model-eval deployment as reference case study.",
+      "priority": "medium",
+      "effort": "high"
+    },
+    {
+      "name": "SSH-Box Inside Container (Double Isolation)",
+      "description": "Second sandbox layer for destructive command execution. Adopt via Lima/OrbStack VM with dedicated SSH keypair; wire DCG to divert matched commands into the box.",
+      "priority": "medium",
+      "effort": "medium"
+    },
+    {
+      "name": "OTel + Jaeger Observability Sidecar",
+      "description": "Optional observability stack for agent traces; replaces tmux capture-pane gymnastics when running 3+ concurrent workers. Config change, not a rewrite.",
+      "priority": "low",
+      "effort": "low"
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://docs.podman.io/en/latest/markdown/podman-secret.1.html",
+      "reason": "Podman Secrets reference — foundation for the double-secrets pattern; concrete command surface for host-layer implementation",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://openrouter.ai/",
+      "reason": "OpenRouter model routing used in the demo for Gemma/Claude/GPT swapping; worth cataloguing as infrastructure tool",
+      "suggested_skill": "tool-catalogue"
+    },
+    {
+      "url": "https://www.jaegertracing.io/",
+      "reason": "Jaeger trace visualizer for the OTel observability sidecar pattern",
+      "suggested_skill": "tool-catalogue"
+    },
+    {
+      "url": "https://kubernetes.io/docs/concepts/storage/persistent-volumes/",
+      "reason": "PVC reference for the Kubernetes port of the volume-backup pattern",
+      "suggested_skill": "reference"
+    },
+    {
+      "url": "https://github.com/openclaw/openclaw",
+      "reason": "OpenClaw secret_ref feature specifically — need to confirm the exact config surface and whether Claude Code or Pi has equivalent indirection",
+      "suggested_skill": "tool-catalogue"
+    }
+  ],
+  "adoptable_patterns_count": 6,
+  "connections_to_existing_catalogue": [
+    "research/catalogue/talks/2026-04/aie-europe-2026-malte-ubl-ai-engineering-successor-web-dev.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-ryan-lopopolo-harness-engineering.md",
+    "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md",
+    "research/catalogue/orchestration-platforms/openclaw.md",
+    "research/catalogue/infrastructure/better-openclaw.md",
+    "research/catalogue/agent-harnesses/ironclaw.md",
+    "research/catalogue/infrastructure/destructive-command-guard.md",
+    "research/catalogue/observability/langfuse.md",
+    "research/catalogue/reference/deterministic-harness-blueprint.md"
+  ],
+  "relevance_context": "HIGH if we want enterprise/Kubernetes deployment of our orchestrator (SaaS client multi-tenancy, NVIDIA-style model-eval parallel instances). MEDIUM for current tmux-based architecture on a single Mac. The secrets and volumes patterns are directly applicable regardless of substrate and can be adopted this week via macOS Keychain + launchd nightly backups. The container migration itself is a Phase 3+ decision tied to our enterprise roadmap.",
+  "key_insight": "Containers are the operational answer to the harness-security critique — the container IS the trust boundary, so you can give agents full permission inside an isolated substrate without putting your laptop at risk.",
+  "ingested_at": "2026-04-04T00:00:00Z"
+}

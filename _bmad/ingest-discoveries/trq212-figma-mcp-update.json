@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/trq212/status/2036442891346755787",
+  "source_title": "Figma MCP: Claude Code Can Now Design Directly in Figma with Full Design System Context",
+  "catalogue_path": "research/catalogue/posts/2026-03/trq212-figma-mcp-update.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.figma.com/mcp",
+      "context": "Official Figma MCP documentation and setup guide",
+      "suggested_type": "article",
+      "relevance_hint": "Setup guide for use_figma MCP tool — directly usable for our design-to-code pipeline"
+    }
+  ]
+}

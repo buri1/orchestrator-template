@@ -1,0 +1,164 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=31697s",
+  "source_type": "talk",
+  "source_title": "Code Mode — A New Software Architecture for AI Agents",
+  "speaker": "Sunil Pai (AI Agents team at Cloudflare; creator of PartyKit)",
+  "event": "AI Engineer Europe 2026, London",
+  "event_date": "2026-04-09",
+  "duration_minutes": 20,
+  "ingested_at": "2026-04-04T00:00:00.000Z",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-sunil-pai-code-mode.md",
+  "relevance": 10,
+  "novelty": 10,
+  "actionable": 9,
+  "key_insight": "Code Mode replaces JSON tool calling with sandboxed code execution against a capability-bounded environment — agents stop dispatching tool calls and start 'inhabiting state machines', with the Cloudflare API reduced from 1.2M tokens (2,600 tools) to 1K tokens (2 tools: search + execute).",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/cloudflare/agents",
+      "context": "Cloudflare Agents SDK — Pai's current project; the reference implementation of Code Mode running on Workers + Durable Objects + V8 isolates. Primary discovery from this talk.",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue — orchestration-platforms/cloudflare-agents-sdk.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/partykit/partykit",
+      "context": "PartyKit — Pai's previous open-source project; real-time multiplayer framework on Cloudflare Durable Objects. Establishes the 'one Durable Object per user/room' pattern that informs how Pai thinks about per-user state machines for Code Mode.",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue — infrastructure/partykit.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://blog.cloudflare.com/code-mode",
+      "context": "Cloudflare's Code Mode announcement / writeup — need to locate the exact URL; Matt Kerry's 2,600-endpoints-to-2-tools example likely originates here. Worth ingesting as the canonical written reference for the pattern.",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article (verify URL first; search cloudflare blog for 'code mode' or 'Matt Kerry MCP')",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://v8.dev/docs/isolates",
+      "context": "V8 isolates documentation — the sandbox runtime Cloudflare uses for Code Mode. Pai cites <5ms startup and 10 years of Chrome security hardening. Worth a dedicated reference doc in infrastructure/.",
+      "suggested_type": "reference",
+      "suggested_ingest": "/ingest-article — infrastructure/v8-isolates.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://developers.cloudflare.com/workers/",
+      "context": "Cloudflare Workers documentation — the platform Code Mode runs on. Referenced by Pai as the substrate for both the harness and the sandbox. Kenton Varda (Workers creator) is the protagonist of the tic-tac-toe anecdote.",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue — infrastructure/cloudflare-workers.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://developers.cloudflare.com/durable-objects/",
+      "context": "Cloudflare Durable Objects — single-instance per-key stateful objects that make PartyKit possible and likely underpin Cloudflare Agents SDK's long-running workflow support.",
+      "suggested_type": "reference",
+      "suggested_ingest": "/ingest-article — infrastructure/cloudflare-durable-objects.md",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/kentonv",
+      "context": "Kenton Varda — creator of Cloudflare Workers and protagonist of the tic-tac-toe 'inhabiting the state machine' anecdote. He built the wipe coding environment Pai demos. Worth tracking as a practitioner of agent-native tooling.",
+      "suggested_type": "practitioner",
+      "suggested_ingest": "Consider adding to practitioners catalogue if Kenton publishes more on Code Mode / agent harness design.",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://deno.com/",
+      "context": "Deno — alternative capability-based JavaScript/TypeScript runtime with explicit --allow-net, --allow-read, etc. Most actionable Code Mode implementation path for our tmux orchestrator since it runs locally without Cloudflare infrastructure.",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue — infrastructure/deno.md (as capability-based sandbox candidate)",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://webassembly.org/",
+      "context": "WebAssembly / WASI — alternative sandboxed runtime Pai mentions alongside V8 and Lisp. Worth a reference doc as the cross-language capability-based execution substrate.",
+      "suggested_type": "reference",
+      "suggested_ingest": "/ingest-article — infrastructure/webassembly-wasi.md",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://www.tldraw.com/",
+      "context": "TLDraw — the canvas app style Kenton was asking the model to generate in the tic-tac-toe demo. Cross-ref the wattenberger 'what comes after IDE' post which discusses canvas-based dev environments.",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue — developer-gui/tldraw.md (if becomes load-bearing)",
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://en.wikipedia.org/wiki/Capability-based_security",
+      "context": "Capability-based security Wikipedia entry — background on the Lisp/E-language tradition Pai references. Useful context for our adoption of the pattern.",
+      "suggested_type": "reference",
+      "suggested_ingest": null,
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=O_IMsEg91g8",
+      "context": "Full AIE Europe 2026 London Day 1 stream — Pai's talk is the closing keynote at ~t=31697s (8:48:17). Other talks in the same stream still to ingest.",
+      "suggested_type": "talk-index",
+      "suggested_ingest": "Review for additional talks; Pai's session is the closing keynote Day 1.",
+      "priority": "medium",
+      "already_catalogued": true
+    }
+  ],
+  "cross_references": [
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-ryan-lopopolo-harness-engineering.md",
+      "relation": "Direct conceptual complement — Lopopolo argues 'the harness is the product'; Pai provides the runtime architecture. Read as the architectural pair of AIE Europe 2026."
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+      "relation": "Steinberger warns about unnerfed-Codex sandbox escapes (5 in 30 min); Pai's capability-based sandbox with default-deny network and explicit bindings is the architectural response."
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-malte-ubl-ai-engineering-successor-web-dev.md",
+      "relation": "Ubl flags harness/exec co-location as the 1999-era security anti-pattern. Pai's Code Mode sandbox is the fix. Ubl + Pai + Sally Omali (containers) form a coherent 2026 security critique-and-response."
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-sally-omali-openclaw-containers.md",
+      "relation": "Omali frames containers as the trust boundary for OpenClaw; Pai argues V8 isolates + capability-based security are the finer-grained primitive. Both responses to the same trust-boundary problem at different layers."
+    },
+    {
+      "path": "research/catalogue/talks/2026-03/general-purpose-agents-harness-tool-runtime.md",
+      "relation": "Harrison Chase & Sam Partee argue harness + tool runtime = general purpose agent. Pai deepens this: the tool runtime should be a capability-bounded code execution sandbox, not a JSON dispatch layer."
+    },
+    {
+      "path": "research/catalogue/posts/2026-01/wattenberger-what-comes-after-ide.md",
+      "relation": "Wattenberger explores canvas-based post-IDE interfaces. Pai's tic-tac-toe anecdote with Kenton's wipe coding environment is an instance of this category (and a TLDraw-style canvas is explicitly mentioned)."
+    },
+    {
+      "path": "research/catalogue/articles/2026-02/harness-engineering-codex-agent-centric-world.md",
+      "relation": "Lopopolo's OpenAI harness-engineering manifesto; Pai's Code Mode is compatible architecture for Codex-style agent fleets."
+    }
+  ],
+  "action_items_for_our_orchestrator": [
+    "Prototype a Deno-based capability-bounded worker sandbox to replace tmux+--dangerously-skip-permissions",
+    "Build a two-tool (search + execute) wrapper over Chrome DevTools MCP to measure token reduction vs direct tool exposure",
+    "Refactor worker spawn prompts to add the 'you are inhabiting this state machine (git worktree)' framing",
+    "Add per-capability-call JSON logging to worker executions in _bmad/worker-executions/{worker_id}.jsonl",
+    "Default-deny network egress for workers; allowlist only github.com, localhost, registry.npmjs.org",
+    "Ingest Cloudflare Agents SDK as a top-tier orchestration-platforms/ catalogue entry",
+    "Cross-link this entry with the Lopopolo harness engineering keynote as the architectural pair of AIE Europe 2026",
+    "Track down Matt Kerry's Cloudflare MCP Code Mode writeup and ingest as an article",
+    "Add 'capability-based security' as a new topic tag; backfill across relevant sandbox entries",
+    "Consider generative UI for the orchestrator dashboard (Phase 3+) — per-session custom dashboards generated from current state"
+  ],
+  "key_concepts": {
+    "code_mode": "Replace JSON tool calling with a single code-string execution against a sandboxed environment. Agent writes JavaScript (or equivalent), harness runs it with only the explicitly granted capabilities.",
+    "inhabiting_state_machines": "Agent becomes a resident of a state machine rather than a dispatcher of tool calls about the state. Tic-tac-toe demo: no game code, model reads stroke array, recognizes tic-tac-toe, draws circle to play. Ghost-in-the-Shell reference.",
+    "two_tool_reduction": "For large API surfaces, expose only search(query) + execute(code). Cloudflare API: 2,600 endpoints = 1.2M tokens as MCP tools; reduced to 1,000 tokens (99.9% reduction).",
+    "capability_based_security": "No ambient authority. Sandbox starts with zero capabilities; only explicitly granted APIs work. From Lisp/E-language tradition. V8 isolates, Wasm, Python, Deno, Lisp all support this model.",
+    "sandbox_attributes": "Ephemeral, fast-startup (<5ms V8 isolates), default-deny network, full observability/replay, embeddable (run on user device), explicit capability bindings, hostable.",
+    "harness_is_the_product": "The model is interchangeable; the harness is the moat. Capabilities flow into the sandbox; the sandbox is the actual product surface. Aligns with Lopopolo's harness engineering thesis.",
+    "agent_dx": "Your next billion users are little robots generating code. They dream in types and syntax errors. Build markdown docs, errors with remediation, discoverability via search, capability-based security."
+  }
+}

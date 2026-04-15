@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/GoogleResearch/status/2036533564158910740",
+  "source_title": "Google Research Introduces TurboQuant: Extreme LLM Compression",
+  "catalogue_path": "research/catalogue/posts/2026-03/googleresearch-turboquant-compression-algorithm.md",
+  "ingested_at": "2026-03-28T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://research.google/blog/turboquant-redefining-ai-efficiency-with-extreme-compression/",
+      "context": "Full Google Research blog post with complete technical details on TurboQuant",
+      "suggested_type": "article",
+      "relevance_hint": "Deeper technical reference for the 6x KV cache compression algorithm"
+    }
+  ]
+}

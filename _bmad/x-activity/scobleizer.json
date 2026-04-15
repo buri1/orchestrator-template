@@ -1,0 +1,15 @@
+{
+  "handle": "@Scobleizer",
+  "practitioner_profile": null,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 3,
+  "total_tracked": 15,
+  "stats": {
+    "high": 2,
+    "medium": 8,
+    "low": 2,
+    "noise": 1,
+    "ingested": 0
+  },
+  "notes": "Scan 3 (2026-04-11). Added 8 new original posts across 2026-02, 2026-03, 2026-04 shards. NEW shard: 2026-04.json. HIGH-signal finds: (1) Hermes Deep Dive harness post (id 2037994954618994751, Mar 28) — 954 bookmarks, tags Hermes/Teknium as 'the new hot AI agent harness', directly maps to our harness engineering thesis, strongly recommended for /ingest-post of the linked Google Doc. (2) OpenClaw competitor landscape (id 2027653978348261868, Feb 28) — dense market intelligence naming 10+ forks (MaxClaw, Kimi Claw, emdash ADE, Agent One, Letta Code). MEDIUM ingest candidates: Opus 4.6 ecosystem rollout snapshot (Feb 5), AI Newsmakers top-10 digest (Mar 28). Robert Scoble (571K followers), tech journalist. Confirmed pattern: broad market commentary + AI-generated list aggregation, low original technical depth, but HIGH value as market surveillance stream. Already in INDEX: Jensen Huang GTC panel (2035634518296830197) and 'Moats that matter' (2038780837643333717). Recommend monthly cadence."
+}

@@ -1,0 +1,111 @@
+{
+  "source_url": "https://github.com/garrytan/gbrain",
+  "source_title": "GBrain — Garry's Opinionated OpenClaw/Hermes Agent Brain",
+  "catalogue_path": "research/catalogue/agent-memory/garrytan-gbrain.md",
+  "ingested_at": "2026-04-11T12:00:00Z",
+  "wave_tag": "2026-04-11-harness-convergence-wave",
+  "discovered_urls": [
+    {
+      "url": "https://openclaw.ai",
+      "context": "OpenClaw is the primary agent runtime gbrain is built to plug into; gbrain declares `bundle-plugin` with `openclaw.compat.pluginApi: '>=2026.4.0'`; README prescribes AlphaClaw on Render as the default agent host",
+      "suggested_type": "agent-harness",
+      "relevance_hint": "9/10 — OpenClaw has appeared in our catalogue via openclaw/acpx but the website and the core runtime (AlphaClaw) have not been ingested directly; very likely the anchor of a whole ecosystem"
+    },
+    {
+      "url": "https://github.com/openclaw/alphaclaw",
+      "context": "One-click Render deploy for AlphaClaw, the recommended OpenClaw runtime for installing gbrain; directly referenced in the README's 'Need an AI agent first?' block",
+      "suggested_type": "agent-harness",
+      "relevance_hint": "9/10 — the default agent host that gbrain ships against; we should catalogue AlphaClaw alongside gbrain since they are architectural pair"
+    },
+    {
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "context": "The other agent runtime gbrain is built to plug into; already referenced by our Hermes-Wiki entry but the core hermes-agent repo itself has not been directly ingested",
+      "suggested_type": "agent-harness",
+      "relevance_hint": "8/10 — Hermes Agent underlies Hermes-Wiki (already catalogued); the core runtime is worth a direct entry for completeness of the 'Hermes family' cluster"
+    },
+    {
+      "url": "https://github.com/praveen-ks-2001/hermes-agent-template",
+      "context": "Railway one-click deploy template for Hermes Agent referenced in gbrain README's Need-an-Agent-First block",
+      "suggested_type": "agent-harness",
+      "relevance_hint": "6/10 — useful deploy template if we want to trial Hermes Agent ourselves; minor but operationally handy"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/ethos/THIN_HARNESS_FAT_SKILLS.md",
+      "context": "Explicit architecture essay articulating the 'thin binary, fat markdown skill' philosophy — the clearest external match to our own L-Thread architecture we have seen",
+      "suggested_type": "reference",
+      "relevance_hint": "10/10 — ready-to-cite language for client pitches and meeting-prep; should be lifted into an internal design doc"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/ethos/MARKDOWN_SKILLS_AS_RECIPES.md",
+      "context": "Companion essay framing integration recipes as 'Homebrew for personal AI' — same philosophical argument for why markdown is the install medium",
+      "suggested_type": "reference",
+      "relevance_hint": "9/10 — directly adoptable framing for any tool that ships installable recipes"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/GBRAIN_SKILLPACK.md",
+      "context": "The 'most important doc in the repo' per the README — full production agent playbook: brain-agent loop, entity detection, enrichment pipeline, meeting ingestion, reference cron schedule",
+      "suggested_type": "reference",
+      "relevance_hint": "9/10 — template for our own L-Thread skill pack; contains the 7-step copy-paste GOAL block we should mirror"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/GBRAIN_RECOMMENDED_SCHEMA.md",
+      "context": "Brain repo directory structure: MECE directories (people/, companies/, deals/, concepts/, etc.) with README.md resolvers in each",
+      "suggested_type": "reference",
+      "relevance_hint": "7/10 — schema template we could adapt to our practitioner/project ontology"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/designs/HOMEBREW_FOR_PERSONAL_AI.md",
+      "context": "10-star vision doc for the integration system — likely contains the long-form argument for why recipes are Homebrew formulas",
+      "suggested_type": "reference",
+      "relevance_hint": "7/10 — vision framing; useful for long-form thinking about integration marketplaces"
+    },
+    {
+      "url": "https://github.com/electric-sql/pglite",
+      "context": "Embedded Postgres 17.5 via WASM; powers gbrain's zero-config default mode; 2-second boot, real Postgres + pgvector + pg_trgm in a single-process WASM runtime",
+      "suggested_type": "tool",
+      "relevance_hint": "9/10 — this is a general-purpose primitive that could replace our JSON-in-git state store for L-Thread dev mode; direct candidate for catalogue entry as infrastructure"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/CLAUDE.md",
+      "context": "15KB CLAUDE.md with ship workflow, E2E test DB lifecycle, community PR wave process, skill routing rules — worth studying as an example of a production project CLAUDE.md",
+      "suggested_type": "reference",
+      "relevance_hint": "8/10 — our own orchestrator CLAUDE.md is lighter; this is a strong reference for what a mature project file looks like"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/CHANGELOG.md",
+      "context": "25KB changelog with explicit 'voice guidance' in CLAUDE.md: 'write changelog entries that sell the upgrade, not document the implementation'; example of agent-readable changelog pattern",
+      "suggested_type": "reference",
+      "relevance_hint": "7/10 — worth borrowing the voice-guidance approach for our orchestrator CHANGELOG"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/tree/master/recipes",
+      "context": "7 integration recipes as markdown files: twilio-voice-brain, email-to-brain, x-to-brain, calendar-to-brain, meeting-sync, ngrok-tunnel, credential-gateway — each with dependency resolution",
+      "suggested_type": "reference",
+      "relevance_hint": "8/10 — recipe format is a strong template for agent-installable integrations; especially x-to-brain which matches our own X-activity ingest flow"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/guides/sub-agent-routing.md",
+      "context": "Model routing table for sub-agents — gbrain's own take on which model to use for which skill",
+      "suggested_type": "reference",
+      "relevance_hint": "8/10 — directly adjacent to our 'Opus-only feedback' and L-Thread model routing decisions"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/guides/repo-architecture.md",
+      "context": "Two-repo pattern (agent vs brain) — architectural separation between the harness code repo and the knowledge repo",
+      "suggested_type": "reference",
+      "relevance_hint": "7/10 — validates our own orchestrator/ + catalogue/ separation pattern"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/guides/live-sync.md",
+      "context": "Cron/watch/webhook options for live brain sync from git repo to indexed backend — directly relevant if we ever wire our catalogue to auto-sync",
+      "suggested_type": "reference",
+      "relevance_hint": "7/10 — operational playbook for git-to-index sync pattern"
+    },
+    {
+      "url": "https://github.com/garrytan/gbrain/blob/master/docs/ENGINES.md",
+      "context": "Pluggable engine interface documentation: PGLite (default) + Postgres, capability matrix, migration path",
+      "suggested_type": "reference",
+      "relevance_hint": "8/10 — reference for how to architect a pluggable-backend system in our own state store"
+    }
+  ]
+}

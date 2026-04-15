@@ -1,0 +1,15 @@
+{
+  "handle": "@jennyzhangzt",
+  "practitioner_profile": null,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 2,
+  "total_tracked": 2,
+  "stats": {
+    "high": 2,
+    "medium": 0,
+    "low": 0,
+    "noise": 0,
+    "ingested": 1
+  },
+  "notes": "Scan 2 (2026-04-11). Added 1 new post: thread-reply 2036099940456206759 (DGM explainer, 14.9K views, 52 bookmarks, 1 image) — already covered by existing jennyzhangzt-hyperagents-dgm.md catalogue entry. Refreshed metrics on root Hyperagents post: 492K views (up from 476K), 4,515 bookmarks, 3,596 likes, 99 quotes. ICLR 2026 acceptance confirmed. No April 2026 posts found — Jenny went quiet after the Hyperagents thread. Still no practitioner profile; recommend creating one given HIGH-signal research output (DGM co-author, Hyperagents lead, OMNI prior work, UBC/Vector/Meta affiliations)."
+}

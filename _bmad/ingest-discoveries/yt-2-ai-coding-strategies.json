@@ -1,0 +1,67 @@
+{
+  "schema_version": "1.0",
+  "ingested_at": "2026-04-11T00:00:00Z",
+  "source": {
+    "type": "talk",
+    "url": "https://www.youtube.com/watch?v=Vn6ZjeRa6VE",
+    "title": "2 AI Coding Strategies I Wish I Knew Earlier",
+    "platform": "youtube",
+    "author": "Cody Seibert (Web Dev Cody)",
+    "author_handle": "@webdevcody",
+    "published": "2026-04-09",
+    "duration_seconds": 574,
+    "views_at_ingest": 6617,
+    "comet_queue": "comet"
+  },
+  "catalogue_path": "research/catalogue/talks/2026-04/web-dev-cody-2-ai-coding-strategies.md",
+  "scores": {
+    "relevance": 6,
+    "actionable": 7
+  },
+  "summary": "Short YouTube reflection by Cody Seibert (Automaker creator) articulating a single decision axis for agent coding: well-known requirements (use plan mode with 1-5 iterations) vs uncertain requirements (rapid pair-prompting with multiple parallel agent windows, no MD file upfront). Introduces a spike-then-harden pivot pattern: use vibe iteration to discover the real requirements, then stash everything and restart in plan mode for production quality. Explicit admission that iterative mode accumulates slop.",
+  "key_patterns": [
+    "Requirements-uncertainty gate — single-axis decision rule at task intake",
+    "Plan mode + 1-5 iteration loops with question-asking as edge-case surfacer",
+    "TDD/Cypress as in-implementation guardrails for the 5-20% plan-miss rate",
+    "Pair-prompting on Zoom with UX/product co-driver instead of spec docs",
+    "Multiple parallel agent windows during play-test (one agent per observed bug)",
+    "Spike-then-harden: stash prototype code, restart in plan mode once requirements are known",
+    "Explicit slop-accumulation cost of iterative mode (discovery-only)"
+  ],
+  "unusual_workflows": [
+    "Parallel agent windows spawned reactively during play-test (not pre-planned) — maps directly to our tmux+worktree model but applied to live UX testing rather than issue queue processing",
+    "Stash-and-restart: discarding working prototype code to re-implement in plan mode is counterintuitive but named explicitly as a code-quality move"
+  ],
+  "tools_mentioned": [
+    {"name": "Claude Code Plan Mode", "in_catalogue": true, "notes": "Canonical tool; referenced in many talks"},
+    {"name": "Automaker", "in_catalogue": true, "path": "research/catalogue/agent-harnesses/automaker.md", "notes": "Cody's own agent-coding IDE — this video is effectively the author's mental model for why Automaker exists"},
+    {"name": "TDD / Cypress", "in_catalogue": true, "notes": "Common pattern, referenced across Simon Willison, Matt Pocock talks"},
+    {"name": "Survive the Night Game", "in_catalogue": false, "notes": "Cody's multiplayer game prototype — tangential, not worth cataloguing"}
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://agenticjumpstart.com",
+      "reason": "Cody's paid course on agent coding — likely elaborates this framework with concrete workflows",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://discord.gg/JUDWZDN3VT",
+      "reason": "Agentic Jumpstart community — pattern discussions from active practitioners",
+      "suggested_ingest": "manual scan, not bulk"
+    }
+  ],
+  "cross_references": [
+    {"path": "research/catalogue/agent-harnesses/automaker.md", "relation": "author's mental model for his own tool"},
+    {"path": "research/catalogue/talks/2026-03/simon-willison-agentic-engineering-pragmatic-summit.md", "relation": "red/green TDD as guardrail aligns with Cody's TDD fallback"},
+    {"path": "research/catalogue/talks/2026-04/aie-europe-2026-matt-pocock-software-fundamentals.md", "relation": "Pocock's 'bad code most expensive' counter-thesis directly validates Cody's spike-then-harden pivot — throw away slop before it compounds"}
+  ],
+  "action_items": [
+    "Encode uncertainty-axis gate into orchestrator issue intake (plan-mode vs vibe-loop routing)",
+    "Formalize spike-then-harden as explicit workflow state transition",
+    "Evaluate parallel-agents-during-E2E-testing pattern for our E2E gate phase",
+    "Cross-link this talk from agent-harnesses/automaker.md"
+  ],
+  "discovery_count": 2,
+  "status": "done",
+  "error": null
+}

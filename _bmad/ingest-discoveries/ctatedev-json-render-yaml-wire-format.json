@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/ctatedev/status/2032557225030664272",
+  "source_title": "json-render Now Supports YAML Wire Format for LLM Streaming",
+  "catalogue_path": "research/catalogue/posts/2026-03/ctatedev-json-render-yaml-wire-format.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/nicepkg/json-render",
+      "context": "Core repo for json-render — YAML wire format with JSON Patch, Merge Patch, Unified Diff for LLM streaming",
+      "suggested_type": "tool",
+      "relevance_hint": "Wire format optimization for agent-to-UI communication, token efficiency"
+    }
+  ]
+}

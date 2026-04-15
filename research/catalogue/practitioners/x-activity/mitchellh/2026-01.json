@@ -1,0 +1,26 @@
+{
+  "handle": "mitchellh",
+  "practitioner_ref": null,
+  "month": "2026-01",
+  "synced_at": "2026-03-25T00:00:00Z",
+  "posts": [
+    {
+      "id": "2014433315261124760",
+      "url": "https://x.com/mitchellh/status/2014433315261124760",
+      "type": "post",
+      "date": "2026-01-22",
+      "text": "Ghostty is getting an updated AI policy. AI assisted PRs are now only allowed for accepted issues. Drive-by AI PRs will be closed without question. Bad AI drivers will be banned from all future contributions. If you're going to use AI, you better be good.",
+      "media": [],
+      "metrics": { "likes": 2102, "retweets": 137, "replies": 52, "views": 174271, "bookmarks": 203 },
+      "links": ["https://github.com/ghostty-org/ghostty/pull/10412"],
+      "topics": ["coding-tools", "open-source", "ai-ops"],
+      "relevance": 6,
+      "signal_tier": "MEDIUM",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Ghostty AI contribution policy update. Quality gate: AI PRs only for accepted issues, drive-bys closed. 174K views. Signals quality-over-volume approach to AI-assisted OSS contributions."
+    }
+  ]
+}

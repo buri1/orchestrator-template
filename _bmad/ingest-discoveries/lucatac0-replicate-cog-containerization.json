@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/lucatac0/status/2039501213603930502",
+  "source_title": "Replicate Accidentally Publishes Internal Cog Containerization Codebase",
+  "catalogue_path": "research/catalogue/posts/2026-04/lucatac0-replicate-cog-containerization.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/replicate/cog",
+      "context": "Replicate's internal AI model containerization framework — accidentally made public",
+      "suggested_type": "tool",
+      "relevance_hint": "Production-grade model containerization reference architecture"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "handle": "@trq212",
+  "practitioner_profile": null,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 3,
+  "total_tracked": 25,
+  "stats": {
+    "high": 17,
+    "medium": 4,
+    "low": 1,
+    "noise": 2,
+    "ingested": 0
+  },
+  "notes": "Scan 3 (2026-04-11). Added 9 new posts total (5 March backfill + 4 April). March backfill: 2031092339599618364 (Mar 9, Code Review), 2035799806640115806 (Mar 22, /init redesign with CLAUDE_CODE_NEW_INIT=1 flag), 2036199619416178814 (Mar 23, Claude Code computer use), 2037254607001559305 (Mar 26, peak-hour rate limit adjustment 7.65M views), 2038728677270393080 (Mar 30, reply NOISE). April: 2039453692592873587 (Apr 1, virtual viewport renderer rewrite), 2040810948043440227 (Apr 5, reply LOW), 2042005043289977232 (Apr 8, non-technical user streams), 2042671370186973589 (Apr 10, /ultraplan launch HIGHEST). Top ingest candidates: 2042671370186973589 (/ultraplan cloud planning handoff), 2035799806640115806 (/init interview redesign), 2036199619416178814 (Computer use), 2031092339599618364 (Code Review agents), 2033949937936085378 (How We Use Skills carryover), 2034761016320696565 (Claude Code Channels carryover)."
+}

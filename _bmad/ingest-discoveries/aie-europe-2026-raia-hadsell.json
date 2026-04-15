@@ -1,0 +1,106 @@
+{
+  "url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=2538s",
+  "title": "Frontier AI and the Future of Intelligence",
+  "authors": ["Raia Hadsell"],
+  "speaker_role": "VP of Research, Google DeepMind",
+  "publication": "AI Engineer Europe 2026 (London)",
+  "date": "2026-04-09",
+  "type": "talk",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-raia-hadsell-frontier-ai-deepmind.md",
+  "relevance": 4,
+  "novelty": 8,
+  "actionable": 2,
+  "topics": [
+    "frontier research",
+    "omnimodal embeddings",
+    "Matryoshka Representation Learning",
+    "retrieval augmented generation",
+    "weather prediction",
+    "graph neural networks",
+    "probabilistic forecasting",
+    "cyclone prediction",
+    "world models",
+    "Genie 3",
+    "responsible AI",
+    "DeepMind"
+  ],
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Gemini Embeddings 2 — Omnimodal Unified Semantic Space",
+      "description": "Single vector represents 8K tokens text, 128s video, 80s audio, or full PDF in one shared semantic space. Inspired by neuroscience 'Jennifer Aniston cells' (concept neurons that fire regardless of input modality). Eliminates cross-modal mapping loss; SoTA retrieval across modalities from one index. Hadsell framed retrieval as co-equal with generation at the frontier: 'sometimes generate, sometimes retrieve.'",
+      "url": "https://deepmind.google/technologies/gemini/embeddings/"
+    },
+    {
+      "id": 2,
+      "title": "Matryoshka Representation Learning (MRL) for Elastic Embeddings",
+      "description": "Same network produces nested embeddings at multiple dimensionalities (starting 256 dims, expanding). Smaller embeddings are prefixes of larger ones, so applications can trade accuracy for latency/cost at inference time without retraining. General pattern applicable to any future embedding pipeline.",
+      "url": "https://arxiv.org/abs/2205.13147"
+    },
+    {
+      "id": 3,
+      "title": "GraphCast — Spherical GNN Weather Model",
+      "description": "Graph neural network over a spherical mesh predicting full atmospheric state up to 15 days out across 100 variables. Hurricane Lee (2024) landfall called accurately 9 days out vs 6 days for physics-based models.",
+      "url": "https://deepmind.google/discover/blog/graphcast-ai-model-for-faster-and-more-accurate-global-weather-forecasting/"
+    },
+    {
+      "id": 4,
+      "title": "GenCast — Probabilistic Weather Successor",
+      "description": "Probabilistic version of GraphCast acknowledging weather is chaotic. 97% more accurate than 1300 gold-standard benchmarks. 15-day forecast in 8 minutes on a single chip vs. hours on a traditional supercomputer.",
+      "url": "https://deepmind.google/discover/blog/gencast-predicts-weather-and-the-risks-of-extreme-conditions-with-sota-accuracy/"
+    },
+    {
+      "id": 5,
+      "title": "FGN — Functional Generative Network for Direct Cyclone Prediction",
+      "description": "Rather than forecasting a generic weather field and post-processing for cyclone information, FGN directly predicts cyclones with trajectory, wind speed, category, and eye formation as first-class outputs. Used operationally by the US National Hurricane Center.",
+      "url": "https://deepmind.google/discover/"
+    },
+    {
+      "id": 6,
+      "title": "Genie 3 — Real-Time Photorealistic World Models with Memory",
+      "description": "Text prompt generates interactive real-time photorealistic 3D worlds with two qualitative breakthroughs: persistent memory (walk away from an object, come back, it's still there) and live re-prompting (inject new prompt mid-experience to transform the world coherently). Available to Gemini Ultra subscribers. Applications: new form of gaming via adversarial prompting, immersive education.",
+      "url": "https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/"
+    },
+    {
+      "id": 7,
+      "title": "'Root nodes, not leaves' research philosophy",
+      "description": "Hadsell's guiding research-prioritization heuristic: resist the flashiest leaf problems, hunt upstream for deepest problems whose solutions unlock many downstream capabilities. Applicable as a tag/framing for our own research catalogue curation."
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://deepmind.google/technologies/gemini/embeddings/",
+      "reason": "Gemini Embeddings 2 product page — API access, pricing, MRL dimensionality options; candidate future retrieval backend for catalogue search and devlog recall",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://arxiv.org/abs/2205.13147",
+      "reason": "Matryoshka Representation Learning paper (Kusupati et al.) — technical foundation for elastic embeddings; reference for any future embedding pipeline we build",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://deepmind.google/discover/blog/graphcast-ai-model-for-faster-and-more-accurate-global-weather-forecasting/",
+      "reason": "GraphCast announcement and paper — foundational example of replacing physics simulation with GNN prediction; general 'learn the manifold instead of simulating it' pattern",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://deepmind.google/discover/blog/gencast-predicts-weather-and-the-risks-of-extreme-conditions-with-sota-accuracy/",
+      "reason": "GenCast probabilistic weather model — demonstrates the accuracy-per-compute win of neural forecasters over supercomputer ensembles",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://deepmind.google/discover/blog/genie-3-a-new-frontier-for-world-models/",
+      "reason": "Genie 3 announcement — long-shot substrate for agent simulation/training environments with persistent memory and live re-prompting",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://arxiv.org/abs/2402.15391",
+      "reason": "Original Genie paper — foundation world-models architecture underlying the Genie 1/2/3 progression",
+      "suggested_skill": "ingest-article"
+    }
+  ],
+  "relevance_for_orchestrator": "Foundational frontier AI research, not agent orchestration. No direct transfer to tmux L-Thread workers, worktree isolation, or PR review loops. Ingested for three tangential reasons: (1) Gemini Embeddings 2 + MRL as a future retrieval backend for catalogue search and devlog recall once API is available; (2) Genie 3 persistent-memory worlds as a long-shot agent simulation substrate to watch; (3) 'root nodes not leaves' framing as a useful curation heuristic for the research librarian.",
+  "key_insight": "DeepMind's VP of Research frames embeddings + world models as co-equal with LLMs at the frontier; retrieval is not a transitional hack waiting to be replaced by bigger context windows.",
+  "ingested_at": "2026-04-04T00:00:00Z"
+}

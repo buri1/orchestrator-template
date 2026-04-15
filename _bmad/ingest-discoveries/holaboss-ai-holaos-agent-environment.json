@@ -1,0 +1,70 @@
+{
+  "source_url": "https://github.com/holaboss-ai/holaOS",
+  "source_title": "holaboss-ai/holaOS: The agent environment for long-horizon work",
+  "type": "tool",
+  "source": "manual",
+  "ingested_at": "2026-04-04",
+  "catalogue_path": "research/catalogue/agent-harnesses/holaos.md",
+  "relevance": 7,
+  "actionable": 5,
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Environment Engineering Thesis",
+      "description": "The core thesis that the environment (runtime, memory, tools, workspace) defines agent capability more than the model itself. Validates our orchestrator approach where tmux isolation, git worktrees, and state management matter more than which LLM is used.",
+      "tags": ["environment-engineering", "agent-design-thesis", "validation"]
+    },
+    {
+      "id": 2,
+      "title": "Continuity Artifacts",
+      "description": "Structured outputs from previous runs that let agents resume long-horizon work without re-discovering context. Goes beyond chat history -- formalized state that survives session boundaries.",
+      "tags": ["continuity", "long-horizon", "session-persistence", "compaction-recovery"]
+    },
+    {
+      "id": 3,
+      "title": "Workspace Contract Model",
+      "description": "Each workspace defines a contract specifying what the agent can access and modify. Creates permission boundaries and security isolation. Authored surfaces (user-defined) vs runtime-owned state.",
+      "tags": ["workspace-model", "permission-boundary", "agent-isolation", "security"]
+    },
+    {
+      "id": 4,
+      "title": "Agent Harness Boundary",
+      "description": "Clean separation between executor (LLM calls) and environment (workspace + memory + tools). Swap models without changing workspace structure. The harness is the stable boundary; executors are pluggable.",
+      "tags": ["agent-harness", "executor-abstraction", "model-agnostic"]
+    },
+    {
+      "id": 5,
+      "title": "Independent / Headless Deploy",
+      "description": "The runtime can run without the Electron desktop app. Supports CI/server deployment and headless agent workflows. Validates that the agent OS concept works beyond interactive desktop use.",
+      "tags": ["headless", "independent-deploy", "ci-compatible", "server-mode"]
+    }
+  ],
+  "referenced_tools": [
+    { "name": "holaOS", "catalogued": true, "note": "This entry" },
+    { "name": "Electron", "catalogued": false, "note": "Desktop framework -- not relevant to our headless approach" },
+    { "name": "MCP (Model Context Protocol)", "catalogued": false, "note": "Used for tool registration in holaOS" }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://www.holaboss.ai/docs/holaos/environment-engineering",
+      "reason": "Core thesis document -- deeper understanding of the environment engineering framing",
+      "suggested_skill": "/research-librarian"
+    },
+    {
+      "url": "https://www.holaboss.ai/docs/holaos/memory-and-continuity",
+      "reason": "Memory and continuity implementation details -- applicable to our compaction/recovery",
+      "suggested_skill": "/research-librarian"
+    },
+    {
+      "url": "https://www.holaboss.ai/docs/app-development/agent-harness",
+      "reason": "Agent harness boundary specification -- patterns for executor abstraction",
+      "suggested_skill": "/research-librarian"
+    }
+  ],
+  "action_items": [
+    "Adopt continuity artifact pattern for orchestrator compaction handoff files",
+    "Define workspace contracts for orchestrator worker types (file/tool/API permissions)",
+    "Study holaOS memory implementation for long-horizon agent memory ideas",
+    "Evaluate headless runtime mode as potential alternative worker runtime"
+  ]
+}

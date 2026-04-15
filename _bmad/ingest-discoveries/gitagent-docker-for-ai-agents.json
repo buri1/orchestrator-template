@@ -1,0 +1,63 @@
+{
+  "url": "https://www.marktechpost.com/2026/03/22/meet-gitagent-the-docker-for-ai-agents-that-is-finally-solving-the-fragmentation-between-langchain-autogen-and-claude-code/",
+  "title": "Meet GitAgent: The Docker for AI Agents Solving Fragmentation Between LangChain, AutoGen, and Claude Code",
+  "type": "article",
+  "source": "manual",
+  "ingested_at": "2026-03-25",
+  "catalogue_path": "research/catalogue/articles/2026-03/gitagent-docker-for-ai-agents.md",
+  "relevance": 8,
+  "actionable": 6,
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "GitAgent Universal Format",
+      "description": "Framework-agnostic agent definition spec: agent.yaml + SOUL.md + DUTIES.md + skills/ + tools/ + rules/ + memory/. Define once, export to any major framework via `gitagent export -f [framework]`.",
+      "tags": ["agent-portability", "multi-harness", "framework-interop"]
+    },
+    {
+      "id": 2,
+      "title": "Git-as-Supervision Layer",
+      "description": "Agent state changes (memory updates, skill acquisitions) become Git branches and PRs. Human reviewers inspect diffs of personality/memory changes. Behavioral drift reversible via `git revert`.",
+      "tags": ["HITL", "git-native", "version-control", "agent-supervision"]
+    },
+    {
+      "id": 3,
+      "title": "SOUL.md — Declarative Agent Identity",
+      "description": "Replaces scattered Python system prompts with a structured Markdown file defining agent core identity, personality, and tone. Agents can be forked, branched, and shared as open-source repos.",
+      "tags": ["agent-definition", "SOUL.md", "system-prompt-management"]
+    },
+    {
+      "id": 4,
+      "title": "DUTIES.md + SOD Compliance",
+      "description": "Defines agent responsibilities and Segregation of Duties (SOD) constraints. `gitagent validate` checks conflict matrix before deployment. Built-in support for FINRA, SEC, Federal Reserve regulations.",
+      "tags": ["compliance", "SOD", "regulated-industries", "agent-permissions", "german-gov"]
+    },
+    {
+      "id": 5,
+      "title": "Human-Readable Memory as Markdown",
+      "description": "Long-term agent memory stored as plain .md files (context.md, dailylog.md) in a memory/ directory — not vector databases. Fully searchable, auditable, and version-controlled.",
+      "tags": ["agent-memory", "markdown-state", "human-readable", "auditability"]
+    }
+  ],
+  "referenced_tools": [
+    { "name": "GitAgent", "catalogued": false, "note": "The tool itself — check GitHub for repo + stars before cataloguing" },
+    { "name": "LangChain / LangGraph", "catalogued": true },
+    { "name": "AutoGen", "catalogued": true },
+    { "name": "CrewAI", "catalogued": true },
+    { "name": "Claude Code", "catalogued": true },
+    { "name": "OpenAI Assistants API", "catalogued": false }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://github.com/gitagent (inferred)",
+      "reason": "Actual repo would reveal adoption, schema details, and CLI maturity beyond the MarkTechPost summary",
+      "suggested_skill": "/tool-catalogue"
+    }
+  ],
+  "action_items": [
+    "Check GitAgent GitHub repo for stars/activity before cataloguing as a tool",
+    "Evaluate SOUL.md/DUTIES.md/memory/ conventions for our orchestrator worker definitions",
+    "Prototype a DUTIES.md for our orchestrator agent — applicable for German gov compliance artifacts",
+    "Pilot git-as-HITL (memory changes as PRs) for client-facing pi-orchestrator agents"
+  ]
+}

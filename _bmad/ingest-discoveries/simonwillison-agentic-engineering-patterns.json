@@ -1,0 +1,26 @@
+{
+  "source_url": "https://simonwillison.net/guides/agentic-engineering-patterns/",
+  "source_title": "Agentic Engineering Patterns - Simon Willison's Weblog",
+  "catalogue_path": "research/catalogue/articles/2026-04/simonwillison-agentic-engineering-patterns.md",
+  "ingested_at": "2026-04-13T10:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://simonwillison.net/2026/Feb/23/agentic-engineering-patterns/",
+      "context": "Introductory blog post that launched the guide — contains Simon Willison's framing, motivation, and initial structure",
+      "suggested_type": "article",
+      "relevance_hint": "Context for why the guide exists; likely contains insights not in the guide hub page itself"
+    },
+    {
+      "url": "https://simonwillison.net/tags/ai-assisted-programming/",
+      "context": "Simon's full archive of AI-assisted programming posts — practitioner experience reports over time",
+      "suggested_type": "practitioner-profile",
+      "relevance_hint": "High-signal practitioner with deep Claude Code experience; worth tracking as ongoing source"
+    },
+    {
+      "url": "https://simonwillison.net/tags/claude-code/",
+      "context": "Simon's Claude Code-specific posts — direct experience reports with our primary tool",
+      "suggested_type": "practitioner-profile",
+      "relevance_hint": "Directly relevant to our stack; Simon is one of the most vocal and detailed Claude Code practitioners"
+    }
+  ]
+}

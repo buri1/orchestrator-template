@@ -1,0 +1,15 @@
+{
+  "handle": "@mitchellh",
+  "practitioner_profile": null,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 3,
+  "total_tracked": 12,
+  "stats": {
+    "high": 8,
+    "medium": 4,
+    "low": 0,
+    "noise": 0,
+    "ingested": 0
+  },
+  "notes": "Scan 3 (2026-04-11). Added 3 new posts: 2041253090205249584 (libghostty Kitty Graphics Protocol, Apr 6 — first native embeddable terminal with KGP, 49K views), 2037966943282696213 (libghostty-rs Rust crate, Mar 28 — high-quality Rust wrapper, Ghostling port in single file, 68K views, 337 bookmarks), 2021610956334276844 (Supacode + vvterm spotlight, Feb 11 backfill — Supacode = 'Run 50+ coding agents in parallel' directly validates our tmux orchestrator thesis). Mitchell Hashimoto remains THE highest-signal terminal-infrastructure practitioner for our work: Ghostty/libghostty = cmux's engine, AppleScript for agentic control, direct cmux endorsement. Top new ingest candidates: 2021610956334276844 (Supacode — 50+ parallel agents terminal), 2041253090205249584 (Kitty Graphics in libghostty — unlocks chart/diagram output in tmux agent workflows), 2037966943282696213 (Rust binding for libghostty). Previous highlights still pending ingest: 2024913161238053296 (cmux spotlight), 2035114092151902357 (Ghostling demo)."
+}

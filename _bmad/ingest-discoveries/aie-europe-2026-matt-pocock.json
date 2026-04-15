@@ -1,0 +1,221 @@
+{
+  "url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=30572s",
+  "title": "Do Software Fundamentals Matter in the AI Age? Yes, More Than Ever",
+  "speaker": "Matt Pocock",
+  "speaker_role": "Engineer and Educator at AI Hero (aihero.dev); creator of Claude Code for Real Engineers course",
+  "event": "AI Engineer Europe 2026",
+  "event_location": "London",
+  "date": "2026-04-09",
+  "duration_minutes": 18,
+  "type": "talk",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-matt-pocock-software-fundamentals.md",
+  "relevance": 10,
+  "novelty": 9,
+  "actionable": 10,
+  "topics": [
+    "software fundamentals",
+    "deep vs shallow modules",
+    "john ousterhout",
+    "philosophy of software design",
+    "design concept",
+    "frederick brooks",
+    "ubiquitous language",
+    "domain driven design",
+    "eric evans",
+    "tdd",
+    "feedback loops",
+    "pragmatic programmer",
+    "kent beck",
+    "anti-specs-to-code",
+    "codebase legibility",
+    "cognitive load",
+    "gray-box delegation",
+    "module-aware prd",
+    "grill me skill",
+    "writer prd skill",
+    "improve codebase architecture skill"
+  ],
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Anti-Specs-to-Code Thesis: Software Fundamentals Matter MORE in the AI Age",
+      "description": "Direct counter-thesis to the specs-to-code movement dominating Q1 2026 AI coding discourse. Matt tried specs-to-code and each iteration produced WORSE code due to software entropy (Pragmatic Programmer). Fundamentals matter MORE because good codebases reward AI collaboration massively while bad codebases lock you out of the acceleration. 'Specs-to-code is just vibe coding by another name.'"
+    },
+    {
+      "id": 2,
+      "title": "Bad Code Is the Most Expensive It Has Ever Been (Counter to Code-Is-Free Narrative)",
+      "description": "Direct contradiction of Lopopolo/Ubl's 'code is free' framing at the same conference. Matt's position: marginal code is cheap, but *bad* code (hard-to-change code per Ousterhout's definition) is now more expensive than ever because it blocks the AI acceleration bounty. Both theses can be simultaneously true and the synthesis is: good codebase quality determines whether you can monetize cheap code."
+    },
+    {
+      "id": 3,
+      "title": "The Grill Me Skill — Externalize the Design Concept Before Coding",
+      "description": "Based on Frederick P. Brooks' design concept (from The Design of Design): an ephemeral idea floating between you and the AI. Not an asset, not a markdown file, an invisible theory of what you're building. Matt's Grill Me skill tells the AI to interview the user relentlessly (40-100+ questions) before being satisfied. Turns AI into adversary in service of alignment. Better than Claude Code's default plan mode which is too eager to create an asset before understanding. Directly adoptable as a pre-spawn intake phase in our tmux orchestrator."
+    },
+    {
+      "id": 4,
+      "title": "The Ubiquitous Language Skill — DDD Applied to AI Verbosity",
+      "description": "Based on Eric Evans' Domain-Driven Design ubiquitous language concept. Skill scans the codebase, extracts domain terminology, and creates a markdown table of terms. Matt keeps the output file open while planning. Improves planning quality AND makes AI output less verbose + better aligned with existing implementation. Fixes the 'AI talking across purposes' failure mode. Directly adoptable as a background worker that maintains _bmad/ubiquitous-language.md per project."
+    },
+    {
+      "id": 5,
+      "title": "Deep vs Shallow Modules Applied to AI Navigation",
+      "description": "From Ousterhout: deep module = lots of functionality behind simple interface, complexity hidden; shallow module = little functionality, complex interface leaking to callers. NEW INSIGHT: shallow codebases make AI walk and navigate poorly, fail to find the right module, and compound confusion. Deep codebases let AI follow interfaces. Division of labor: human designs interfaces, AI implements bodies. Matt's Improve Codebase Architecture skill automates shallow->deep refactors."
+    },
+    {
+      "id": 6,
+      "title": "The Rate of Feedback Is Your Speed Limit (TDD as AI Constraint)",
+      "description": "Pragmatic Programmer 'outrunning your headlights' applied to AI. LLMs don't use feedback loops well because they try to do too much at once. TDD red/green/refactor forces small steps and constrains AI to one cycle at a time. Directly applicable as a worker system prompt constraint: 'write the failing test first, run it, then implement.'"
+    },
+    {
+      "id": 7,
+      "title": "Gray-Box Delegation via Deep Modules (The Cognitive Load Saver)",
+      "description": "Failure mode #4: your brain can't keep up with AI throughput, you ship more code than ever and get tired. Shallow codebases make this worse because both you AND the AI must hold context. Deep modules let you treat code as gray boxes: design interface, delegate implementation, skip close review of body. Don't apply to critical code (finance, auth). Matt: 'saved my brain significantly.' Same pattern Lopopolo endorses with QA plans but justified via cognitive-load framing instead of trust framing."
+    },
+    {
+      "id": 8,
+      "title": "Writer PRD (Module-Aware) Skill — PRDs as Architectural Diffs",
+      "description": "PRDs are no longer free-floating requirement documents. Matt's Writer PRD skill generates PRDs specific about which modules change and which interfaces get modified. Always thinks in terms of the module map. Adoptable as a pre-spawn step in our orchestrator that converts GitHub issues into module-aware PRDs before worker spawn."
+    },
+    {
+      "id": 9,
+      "title": "Kent Beck Bet: Invest in the Design of the System Every Day",
+      "description": "The central claim of the talk. Specs-to-code = divesting from design (ship prompts, hope). Fundamentals + deep modules + skills = investing daily. In an era where code is cheap, the durable edge is design discipline applied every day. Matt positions his five skills as tools for continuous design investment, not one-time refactors."
+    },
+    {
+      "id": 10,
+      "title": "Five Publicly Available Skills at github.com/mattpocock/skills",
+      "description": "All five skills Matt built are published on GitHub: (1) Grill Me, (2) Ubiquitous Language, (3) Improve Codebase Architecture, (4) Writer PRD (module-aware), (5) TDD-aware. Directly adoptable for Claude Code and for our tmux worker harness. Highest-priority action item from this ingest: clone the repo and adapt to our _bmad/skills/ directory."
+    },
+    {
+      "id": 11,
+      "title": "Synthesis of 4 Classical SWE Books Applied to AI-Era Engineering",
+      "description": "Matt's talk is the cleanest recent synthesis of Ousterhout (Philosophy of Software Design), Pragmatic Programmer, Brooks (Design of Design), and Evans (Domain-Driven Design) applied to the AI coding era. Each failure mode maps to one book's core concept, each skill is a concrete tool. Usable as a reading list / curriculum anchor for our research catalogue."
+    },
+    {
+      "id": 12,
+      "title": "Testing Is Hard — Good Codebases Are Easy to Test — Feedback Loop Reinforcement",
+      "description": "Testing decisions (unit size, what to mock, what behaviors to test) are interdependent. Big unit = fewer behaviors tested + more mocks. Small unit = more behaviors + less mocking. Good codebases are easy to test. Easy tests = better feedback loops = better AI output. Closes the loop on the central thesis: good codebases matter more than ever."
+    }
+  ],
+  "notable_quotes": [
+    "Code is not cheap. Bad code is the most expensive it has ever been.",
+    "The rate of feedback is your speed limit.",
+    "Design the interface. Delegate the implementation.",
+    "Invest in the design of the system every day. (Kent Beck)",
+    "If you think of AI as a really great on-the-ground programmer, a tactical programmer, you need someone strategic — that's you.",
+    "Complexity is anything related to structure that makes it hard to understand and modify. (John Ousterhout)",
+    "In good codebases, AI does really well. In bad codebases, it compounds the mess.",
+    "Specs-to-code is just vibe coding by another name.",
+    "This has saved my brain significantly."
+  ],
+  "books_referenced": [
+    {
+      "title": "A Philosophy of Software Design",
+      "author": "John Ousterhout",
+      "core_concept": "Complexity definition, deep vs shallow modules, interface design"
+    },
+    {
+      "title": "The Pragmatic Programmer",
+      "author": "Andy Hunt, Dave Thomas",
+      "core_concept": "Software entropy, 'you don't know what you want', 'outrunning your headlights', rate of feedback"
+    },
+    {
+      "title": "The Design of Design",
+      "author": "Frederick P. Brooks",
+      "core_concept": "Design concept as ephemeral idea; externalization of intent"
+    },
+    {
+      "title": "Domain-Driven Design",
+      "author": "Eric Evans",
+      "core_concept": "Ubiquitous language; shared vocabulary between devs and domain experts"
+    }
+  ],
+  "skills_published": [
+    {
+      "name": "Grill Me",
+      "purpose": "Interview user 40-100+ times to externalize the design concept; outputs PRD/issues",
+      "based_on": "Brooks (design concept) + Pragmatic Programmer (you don't know what you want)"
+    },
+    {
+      "name": "Ubiquitous Language",
+      "purpose": "Scan codebase, extract domain terminology, build markdown table of terms",
+      "based_on": "Eric Evans (DDD)"
+    },
+    {
+      "name": "Improve Codebase Architecture",
+      "purpose": "Find related code, wrap in deep modules with simple interfaces",
+      "based_on": "Ousterhout (deep modules)"
+    },
+    {
+      "name": "Writer PRD (Module-Aware)",
+      "purpose": "Generate PRDs specific about module changes and interface modifications",
+      "based_on": "Ousterhout + Kent Beck (design investment)"
+    },
+    {
+      "name": "TDD-Aware",
+      "purpose": "Force small red/green/refactor cycles; constrain AI to one feedback loop at a time",
+      "based_on": "Pragmatic Programmer (rate of feedback) + Kent Beck"
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://github.com/mattpocock/skills",
+      "reason": "Matt's public skills repository with all five Claude Code skills discussed in the talk; directly adoptable for our tmux worker harness",
+      "suggested_skill": "clone-and-adapt-to-bmad-skills-directory"
+    },
+    {
+      "url": "https://aihero.dev/",
+      "reason": "Matt's AI Hero newsletter and Claude Code for Real Engineers course platform; worth tracking as practitioner resource",
+      "suggested_skill": "practitioner-tracking"
+    },
+    {
+      "url": "https://web.stanford.edu/~ouster/cgi-bin/book.php",
+      "reason": "John Ousterhout, A Philosophy of Software Design (official book page); foundational reference for deep vs shallow module concept",
+      "suggested_skill": "ingest-book-summary"
+    },
+    {
+      "url": "https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/",
+      "reason": "The Pragmatic Programmer 20th anniversary edition; source for software entropy, 'outrunning headlights', rate of feedback concepts Matt uses",
+      "suggested_skill": "ingest-book-summary"
+    },
+    {
+      "url": "https://www.cs.unc.edu/~brooks/DesignofDesign.html",
+      "reason": "Frederick P. Brooks, The Design of Design; source for design concept as ephemeral idea floating between engineer and artifact",
+      "suggested_skill": "ingest-book-summary"
+    },
+    {
+      "url": "https://www.domainlanguage.com/ddd/",
+      "reason": "Eric Evans' DDD reference site; source for ubiquitous language pattern Matt operationalizes as a skill",
+      "suggested_skill": "ingest-reference-site"
+    },
+    {
+      "url": "https://ai.engineer/europe-2026",
+      "reason": "AIE Europe 2026 conference page; other talks from same event already catalogued",
+      "suggested_skill": "event-tracking"
+    }
+  ],
+  "adoptable_patterns_count": 8,
+  "connections_to_existing_catalogue": [
+    "research/catalogue/talks/2026-04/aie-europe-2026-ryan-lopopolo-harness-engineering.md",
+    "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-malte-ubl-ai-engineering-successor-web-dev.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-vincent-dark-factories.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-swyx-ama.md",
+    "research/catalogue/posts/2026-04/pawelhuryn-orchestration-over-autonomy.md",
+    "research/catalogue/talks/2026-03/harrison-chase-context-engineering-sequoia.md"
+  ],
+  "action_items": [
+    "Clone github.com/mattpocock/skills and adapt five skills to _bmad/skills/",
+    "Add GRILL_ME phase to orchestrator loop before SPAWN_WORKER",
+    "Generate _bmad/ubiquitous-language.md for orchestrator repo as dogfooding",
+    "Add module-aware PRD generator step to .claude/commands/orchestrator.md",
+    "Add TDD constraint to worker system prompt + reviewer agent test-commit-before-impl check",
+    "Classify orchestrator modules as critical vs gray-box-eligible in _bmad/module-classification.yaml",
+    "Add one-paragraph design-first positioning statement to CLAUDE.md",
+    "Subscribe to AI Hero newsletter and track future skill publications",
+    "Cross-link with Lopopolo keynote entry to contrast 'code is free' vs 'bad code is expensive'"
+  ],
+  "key_insight": "Software fundamentals matter MORE in the AI age — good codebases unlock AI acceleration, bad ones block it; deep modules + five classical-SWE-derived skills (all on GitHub) are the design-first counter to specs-to-code.",
+  "ingested_at": "2026-04-04T00:00:00Z"
+}

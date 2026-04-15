@@ -1,0 +1,26 @@
+{
+  "source_url": "https://medium.com/@visrow/spec-driven-development-is-eating-software-engineering-a-map-of-30-agentic-coding-frameworks-6ac0b5e2b484",
+  "source_title": "Spec-Driven Development Is Eating Software Engineering — 30+ Agentic Coding Frameworks Map",
+  "catalogue_path": "research/catalogue/articles/2026-04/spec-driven-development-eating-software-engineering.md",
+  "ingested_at": "2026-04-04T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/spec-kit/spec-kit",
+      "context": "Layer 1 spec framework — compare with BMAD artifact generation",
+      "suggested_type": "tool",
+      "relevance_hint": "Competitor/complement to BMAD in the spec framework layer"
+    },
+    {
+      "url": "https://github.com/eyaltoledano/claude-task-master",
+      "context": "Taskmaster — Layer 2 task planning system for AI-driven task decomposition",
+      "suggested_type": "tool",
+      "relevance_hint": "Potential upgrade to our orchestrator GET_NEXT_TASK phase"
+    },
+    {
+      "url": "https://tessl.io",
+      "context": "Spec-as-source platform where specifications compile directly to running software",
+      "suggested_type": "tool",
+      "relevance_hint": "Long-term direction for BMAD — specs as the primary artifact"
+    }
+  ]
+}

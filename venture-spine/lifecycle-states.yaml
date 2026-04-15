@@ -1,0 +1,1207 @@
+# =============================================================================
+# Venture Spine — Project Lifecycle State Machine
+# =============================================================================
+#
+# Every project in the solo founder's portfolio exists in exactly ONE state
+# at any given time. This file defines:
+#   - All possible states
+#   - Legal transitions between states (with triggers)
+#   - Per-state resource configuration (agents, budget, monitoring)
+#   - Kill vs. pause decision criteria
+#   - Shape Up cycle integration
+#
+# Design principles (from Wave 1+2 research):
+#   - Max 3-5 active projects (DeepMind 1.724 coordination exponent)
+#   - Shape Up 6-week cycles with explicit betting table
+#   - Zero cross-project agent communication (ADR-3)
+#   - File-based state, deterministic meta-layer (ADR-1)
+#   - Externalized state eliminates context-switch warmup cost
+#
+# This state machine is consumed by:
+#   - venture-spine/triage.sh (morning triage reads project phases)
+#   - portfolio-state.yaml (each project's `phase` field)
+#   - per-project _bmad/project-dna.yaml (mirrors phase)
+#   - Notion portfolio dashboard (synced projection)
+#
+# =============================================================================
+
+version: "1.0.0"
+last_updated: "2026-03-25"
+
+# =============================================================================
+# SHAPE UP CYCLE CONFIGURATION
+# =============================================================================
+#
+# The betting table runs every 6 weeks. Between cycles, a 2-week cooldown
+# allows maintenance, shaping, and retrospectives. Projects not bet on
+# are explicitly paused — never "sort of active."
+#
+# Cycle structure:
+#   Weeks 1-6:  BUILD (execute bets)
+#   Weeks 7-8:  COOLDOWN (maintenance, shaping, retrospective)
+#
+# Max bets per cycle:
+#   - 2 "full cycle" bets (Tier 1 projects, get majority of resources)
+#   - 2 "maintenance" bets (Tier 2 projects, limited agent budget)
+#   - Everything else: paused or hibernated
+#
+# =============================================================================
+
+shape_up:
+  cycle_weeks: 6
+  cooldown_weeks: 2
+  total_cycle_weeks: 8
+  max_full_bets: 2
+  max_maintenance_bets: 2
+  betting_table_trigger: "end_of_cooldown"
+  # During cooldown, these activities are permitted:
+  cooldown_activities:
+    - bug_fixes
+    - dependency_updates
+    - shaping_next_cycle
+    - retrospective
+    - knowledge_consolidation
+    - project_dna_refresh
+
+# =============================================================================
+# STATES
+# =============================================================================
+#
+# A project moves through these states over its lifetime. Not all projects
+# visit every state — a quick experiment may go spark -> shaping -> killed.
+# A client contract may start at shaping and never reach sunset.
+#
+# States are grouped into three bands:
+#   PRE-BUILD:   spark, shaping, shaped
+#   ACTIVE:      active_dev, stabilizing, maintenance
+#   INACTIVE:    paused, hibernated, sunset, killed
+#
+# =============================================================================
+
+states:
+
+  # ---------------------------------------------------------------------------
+  # SPARK — The idea exists but has not been evaluated
+  # ---------------------------------------------------------------------------
+  #
+  # Entry point for all new projects. A spark is a captured idea — from a
+  # client inquiry, market observation, or creative impulse. Sparks live in
+  # a backlog and are evaluated at the next betting table.
+  #
+  # Shape Up equivalent: "raw idea" in the shaping queue.
+  # SAFe equivalent: "funnel" in the portfolio kanban.
+  # Venture studio equivalent: "deal flow" / "thesis validation."
+  #
+  spark:
+    description: "Captured idea, not yet evaluated. Lives in backlog."
+    band: pre_build
+    agents:
+      max_workers: 0
+      allowed_types: []
+    budget:
+      share_pct: 0
+      hard_cap_tokens_per_day: 0
+    monitoring:
+      cadence: none
+      # Sparks are reviewed only at the betting table
+      auto_actions: []
+    wsjf:
+      weight_modifier: 0.0
+      # Not scored until shaping begins
+    shape_up_mapping: "raw_idea"
+    max_time_in_state: "3_cycles"
+    # If a spark sits for 3 full cycles (24 weeks) without being shaped,
+    # it is auto-transitioned to killed.
+
+  # ---------------------------------------------------------------------------
+  # SHAPING — The idea is being refined into a concrete bet
+  # ---------------------------------------------------------------------------
+  #
+  # Shaping means defining the problem, setting boundaries (appetite), and
+  # producing enough detail that agents can execute without the founder
+  # being in the loop. In Shape Up terms: "shaping" produces a pitch.
+  #
+  # A research agent may be spawned to validate feasibility, but NO
+  # development agents run during shaping. This is a thinking phase.
+  #
+  # Venture studio equivalent: "due diligence" / "thesis deepening."
+  # SAFe equivalent: "analyzing" in portfolio kanban.
+  #
+  shaping:
+    description: "Idea being refined into a concrete bet with fixed appetite."
+    band: pre_build
+    agents:
+      max_workers: 1
+      allowed_types:
+        - research
+        # A single research agent may investigate feasibility, market,
+        # or technical approach. No code is written.
+    budget:
+      share_pct: 2
+      hard_cap_tokens_per_day: 50000
+    monitoring:
+      cadence: weekly
+      auto_actions:
+        - action: "stale_check"
+          trigger: "no_updates_for_14_days"
+          result: "alert_founder"
+    wsjf:
+      weight_modifier: 0.5
+      # Partially scored — cost_of_delay is estimated, job_size is unknown
+    shape_up_mapping: "shaping"
+    max_time_in_state: "2_cycles"
+    # If shaping takes longer than 2 cycles (16 weeks), the project is
+    # either too complex (split it) or not compelling (kill it).
+
+  # ---------------------------------------------------------------------------
+  # SHAPED — Shaping complete, waiting for a cycle bet
+  # ---------------------------------------------------------------------------
+  #
+  # The pitch is ready. The project has a clear problem statement, appetite
+  # (how many weeks), solution sketch, and rabbit-hole callouts. It sits
+  # in the "shaped" queue until the next betting table picks it up.
+  #
+  # No agents run. No budget allocated. This is a queue, not a phase.
+  #
+  # Shape Up equivalent: "betting table candidate."
+  # SAFe equivalent: "review" in portfolio kanban.
+  #
+  shaped:
+    description: "Pitch ready, awaiting betting table selection."
+    band: pre_build
+    agents:
+      max_workers: 0
+      allowed_types: []
+    budget:
+      share_pct: 0
+      hard_cap_tokens_per_day: 0
+    monitoring:
+      cadence: per_betting_table
+      auto_actions:
+        - action: "freshness_check"
+          trigger: "shaped_more_than_2_cycles_ago"
+          result: "flag_for_re_evaluation"
+          # Shaped pitches decay. If a project has been shaped but not bet on
+          # for 2 cycles, the pitch may be stale and needs reshaping.
+    wsjf:
+      weight_modifier: 1.0
+      # Fully scored. WSJF determines betting table priority.
+    shape_up_mapping: "betting_table_candidate"
+    max_time_in_state: "3_cycles"
+    # Auto-transition to killed if not bet on within 3 cycles.
+
+  # ---------------------------------------------------------------------------
+  # ACTIVE_DEV — The project has a cycle bet and agents are building
+  # ---------------------------------------------------------------------------
+  #
+  # This is where the work happens. The per-project L-Thread orchestrator
+  # runs its loop: GET_NEXT_TASK -> SPAWN_WORKER -> WAIT_FOR_PR -> REVIEW ->
+  # MERGE -> E2E_TEST -> MARK_DONE.
+  #
+  # Active_dev projects consume the majority of the token budget.
+  # Max 2 projects in active_dev simultaneously (Shape Up: max 2 full bets).
+  #
+  # Shape Up equivalent: "building" within a 6-week cycle.
+  # SAFe equivalent: "implementing" in portfolio kanban.
+  # Venture studio equivalent: "active portfolio company."
+  #
+  active_dev:
+    description: "Cycle bet active. Agents building. Full orchestrator loop."
+    band: active
+    agents:
+      max_workers: 6
+      # Per-project max from L-Thread orchestrator rules.
+      # Typical: 2-3 workers. Max 6 for sprint pushes.
+      allowed_types:
+        - developer
+        - reviewer
+        - tester
+        - e2e
+      recommended_workers: 3
+      # DeepMind optimal: 2-3 agents for tightly-coupled work.
+    budget:
+      share_pct: 35
+      # Each active_dev project gets up to 35% of daily token budget.
+      # With max 2 active_dev projects, that is 70% total.
+      hard_cap_tokens_per_day: 500000
+    monitoring:
+      cadence: continuous
+      auto_actions:
+        - action: "health_check"
+          trigger: "every_30_minutes"
+          result: "update_project_dna"
+        - action: "stuck_agent_detection"
+          trigger: "no_output_for_30_minutes"
+          result: "alert_and_attempt_recovery"
+        - action: "pr_stale_check"
+          trigger: "open_pr_older_than_24h"
+          result: "alert_founder"
+        - action: "ci_failure_check"
+          trigger: "ci_red_for_2h"
+          result: "spawn_fix_agent"
+        - action: "budget_circuit_breaker"
+          trigger: "daily_budget_exceeded"
+          result: "throttle_to_1_worker"
+    wsjf:
+      weight_modifier: 1.5
+      # Active projects get a priority boost to ensure they finish within
+      # the cycle rather than being starved by new work.
+    shape_up_mapping: "building"
+    max_time_in_state: "1_cycle"
+    # A project should not stay in active_dev beyond one 6-week cycle.
+    # If it does, it either needs to be re-scoped or the cycle bet was
+    # too ambitious. At cycle end, it transitions to stabilizing or
+    # is force-moved to maintenance with unfinished work logged.
+
+  # ---------------------------------------------------------------------------
+  # STABILIZING — Feature-complete, hardening for production
+  # ---------------------------------------------------------------------------
+  #
+  # Code is written. The project is in the "last mile" — fixing edge cases,
+  # performance tuning, writing documentation, final E2E validation. No new
+  # features. This maps to the end of a Shape Up cycle where the team is
+  # "cutting scope to ship."
+  #
+  # Agent count drops because the work is polish, not creation.
+  #
+  # Shape Up equivalent: "hill chart downslope" / "making it work."
+  # SAFe equivalent: "system demo preparation."
+  # Venture studio equivalent: "launch prep."
+  #
+  stabilizing:
+    description: "Feature-complete. Fixing bugs, hardening, final QA."
+    band: active
+    agents:
+      max_workers: 3
+      allowed_types:
+        - developer  # bug fixes only
+        - tester
+        - e2e
+      recommended_workers: 2
+    budget:
+      share_pct: 20
+      hard_cap_tokens_per_day: 300000
+    monitoring:
+      cadence: daily
+      auto_actions:
+        - action: "regression_check"
+          trigger: "every_commit"
+          result: "run_full_e2e_suite"
+        - action: "blocker_escalation"
+          trigger: "blocking_issue_open_24h"
+          result: "alert_founder_p0"
+        - action: "scope_creep_guard"
+          trigger: "new_feature_issue_created"
+          result: "auto_label_post_launch_and_alert"
+    wsjf:
+      weight_modifier: 2.0
+      # Stabilizing projects get highest priority weight — they are
+      # closest to delivering value. Finishing > starting.
+    shape_up_mapping: "hill_chart_downslope"
+    max_time_in_state: "2_weeks"
+    # If stabilizing takes longer than 2 weeks, something is wrong.
+    # Either ship what you have or acknowledge the project needs
+    # another cycle bet.
+
+  # ---------------------------------------------------------------------------
+  # MAINTENANCE — Shipped and running. Minimal ongoing work.
+  # ---------------------------------------------------------------------------
+  #
+  # The project is live and generating value (revenue, users, or strategic
+  # advantage). Work is limited to: bug fixes, dependency updates, minor
+  # improvements, and responding to user feedback.
+  #
+  # Maintenance projects can be a "maintenance bet" in a Shape Up cycle
+  # (gets limited agent budget) or can run on autopilot with just
+  # monitoring and alerting.
+  #
+  # Shape Up equivalent: "small batch" or "maintenance bet."
+  # SAFe equivalent: "support and maintenance."
+  # Venture studio equivalent: "operating portfolio company."
+  #
+  maintenance:
+    description: "Live in production. Bug fixes and minor improvements only."
+    band: active
+    agents:
+      max_workers: 2
+      allowed_types:
+        - developer  # bug fixes and dependency updates
+        - tester
+      recommended_workers: 1
+    budget:
+      share_pct: 10
+      hard_cap_tokens_per_day: 150000
+    monitoring:
+      cadence: daily
+      auto_actions:
+        - action: "dependency_audit"
+          trigger: "weekly_monday"
+          result: "run_npm_audit_or_equivalent"
+        - action: "uptime_check"
+          trigger: "every_6_hours"
+          result: "check_deployment_health"
+        - action: "issue_accumulation"
+          trigger: "open_issues_exceed_10"
+          result: "alert_founder_consider_active_dev_cycle"
+        - action: "revenue_monitor"
+          trigger: "daily"
+          result: "check_revenue_anomalies"
+        - action: "security_patch"
+          trigger: "critical_cve_detected"
+          result: "auto_spawn_patch_agent"
+    wsjf:
+      weight_modifier: 0.8
+      # Maintenance gets slightly reduced WSJF because the project is
+      # already delivering value. New development has higher marginal return.
+    shape_up_mapping: "small_batch_or_maintenance_bet"
+    max_time_in_state: "unlimited"
+    # Maintenance is a valid long-term state. Projects can live here
+    # for months or years. Revenue-generating products SHOULD stay here.
+
+  # ---------------------------------------------------------------------------
+  # PAUSED — Deliberately stopped. Will resume.
+  # ---------------------------------------------------------------------------
+  #
+  # The project is intentionally paused — not abandoned, not dead, just
+  # not getting attention this cycle. All agents are stopped. The state
+  # file is preserved. The project can be resumed in a future cycle
+  # by betting on it at the next betting table.
+  #
+  # Critical distinction from "hibernated": paused projects are expected
+  # to resume within 1-2 cycles. They stay on the betting table.
+  #
+  # Shape Up equivalent: a project that was "not bet on" this cycle.
+  # SAFe equivalent: "parking lot."
+  # Venture studio equivalent: "portfolio company on hold."
+  #
+  paused:
+    description: "Deliberately stopped. Expected to resume within 1-2 cycles."
+    band: inactive
+    agents:
+      max_workers: 0
+      allowed_types: []
+    budget:
+      share_pct: 0
+      hard_cap_tokens_per_day: 0
+    monitoring:
+      cadence: weekly
+      auto_actions:
+        - action: "issue_accumulation_check"
+          trigger: "weekly"
+          result: "log_open_issue_count_trend"
+        - action: "external_event_watch"
+          trigger: "weekly"
+          result: "check_for_client_messages_or_dependency_breaks"
+        - action: "staleness_alert"
+          trigger: "paused_for_2_cycles"
+          result: "prompt_decision_hibernate_or_resume"
+    wsjf:
+      weight_modifier: 0.3
+      # Reduced weight, but still scored. Paused projects compete at
+      # the betting table for future cycles.
+    shape_up_mapping: "not_bet_on"
+    max_time_in_state: "3_cycles"
+    # After 3 cycles paused (24 weeks), the project should either be
+    # resumed (bet on) or transitioned to hibernated. Indefinite pausing
+    # is a sign of zombie project avoidance.
+
+  # ---------------------------------------------------------------------------
+  # HIBERNATED — Long-term storage. Low probability of resumption.
+  # ---------------------------------------------------------------------------
+  #
+  # The project is not dead but is unlikely to get attention soon. The
+  # codebase is archived, state is preserved, but it is removed from
+  # the active betting table. Resuming requires an explicit "wake up"
+  # decision that puts it back through shaping.
+  #
+  # SAFe equivalent: "done" in portfolio kanban (but revivable).
+  # Venture studio equivalent: "dormant portfolio company."
+  #
+  hibernated:
+    description: "Long-term storage. Removed from betting table."
+    band: inactive
+    agents:
+      max_workers: 0
+      allowed_types: []
+    budget:
+      share_pct: 0
+      hard_cap_tokens_per_day: 0
+    monitoring:
+      cadence: monthly
+      auto_actions:
+        - action: "security_scan"
+          trigger: "monthly"
+          result: "run_dependency_audit_alert_if_critical"
+        - action: "domain_expiry_check"
+          trigger: "monthly"
+          result: "alert_if_domain_or_cert_expiring"
+        - action: "cost_check"
+          trigger: "monthly"
+          result: "alert_if_infrastructure_still_incurring_costs"
+    wsjf:
+      weight_modifier: 0.0
+      # Not scored. Must be explicitly re-evaluated to re-enter scoring.
+    shape_up_mapping: "archived"
+    max_time_in_state: "unlimited"
+    # Hibernation is indefinite. Projects can be woken up at any time.
+
+  # ---------------------------------------------------------------------------
+  # SUNSET — Actively winding down. Has users/revenue to migrate.
+  # ---------------------------------------------------------------------------
+  #
+  # The project has been decided to end, but it has users, clients, or
+  # revenue that need to be gracefully migrated or shut down. This is
+  # NOT the same as "killed" — sunset implies responsibility.
+  #
+  # Examples: client contract ending, product being replaced by a better
+  # version, market no longer viable but users need migration path.
+  #
+  # Venture studio equivalent: "orderly exit" / "wind-down."
+  #
+  sunset:
+    description: "Actively winding down. Users/revenue being migrated."
+    band: inactive
+    agents:
+      max_workers: 2
+      allowed_types:
+        - developer  # migration scripts, data export
+        - tester     # verify migration integrity
+      recommended_workers: 1
+    budget:
+      share_pct: 5
+      hard_cap_tokens_per_day: 75000
+    monitoring:
+      cadence: daily
+      auto_actions:
+        - action: "migration_progress"
+          trigger: "daily"
+          result: "check_user_migration_completion_pct"
+        - action: "revenue_wind_down"
+          trigger: "weekly"
+          result: "verify_billing_transitions"
+        - action: "deadline_countdown"
+          trigger: "daily"
+          result: "alert_if_sunset_deadline_approaching"
+    wsjf:
+      weight_modifier: 1.2
+      # Elevated priority — sunset has a deadline and external obligations.
+      # Delaying sunset damages reputation and may have legal implications.
+    shape_up_mapping: "small_batch"
+    max_time_in_state: "1_cycle"
+    # Sunset should complete within one cycle. If it takes longer,
+    # something is wrong with the migration plan.
+
+  # ---------------------------------------------------------------------------
+  # KILLED — Terminated. No further action. Archive and learn.
+  # ---------------------------------------------------------------------------
+  #
+  # The project is done. Permanently. The codebase is archived (not deleted),
+  # a post-mortem is written, and learnings are extracted to the portfolio
+  # knowledge base. No agents, no budget, no monitoring.
+  #
+  # This is a terminal state. The only way out is to create a NEW project
+  # inspired by the killed one (which starts at spark).
+  #
+  # Venture studio equivalent: "failed experiment" / "write-off."
+  #
+  killed:
+    description: "Terminated. Post-mortem written. Archive only."
+    band: inactive
+    agents:
+      max_workers: 0
+      allowed_types: []
+    budget:
+      share_pct: 0
+      hard_cap_tokens_per_day: 0
+    monitoring:
+      cadence: none
+      auto_actions:
+        - action: "infrastructure_teardown"
+          trigger: "on_enter"
+          result: "stop_all_deployments_cancel_domains_remove_secrets"
+        - action: "archive"
+          trigger: "on_enter"
+          result: "archive_github_repo_preserve_state_files"
+        - action: "post_mortem"
+          trigger: "on_enter"
+          result: "generate_post_mortem_extract_learnings"
+    wsjf:
+      weight_modifier: 0.0
+      # Not scored. Terminal state.
+    shape_up_mapping: "n/a"
+    max_time_in_state: "terminal"
+
+# =============================================================================
+# TRANSITIONS
+# =============================================================================
+#
+# Each transition has:
+#   - from/to: the state transition
+#   - trigger: what causes the transition (manual or automatic)
+#   - guard: conditions that must be true for the transition to fire
+#   - actions: side effects executed during the transition
+#
+# Manual triggers require founder decision (Layer 4).
+# Automatic triggers are executed by the Venture Spine (Layer 3).
+#
+# =============================================================================
+
+transitions:
+
+  # --- PRE-BUILD FLOW ---
+
+  - name: "evaluate"
+    from: spark
+    to: shaping
+    trigger:
+      type: manual
+      event: "founder_selects_for_shaping"
+    guard:
+      - "founder_has_capacity_for_shaping"
+      - "spark_has_description"
+    actions:
+      - "create_shaping_document"
+      - "estimate_initial_wsjf"
+      - "log_to_devlog"
+
+  - name: "shape_complete"
+    from: shaping
+    to: shaped
+    trigger:
+      type: manual
+      event: "founder_approves_pitch"
+    guard:
+      - "pitch_has_problem_statement"
+      - "pitch_has_appetite"
+      - "pitch_has_solution_sketch"
+      - "pitch_has_rabbit_holes_identified"
+    actions:
+      - "calculate_full_wsjf"
+      - "add_to_betting_table"
+      - "log_to_devlog"
+
+  - name: "bet_on"
+    from: shaped
+    to: active_dev
+    trigger:
+      type: manual
+      event: "betting_table_selection"
+    guard:
+      - "active_dev_count_lt_max_full_bets"
+      - "budget_available"
+      - "cycle_has_remaining_weeks"
+    actions:
+      - "create_project_repo_if_needed"
+      - "initialize_orchestrator_state"
+      - "create_project_dna"
+      - "spawn_per_project_orchestrator"
+      - "update_portfolio_state"
+      - "sync_notion"
+      - "log_to_devlog"
+
+  - name: "abandon_shaping"
+    from: shaping
+    to: killed
+    trigger:
+      type: manual
+      event: "founder_kills_during_shaping"
+    guard: []
+    actions:
+      - "log_reason_for_kill"
+      - "extract_learnings"
+      - "log_to_devlog"
+
+  - name: "spark_expired"
+    from: spark
+    to: killed
+    trigger:
+      type: automatic
+      event: "max_time_in_state_exceeded"
+      condition: "spark_age_gt_3_cycles"
+    guard: []
+    actions:
+      - "log_auto_kill_reason"
+      - "log_to_devlog"
+
+  - name: "shaped_expired"
+    from: shaped
+    to: killed
+    trigger:
+      type: automatic
+      event: "max_time_in_state_exceeded"
+      condition: "shaped_age_gt_3_cycles"
+    guard: []
+    actions:
+      - "log_auto_kill_reason"
+      - "notify_founder"
+      - "log_to_devlog"
+
+  - name: "reshape"
+    from: shaped
+    to: shaping
+    trigger:
+      type: manual
+      event: "founder_requests_reshape"
+    guard:
+      - "pitch_flagged_as_stale"
+    actions:
+      - "archive_old_pitch"
+      - "log_to_devlog"
+
+  # --- ACTIVE FLOW ---
+
+  - name: "feature_complete"
+    from: active_dev
+    to: stabilizing
+    trigger:
+      type: manual
+      event: "founder_declares_feature_complete"
+    guard:
+      - "all_cycle_bet_scope_items_done_or_cut"
+      - "no_critical_bugs_open"
+    actions:
+      - "update_project_dna"
+      - "stop_feature_agents"
+      - "spawn_qa_agents"
+      - "log_to_devlog"
+
+  - name: "cycle_expired"
+    from: active_dev
+    to: stabilizing
+    trigger:
+      type: automatic
+      event: "cycle_end_reached"
+      condition: "cycle_week_eq_6"
+    guard: []
+    actions:
+      - "force_scope_cut"
+      - "log_unfinished_items"
+      - "update_project_dna"
+      - "alert_founder"
+      - "log_to_devlog"
+
+  - name: "ship_it"
+    from: stabilizing
+    to: maintenance
+    trigger:
+      type: manual
+      event: "founder_approves_release"
+    guard:
+      - "e2e_tests_passing"
+      - "no_p0_bugs_open"
+      - "deployment_verified"
+    actions:
+      - "tag_release"
+      - "update_project_dna"
+      - "update_portfolio_state"
+      - "stop_all_agents"
+      - "spawn_maintenance_monitor"
+      - "sync_notion"
+      - "log_to_devlog"
+
+  - name: "stabilizing_timeout"
+    from: stabilizing
+    to: maintenance
+    trigger:
+      type: automatic
+      event: "stabilizing_exceeded_2_weeks"
+    guard: []
+    actions:
+      - "alert_founder_ship_or_rework"
+      - "force_transition_to_maintenance"
+      - "log_unresolved_issues"
+      - "log_to_devlog"
+
+  - name: "needs_another_cycle"
+    from: stabilizing
+    to: shaped
+    trigger:
+      type: manual
+      event: "founder_decides_rework_needed"
+    guard:
+      - "rework_scope_is_defined"
+    actions:
+      - "create_new_pitch_with_rework_scope"
+      - "stop_all_agents"
+      - "add_to_betting_table"
+      - "log_to_devlog"
+
+  - name: "major_feature_cycle"
+    from: maintenance
+    to: shaped
+    trigger:
+      type: manual
+      event: "founder_wants_major_work"
+    guard:
+      - "new_scope_requires_full_cycle_bet"
+    actions:
+      - "create_pitch_for_new_scope"
+      - "add_to_betting_table"
+      - "log_to_devlog"
+
+  - name: "maintenance_to_active"
+    from: maintenance
+    to: active_dev
+    trigger:
+      type: manual
+      event: "betting_table_selection"
+    guard:
+      - "active_dev_count_lt_max_full_bets"
+      - "budget_available"
+    actions:
+      - "update_project_dna"
+      - "spawn_per_project_orchestrator"
+      - "update_portfolio_state"
+      - "log_to_devlog"
+
+  # --- PAUSE / HIBERNATE / RESUME ---
+
+  - name: "pause"
+    from: [active_dev, stabilizing, maintenance]
+    to: paused
+    trigger:
+      type: manual
+      event: "founder_pauses_project"
+    guard: []
+    actions:
+      - "stop_all_agents"
+      - "save_state_snapshot"
+      - "update_project_dna"
+      - "update_portfolio_state"
+      - "sync_notion"
+      - "log_to_devlog"
+
+  - name: "resume"
+    from: paused
+    to: shaped
+    trigger:
+      type: manual
+      event: "founder_resumes_project"
+    guard:
+      - "pitch_still_valid_or_reshaped"
+    actions:
+      - "refresh_project_dna"
+      - "add_to_betting_table"
+      - "log_to_devlog"
+    # Note: resumed projects go through shaped -> active_dev via
+    # the normal betting table flow. No shortcuts.
+
+  - name: "resume_to_maintenance"
+    from: paused
+    to: maintenance
+    trigger:
+      type: manual
+      event: "founder_resumes_for_maintenance_only"
+    guard:
+      - "project_was_in_maintenance_before_pause"
+    actions:
+      - "refresh_project_dna"
+      - "spawn_maintenance_monitor"
+      - "update_portfolio_state"
+      - "log_to_devlog"
+
+  - name: "hibernate"
+    from: paused
+    to: hibernated
+    trigger:
+      type: manual
+      event: "founder_hibernates_project"
+    guard: []
+    actions:
+      - "archive_state_snapshot"
+      - "remove_from_betting_table"
+      - "update_portfolio_state"
+      - "sync_notion"
+      - "log_to_devlog"
+
+  - name: "auto_hibernate"
+    from: paused
+    to: hibernated
+    trigger:
+      type: automatic
+      event: "paused_for_3_cycles"
+    guard: []
+    actions:
+      - "alert_founder"
+      - "archive_state_snapshot"
+      - "remove_from_betting_table"
+      - "update_portfolio_state"
+      - "log_to_devlog"
+
+  - name: "wake_up"
+    from: hibernated
+    to: shaping
+    trigger:
+      type: manual
+      event: "founder_revives_project"
+    guard: []
+    actions:
+      - "restore_state_snapshot"
+      - "create_reshaping_document"
+      - "log_to_devlog"
+    # Hibernated projects must be reshaped because their context is stale.
+
+  # --- SUNSET / KILL ---
+
+  - name: "begin_sunset"
+    from: [maintenance, paused, active_dev]
+    to: sunset
+    trigger:
+      type: manual
+      event: "founder_initiates_sunset"
+    guard:
+      - "sunset_plan_defined"
+      # Must have: user migration plan, data export strategy,
+      # billing cancellation steps, communication template.
+    actions:
+      - "stop_feature_agents"
+      - "spawn_migration_agents"
+      - "notify_users_if_applicable"
+      - "update_portfolio_state"
+      - "sync_notion"
+      - "log_to_devlog"
+
+  - name: "sunset_complete"
+    from: sunset
+    to: killed
+    trigger:
+      type: manual
+      event: "founder_confirms_wind_down_complete"
+    guard:
+      - "all_users_migrated_or_notified"
+      - "billing_stopped"
+      - "data_exported_or_deleted"
+    actions:
+      - "infrastructure_teardown"
+      - "archive_repo"
+      - "generate_post_mortem"
+      - "extract_learnings_to_portfolio"
+      - "update_portfolio_state"
+      - "sync_notion"
+      - "log_to_devlog"
+
+  - name: "kill_from_paused"
+    from: paused
+    to: killed
+    trigger:
+      type: manual
+      event: "founder_kills_project"
+    guard:
+      - "no_active_users_or_revenue"
+      # If there ARE users/revenue, must go through sunset first.
+    actions:
+      - "archive_repo"
+      - "generate_post_mortem"
+      - "extract_learnings_to_portfolio"
+      - "update_portfolio_state"
+      - "log_to_devlog"
+
+  - name: "kill_from_hibernated"
+    from: hibernated
+    to: killed
+    trigger:
+      type: manual
+      event: "founder_kills_project"
+    guard: []
+    actions:
+      - "archive_repo"
+      - "generate_post_mortem"
+      - "extract_learnings_to_portfolio"
+      - "update_portfolio_state"
+      - "log_to_devlog"
+
+  - name: "emergency_kill"
+    from: [active_dev, stabilizing, maintenance]
+    to: killed
+    trigger:
+      type: manual
+      event: "founder_emergency_kills"
+    guard:
+      - "no_active_users_or_revenue"
+    actions:
+      - "stop_all_agents_immediately"
+      - "archive_repo"
+      - "generate_post_mortem"
+      - "update_portfolio_state"
+      - "log_to_devlog"
+
+# =============================================================================
+# KILL vs. PAUSE DECISION CRITERIA
+# =============================================================================
+#
+# This is the most critical decision in portfolio management. Zombie projects
+# (paused indefinitely) drain cognitive bandwidth even when they consume zero
+# tokens. The following criteria help the founder decide.
+#
+# Rule of thumb: "When in doubt, kill. You can always start a new spark."
+#
+# =============================================================================
+
+kill_criteria:
+
+  # A project should be KILLED (not paused) when ANY of these are true:
+  kill_when:
+    - criterion: "market_invalidated"
+      description: >
+        The core assumption about the market has been disproven.
+        Example: target customer segment does not exist, competitor
+        launched an unbeatable product, regulation makes it impossible.
+      severity: definitive
+      # No amount of pausing changes a dead market.
+
+    - criterion: "no_path_to_revenue"
+      description: >
+        After shaping and/or one cycle of development, there is no
+        credible path to revenue within 12 months. The project is
+        interesting but not a business.
+      severity: definitive
+
+    - criterion: "founder_lost_conviction"
+      description: >
+        The founder no longer believes in the project. Gut feel matters.
+        If you dread working on it, kill it. Sunk cost is not a reason
+        to continue.
+      severity: definitive
+
+    - criterion: "3_cycles_paused"
+      description: >
+        The project has been paused for 3 full cycles (24 weeks) without
+        being bet on. This is the strongest signal that it is not a
+        priority and never will be.
+      severity: automatic
+      # Auto-transition to hibernated, then eventually killed.
+
+    - criterion: "technology_obsolete"
+      description: >
+        The technology stack or approach is fundamentally outdated and
+        a rewrite would be cheaper than continuing. Kill and start fresh
+        as a new spark if the problem is still worth solving.
+      severity: strong
+
+    - criterion: "negative_unit_economics"
+      description: >
+        The project costs more to maintain than it generates in value
+        (revenue, strategic advantage, or learning). Infrastructure,
+        API costs, or token usage exceed the benefit.
+      severity: strong
+
+  # A project should be PAUSED (not killed) when:
+  pause_when:
+    - criterion: "capacity_constraint"
+      description: >
+        The project is viable but you have higher-priority work.
+        Pause it and bet on it in a future cycle when capacity frees up.
+
+    - criterion: "external_dependency"
+      description: >
+        The project is blocked on something outside your control
+        (API availability, partner decision, regulatory approval).
+        Pause until the blocker resolves.
+
+    - criterion: "seasonal_relevance"
+      description: >
+        The project is seasonal or event-driven. Pause between seasons.
+        Example: a tax tool paused outside of tax season.
+
+    - criterion: "founder_needs_distance"
+      description: >
+        The founder is too close to the problem and needs perspective.
+        Pause for one cycle and revisit with fresh eyes.
+
+  # When uncertain, use this decision tree:
+  decision_tree:
+    step_1: "Does the project have active users or revenue?"
+    step_1_yes: "Go to step 2. It cannot be killed without sunset."
+    step_1_no: "Go to step 3."
+    step_2: "Is the revenue covering its costs?"
+    step_2_yes: "MAINTAIN. Put in maintenance state."
+    step_2_no: "SUNSET. Begin wind-down."
+    step_3: "Do you believe in this project's future?"
+    step_3_yes: "PAUSE. Bet on it in a future cycle."
+    step_3_no: "KILL. Write the post-mortem and move on."
+
+# =============================================================================
+# GLOBAL CONSTRAINTS
+# =============================================================================
+#
+# These constraints apply across all projects simultaneously. They encode
+# the DeepMind scaling limits and cognitive science findings from Wave 1+2.
+#
+# =============================================================================
+
+global_constraints:
+
+  # Maximum projects in active band (active_dev + stabilizing + maintenance)
+  max_active_projects: 5
+  # From research: 3-5 is the ceiling for a solo founder.
+  # 2 active_dev + 2 maintenance + 1 stabilizing = 5 max.
+
+  # Maximum projects in active_dev specifically
+  max_active_dev_projects: 2
+  # Shape Up: max 2 full cycle bets.
+
+  # Maximum total workers across ALL projects
+  max_total_workers: 10
+  # Claude Max supports 2-3 concurrent agents comfortably, 5 at reduced
+  # efficiency. 10 is the absolute ceiling for burst periods.
+  # DeepMind: 5-15 total agents is the inflection point.
+
+  # Maximum context switches per day (for the founder)
+  max_context_switches_per_day: 2
+  # Each switch costs 20-25 min. At 2 switches, overhead is 40-50 min.
+  # At 5 switches, overhead is 100-125 min (most of deep work gone).
+
+  # Total daily token budget (100%)
+  # Active_dev projects: up to 35% each (70% for 2 projects)
+  # Maintenance projects: up to 10% each (20% for 2 projects)
+  # Stabilizing: up to 20%
+  # Shaping research: up to 2%
+  # Venture Spine meta-operations: 5%
+  # Reserve: 3%
+  budget_allocation_sum: 100
+
+  # Budget circuit breaker: if any project exceeds 150% of its daily
+  # allocation, throttle it to 1 worker until the next day.
+  budget_circuit_breaker_threshold_pct: 150
+
+# =============================================================================
+# WSJF SCORING
+# =============================================================================
+#
+# Weighted Shortest Job First determines betting table priority.
+#
+# WSJF = Cost of Delay / Job Duration
+#
+# Cost of Delay = User/Business Value + Time Criticality + Risk Reduction
+#
+# Each factor is scored 1-10. The weight_modifier from the current state
+# is applied as a multiplier to the final WSJF score.
+#
+# =============================================================================
+
+wsjf:
+  factors:
+    user_business_value:
+      description: "Revenue impact, user growth, strategic positioning"
+      range: [1, 10]
+    time_criticality:
+      description: "Cost of waiting. Contract deadlines, market windows, competitor moves."
+      range: [1, 10]
+    risk_reduction:
+      description: "Technical risk, compliance risk, dependency risk reduced by this work."
+      range: [1, 10]
+  denominator:
+    job_duration:
+      description: "Estimated effort in cycle-fractions (0.25 = 1 week, 1.0 = full cycle)."
+      range: [0.25, 2.0]
+  formula: "(user_business_value + time_criticality + risk_reduction) / job_duration * state_weight_modifier"
+  recalculation_cadence: "weekly_during_cycle_and_at_betting_table"
+
+# =============================================================================
+# TIER SYSTEM
+# =============================================================================
+#
+# Tiers determine default budget allocation and monitoring intensity.
+# Tier is set manually by the founder and reviewed at each betting table.
+#
+# Tier + State together determine actual resource allocation.
+# Example: A Tier 1 project in maintenance gets more budget than a
+# Tier 3 project in active_dev.
+#
+# =============================================================================
+
+tiers:
+  tier_1:
+    description: "Revenue-generating or critical client projects"
+    budget_multiplier: 1.5
+    monitoring_uplift: true
+    # Tier 1 projects get 1.5x the state's default budget share.
+    # Monitoring is upgraded: daily -> continuous, weekly -> daily.
+    max_count: 2
+
+  tier_2:
+    description: "Strategic investments and high-potential products"
+    budget_multiplier: 1.0
+    monitoring_uplift: false
+    max_count: 2
+
+  tier_3:
+    description: "Experiments, research, and infrastructure"
+    budget_multiplier: 0.5
+    monitoring_uplift: false
+    # Tier 3 projects get half the state's default budget share.
+    max_count: 2
+
+# =============================================================================
+# SHAPE UP CYCLE MAPPING
+# =============================================================================
+#
+# How the state machine maps to the 8-week Shape Up cadence.
+#
+# Week 0 (Cooldown end):  BETTING TABLE
+#   - Review all `shaped` projects by WSJF score
+#   - Select max 2 for full cycle bets -> transition to active_dev
+#   - Select max 2 for maintenance bets -> stay in/enter maintenance
+#   - Everything else: stays in current state (paused, hibernated, etc.)
+#
+# Weeks 1-5 (Build):  EXECUTION
+#   - active_dev projects run full orchestrator loops
+#   - maintenance projects handle bug fixes and monitoring
+#   - Venture Spine runs daily triage
+#
+# Week 6 (Build end):  SCOPE HAMMER
+#   - active_dev projects must be feature_complete or force-cut
+#   - Transition to stabilizing
+#
+# Weeks 7-8 (Cooldown):  MAINTENANCE + SHAPING
+#   - stabilizing projects ship or rework
+#   - All projects get dependency updates
+#   - Founder shapes next cycle's bets
+#   - Retrospective: what worked, what didn't
+#   - Portfolio state consolidation
+#
+# =============================================================================
+
+cycle_mapping:
+  betting_table:
+    when: "cooldown_week_2"
+    inputs:
+      - "all_shaped_projects_with_wsjf_scores"
+      - "portfolio_state"
+      - "budget_forecast"
+      - "founder_strategic_priorities"
+    outputs:
+      - "cycle_bets_max_2_full_plus_2_maintenance"
+      - "updated_portfolio_state"
+      - "cycle_plan_markdown"
+
+  build_phase:
+    weeks: [1, 2, 3, 4, 5, 6]
+    daily_rhythm:
+      morning: "triage.sh generates daily-temperature.md"
+      daytime: "founder focuses on 1 project (day theme)"
+      evening: "agents run overnight on secondary projects"
+    weekly_checkpoint:
+      day: "friday"
+      actions:
+        - "review_all_project_dnas"
+        - "check_budget_burn_rate"
+        - "assess_cycle_progress"
+
+  scope_hammer:
+    when: "build_week_6"
+    actions:
+      - "force_feature_complete_or_cut"
+      - "transition_active_dev_to_stabilizing"
+      - "log_deferred_scope"
+
+  cooldown:
+    weeks: [7, 8]
+    activities:
+      - "ship_stabilizing_projects"
+      - "dependency_updates_all_projects"
+      - "retrospective"
+      - "shape_next_cycle_bets"
+      - "refresh_all_project_dnas"
+      - "portfolio_knowledge_consolidation"
+      - "run_betting_table"

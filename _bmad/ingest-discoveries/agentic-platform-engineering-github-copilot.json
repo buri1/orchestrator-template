@@ -1,0 +1,68 @@
+{
+  "url": "https://devblogs.microsoft.com/all-things-azure/agentic-platform-engineering-with-github-copilot/",
+  "title": "Agentic Platform Engineering with GitHub Copilot",
+  "authors": ["Diego Casati", "Ray Kao"],
+  "publication": "Microsoft All Things Azure",
+  "date": "2026-03-23",
+  "type": "article",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/articles/2026-03/agentic-platform-engineering-github-copilot.md",
+  "relevance": 7,
+  "actionable": 7,
+  "topics": [
+    "platform engineering",
+    "GitHub Copilot",
+    "agentic DevOps",
+    "Kubernetes",
+    "GitOps",
+    "MCP",
+    "Argo CD",
+    "CI/CD automation",
+    "autonomous operations"
+  ],
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Three-Act Agentic Platform Maturity Model",
+      "description": "Knowledge embedding → automated enforcement → autonomous operations. A staged adoption framework for adding agency to any engineering platform."
+    },
+    {
+      "id": 2,
+      "title": "Cluster Doctor Pattern",
+      "description": "Event-driven autonomous incident response: Argo CD degradation → GitHub issue → agent investigates via kubectl+MCP+eBPF → proposes fix as PR. Full pipeline automation with human approval gate only at merge."
+    },
+    {
+      "id": 3,
+      "title": "Rules-in-Markdown Enforcement",
+      "description": "Compliance/quality rules stored in plain markdown files, referenced by CI. No pipeline rebuild required to update enforcement logic. Same philosophy as CLAUDE.md/AGENTS.md."
+    },
+    {
+      "id": 4,
+      "title": "Agent Persona Definition File",
+      "description": "cluster-doctor.agent.md encodes persona + diagnostic workflow + safety constraints in a single markdown file. Directly applicable format for our orchestrator worker prompts."
+    },
+    {
+      "id": 5,
+      "title": "Workload Identity Federation",
+      "description": "Credential-free Azure auth for agents using ephemeral workload identity. Correct pattern for agents operating on cloud infrastructure — no static secrets stored."
+    }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://devblogs.microsoft.com/all-things-azure/when-infrastructure-scales-but-understanding-doesnt/",
+      "reason": "Companion piece on the human scale problem — sets up the case for agentic platform engineering",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://devblogs.microsoft.com/all-things-azure/platform-engineering-for-the-agentic-ai-era/",
+      "reason": "Direct predecessor; likely covers theoretical framing this article operationalizes",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://github.com/microsoftgbb/agentic-platform-engineering",
+      "reason": "Full reference implementation including cluster-doctor.agent.md persona format, GitHub Actions workflows, MCP configs",
+      "suggested_skill": "tool-catalogue"
+    }
+  ],
+  "ingested_at": "2026-03-25T00:00:00Z"
+}

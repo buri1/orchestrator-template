@@ -1,0 +1,195 @@
+{
+  "url": "https://github.com/openai/symphony",
+  "title": "openai/symphony — Symphony turns project work into isolated, autonomous implementations",
+  "ingested_at": "2026-04-11",
+  "catalogue_path": "research/catalogue/agent-harnesses/openai-symphony.md",
+  "category": "agent-harnesses",
+  "type": "tool",
+  "source": "chrome",
+  "publisher": "OpenAI",
+  "license": "Apache-2.0",
+  "github": {
+    "stars": 14927,
+    "forks": 1246,
+    "created_at": "2026-02-26T21:54:00Z",
+    "primary_language": "Elixir"
+  },
+  "relevance_scores": {
+    "vision": 9,
+    "novelty": 8,
+    "actionable": 9
+  },
+  "one_liner": "OpenAI's SPEC-first autonomous-implementation orchestrator daemon: Linear-driven polling, per-issue persistent workspace isolation, stateless tracker-as-truth, Codex app-server protocol over stdio.",
+  "key_discoveries": [
+    {
+      "id": "symphony-spec-first-adoption",
+      "title": "SPEC.md as product",
+      "summary": "OpenAI ships Symphony primarily as a formal specification rather than a binary. The recommended install path is 'point your coding agent at SPEC.md and have it build Symphony for your stack.' An Elixir reference implementation exists for behavior clarification. This makes Symphony a protocol/contract more than a runtime.",
+      "actionability": "high",
+      "adopt_within": "week 1"
+    },
+    {
+      "id": "symphony-run-attempt-phase-enum",
+      "title": "Run attempt phase enum",
+      "summary": "PreparingWorkspace → BuildingPrompt → LaunchingAgentProcess → InitializingSession → StreamingTurn → Finishing → {Succeeded | Failed | TimedOut | Stalled | CanceledByReconciliation}. A formal state machine for worker lifecycle.",
+      "actionability": "high",
+      "adopt_within": "week 1",
+      "maps_to_our_file": "_bmad/orchestrator-tmux-state.json"
+    },
+    {
+      "id": "symphony-workspace-isolation-no-worktrees",
+      "title": "Persistent per-issue filesystem workspaces (NOT git worktrees)",
+      "summary": "Symphony isolates via <workspace.root>/<sanitized_identifier> directories that persist across attempts. Deliberate choice: warm context across retries beats cold-start parallelism. Enforces three safety invariants: subprocess cwd = workspace, path containment under root, sanitized names [A-Za-z0-9._-]. No container or VM isolation mandated — explicit refusal to prescribe trust posture.",
+      "actionability": "medium",
+      "adopt_within": "phase 3",
+      "contrasts_with": "our worktree-per-PR default (L-Thread)",
+      "related": ["aie-europe-2026-vincent-kottsch swim lane 5-10-20", "clone-vs-worktree cap"]
+    },
+    {
+      "id": "symphony-stateless-tracker-as-truth",
+      "title": "Stateless orchestrator — no persistent database",
+      "summary": "All dispatch state lives in-memory (running map, claimed set, retry_attempts, completed, codex_totals, rate_limits). On restart: startup terminal-workspace cleanup, fresh poll of active issues, re-dispatch. Tracker (Linear) IS the source of truth. Recovery is one poll cycle.",
+      "actionability": "high",
+      "adopt_within": "phase 2",
+      "implication": "Drop _bmad/orchestrator-tmux-state.json as authority; treat as cache over gh issue list"
+    },
+    {
+      "id": "symphony-workflow-md-governance",
+      "title": "WORKFLOW.md governance with hot reload",
+      "summary": "Single file: YAML front matter (tracker, polling, workspace, hooks, agent, codex) + Markdown body (prompt template). Watched at runtime; any change hot-reloads config without restart. Invalid reload → keeps last known-good + operator error. Defensive re-validation before each dispatch cycle defeats watch misses. Strict template engine — unknown variables/filters FAIL.",
+      "actionability": "high",
+      "adopt_within": "phase 2",
+      "replaces": ["our CLAUDE.md + settings.local.json split"]
+    },
+    {
+      "id": "symphony-polling-tick-sequence",
+      "title": "Reconcile-before-dispatch polling tick",
+      "summary": "Every polling.interval_ms (default 30000): (1) reconcile active runs including stall detection and tracker state refresh, (2) validate dispatch config, (3) fetch candidates in active_states, (4) sort by priority → creation_time, (5) dispatch while slots available. Reconcile BEFORE dispatch — our current loop dispatches first.",
+      "actionability": "high",
+      "adopt_within": "week 1"
+    },
+    {
+      "id": "symphony-app-server-protocol",
+      "title": "JSON-RPC-like app-server protocol over subprocess stdio",
+      "summary": "Agent integration via stdio JSON-RPC: initialize → initialized → thread/start (approval, sandbox, workspace) → turn/start (rendered prompt or continuation). Continuation turns reuse same thread/workspace within one worker lifetime. agent.max_turns default 20. Worker re-checks tracker state between turns. Unsupported dynamic tool calls rejected without stalling. User-input requests HARD-FAIL the attempt.",
+      "actionability": "medium",
+      "adopt_within": "phase 3",
+      "related": ["Codex app-server protocol", "Code Mode (Sunil Pai) sandboxed code execution"]
+    },
+    {
+      "id": "symphony-session-id-composition",
+      "title": "session_id = thread_id + '-' + turn_id",
+      "summary": "Live session metadata keyed on (thread_id, turn_id). Tracks codex_app_server_pid, last_codex_event, last_codex_timestamp, token counters, turn_count. Per-attempt granularity in session registry.",
+      "actionability": "high",
+      "adopt_within": "week 1",
+      "maps_to_our_file": "_bmad/session-registry.json"
+    },
+    {
+      "id": "symphony-retry-backoff-formula",
+      "title": "Exponential retry backoff with ceiling",
+      "summary": "Continuation retries after normal exit: 1000 ms fixed. Failure-driven retries: min(10000 * 2^(attempt-1), agent.max_retry_backoff_ms). If retry timer fires but issue no longer in active states → release claim.",
+      "actionability": "high",
+      "adopt_within": "week 1"
+    },
+    {
+      "id": "symphony-concurrency-per-state",
+      "title": "Per-state concurrency caps",
+      "summary": "Global: available_slots = max(max_concurrent_agents - running_count, 0). Plus agent.max_concurrent_agents_by_state[state] (lowercase normalized) per-state caps. Optional worker.max_concurrent_agents_per_host SSH cap shared across hosts.",
+      "actionability": "medium",
+      "adopt_within": "phase 2"
+    },
+    {
+      "id": "symphony-linear-graphql-tool",
+      "title": "Agent-owned ticket mutations via linear_graphql tool",
+      "summary": "Symphony does NOT mutate tickets itself. Exposes optional client-side linear_graphql tool so the agent, not the orchestrator, posts comments, moves states, attaches PRs. One operation per call, rejects multi-op docs, returns structured success/failure with raw GraphQL response preserved.",
+      "actionability": "medium",
+      "adopt_within": "phase 2",
+      "our_equivalent": "gh issue comment / gh issue edit as agent tools"
+    },
+    {
+      "id": "symphony-issue-states-5",
+      "title": "5 issue orchestration states",
+      "summary": "Unclaimed → Claimed (Running | RetryQueued) → Running → RetryQueued → Released. Issue-level state distinct from run-attempt phase enum.",
+      "actionability": "medium",
+      "adopt_within": "week 1"
+    },
+    {
+      "id": "symphony-path-containment-check",
+      "title": "Workspace path-containment check",
+      "summary": "Before subprocess launch, assert realpath(cwd).startswith(realpath(workspace_root)). Defeats ..-breakout in unrestricted permission modes. Fits as PreToolUse hook.",
+      "actionability": "high",
+      "adopt_within": "week 1",
+      "related": ["AgentShield", "DCG (destructive-command-guard)", "--dangerously-skip-permissions"]
+    },
+    {
+      "id": "symphony-http-observability-optional",
+      "title": "Optional HTTP observability at /api/v1",
+      "summary": "Loopback-bound HTTP server: GET /api/v1/state (running, retrying, aggregates), GET /api/v1/<issue_identifier> (detail), POST /api/v1/refresh (trigger poll). Dashboard at /. CLI --port overrides WORKFLOW.md server.port.",
+      "actionability": "low",
+      "adopt_within": "phase 3",
+      "duplicates": "pi-orchestrator/dashboard.mjs"
+    }
+  ],
+  "architecture_comparison_to_l_thread": {
+    "isolation_model": {
+      "symphony": "persistent per-issue filesystem workspace (resume-friendly)",
+      "l_thread": "git worktree per PR (parallel-friendly)",
+      "trade_off": "warm context vs parallelism on same issue"
+    },
+    "state_store": {
+      "symphony": "in-memory only, tracker-as-truth, restart = fresh poll",
+      "l_thread": "_bmad/orchestrator-tmux-state.json as authority"
+    },
+    "governance_file": {
+      "symphony": "WORKFLOW.md (YAML front matter + Markdown body, hot reload, strict template)",
+      "l_thread": "CLAUDE.md + settings.local.json split (no hot reload)"
+    },
+    "agent_protocol": {
+      "symphony": "JSON-RPC over subprocess stdio (app-server)",
+      "l_thread": "tmux send-keys + capture-pane"
+    },
+    "tracker": {
+      "symphony": "Linear GraphQL",
+      "l_thread": "GitHub Issues via gh CLI"
+    },
+    "retry_policy": {
+      "symphony": "exp backoff min(10000 * 2^(n-1), max_backoff_ms); continuation 1000ms",
+      "l_thread": "fixed delay"
+    }
+  },
+  "cross_links": [
+    "research/catalogue/conference-reports/aie-europe-2026-synthesis.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-sunil-pai-code-mode.md",
+    "research/catalogue/agent-harnesses/overstory.md",
+    "research/catalogue/agent-harnesses/beads-viewer.md",
+    "research/catalogue/agent-protocols/12-factor-agents.md",
+    "research/catalogue/orchestration-platforms/stripe-minions.md",
+    "research/2026-03-06_MASTER-BLUEPRINT-system-architecture.md"
+  ],
+  "adoption_recommendation": {
+    "verdict": "adopt-patterns",
+    "week_1": [
+      "Port run attempt phase enum into _bmad/orchestrator-tmux-state.json",
+      "Adopt session_id = thread_id-turn_id scheme in _bmad/session-registry.json",
+      "Add workspace path-containment check as PreToolUse hook",
+      "Replace fixed retry delay with exp backoff formula",
+      "Reorder polling loop: reconcile-before-dispatch",
+      "Sort dispatch by priority → creation_time"
+    ],
+    "phase_2": [
+      "Port WORKFLOW.md governance model (hot reload, strict template, single-file YAML+Markdown)",
+      "Drop _bmad/orchestrator-tmux-state.json as authority → cache over gh issue list",
+      "Add per-state concurrency caps",
+      "Expose linear_graphql equivalent (gh issue comment / edit) as agent tool"
+    ],
+    "phase_3_plus": [
+      "Evaluate --persistent-workspace mode for retry-heavy issues",
+      "Consider implementing Symphony's app-server protocol for compat with OpenAI Codex-driven orchestrators"
+    ],
+    "do_not_adopt": [
+      "Elixir rewrite",
+      "Linear GraphQL client (we use GitHub)",
+      "HTTP observability layer (duplicated by cmux socket API + pi-orchestrator/dashboard.mjs)"
+    ]
+  }
+}

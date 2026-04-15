@@ -1,0 +1,129 @@
+# dependencies.yaml -- Auto-generated cross-project dependency graph
+# Generated: 2026-03-25T11:44:26Z
+# Source: detect-deps.sh scanning 8 projects from projects.json
+version: "1.0.0"
+generated: "2026-03-25T11:44:26Z"
+project_count: 8
+
+# Shared technology stacks (projects using the same frameworks)
+shared_stack:
+  - from: "omniport-hh"
+    to: "cityhub"
+    type: "shared-stack"
+    count: 25
+    key_packages: "@supabase/supabase-js, next, react, react-dom, tailwindcss"
+  - from: "omniport-hh"
+    to: "adwo-2"
+    type: "shared-stack"
+    count: 24
+    key_packages: "next, react, react-dom, tailwindcss"
+  - from: "omniport-hh"
+    to: "vaseo"
+    type: "shared-stack"
+    count: 11
+    key_packages: "@supabase/supabase-js, react, react-dom, tailwindcss"
+  - from: "cityhub"
+    to: "adwo-2"
+    type: "shared-stack"
+    count: 36
+    key_packages: "next, react, react-dom, tailwindcss"
+  - from: "cityhub"
+    to: "vaseo"
+    type: "shared-stack"
+    count: 17
+    key_packages: "@supabase/supabase-js, express, react, react-dom, tailwindcss"
+  - from: "adwo-2"
+    to: "vaseo"
+    type: "shared-stack"
+    count: 11
+    key_packages: "react, react-dom, tailwindcss"
+
+# Shared infrastructure (same org, same services)
+shared_infra:
+  - projects: ["omniport-hh", "cityhub"]
+    type: "shared-infra"
+    service: "vercel"
+    detail: "Same Vercel team org"
+  - projects: ["omniport-hh", "cityhub", "adwo-2", "finance-agent", "vaseo", "contentos", "hoyo-kingdom", "orchestrator"]
+    type: "shared-infra"
+    service: "github"
+    detail: "Same GitHub org (buri1)"
+  - projects: ["omniport-hh", "cityhub", "vaseo"]
+    type: "shared-infra"
+    service: "supabase"
+    detail: "All use Supabase (separate instances)"
+  - projects: ["omniport-hh", "cityhub", "adwo-2", "vaseo", "hoyo-kingdom", "orchestrator"]
+    type: "shared-infra"
+    service: "bmad-orchestration"
+    detail: "Shared _bmad orchestration pattern from L-Thread"
+  - projects: ["omniport-hh", "cityhub", "adwo-2", "finance-agent", "vaseo", "contentos", "hoyo-kingdom", "orchestrator"]
+    type: "shared-infra"
+    service: "claude-code"
+    detail: "All use Claude Code (.claude/ directory present)"
+
+# Knowledge dependencies (research, patterns, MEMORY.md cross-refs)
+knowledge:
+  - from: "orchestrator"
+    to: "omniport-hh"
+    type: "knowledge"
+    detail: "6 research files reference omniport-hh patterns"
+  - from: "orchestrator"
+    to: "cityhub"
+    type: "knowledge"
+    detail: "3 research files reference cityhub patterns"
+  - from: "orchestrator"
+    to: "finance-agent"
+    type: "knowledge"
+    detail: "32 research files reference finance-agent patterns"
+  - from: "orchestrator"
+    to: "contentos"
+    type: "knowledge"
+    detail: "3 research files reference contentos patterns"
+  - from: "cityhub"
+    to: "orchestrator"
+    type: "knowledge-memory"
+    detail: "cityhub MEMORY.md references orchestrator"
+
+# Git history cross-references (commits mentioning other projects)
+git_history:
+  - from: "cityhub"
+    to: "orchestrator"
+    type: "git-history"
+    mentions: 1
+    detail: "1 commits in cityhub mention orchestrator"
+  - from: "adwo-2"
+    to: "orchestrator"
+    type: "git-history"
+    mentions: 6
+    detail: "6 commits in adwo-2 mention orchestrator"
+
+# Business/sequence dependencies
+business:
+  - from: "contentos"
+    to: "omniport-hh"
+    type: "sequence"
+    detail: "ContentOS launches after OmniPort demo delivered"
+  - from: "orchestrator"
+    to: "*"
+    type: "meta"
+    detail: "Orchestrator manages all other projects via Venture Spine"
+
+# Summary: dependency density
+summary:
+  total_edges: 20
+  most_connected: "orchestrator"
+  most_connected_count: 11
+  hub_reason: "Meta-project that manages all others; research catalogue references most projects"
+  isolated_projects: []
+  isolated_reason: "Few code deps, few git cross-refs, or ideation/paused lifecycle"
+
+# Per-project connection counts
+connection_counts:
+  adwo-2: 7
+  cityhub: 11
+  contentos: 4
+  finance-agent: 3
+  hoyo-kingdom: 3
+  omniport-hh: 10
+  orchestrator: 11
+  vaseo: 7

@@ -64,52 +64,103 @@ Read bookmarks from ALL browser sources. For each browser, find the `"LLM-INGEST
 /Users/buraksmac/Library/Application Support/Comet/Default/Bookmarks
 ```
 
-#### Source 3: X Bookmarks (via Chrome DevTools MCP)
+#### Source 3: X Bookmarks
 
 **ONLY if `+x` flag is set.** Otherwise skip and note "X bookmarks: skipped (flag not set)".
 
-When enabled:
+**KNOWN ISSUE**: X uses a virtualized DOM that only keeps ~6 articles in memory at any scroll position. The old scroll-and-extract approach silently misses most bookmarks. Use the tiered extraction strategy below.
+
+When enabled, try methods in order until one succeeds:
+
+##### Method A: Check for pre-extracted JSON (preferred)
+
+Check if the user already provided X bookmark data as JSON in their message (array of objects with `url` fields). If found, use it directly — this is the most reliable method. Also check for a recent file at `_bmad/x-bookmarks-export.json`.
+
+##### Method B: Ask user to extract via browser agent
+
+If no pre-extracted data exists, present this prompt and ask the user to paste the result:
+
+```
+⚠️  X's virtualized DOM prevents reliable automated extraction.
+    Please extract your X bookmarks using one of these methods:
+
+    Option 1 — Browser Agent Prompt (paste this to your browser agent):
+    ┌─────────────────────────────────────────────────────────────┐
+    │ Go to https://x.com/i/bookmarks                            │
+    │ Scroll through ALL bookmarks until you reach the end.       │
+    │ For each bookmarked post, extract:                          │
+    │   - url (the post URL, e.g. https://x.com/user/status/123) │
+    │   - author (display name)                                   │
+    │   - handle (@username)                                      │
+    │   - text (first 150 chars of post text)                     │
+    │   - date (post date)                                        │
+    │ Return as a JSON array.                                     │
+    └─────────────────────────────────────────────────────────────┘
+
+    Option 2 — Manual: Open x.com/i/bookmarks, scroll to the bottom,
+    then copy-paste the entire page text here.
+
+    Option 3 — Skip X bookmarks for now (type "skip").
+```
+
+If the user provides JSON or pasted text, parse it to extract URLs and metadata.
+
+##### Method C: Automated extraction (fallback, unreliable)
+
+Only use if the user explicitly asks to try automated extraction. Be aware this will likely return incomplete results (typically 5-10 posts out of potentially 50+).
+
 1. Use `mcp__chrome-devtools__navigate_page` to go to `https://x.com/i/bookmarks` with timeout 15000
-2. Wait for page load, then use `mcp__chrome-devtools__evaluate_script` with this TESTED extraction function:
+2. Use `mcp__chrome-devtools__evaluate_script` with the scroll-and-extract function:
    ```js
    async () => {
-     // Scroll to load all bookmarks (X lazy-loads)
+     // Aggressive scroll — X virtualizes DOM, keeping only ~6 articles
+     let allBookmarks = new Map();
      let prevHeight = 0;
-     let attempts = 0;
-     while (attempts < 15) {
+     let stableCount = 0;
+     for (let i = 0; i < 30 && stableCount < 3; i++) {
+       // Capture currently visible articles BEFORE scrolling
+       document.querySelectorAll('article').forEach(a => {
+         const timeEl = a.querySelector('time');
+         const linkEl = timeEl?.closest('a');
+         if (linkEl && !allBookmarks.has(linkEl.href)) {
+           allBookmarks.set(linkEl.href, {
+             url: linkEl.href,
+             text: a.querySelector('[data-testid="tweetText"]')?.textContent?.substring(0, 150) || '',
+             author: a.querySelector('[data-testid="User-Name"]')?.textContent?.split('@')?.[0]?.trim() || ''
+           });
+         }
+       });
        window.scrollTo(0, document.body.scrollHeight);
-       await new Promise(r => setTimeout(r, 2000));
-       const newHeight = document.body.scrollHeight;
-       if (newHeight === prevHeight) {
-         await new Promise(r => setTimeout(r, 2000));
-         window.scrollTo(0, document.body.scrollHeight);
-         await new Promise(r => setTimeout(r, 2000));
-         if (document.body.scrollHeight === newHeight) break;
-       }
-       prevHeight = newHeight;
-       attempts++;
+       await new Promise(r => setTimeout(r, 3000));
+       const h = document.body.scrollHeight;
+       if (h === prevHeight) stableCount++; else stableCount = 0;
+       prevHeight = h;
      }
-     // Extract all unique bookmarked tweet URLs
-     const articles = document.querySelectorAll('article');
-     const bookmarks = [];
-     const seen = new Set();
-     articles.forEach(a => {
+     // Final capture
+     document.querySelectorAll('article').forEach(a => {
        const timeEl = a.querySelector('time');
        const linkEl = timeEl?.closest('a');
-       if (linkEl && !seen.has(linkEl.href)) {
-         seen.add(linkEl.href);
-         bookmarks.push({
+       if (linkEl && !allBookmarks.has(linkEl.href)) {
+         allBookmarks.set(linkEl.href, {
            url: linkEl.href,
-           text: a.querySelector('[data-testid="tweetText"]')?.textContent?.substring(0, 120) || '',
+           text: a.querySelector('[data-testid="tweetText"]')?.textContent?.substring(0, 150) || '',
            author: a.querySelector('[data-testid="User-Name"]')?.textContent?.split('@')?.[0]?.trim() || ''
          });
        }
      });
-     return { total: bookmarks.length, bookmarks };
+     const bookmarks = [...allBookmarks.values()];
+     return { total: bookmarks.length, bookmarks, warning: "X virtualizes DOM — count may be incomplete" };
    }
    ```
-3. Mark these with source `"x-bookmarks"`
+3. **If result.total < 10**, warn: "⚠️ Only extracted {N} bookmarks. X's virtualized DOM likely hid the rest. Use Method B for complete extraction."
 4. If the page shows a login wall or returns 0 bookmarks, report "X bookmarks: login required or empty" and continue
+
+##### Processing extracted X bookmarks
+
+Regardless of extraction method:
+- Mark all entries with source `"x-bookmarks"`
+- Normalize URLs: strip query params like `?s=20`, ensure `https://x.com/` prefix
+- If the user pasted raw text (not JSON), parse author/date/text blocks and reconstruct URLs from `@handle` + date context
 
 ### Cycle 2+: Read Discovery Sidecars
 

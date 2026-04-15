@@ -1,0 +1,135 @@
+{
+  "url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=14147s",
+  "title": "Claws Out — Securing and Building with OpenClaw",
+  "speaker": "Nick Taylor",
+  "speaker_role": "Developer Advocate at Pomerium",
+  "event": "AI Engineer Europe 2026",
+  "event_location": "London",
+  "date": "2026-04-09",
+  "duration_minutes": 18,
+  "type": "talk",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-nick-taylor-openclaw-trusted-proxy.md",
+  "relevance": 6,
+  "novelty": 6,
+  "actionable": 6,
+  "topics": [
+    "openclaw",
+    "pomerium",
+    "identity-aware-proxy",
+    "trusted-proxy-auth",
+    "agent-security",
+    "zero-trust",
+    "reverse-proxy",
+    "websocket-auth",
+    "device-pairing",
+    "mcp-apps",
+    "phone-native-dev",
+    "clawspace",
+    "mclaw",
+    "oss-contribution",
+    "rebase-hell"
+  ],
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Pomerium as Identity-Aware Proxy for Local Agents",
+      "description": "Pomerium is an open-source IAP bundling identity provider integration + policy engine + reverse proxy. Conceptually identical to GCP IAP or Cloudflare Access but self-hostable. Directly applicable to gating any local agent harness (OpenClaw, or our tmux orchestrator) behind per-user identity the moment we need multi-user or remote access."
+    },
+    {
+      "id": 2,
+      "title": "trusted_proxy Auth Mode (OpenClaw Issue 1560)",
+      "description": "Nick's merged contribution: OpenClaw can trust a specific set of upstream proxy IPs and read authenticated user identity from a proxy-injected JWT header. When configured, OpenClaw skips the pairing-token flow entirely for websocket connections. Eliminates token-in-query-string antipattern and per-device pairing friction. Config shape: gateway.mode=trusted_proxy, trusted_proxies=[IPs], trusted_proxy.user_header=<JWT header>, trusted_proxy.required_header=[...]."
+    },
+    {
+      "id": 3,
+      "title": "Phone-Native Agent Development Workflow",
+      "description": "Nick builds apps from his phone by combining: local Mclaw (OpenClaw) instance on his desk + Pomerium IAP with trusted_proxy mode + public URL + Discord/ChatGPT/Clawspace clients. 'I'm phone pilled now.' No SSH needed. Reproducible blueprint for mobile-first orchestrator workflows if we ever want a phone surface for our own system."
+    },
+    {
+      "id": 4,
+      "title": "Clawspace — Personal Software Pattern",
+      "description": "Nick built Clawspace on his phone, over Discord, purely for himself — a mobile file browser/editor for workspace files that bypasses SSH. Representative of the 'personal software age': agents make it economical to build single-user tools that were previously never worth writing. Relevant as a reference for a future phone-surface on our orchestrator dashboard."
+    },
+    {
+      "id": 5,
+      "title": "Discord over Telegram for Agent Chat Clients",
+      "description": "Nick switched from Telegram to Discord for his Mclaw client because a security-company CEO friend warned him that Telegram channels aren't end-to-end encrypted by default. Non-obvious threat-model detail for any agent that uses a chat platform as its control surface."
+    },
+    {
+      "id": 6,
+      "title": "Agents-with-GitHub-CLI Overreach Anti-Pattern",
+      "description": "Nick used Opus to write the trusted_proxy feature; Opus was 'a little too eager on the GitHub CLI' and submitted the PR before the work was done. Cautionary data point for any workflow that grants agents direct gh CLI access to submit PRs. Rate-limit or require explicit confirmation before submission."
+    },
+    {
+      "id": 7,
+      "title": "Rebase Hell as OSS Contribution Reality at OpenClaw Pace",
+      "description": "Nick's PR was opened around #1700, he went on vacation, came back, and the project had moved to ~16000 — he had to untangle weeks of merge conflicts before getting Peter Stipe's review. Concrete data point on how ferocious OpenClaw's velocity actually is (consistent with Peter Steinberger's State of the Claw metrics) and how much maintenance overhead contributors absorb at that velocity."
+    },
+    {
+      "id": 8,
+      "title": "Live HMR Inside ChatGPT MCP App Demo",
+      "description": "Nick demoed building an MCP+UI app on his phone that exposed echo and search_speakers tools. Asking the agent to 'change the echoed message to AIE EU' produced live HMR inside a ChatGPT MCP app context, followed by a search_speakers card grid with a 'More' button calling back to the LLM for extra context. Template pattern: MCP tool server behind public URL + ChatGPT as client + local HMR dev loop."
+    }
+  ],
+  "notable_quotes": [
+    "OpenClaw is not that it's a security nightmare — just configure it properly.",
+    "I find it useful because I don't need to SSH in to see workspace files.",
+    "I'm phone pilled now.",
+    "It was a little too eager on the GitHub CLI — it submitted the PR before it was actually done.",
+    "OSS for the win.",
+    "Only the person sleeping in the back is like 'oh what did he ask?'"
+  ],
+  "config_example": {
+    "gateway": {
+      "mode": "trusted_proxy",
+      "trusted_proxies": [
+        "<IP of Pomerium / IAP frontend>"
+      ],
+      "trusted_proxy": {
+        "user_header": "<JWT header the proxy injects, e.g. X-Pomerium-Jwt-Assertion>",
+        "required_header": [
+          "<header the proxy MUST supply or the request is rejected>"
+        ]
+      }
+    }
+  },
+  "deep_dive_candidates": [
+    {
+      "url": "https://www.pomerium.com/docs",
+      "reason": "Pomerium documentation — identity-aware proxy architecture, deployment guide, policy engine reference",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://github.com/openclaw/openclaw/issues/1560",
+      "reason": "Original issue for Nick's trusted_proxy auth mode contribution to OpenClaw",
+      "suggested_skill": "ingest-article"
+    },
+    {
+      "url": "https://cloud.google.com/iap",
+      "reason": "GCP Identity-Aware Proxy — the reference pattern Pomerium mirrors; useful if we want a managed alternative",
+      "suggested_skill": "tool-catalogue"
+    },
+    {
+      "url": "https://www.cloudflare.com/zero-trust/products/access/",
+      "reason": "Cloudflare Access — alternative IAP if we ever want a managed front door without self-hosting Pomerium",
+      "suggested_skill": "tool-catalogue"
+    },
+    {
+      "url": "https://oauth2-proxy.github.io/oauth2-proxy/",
+      "reason": "oauth2-proxy — minimal-footprint IAP alternative for small self-hosted deployments",
+      "suggested_skill": "tool-catalogue"
+    }
+  ],
+  "adoptable_patterns_count": 4,
+  "connections_to_existing_catalogue": [
+    "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-malte-ubl-ai-engineering-successor-web-dev.md",
+    "research/catalogue/talks/2026-04/aie-europe-2026-ryan-lopopolo-harness-engineering.md",
+    "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md",
+    "research/catalogue/talks/2026-04-01_felixba-ki-leben-satire-openclaw.md"
+  ],
+  "relevance_context": "MEDIUM. Specific to OpenClaw deployment, but the identity-aware proxy pattern is a directly usable reference for multi-user enterprise deployments. Becomes HIGH priority the moment we need (a) multi-user orchestrator, (b) phone/mobile client, (c) enterprise pilot with remote access, or (d) shared team orchestrator with per-user identity. Bookmark now, adopt when triggered.",
+  "key_insight": "Put an identity-aware proxy in front of your local agent harness and delegate auth via trusted-proxy headers — security improves and UX improves simultaneously.",
+  "ingested_at": "2026-04-04T00:00:00Z"
+}

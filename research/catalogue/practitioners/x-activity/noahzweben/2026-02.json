@@ -1,0 +1,44 @@
+{
+  "handle": "noahzweben",
+  "practitioner_ref": null,
+  "month": "2026-02",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2027200229079224770",
+      "url": "https://x.com/noahzweben/status/2027200229079224770",
+      "type": "post",
+      "date": "2026-02-27",
+      "text": "Rarely are values so clearly lived out in the tech industry. Proud to be a part of this.",
+      "media": [],
+      "metrics": { "likes": 631, "retweets": 27, "replies": 19, "views": 13448, "bookmarks": 4 },
+      "links": ["https://www.anthropic.com/news/statement-department-of-war"],
+      "topics": ["personal", "off-topic"],
+      "relevance": 2,
+      "signal_tier": "LOW",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Quote of Anthropic CEO Dario Amodei statement on Department of War discussions. Personal/values post, not technical. Off-topic for our catalogue."
+    },
+    {
+      "id": "2026371260805271615",
+      "url": "https://x.com/noahzweben/status/2026371260805271615",
+      "type": "post",
+      "date": "2026-02-24",
+      "text": "Announcing a new Claude Code feature: Remote Control. It's rolling out now to Max users in research preview. Try it with /remote-control. Start local sessions from the terminal, then continue them from your phone. Take a walk, see the sun, walk your dog without losing your flow.",
+      "media": ["video"],
+      "metrics": { "likes": 16964, "retweets": 1287, "replies": 1546, "views": 4470245, "bookmarks": 8256 },
+      "links": [],
+      "topics": ["claude-code", "coding-tools", "agent-orchestration"],
+      "relevance": 9,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Remote Control launch by Claude Code PM. 4.47M views, 8,256 bookmarks. Start terminal sessions, continue from phone. Rolling out to Max users. Direct relevance: async agent control from mobile is the exact pattern needed for L-Thread remote orchestration."
+    }
+  ]
+}

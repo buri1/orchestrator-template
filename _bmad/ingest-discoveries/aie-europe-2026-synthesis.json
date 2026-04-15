@@ -1,0 +1,184 @@
+{
+  "source_type": "conference-synthesis",
+  "source_title": "AI Engineer Europe 2026 — Conference Synthesis Report",
+  "event": "AI Engineer Europe 2026, London",
+  "event_date": "2026-04-09",
+  "ingested_at": "2026-04-04T00:00:00.000Z",
+  "synthesis_path": "research/catalogue/conference-reports/aie-europe-2026-synthesis.md",
+  "talks_synthesized": 16,
+  "parallel_ingests": 16,
+  "word_count": 12601,
+  "overall_relevance": 10,
+  "main_stream_url": "https://www.youtube.com/watch?v=O_IMsEg91g8",
+  "conference_host": "swyx (Shawn Wang) / smol.ai",
+  "key_meta_insight": "The conference was unusually coherent because the same architectural question (how do you safely run an agent that writes code against real systems?) was answered by every speaker from a different angle — engineering (Lopopolo, Pocock), runtime (Pai), container (Omali), proxy (Nick Taylor), protocol (Honor Solaz, ACP), model (Merve Noyan), product (Vichowski), operator (Vincent, Radik), philosophy (Peter Steinberger AMA), and cultural (Gergely Orosz). Read together they form a cohesive 2026 state of the harness. The industry is converging on: harness > model, capability-based security > ambient auth, iterative + taste > dark factory, token efficiency > token maxing, Europe leads the application layer.",
+  "top_20_cross_referenced_urls": [
+    {
+      "url": "https://github.com/mattpocock/skills",
+      "context": "Matt Pocock's five public skills (Grill Me, Ubiquitous Language, Improve Codebase Architecture, Writer PRD, TDD-aware). Directly adoptable for our orchestrator as pre-spawn intake + worker constraints.",
+      "source_talks": ["Matt Pocock"],
+      "priority": "critical",
+      "suggested_ingest": "Clone and adapt to _bmad/skills/"
+    },
+    {
+      "url": "https://github.com/cloudflare/agents",
+      "context": "Cloudflare Agents SDK — Sunil Pai's reference implementation of Code Mode on Workers + Durable Objects + V8 isolates.",
+      "source_talks": ["Sunil Pai"],
+      "priority": "critical",
+      "suggested_ingest": "/tool-catalogue — orchestration-platforms/cloudflare-agents-sdk.md"
+    },
+    {
+      "url": "https://github.com/zed-industries/agent-client-protocol",
+      "context": "Zed's Agent-Client Protocol (ACP) — the 'build once, ship everywhere' layer for coding agents. Foundation of Honor Solaz's ACPX.",
+      "source_talks": ["Honor Solaz"],
+      "priority": "critical",
+      "suggested_ingest": "/ingest-article — agent-protocols/acp-zed.md"
+    },
+    {
+      "url": "https://github.com/openclaw/openclaw",
+      "context": "OpenClaw primary repo — the European harness-layer flagship referenced across 8 of 16 talks. 5-month-old fastest-growing GitHub project ever (30K PRs, 2K contributors, 1142 advisories).",
+      "source_talks": ["Peter Steinberger", "Vincent Kottsch", "Radik Shankovich", "Sally Omali", "Nick Taylor", "Honor Solaz", "K (Kitze)", "Malte Ubl"],
+      "priority": "critical",
+      "suggested_ingest": "Refresh orchestration-platforms/openclaw.md with foundation transition, growth metrics, security posture"
+    },
+    {
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "context": "Hermes agent — Merve Noyan's 'die on this hill' pick. Claimed 'step even further from OpenClaw by means of memory management.' Setup wizard + Slack/WhatsApp.",
+      "source_talks": ["Merve Noyan"],
+      "priority": "high",
+      "suggested_ingest": "/tool-catalogue — agent-harnesses/hermes-agent.md"
+    },
+    {
+      "url": "https://openai.com/index/harness-engineering/",
+      "context": "OpenAI's official harness engineering manifesto by Ryan Lopopolo. Already catalogued at articles/2026-02/harness-engineering-codex-agent-centric-world.md.",
+      "source_talks": ["Ryan Lopopolo"],
+      "priority": "critical",
+      "already_catalogued": true
+    },
+    {
+      "url": "https://www.latent.space/p/harness-eng",
+      "context": "Latent Space podcast — 75-minute Extreme Harness Engineering interview with Lopopolo. Companion piece to the 18-minute AIE Europe keynote.",
+      "source_talks": ["Ryan Lopopolo"],
+      "priority": "critical",
+      "already_catalogued": true
+    },
+    {
+      "url": "https://blog.cloudflare.com/code-mode",
+      "context": "Cloudflare Code Mode writeup (Matt Kerry) — canonical 2,600-endpoints-to-2-tools example (1.2M → 1K tokens, 99.9% reduction). Verify exact URL.",
+      "source_talks": ["Sunil Pai"],
+      "priority": "high",
+      "suggested_ingest": "/ingest-article (verify URL; search cloudflare blog for 'code mode' or 'Matt Kerry MCP')"
+    },
+    {
+      "url": "https://www.pomerium.com/docs",
+      "context": "Pomerium — open-source identity-aware proxy. Foundation for Nick Taylor's OpenClaw `trusted_proxy` auth mode (Issue 1560).",
+      "source_talks": ["Nick Taylor"],
+      "priority": "high",
+      "suggested_ingest": "/tool-catalogue — infrastructure/pomerium.md"
+    },
+    {
+      "url": "https://deno.com/",
+      "context": "Deno — capability-based JavaScript runtime. Most actionable Code Mode implementation path for our tmux orchestrator since it runs locally without Cloudflare infrastructure.",
+      "source_talks": ["Sunil Pai"],
+      "priority": "high",
+      "suggested_ingest": "/tool-catalogue — infrastructure/deno.md"
+    },
+    {
+      "url": "https://v8.dev/docs/isolates",
+      "context": "V8 isolates — Cloudflare's chosen sandbox runtime. <5ms startup, 10 years Chrome security hardening. Reference baseline for capability-bounded worker sandboxes.",
+      "source_talks": ["Sunil Pai"],
+      "priority": "high",
+      "suggested_ingest": "/ingest-article — infrastructure/v8-isolates.md"
+    },
+    {
+      "url": "https://github.com/partykit/partykit",
+      "context": "PartyKit — Sunil Pai's previous open-source project. 'One Durable Object per user/room' pattern. Informs how Pai thinks about per-user state machines for Code Mode.",
+      "source_talks": ["Sunil Pai"],
+      "priority": "high",
+      "suggested_ingest": "/tool-catalogue — infrastructure/partykit.md"
+    },
+    {
+      "url": "https://sdk.vercel.ai/",
+      "context": "Vercel AI SDK — Europe's flagship harness-layer contribution (10M+ weekly downloads), led by Las GML in Berlin. Named by Malte Ubl as proof of Europe's application-layer leadership.",
+      "source_talks": ["Malte Ubl"],
+      "priority": "high",
+      "suggested_ingest": "/tool-catalogue entry"
+    },
+    {
+      "url": "https://huggingface.co/zai-org/GLM-5.1",
+      "context": "GLM 5.1 — currently top of SWE-bench Pro. Merve Noyan's own coding setup. Non-Anthropic fallback candidate for privacy-sensitive client work.",
+      "source_talks": ["Merve Noyan"],
+      "priority": "high",
+      "suggested_ingest": "Model catalogue entry; evaluate via HF Inference Providers"
+    },
+    {
+      "url": "https://huggingface.co/docs/inference-providers",
+      "context": "HuggingFace Inference Providers — LiteLLM-class router with a tool-use column comparing Groq, Cerebras, Novita, etc. on cheapest vs fastest for agent workloads.",
+      "source_talks": ["Merve Noyan"],
+      "priority": "high",
+      "suggested_ingest": "/ingest-article — infrastructure/hf-inference-providers.md"
+    },
+    {
+      "url": "https://huggingface.co/docs/hub/datasets-traces",
+      "context": "HuggingFace traces-dataset repo type — new session-logging primitive. Hosts Codex/Claude Code/Pi traces parsed into a traces column. Our L-Thread session logs as training data.",
+      "source_talks": ["Merve Noyan"],
+      "priority": "high",
+      "suggested_ingest": "/ingest-article — observability/hf-traces-datasets.md"
+    },
+    {
+      "url": "https://aihero.dev/",
+      "context": "AI Hero — Matt Pocock's newsletter and Claude Code for Real Engineers course. Source for future skill publications; track for new releases.",
+      "source_talks": ["Matt Pocock"],
+      "priority": "medium",
+      "suggested_ingest": "Practitioner resource; subscribe + add to tracking"
+    },
+    {
+      "url": "https://newsletter.pragmaticengineer.com/",
+      "context": "Pragmatic Engineer newsletter — Gergely Orosz primary source. #1 paid tech newsletter for 3 years (recently overtaken by Dylan Patel's Semi Analysis). Leading technology voice in Europe.",
+      "source_talks": ["Gergely Orosz"],
+      "priority": "high",
+      "suggested_ingest": "Add practitioner entry under research/catalogue/practitioners/"
+    },
+    {
+      "url": "https://ghostty.org/foundation",
+      "context": "Ghostty Foundation — the template Peter Steinberger explicitly copied for the Open Claw Foundation structure. Reference model for neutral OSS governance under a solo-founder-to-foundation transition.",
+      "source_talks": ["Peter Steinberger"],
+      "priority": "medium",
+      "suggested_ingest": "/ingest-article — reference doc"
+    },
+    {
+      "url": "https://simonwillison.net/series/prompt-injection/",
+      "context": "Simon Willison's Lethal Trifecta series — original framing Peter Steinberger cites as the canonical agent threat model. Dual-LLM pattern also in this series.",
+      "source_talks": ["Peter Steinberger", "Peter Steinberger AMA"],
+      "priority": "high",
+      "suggested_ingest": "/ingest-article — reference doc"
+    }
+  ],
+  "top_5_patterns_for_orchestrator": [
+    "Capability-Bounded Worker Sandbox (Sunil Pai) — Deno host with explicit --allow-* flags per worker role; replace --dangerously-skip-permissions with default-deny + explicit bindings",
+    "Prompts-as-Lint + Anti-Slop Instruction (Ryan Lopopolo) — rewrite lint errors as fix instructions; add 'Do not produce slop' literally to all system prompts",
+    "QA Plan Gate as Gray-Box Delegation Phase (Ryan Lopopolo) — QA_PLAN_CHECK phase between WAIT_FOR_PR and REVIEW-FIX LOOP with media attachment requirement",
+    "Swim Lane Architecture with 5-10-20 Ceiling (Vincent Kottsch) — labeled tmux lanes + clone-vs-worktree scale policy (cap worktrees at ~20, switch to clones beyond)",
+    "Grill Me Pre-Spawn Intake + Ubiquitous Language Injection (Matt Pocock) — two of the five public skills directly adoptable this week"
+  ],
+  "critical_contradictions": [
+    "'Code is free' (Lopopolo, Ubl) vs 'Bad code is the most expensive it has ever been' (Matt Pocock) — synthesis: marginal code cost is near zero, structural code cost is now dominant",
+    "Dark Factory / 0% human review (Lopopolo) vs Iterative with Taste as Bottleneck (Peter Steinberger) — both true for different product contexts; client work matches Peter's framing",
+    "Personal Agent (K, Radik) vs Company Agent (Vichowski, Omali) — fundamentally different architectures with distinct memory/permissions/tone requirements",
+    "OpenClaw as Life OS (Radik case study) vs OpenClaw for Coding (Peter, Vincent, Honor) — K's critique is the reality check: life-OS failure modes destroy client trust",
+    "Big Model vs Big Harness — implicit consensus: harness is the product, model is commodity (validates our L-Thread positioning)"
+  ],
+  "strategic_summary": "AI Engineer Europe 2026 was the industry's first fully coherent harness-engineering conference. Sixteen talks converged on five points: (1) harness > model, (2) capability-based security > ambient auth, (3) iterative-with-taste > dark-factory, (4) token efficiency > token maxing, (5) Europe leads the application layer. For our L-Thread Orchestrator v3, this means: immediately adopt Matt Pocock's skills + Lopopolo's anti-slop instruction + Peter Steinberger's Lethal Trifecta permission matrix; over the next two months encode our review/fix loop as an explicit SOP (Honor Solaz), adopt swim lane architecture with hard worktree caps (Vincent), and prototype two-tool MCP reduction (Sunil Pai); over six months prototype a Deno-based capability-bounded worker sandbox as the strategic architectural bet that moves us off --dangerously-skip-permissions. Publicly frame the orchestrator as 'iterative, taste-driven, design-first, European harness-layer' — this is the credible pitch for conservative German buyers and matches our operational reality. Never compete on models; never frame as fully autonomous; never make agent usage a KPI (Goodhart's Law warning from Gergely Orosz).",
+  "immediate_action_items": [
+    "Add 'Do not produce slop. Do not accept slop.' to .claude/agents/orchestrator.md and all worker spawn prompts",
+    "Clone github.com/mattpocock/skills and adapt Grill Me + Ubiquitous Language to _bmad/skills/",
+    "Publish SECURITY.md with Lethal Trifecta permission matrix annotating each worker role",
+    "Ship .bmad/scripts/orchestrator-nightly.sh + launchd plist for 4am ambient ops",
+    "Cap worktrees at 20; plan clone-based scale-out per Vincent Kottsch's counter-pattern",
+    "Add QA_PLAN_CHECK phase between WAIT_FOR_PR and REVIEW-FIX LOOP with media attachment requirement",
+    "Refresh orchestration-platforms/openclaw.md with foundation transition + growth metrics + CVSS-slop lessons",
+    "Add practitioner entry for Gergely Orosz / Pragmatic Engineer",
+    "Evaluate Hermes agent + GLM 5.1 via HF Inference Providers as non-Anthropic fallback prototype",
+    "Prototype two-tool (search + execute) wrapper over Chrome DevTools MCP; measure token reduction"
+  ]
+}

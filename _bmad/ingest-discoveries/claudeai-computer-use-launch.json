@@ -1,0 +1,20 @@
+{
+  "source_url": "https://x.com/claudeai/status/2036195789601374705",
+  "source_title": "Claude Can Now Use the Computer: Apps, Browser, Spreadsheets (Research Preview)",
+  "catalogue_path": "research/catalogue/posts/2026-03/claudeai-computer-use-launch.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://www.anthropic.com/news/claude-computer-use",
+      "context": "Official Anthropic blog post on computer use — architecture details, safety measures, API reference",
+      "suggested_type": "article",
+      "relevance_hint": "Foundational capability for our orchestrator — agents can now interact with any GUI software"
+    },
+    {
+      "url": "https://docs.anthropic.com/en/docs/computer-use",
+      "context": "Official computer use documentation",
+      "suggested_type": "article",
+      "relevance_hint": "Implementation reference for integrating computer use into our agent workflows"
+    }
+  ]
+}

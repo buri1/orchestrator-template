@@ -1,0 +1,136 @@
+{
+  "url": "https://github.com/openclaw/acpx",
+  "title": "openclaw/acpx — Headless CLI client for stateful Agent Client Protocol (ACP) sessions",
+  "type": "tool",
+  "source": "comet",
+  "ingested_at": "2026-04-11",
+  "catalogue_path": "research/catalogue/agent-harnesses/openclaw-acpx.md",
+  "category": "agent-harnesses",
+  "relevance": 9,
+  "novelty": 8,
+  "actionable": 9,
+  "github": {
+    "stars": 2079,
+    "forks": 191,
+    "language": "TypeScript",
+    "license": "MIT",
+    "created_at": "2026-02-17",
+    "default_branch": "main",
+    "topics": ["agentclientprotocol"]
+  },
+  "publisher": {
+    "org": "openclaw",
+    "primary_author": "Honor Solaz",
+    "author_role": "Founding Engineer at Text Cortex; OpenClaw maintainer since day one; MS Teams integration author",
+    "parent_ecosystem": "OpenClaw (Peter Steinberger, ex-PSPDFKit, now at OpenAI)"
+  },
+  "discoveries": [
+    {
+      "pattern": "NDJSON event stream replaces tmux capture-pane polling",
+      "where": "src/cli.ts + src/acp/client.ts + --format json flag",
+      "relevance": "Directly addresses our #1 Phase-2 pain: orchestrator worker completion detection via tmux capture-pane heuristics. --format json emits structured events (turn_end, tool_call, thinking, diff) for deterministic polling."
+    },
+    {
+      "pattern": "Stateful sessions with auto-reconnection survive process death",
+      "where": "src/session/persistence.ts, src/session/event-log.ts, ~/.acpx/sessions/",
+      "relevance": "Solves our tmux pane crash problem — conversation history and tool-call log survive SIGKILL, recovered via `acpx <agent> sessions ensure -s <name>`. Slots into .bmad/scripts/orchestrator-session-start.sh recovery hook."
+    },
+    {
+      "pattern": "Named parallel sessions per working directory",
+      "where": "src/session/session.ts + `-s <name>` flag",
+      "relevance": "Multiple independent conversations in same repo (e.g. `-s backend` and `-s frontend`) — enables per-issue session isolation without separate worktrees for quick tasks."
+    },
+    {
+      "pattern": "Queue-aware prompts with TTL queue owner",
+      "where": "src/async-control.ts + --ttl flag + --no-wait",
+      "relevance": "Fire-and-forget prompts that queue if one is running; solves reviewer/fixer sequencing on same session without extra orchestrator state."
+    },
+    {
+      "pattern": "Cooperative cancel via ACP session/cancel RPC",
+      "where": "src/acp/client.ts + acpx <agent> cancel subcommand",
+      "relevance": "Protocol-level cancel instead of tmux kill-window / SIGKILL — agents flush partial diffs and commit state before dying. Cleaner REVIEW-FIX LOOP teardown."
+    },
+    {
+      "pattern": "Permission scoping flags (--approve-all / --approve-reads / --deny-all)",
+      "where": "src/permissions.ts + src/permission-prompt.ts",
+      "relevance": "Cleaner alternative to --dangerously-skip-permissions blanket-allow. Run reviewers with --approve-reads (read-only), fixers with --approve-all. Matches capability-based-security principle from Sunil Pai's AIE Europe Code Mode talk."
+    },
+    {
+      "pattern": "Flows engine — TypeScript-authored multi-step workflow DAG",
+      "where": "src/flows/ (definition.ts, graph.ts, schema.ts, runtime.ts, executors/, store.ts, authoring.ts) + `acpx flow run <file.ts>` command",
+      "relevance": "SOP-for-agents primitive we were planning to build ourselves. Realizes Honor Solaz's AIE Europe 2026 thesis: abstract PR workflow (intent -> judge -> conflicts -> CI -> review -> make CI pass) as executable TS code. Direct replacement for prose loop in .claude/commands/orchestrator.md."
+    },
+    {
+      "pattern": "15+ built-in agent adapters under agents/",
+      "where": "agents/ directory + src/agent-registry.ts",
+      "relevance": "Free harness-agnostic upgrade: Codex, Claude, Gemini, Pi, OpenClaw, Cursor, Copilot, Droid, Iflow, Kilocode, Kimi, Kiro, OpenCode, Qoder, Qwen, Trae — swap agent name in one variable, same orchestrator loop runs on different model. Supports model routing patterns from oh-my-claudecode and oh-my-pi."
+    },
+    {
+      "pattern": "Codex app-server protocol as alternative transport",
+      "where": "src/acp/codex-compat.ts",
+      "relevance": "Not locked into ACP purity — also speaks Codex's native app-server protocol (contributed by maintainer Herald). Future-proofs against Zed ACP becoming obsolete."
+    },
+    {
+      "pattern": "Config hierarchy — ~/.acpx/config.json + .acpxrc.json",
+      "where": "`acpx config init` + `acpx config show`",
+      "relevance": "Global + per-project config files matches our existing .claude/ + _bmad/ split. Per-project .acpxrc.json can pin agent/model/permission policy per repo."
+    }
+  ],
+  "cross_references": {
+    "existing_catalogue_entries": [
+      {
+        "path": "research/catalogue/orchestration-platforms/openclaw.md",
+        "relationship": "parent_ecosystem"
+      },
+      {
+        "path": "research/catalogue/agent-harnesses/ironclaw.md",
+        "relationship": "sibling_rust_rewrite"
+      },
+      {
+        "path": "research/catalogue/talks/2026-04/aie-europe-2026-honor-solaz-acp-openclaw.md",
+        "relationship": "design_rationale_talk_by_same_author"
+      },
+      {
+        "path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+        "relationship": "parent_org_context"
+      },
+      {
+        "path": "research/catalogue/talks/2026-04/aie-europe-2026-sunil-pai-code-mode.md",
+        "relationship": "capability_based_security_principle"
+      },
+      {
+        "path": "research/catalogue/conference-reports/aie-europe-2026-synthesis.md",
+        "relationship": "strategic_synthesis_harness_over_model"
+      },
+      {
+        "path": "research/catalogue/agent-harnesses/oh-my-claudecode.md",
+        "relationship": "complementary_model_routing"
+      },
+      {
+        "path": "research/catalogue/agent-harnesses/pi/oh-my-pi.md",
+        "relationship": "complementary_model_routing"
+      },
+      {
+        "path": "research/catalogue/orchestration-platforms/stripe-minions.md",
+        "relationship": "70_30_deterministic_llm_pattern"
+      },
+      {
+        "path": "research/catalogue/code-intelligence/agentshield.md",
+        "relationship": "permission_scoping_replaces_dangerously_skip_permissions"
+      }
+    ]
+  },
+  "adoption_path": {
+    "phase_1_days_1_3": "Replace `tmux send-keys 'unset CLAUDECODE && claude --dangerously-skip-permissions'` with `acpx claude --approve-reads -s issue-<n> --format json` in run-tmux.sh. Parse NDJSON via jq for deterministic turn_end detection. Highest-ROI change in the catalogue this month.",
+    "phase_2_days_4_60": "Author flows/orchestrator.flow.ts as deterministic DAG replacing prose loop in .claude/commands/orchestrator.md. Use --approve-reads for reviewers, --approve-all for fixers. Wire soft-close into recovery hooks.",
+    "phase_3_days_60_90": "Multi-harness routing: `acpx pi` for planning, `acpx claude` for coding, `acpx gemini` for E2E test gen, same orchestrator loop.",
+    "phase_4_day_90_plus": "When we build the Deno capability-bounded sandbox (AIE Europe synthesis bet), acpx permission flags become the top-level capability declaration."
+  },
+  "risks": [
+    "Alpha status — README explicitly marks CLI/runtime interfaces subject to change. Pin via `npm install -g acpx@<commit>` or vendor, not @latest.",
+    "Adds TypeScript/npm runtime to bash+tmux+Claude stack — inherits npm supply-chain surface (Peter Steinberger warned about Ghost Claw DPRK NPM typosquat at State of the Claw).",
+    "Not a supervisor/orchestrator replacement — plugs in inside worker, our L-Thread architecture stays.",
+    "Not a Temporal/Inngest replacement for durable execution — flows are ephemeral DAG execution, not persistent workflows."
+  ],
+  "key_takeaway": "acpx is the one-day-adoption CLI primitive that replaces every brittle tmux capture-pane polling loop and --dangerously-skip-permissions spawn in our orchestrator with stateful, queue-aware, reconnecting, permission-scoped JSON-RPC sessions over ACP — and the src/flows/ engine is the SOP-for-agents primitive we were about to build ourselves."
+}

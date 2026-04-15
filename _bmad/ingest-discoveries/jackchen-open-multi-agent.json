@@ -1,0 +1,72 @@
+{
+  "source_url": "https://github.com/JackChen-me/open-multi-agent",
+  "source_title": "JackChen-me/open-multi-agent — TypeScript multi-agent framework, one runTeam() call from goal to result",
+  "catalogue_path": "research/catalogue/agent-harnesses/open-multi-agent.md",
+  "ingested_at": "2026-04-11T00:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/temodar/temodar-agent",
+      "context": "Production deployment #1: WordPress security analysis agent running on Open Multi-Agent via Docker; ~50 stars; validates the bash+file_*+grep built-in tool surface for security-scanning use cases",
+      "suggested_type": "tool",
+      "relevance_hint": "Reference for German SMB WordPress security audits — potential OmniPort-HH vertical or standalone SaaS; Docker-packaged agent deployment pattern"
+    },
+    {
+      "url": "https://github.com/rentech-quant-platform",
+      "context": "Production deployment #2: multi-agent quant trading research platform with MCP integrations built on Open Multi-Agent; notable because Open Multi-Agent itself marks MCP as 'planned' — suggests MCP support is already usable via custom tools even before native integration ships",
+      "suggested_type": "tool",
+      "relevance_hint": "Reference for business-line multi-agent embedding in Node.js financial/quant workflows; shows real production use of in-process orchestration model"
+    },
+    {
+      "url": "https://ollama.com",
+      "context": "Open Multi-Agent has verified tool-calling support for Ollama alongside vLLM, LM Studio, and llama.cpp server via the 'openai + baseURL' pattern; verified local models include Gemma 4, Llama 3.1, Qwen 3, Mistral, Phi-4",
+      "suggested_type": "tool",
+      "relevance_hint": "Already catalogued as infrastructure; this ingest reinforces the 'openai provider + baseURL' as the de-facto local-model protocol standard — relevant for DSGVO-compliant on-prem German client deployments"
+    },
+    {
+      "url": "https://github.com/openai/openai-agents-js",
+      "context": "Open Multi-Agent README explicitly cites OpenAI Agents SDK as the recommended alternative for 'agent handoffs mid-conversation', which Open Multi-Agent deliberately does not implement — clean architectural boundary between the two frameworks",
+      "suggested_type": "tool",
+      "relevance_hint": "Already catalogued at research/catalogue/orchestration-platforms/openai-agents-sdk.md; this discovery cross-references the two for comparison"
+    },
+    {
+      "url": "https://github.com/JackChen-me/open-multi-agent/blob/main/DECISIONS.md",
+      "context": "Architectural decision log (DECISIONS.md) documenting rationale for the 3-dependency constraint, no-checkpointing choice, and refusal to build mid-conversation handoffs; mentioned in README as reference for 'why not X?' questions",
+      "suggested_type": "article",
+      "relevance_hint": "Worth a future ingest — public DECISIONS.md is a rare artifact for early-stage OSS and models the kind of architectural rationale doc we should publish for L-Thread"
+    },
+    {
+      "url": "https://github.com/JackChen-me/open-multi-agent/tree/main/examples",
+      "context": "15 runnable example scripts in examples/ directory; examples 02, 06, 07, 08, 09, and 11 are specifically highlighted for parallel execution, shared memory, multi-provider teams, custom tools, and trace observability implementations",
+      "suggested_type": "reference",
+      "relevance_hint": "Example 11 (onTrace spans for LLM/tool/task observability) is a candidate reference implementation for lightweight tracing in L-Thread without full OpenTelemetry overhead"
+    },
+    {
+      "url": "https://github.com/ggerganov/llama.cpp",
+      "context": "llama.cpp server verified as supported provider via 'openai + baseURL' pattern; Open Multi-Agent includes automatic fallback text extraction when tool-calling fails on local models, suggesting heuristics for parsing raw model output into tool_call structures",
+      "suggested_type": "tool",
+      "relevance_hint": "The 'automatic fallback text extraction' pattern is worth a dedicated research note — generic pattern for adapting any LLM output format into a tool-call-compatible structure, relevant for heterogeneous provider orchestration"
+    }
+  ],
+  "notable_observations": [
+    "5,596 stars + 2,235 forks in ~11 days (created 2026-03-31, measured 2026-04-11) is one of the fastest multi-agent framework launches in our catalogue — comparable to Hyperagent launch week",
+    "Solo developer (Jack Chen, @JackChen-me) with limited prior public footprint — credibility rests on the code quality and production deployments, not track record",
+    "Direct competitor framework to our L-Thread orchestrator in terms of problem domain, but architecturally incompatible (in-process vs tmux+Claude-Code processes; no state persistence vs PreCompact hooks; no git-worktree isolation vs our worktree-per-worker rule)",
+    "The `runTeam(goal)` one-call API is the cleanest ergonomic we've seen for multi-agent orchestration — validates the 'Natural-Language Agent Harness' trend catalogued from @dair-ai, where a prompt/goal replaces a code-defined graph",
+    "Three-tier tool access control (readonly/readwrite/full presets + allowlist + denylist + custom tools) is conceptually aligned with the capability-based security thesis from AIE Europe 2026 (Sunil Pai Code Mode, Ryan Lopopolo harness keynote)",
+    "Multi-provider heterogeneity in one team (different LLMs for different agents in a single `createTeam()` call) is first-class and well-executed — validates our own thoughts about Claude-for-reasoning + local-Gemma4-for-filtering + GPT-for-synthesis multi-model routing",
+    "Explicit architectural non-goals: no mid-conversation handoffs, no state persistence, no checkpointing. The framework deliberately targets 'seconds to minutes' workloads — opposite of L-Thread's long-running autonomous session target"
+  ],
+  "novelty_vs_existing_catalogue": {
+    "vs_openai_agents_sdk": "Cleaner API (one runTeam call vs manual handoffs); no OpenAI provider bias; TypeScript-native not Python-first; explicitly refuses mid-conversation handoffs and redirects users to OpenAI Agents SDK for that pattern",
+    "vs_langgraph_js": "No declarative graph definition required — coordinator agent auto-decomposes into DAG at runtime; much smaller dependency surface (3 deps vs LangGraph/LangChain's heavy ecosystem)",
+    "vs_crewai": "TypeScript-native vs Python-native; goal-driven auto-decomposition is conceptually similar to CrewAI's hierarchical process but with a much smaller surface area",
+    "vs_l_thread_orchestrator": "Same problem domain (multi-agent coordination with DAG execution and failure cascading) but fundamentally different execution substrate (in-process TypeScript vs tmux+Claude Code processes); complementary for Phase 3 in-process business-line embedding, not a replacement",
+    "vs_symphony_hermes_pi_orchestrator": "Symphony/Hermes/pi-orchestrator are our own research prototypes targeting pi-agent as the runtime; Open Multi-Agent is provider-agnostic with native Ollama/vLLM/LM Studio support — different runtime target, similar coordination primitives",
+    "genuinely_novel": [
+      "The 3-runtime-dependency constraint as an architectural principle (not marketing)",
+      "`AgentPool.runParallel()` as a separate primitive from `runTeam()` — MapReduce fan-out without needing a task DAG",
+      "Cybersecurity SOC production deployment running fully offline on Qwen 2.5 + DeepSeek Coder via Ollama on Wazuh + Proxmox — concrete proof that the local-model path works end-to-end for a regulated/air-gapped use case"
+    ]
+  },
+  "burak_context": "Burak shared this URL twice (direct GitHub URL and via share.google link to README), signaling high personal interest. The framework is directly comparable to L-Thread orchestrator, symphony, and Hermes — so the comparison/novelty analysis is the critical output. Key framing: this is a viable Phase 3 library for in-process business-line embedding inside Node.js services (e.g., OmniPort-HH admin dashboard, MAYTT Content Engine background workers) but not a replacement for the tmux+Claude Code L-Thread architecture."
+}

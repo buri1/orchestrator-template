@@ -1,7 +1,12 @@
 {
   "version": 1,
-  "last_run": "2026-03-22T15:11:45.905016+00:00",
+  "last_run": "2026-04-13T07:02:46.932081+00:00",
   "ingested": {
+    "https://x.com/sawyerhood/status/2036842374933180660": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T18:30:00Z",
+      "catalogue_path": "research/catalogue/posts/2026-03/sawyerhood-dev-browser-cli.md"
+    },
     "https://thenewstack.io/agentic-knowledge-base-patterns/": {
       "source": "manual",
       "ingested_at": "2026-03-12T00:00:00Z",
@@ -238,9 +243,9 @@
       "catalogue_path": "research/catalogue/agent-harnesses/agent-browser.md"
     },
     "https://agent-flywheel.com/": {
-      "source": "backfill",
-      "ingested_at": "2026-03-21T00:00:00Z",
-      "catalogue_path": "research/catalogue/agent-harnesses/agent-flywheel.md"
+      "source": "comet",
+      "ingested_at": "2026-04-13T07:02:46.932067+00:00",
+      "catalogue_path": "research/catalogue/general-interest/agent-flywheel.md"
     },
     "https://github.com/fynnfluegge/agtx": {
       "source": "backfill",
@@ -577,6 +582,11 @@
       "ingested_at": "2026-03-21T00:00:00Z",
       "catalogue_path": "research/catalogue/orchestration-platforms/agenthub-ygivenx.md"
     },
+    "https://github.com/karpathy/KarpathyTalk": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T00:00:00Z",
+      "catalogue_path": "research/catalogue/orchestration-platforms/karpathytalk.md"
+    },
     "https://github.com/microsoft/autogen": {
       "source": "backfill",
       "ingested_at": "2026-03-21T00:00:00Z",
@@ -773,9 +783,9 @@
       "catalogue_path": "research/catalogue/articles/2025-07/ralph-wiggum-agent-loop.md"
     },
     "https://simonwillison.net/guides/agentic-engineering-patterns/": {
-      "source": "backfill",
-      "ingested_at": "2026-03-21T00:00:00Z",
-      "catalogue_path": "research/catalogue/articles/2026-02/agentic-engineering-patterns.md"
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932061+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/simonwillison-agentic-engineering-patterns.md"
     },
     "https://minimaxir.com/2026/02/ai-agent-coding/": {
       "source": "backfill",
@@ -808,9 +818,9 @@
       "catalogue_path": "research/catalogue/articles/2026-02/minions-stripes-one-shot-coding-agents-part-2.md"
     },
     "https://ghuntley.com/real/": {
-      "source": "backfill",
-      "ingested_at": "2026-03-21T00:00:00Z",
-      "catalogue_path": "research/catalogue/articles/2026-02/software-dev-costs-less-than-minimum-wage.md"
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932061+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/ghuntley-software-dev-costs-less.md"
     },
     "https://openai.com/index/unlocking-the-codex-harness/": {
       "source": "backfill",
@@ -833,9 +843,9 @@
       "catalogue_path": "research/catalogue/articles/2026-03/anthropic-compaction-api.md"
     },
     "https://autonomee.ai/telegram-bot-course/": {
-      "source": "backfill",
-      "ingested_at": "2026-03-21T00:00:00Z",
-      "catalogue_path": "research/catalogue/articles/2026-03/autonomee-telegram-bot-claude-code.md"
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932068+00:00",
+      "catalogue_path": "research/catalogue/general-interest/autonomee-telegram-bot-course.md"
     },
     "https://www.opensourceprojects.dev/post/8d2991ca-b78b-4cbd-8fb6-ccc19b4f2ad6": {
       "source": "backfill",
@@ -1419,13 +1429,13 @@
     },
     "https://www.youtube.com/watch?v=0OdR8rRMz3I": {
       "source": "chrome",
-      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
-      "catalogue_path": "research/catalogue/talks/2026-03/wifi-can-see-you-csi-sensing.md"
+      "ingested_at": "2026-04-03T18:30:00.000000+00:00",
+      "catalogue_path": "research/catalogue/general-interest/wifi-csi-sensing-smart-home.md"
     },
     "https://www.youtube.com/watch?v=0p8o7AeHDzg": {
       "source": "chrome",
-      "ingested_at": "2026-03-21T05:57:19.008612+00:00",
-      "catalogue_path": "research/catalogue/talks/2026-03/bilawal-sidhu-gods-eye-4d-monitoring-geospatial.md"
+      "ingested_at": "2026-04-03T18:30:00.000000+00:00",
+      "catalogue_path": "research/catalogue/general-interest/bilawal-sidhu-worldview-gods-eye-osint.md"
     },
     "https://github.com/neurosnap/zmx": {
       "source": "chrome",
@@ -1524,8 +1534,8 @@
     },
     "https://github.com/zenthor-hub/zenthor-assist/": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:22:41.754330+00:00",
-      "catalogue_path": "research/catalogue/developer-gui/zenthor-assist.md"
+      "ingested_at": "2026-04-13T07:02:46.932070+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/zenthor-assist.md"
     },
     "https://github.com/zenthor-hub/zenthor-assist/blob/main/CLAUDE.md": {
       "source": "chrome",
@@ -1544,8 +1554,8 @@
     },
     "https://sweep.dev/": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:22:41.754330+00:00",
-      "catalogue_path": "research/catalogue/articles/2026-03/sweep-ai-jetbrains-coding-assistant.md"
+      "ingested_at": "2026-04-13T07:02:46.932063+00:00",
+      "catalogue_path": "research/catalogue/general-interest/sweep-ai-jetbrains.md"
     },
     "https://developers.openai.com/blog/designing-delightful-frontends-with-gpt-5-4": {
       "source": "chrome",
@@ -1559,8 +1569,8 @@
     },
     "https://lightpanda.io/": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:22:41.754330+00:00",
-      "catalogue_path": "research/catalogue/infrastructure/lightpanda.md"
+      "ingested_at": "2026-04-13T07:02:46.932064+00:00",
+      "catalogue_path": "research/catalogue/agent-browsers/lightpanda.md"
     },
     "https://github.com/bytedance/deer-flow": {
       "source": "chrome",
@@ -1613,9 +1623,9 @@
       "catalogue_path": "research/catalogue/developer-gui/manaflow.md"
     },
     "https://accomplish.ai/": {
-      "source": "backfill",
-      "ingested_at": "2026-03-22T11:22:41.754330+00:00",
-      "catalogue_path": "research/catalogue/developer-gui/accomplish.md"
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932062+00:00",
+      "catalogue_path": "research/catalogue/general-interest/accomplish-ai-desktop-agent.md"
     },
     "https://github.com/gsd-build/gsd-2": {
       "source": "backfill",
@@ -1629,8 +1639,8 @@
     },
     "https://www.youtube.com/@godago": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:22:41.754330+00:00",
-      "catalogue_path": "SKIPPED:youtube-channel-not-specific-video"
+      "ingested_at": "2026-04-03T18:30:00.000000+00:00",
+      "catalogue_path": "research/catalogue/general-interest/goda-go-ai-youtube-channel.md"
     },
     "https://x.com/i/trending/2033993018957758572": {
       "source": "comet",
@@ -1659,8 +1669,8 @@
     },
     "https://codex-infinity.com/": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:53:16.995676+00:00",
-      "catalogue_path": "research/catalogue/agent-harnesses/codex-infinity.md"
+      "ingested_at": "2026-04-13T07:02:46.932065+00:00",
+      "catalogue_path": "research/catalogue/general-interest/codex-infinity.md"
     },
     "https://github.com/lee101/codex-infinity": {
       "source": "chrome",
@@ -1689,13 +1699,13 @@
     },
     "https://www.youtube.com/watch?v=3YiJovZRUv0": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:53:16.995676+00:00",
-      "catalogue_path": "SKIPPED: Russian RTX 4090 video, not relevant to agent/orchestration research"
+      "ingested_at": "2026-04-03T18:30:00.000000+00:00",
+      "catalogue_path": "research/catalogue/general-interest/rtx-4090-48gb-vram-mod.md"
     },
     "https://www.youtube.com/watch?v=GP2RrJnyhXc": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:53:16.995676+00:00",
-      "catalogue_path": "SKIPPED: Theory of Change Logic Model, not relevant"
+      "ingested_at": "2026-04-03T18:30:00.000000+00:00",
+      "catalogue_path": "research/catalogue/general-interest/theory-of-change-logic-model.md"
     },
     "https://x.com/AnthropicAI/status/2024210053369385192/photo/1": {
       "source": "chrome",
@@ -1709,8 +1719,8 @@
     },
     "https://augmented-intelligence.app.clientclub.net/communities/groups/augmented-intelligence/home": {
       "source": "chrome",
-      "ingested_at": "2026-03-22T11:54:29.531162+00:00",
-      "catalogue_path": "SKIPPED: gated content (clientclub.net)"
+      "ingested_at": "2026-04-03T18:30:00.000000+00:00",
+      "catalogue_path": "research/catalogue/general-interest/augmented-intelligence-community.md"
     },
     "https://x.com/i/connect_people?user_id=12819682": {
       "source": "chrome",
@@ -1746,6 +1756,688 @@
       "source": "chrome",
       "ingested_at": "2026-03-22T15:11:45.905016+00:00",
       "catalogue_path": "SKIPPED:low-relevance-2-likes-diffusion-llm-survey"
+    },
+    "https://x.com/akshay_pachaar/status/2035341800739877091": {
+      "source": "chrome",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/akshay-claude-folder-anatomy.md"
+    },
+    "https://x.com/trq212/status/2035799806640115806": {
+      "source": "chrome",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/trq212-new-init-testing.md"
+    },
+    "https://x.com/trq212/status/2029455580444934627": {
+      "source": "chrome",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/trq212-init-useful-community-feedback.md"
+    },
+    "https://x.com/jerryjliu0/status/2035764914300854753": {
+      "source": "chrome",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/jerryjliu0-llamaparse-agents-skill.md"
+    },
+    "https://x.com/noahzweben/status/2036129220959805859": {
+      "source": "chrome",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/noahzweben-schedule-cloud-jobs.md"
+    },
+    "https://x.com/jennyzhangzt/status/2036099935083618487": {
+      "source": "chrome",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/jennyzhangzt-hyperagents-dgm.md"
+    },
+    "https://x.com/i/status/2035435463998108120": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/llmjunky-favorite-agent-orchestration-tools.md"
+    },
+    "https://x.com/i/status/2034683638382506063": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/llmjunky-favorite-agent-orchestration-tools.md"
+    },
+    "https://www.makeuseof.com/browser-based-creative-suite-open-source/": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/browser-based-creative-suite-open-source.md"
+    },
+    "https://www.marktechpost.com/2026/03/20/nvidia-releases-nemotron-cascade-2-an-open-30b-moe-with-3b-active-parameters-delivering-better-reasoning-and-strong-agentic-capabilities/": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/nvidia-nemotron-cascade-2-open-30b-moe.md"
+    },
+    "https://www.marktechpost.com/2026/03/22/meet-gitagent-the-docker-for-ai-agents-that-is-finally-solving-the-fragmentation-between-langchain-autogen-and-claude-code/": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/gitagent-docker-for-ai-agents.md"
+    },
+    "https://devblogs.microsoft.com/all-things-azure/agentic-platform-engineering-with-github-copilot/": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/agentic-platform-engineering-github-copilot.md"
+    },
+    "https://github.com/matt1398/claude-devtools": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/observability/claude-devtools.md"
+    },
+    "https://github.com/node9ai/node9": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/infrastructure/node9-security-layer.md"
+    },
+    "https://share.google/sLwhF2wCco3zx8oNQ": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/browser-based-creative-suite-open-source.md"
+    },
+    "https://share.google/8DAHBjjIulpKb1ADy": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/nvidia-nemotron-cascade-2-open-30b-moe.md"
+    },
+    "https://search.app/CaKg6": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/gitagent-docker-for-ai-agents.md"
+    },
+    "https://share.google/QnMKqwCl7X8OC38TL": {
+      "source": "manual",
+      "ingested_at": "2026-03-25T09:54:22.750772+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/agentic-platform-engineering-github-copilot.md"
+    },
+    "https://www.youtube.com/watch?v=TqjmTZRL31E": {
+      "source": "chrome",
+      "ingested_at": "2026-03-28T09:55:08.536417+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-03/indydevdan-pi-ceo-agents-claude-1m-context.md"
+    },
+    "https://www.anthropic.com/engineering/harness-design-long-running-apps": {
+      "source": "chrome",
+      "ingested_at": "2026-03-28T09:55:08.536417+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/anthropic-harness-design-long-running-apps.md"
+    },
+    "https://browser-use.com/posts/web-scraping-guide-2026": {
+      "source": "chrome",
+      "ingested_at": "2026-03-28T09:55:08.536417+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/browser-use-web-scraping-guide-2026.md"
+    },
+    "https://browser-use.com/posts/online-mind2web-benchmark": {
+      "source": "chrome",
+      "ingested_at": "2026-03-28T09:55:08.536417+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-03/browser-use-mind2web-online-benchmark-97-percent.md"
+    },
+    "https://x.com/GoogleResearch/status/2036533564158910740": {
+      "source": "chrome",
+      "ingested_at": "2026-03-28T09:55:08.536417+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/googleresearch-turboquant-compression-algorithm.md"
+    },
+    "https://www.youtube.com/watch?v=TqjmTZRL31E&t=480s": {
+      "source": "chrome",
+      "ingested_at": "2026-03-28T09:55:08.536417+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-03/indydevdan-pi-ceo-agents-claude-1m-context.md"
+    },
+    "https://x.com/0xSero/status/2037511983361061340?s=20": {
+      "source": "chrome",
+      "ingested_at": "2026-04-03T11:47:12.954112+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/0xsero-mythic-ade-apps-category-list.md"
+    },
+    "https://x.com/Amank1412/status/2023754885473394918": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T11:47:12.954112+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/amank1412-yc-ceo-claude-md-prompt.md"
+    },
+    "https://x.com/JorgeCastilloPr/status/2023779881113579776": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T11:47:12.954112+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/jorgecastillopr-warcraft-claude-hooks.md"
+    },
+    "https://grok.com/share/bGVnYWN5_96102d5b-cd59-4b98-85c8-b675c8c88ee7": {
+      "source": "chrome",
+      "ingested_at": "2026-04-03T18:30:00.000000+00:00",
+      "catalogue_path": "research/catalogue/general-interest/grok-open-models-ecosystem.md"
+    },
+    "https://www.youtube.com/watch?v=QhJyVpj_tFE": {
+      "source": "manual",
+      "ingested_at": "2026-04-03T21:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-04/mindsdb-anton-autonomous-bi-agent.md"
+    },
+    "https://x.com/no_stp_on_snek/status/2039787271365300335": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/no-stp-on-snek-gemma4-turboquant-compression.md"
+    },
+    "https://x.com/omarsar0/status/2039844072748204246": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-personal-knowledge-base-agents-obsidian.md"
+    },
+    "https://x.com/elder_plinius/status/2039476709146411377": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/elder-plinius-stegg-steganography-platform.md"
+    },
+    "https://x.com/omarsar0/status/2039352722629992936": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-self-organizing-llm-agents.md"
+    },
+    "https://x.com/omarsar0/status/2039349083039817984": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-memfactory-agent-memory-framework.md"
+    },
+    "https://x.com/latentspacepod/status/2039227555132354802": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/latentspacepod-claude-code-source-leak.md"
+    },
+    "https://x.com/lucatac0/status/2039501213603930502": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/lucatac0-replicate-cog-containerization.md"
+    },
+    "https://x.com/hcompany_ai/status/2039021096649805937": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/hcompany-holo3-computer-use-models.md"
+    },
+    "https://x.com/WillowVoiceAI/status/2039393905616310659": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/willowvoiceai-atlas1-stt-model.md"
+    },
+    "https://x.com/rivet_dev/status/2039015678959853678": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/rivet-agentos-portable-os-for-agents.md"
+    },
+    "https://x.com/lawrencecchen/status/2039284294682870052": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/lawrencecchen-cmux-claude-teams.md"
+    },
+    "https://x.com/PawelHuryn/status/2039049353977839932": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/pawelhuryn-orchestration-over-autonomy.md"
+    },
+    "https://x.com/useLunel/status/2039352470007345452": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/uselunel-dev-environment-pocket.md"
+    },
+    "https://x.com/omarsar0/status/2039383554510217707": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-ai-agent-traps-deepmind.md"
+    },
+    "https://x.com/muellerberndt/status/2038961791582249435": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/muellerberndt-observer-patch-holography.md"
+    },
+    "https://x.com/nummanali/status/2038677780880138716": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/nummanali-codex-plugin-claude-code.md"
+    },
+    "https://x.com/LeeLeepenkman/status/2039240342642557429": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/leeleepenkman-codex-infinity.md"
+    },
+    "https://x.com/Scobleizer/status/2038780837643333717": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/scobleizer-only-moats-that-matter.md"
+    },
+    "https://x.com/dair_ai/status/2038968068706390117": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/dair-ai-natural-language-agent-harnesses.md"
+    },
+    "https://x.com/omarsar0/status/2038627572108743001": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-cmu-coding-agents-structured-representations.md"
+    },
+    "https://x.com/omarsar0/status/2038967842075500870": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-meta-harness-stanford-mit.md"
+    },
+    "https://x.com/spacesuit_app/status/2037685825425826075": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/spacesuit-nova-personal-dev-canvas.md"
+    },
+    "https://x.com/LiorOnAI/status/2038669301541228606": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/lioronai-automate-harness-engineering.md"
+    },
+    "https://x.com/minchoi/status/2038261861460721802": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/minchoi-ai-in-china.md"
+    },
+    "https://x.com/SeijinJung/status/2038617288367354018": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/seijinjung-helena-autonomous-ai-marketer.md"
+    },
+    "https://x.com/PawelHuryn/status/2038525388037448113": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/pawelhuryn-web-layout-without-css.md"
+    },
+    "https://x.com/bcherny/status/2038454336355999749": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/bcherny-hidden-features-claude-code.md"
+    },
+    "https://x.com/TheAhmadOsman/status/2037658069396815884": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/theahmadosman-26-essential-llm-papers.md"
+    },
+    "https://x.com/GeoffreyHuntley/status/2036878840413278411": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/geoffreyhuntley-software-modularity-agents.md"
+    },
+    "https://x.com/LLMJunky/status/2036854508597432826": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/llmjunky-google-webmcp-browser-control.md"
+    },
+    "https://x.com/victormustar/status/2036004019890438520": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/victormustar-pi-agent-huggingface-mlx.md"
+    },
+    "https://x.com/simonw/status/2036294026438254783": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/simonw-huge-moe-models-local-mac.md"
+    },
+    "https://x.com/koylanai/status/2035787531586064663": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/koylanai-huggingface-papers-api.md"
+    },
+    "https://x.com/ctatedev/status/2036149934441783691": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/ctatedev-generative-tui.md"
+    },
+    "https://x.com/trq212/status/2036442891346755787": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/trq212-figma-mcp-update.md"
+    },
+    "https://x.com/claudeai/status/2036195789601374705": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/claudeai-computer-use-launch.md"
+    },
+    "https://x.com/cursor_ai/status/2036122609931165985": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/cursor-ai-instant-grep.md"
+    },
+    "https://x.com/figma/status/2036434766661296602": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/figma-use-figma-mcp-open-beta.md"
+    },
+    "https://x.com/elvissun/status/2035457942087238076": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/elvissun-tanstack-query-frontend-slop.md"
+    },
+    "https://x.com/ctatedev/status/2032557225030664272": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/ctatedev-json-render-yaml-wire-format.md"
+    },
+    "https://x.com/nummanali/status/2032799603209224425": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/nummanali-slate-cli-rlm-agent.md"
+    },
+    "https://x.com/PawelHuryn/status/2031801444064543156": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/pawelhuryn-error-analysis-ai-engineering.md"
+    },
+    "https://x.com/omarsar0/status/2031727864199208972": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/omarsar0-evoskill-agent-skill-discovery.md"
+    },
+    "https://x.com/AndrewYNg/status/2031051809499054099": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/andrewng-context-hub-api-docs-agents.md"
+    },
+    "https://x.com/LeeLeepenkman/status/2030577002726776916": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/leeleepenkman-dictator-flow-voice-control.md"
+    },
+    "https://x.com/minhsmind/status/2030561633077268987": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-03T17:19:34.746791+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/minhsmind-fruit-fly-genetics-research.md"
+    },
+    "https://x.com/outsource_/status/2040279851815276861": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/outsource-hermesagent-workspace-dashboard.md"
+    },
+    "https://x.com/tlapih/status/2026329996525212038": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-02/tlapih-email-api-europe.md"
+    },
+    "https://x.com/BrianRoemmele/status/2040144960453058659": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/brianroemmele-memory-forgetting-strategy-agents.md"
+    },
+    "https://x.com/vincent_hus/status/2039829890103472363": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/vincent-hus-production-debugging-agent.md"
+    },
+    "https://x.com/mattshumer_/status/2040151836758261959": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/mattshumer-memory-systems-openclaw-hermes.md"
+    },
+    "https://x.com/trq212/status/2034761016320696565": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/trq212-claude-code-channels-telegram-discord.md"
+    },
+    "https://x.com/BrendanFalk/status/2030388188771185005": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-03/brendanfalk-unbounded-agent-skills.md"
+    },
+    "https://x.com/0xSero/status/2026805260300238913": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-02/0xsero-figma-mcp-brand-guide-workflow.md"
+    },
+    "https://x.com/QuiverAI/status/2026792057893708072": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-02/quiverai-arrow-svg-ai-model.md"
+    },
+    "https://x.com/Wattenberger/status/2021269188979949749": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-01/wattenberger-what-comes-after-ide.md"
+    },
+    "https://x.com/mdancho84/status/2023738764841894352": {
+      "source": "x-bookmarks",
+      "ingested_at": "2026-04-04T13:06:40.214107+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-02/mdancho84-10x-engineer-skills-md.md"
+    },
+    "https://lilianweng.github.io/posts/2025-05-01-thinking/": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/lilianweng-why-we-think.md"
+    },
+    "https://github.com/HKUDS/OpenHarness": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/openharness.md"
+    },
+    "https://www.youtube.com/watch?v=k-H4nsOTuxU": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/amol-avasare-anthropic-growth-claude-automation.md"
+    },
+    "https://www.youtube.com/watch?v=kpxmrQWoXb0": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/jesse-frimpong-claude-ai-shopify-brand-scaling.md"
+    },
+    "https://github.com/vaayne/mori": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/developer-gui/mori.md"
+    },
+    "https://github.com/ogulcancelik/herdr": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/orchestration-platforms/herdr.md"
+    },
+    "https://www.youtube.com/watch?v=oet9f6d5g_k": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/letta-code-app-intro.md"
+    },
+    "https://github.com/ballred/obsidian-claude-pkm": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/agent-memory/obsidian-claude-pkm.md"
+    },
+    "https://github.com/tw93/Kaku": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/developer-gui/kaku.md"
+    },
+    "https://github.com/tw93/Kaku?tab=readme-ov-file": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/developer-gui/kaku.md"
+    },
+    "https://www.youtube.com/watch?v=SY2xyrmV44Y": {
+      "source": "chrome",
+      "ingested_at": "2026-04-09T14:27:30.464533+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/runway-gen1-video-to-video-ai.md"
+    },
+    "https://multica.ai/": {
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932066+00:00",
+      "catalogue_path": "research/catalogue/general-interest/multica-ai-task-management.md"
+    },
+    "https://www.youtube.com/watch?v=3DNkDIVKtK8": {
+      "source": "user-request",
+      "ingested_at": "2026-04-09T17:03:10.847119+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md"
+    },
+    "https://www.youtube.com/watch?v=2czYyrTzILg": {
+      "source": "user-request",
+      "ingested_at": "2026-04-09T17:03:10.847119+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/sandipan-bhaumik-chaos-to-choreography-multi-agent-orchestration.md"
+    },
+    "https://www.youtube.com/watch?v=CeOXx-XTYek": {
+      "source": "user-request",
+      "ingested_at": "2026-04-09T17:09:48.712267+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md"
+    },
+    "https://x.com/i/trending/2039841987067617664": {
+      "source": "chrome-bookmark-trending",
+      "ingested_at": "2026-04-11T08:58:28.349672+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/karpathy-llm-wiki-knowledge-bases.md",
+      "note": "Trending-topic URL maps to existing canonical Karpathy LLM Knowledge Bases entry (tweet 2039805659525644595). Deduped against existing catalogue."
+    },
+    "https://x.com/karpathy/status/2039805659525644595": {
+      "source": "chrome-bookmark-trending",
+      "ingested_at": "2026-04-11T08:58:28.349672+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/karpathy-llm-wiki-knowledge-bases.md",
+      "note": "Trending-topic URL maps to existing canonical Karpathy LLM Knowledge Bases entry (tweet 2039805659525644595). Deduped against existing catalogue."
+    },
+    "https://x.com/i/status/2039739581772554549": {
+      "source": "personal-notes-2026-04-10",
+      "ingested_at": "2026-04-11T09:00:17Z",
+      "catalogue_path": "research/catalogue/posts/2026-04/nichochar-the-great-convergence.md"
+    },
+    "https://x.com/nichochar/status/2039739581772554549": {
+      "source": "personal-notes-2026-04-10",
+      "ingested_at": "2026-04-11T09:00:17Z",
+      "catalogue_path": "research/catalogue/posts/2026-04/nichochar-the-great-convergence.md"
+    },
+    "https://github.blog/ai-and-ml/github-copilot/agent-driven-development-in-copilot-applied-science/": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/github-copilot-agent-driven-development-applied-science.md"
+    },
+    "https://www.marktechpost.com/2026/04/05/meet-autoagent-the-open-source-library-that-lets-an-ai-engineer-and-optimize-its-own-agent-harness-overnight/": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/marktechpost-autoagent-self-optimizing-harness.md"
+    },
+    "https://www.marktechpost.com/2026/04/06/rightnow-ai-releases-autokernel-an-open-source-framework-that-applies-an-autonomous-agent-loop-to-gpu-kernel-optimization-for-arbitrary-pytorch-models/": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/marktechpost-autokernel-gpu-kernel-agent.md"
+    },
+    "https://devblogs.microsoft.com/aspire/agentic-dev-aspirations/": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/microsoft-aspire-agentic-dev-aspirations.md"
+    },
+    "https://www.infoq.com/news/2026/04/google-agent-testbed-scion/": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/infoq-google-scion-agent-testbed.md"
+    },
+    "https://www.getagentcraft.com/docs/features/side-panel": {
+      "source": "comet",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/agentcraft-side-panel-docs.md"
+    },
+    "https://github.com/ythx-101/x-tweet-fetcher/blob/main/scripts/fetch_tweet.py": {
+      "source": "chrome",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/x-tweet-fetcher-python-script.md"
+    },
+    "https://x.com/omarsar0/status/2040099881008652634": {
+      "source": "chrome",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-llm-knowledge-base-diagram.md"
+    },
+    "https://www.youtube.com/watch?v=Vn6ZjeRa6VE": {
+      "source": "comet",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/web-dev-cody-2-ai-coding-strategies.md"
+    },
+    "https://github.com/openai/symphony": {
+      "source": "chrome",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/openai-symphony.md"
+    },
+    "https://github.com/openai/symphony/blob/main/SPEC.md": {
+      "source": "chrome",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/openai-symphony.md"
+    },
+    "https://github.com/cclank/Hermes-Wiki": {
+      "source": "chrome",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/hermes-wiki.md"
+    },
+    "https://github.com/openclaw/acpx": {
+      "source": "comet",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/openclaw-acpx.md"
+    },
+    "https://github.com/JackChen-me/open-multi-agent": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/jackchen-open-multi-agent.md"
+    },
+    "https://share.google/4oLdEpZQWTMa5IUgf": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/jackchen-open-multi-agent.md"
+    },
+    "https://share.google/foFXEnfM8unryKGFl": {
+      "source": "notes",
+      "ingested_at": "2026-04-11T09:08:46.146253+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/marktechpost-autoagent-self-optimizing-harness.md"
+    },
+    "https://github.com/garrytan/gbrain": {
+      "source": "manual",
+      "ingested_at": "2026-04-11T12:00:00Z",
+      "catalogue_path": "research/catalogue/agent-memory/garrytan-gbrain.md"
+    },
+    "https://devblogs.microsoft.com/all-things-azure/putting-agentic-platform-engineering-to-the-test/": {
+      "source": "manual",
+      "ingested_at": "2026-04-13T07:02:46.931877+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/agentic-platform-engineering-azure-test.md"
+    },
+    "https://blog.langchain.com/your-harness-your-memory/": {
+      "source": "manual",
+      "ingested_at": "2026-04-13T07:02:46.932057+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/langchain-your-harness-your-memory.md"
+    },
+    "https://github.com/AgriciDaniel/claude-obsidian": {
+      "source": "manual",
+      "ingested_at": "2026-04-13T07:02:46.932059+00:00",
+      "catalogue_path": "research/catalogue/general-interest/claude-obsidian-integration.md"
+    },
+    "https://blog.langchain.com/better-harness-a-recipe-for-harness-hill-climbing-with-evals/": {
+      "source": "manual",
+      "ingested_at": "2026-04-13T07:02:46.932060+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/langchain-harness-hill-climbing-evals.md"
+    },
+    "https://www.getagentcraft.com/": {
+      "source": "comet",
+      "ingested_at": "2026-04-13T07:02:46.932068+00:00",
+      "catalogue_path": "research/catalogue/general-interest/agentcraft-rts-orchestration.md"
+    },
+    "https://www.youtube.com/watch?v=udOqE90ckiI": {
+      "source": "comet",
+      "ingested_at": "2026-04-13T07:02:46.932069+00:00",
+      "catalogue_path": "research/catalogue/talks/2026-04/claude-managed-agents-vs-n8n.md"
+    },
+    "https://github.com/nousresearch/hermes-agent": {
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932071+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/hermes-agent.md"
+    },
+    "https://github.com/praveen-ks-2001/hermes-agent-template": {
+      "source": "comet",
+      "ingested_at": "2026-04-13T07:02:46.932072+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/hermes-agent-template.md"
+    },
+    "https://github.com/earendil-works/absurd": {
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932072+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/absurd.md"
+    },
+    "https://github.com/holaboss-ai/holaOS": {
+      "source": "comet",
+      "ingested_at": "2026-04-13T07:02:46.932073+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/holaos.md"
+    },
+    "https://github.com/JackChen-me/open-multi-agent/blob/main/README.md": {
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932074+00:00",
+      "catalogue_path": "research/catalogue/agent-harnesses/open-multi-agent.md"
+    },
+    "https://www.engguidebook.com/": {
+      "source": "comet",
+      "ingested_at": "2026-04-13T07:02:46.932075+00:00",
+      "catalogue_path": "research/catalogue/general-interest/software-engineers-guidebook.md"
+    },
+    "https://de.scribd.com/document/982717005/The-Software-Engineer-s-Guidebook-Bonus-Chapters": {
+      "source": "comet",
+      "ingested_at": "2026-04-13T07:02:46.932076+00:00",
+      "catalogue_path": "research/catalogue/general-interest/software-engineers-guidebook-bonus.md"
+    },
+    "https://medium.com/@visrow/spec-driven-development-is-eating-software-engineering": {
+      "source": "chrome",
+      "ingested_at": "2026-04-13T07:02:46.932077+00:00",
+      "catalogue_path": "research/catalogue/articles/2026-04/spec-driven-development-eating-software-engineering.md"
     }
   }
 }

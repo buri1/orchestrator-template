@@ -1,0 +1,85 @@
+{
+  "source_url": "https://devblogs.microsoft.com/aspire/agentic-dev-aspirations/",
+  "source_title": "Agentic Dev Aspirations (Microsoft Aspire)",
+  "source_type": "article",
+  "source_author": "Maddy Montaquila (Microsoft)",
+  "source_date": "2026-04-07",
+  "ingested_at": "2026-04-11",
+  "ingested_by": "ingest-article skill",
+  "catalogue_path": "research/catalogue/articles/2026-04/microsoft-aspire-agentic-dev-aspirations.md",
+  "relevance": 9,
+  "actionable": 7,
+  "tags": [
+    "harness-engineering",
+    "big-tech",
+    "microsoft",
+    "dotnet",
+    "aspire",
+    "opentelemetry",
+    "mcp",
+    "deterministic-gates",
+    "agent-observability",
+    "process-orchestration"
+  ],
+  "key_takeaways": [
+    "Microsoft publicly adopts 'deterministic gates over markdown' harness-engineering framing (quoting Burke Holland) as official product positioning.",
+    "Aspire 13.2 ships TypeScript/C# AppHost as compiler-gated infrastructure definition — agents read source and verify via compilation, not YAML+docs.",
+    "`aspire start` + `--isolated` mode solves port conflicts for parallel agent workstreams — same problem our tmux+worktree setup addresses at a different layer.",
+    "CLI-exposed OpenTelemetry (traces, metrics, structured logs) becomes the agent feedback loop, replacing log-file copy-paste and human-in-the-loop validation.",
+    "`aspire init` bundles MCP server + agent skills by default — Big-Tech convergence on agent-native bootstrap ergonomics (parallel to `claude init`)."
+  ],
+  "discoveries": [
+    {
+      "type": "tool",
+      "name": ".NET Aspire 13.2",
+      "url": "https://get.aspire.dev",
+      "reason": "First Big-Tech harness-engineering product launch; standalone tool entry justified. Covers AppHost as code-based infra, `aspire start`, `--isolated` mode, OTel CLI surface, MCP+skills in `aspire init`.",
+      "suggested_ingest": "/tool-catalogue",
+      "relevance_estimate": 8
+    },
+    {
+      "type": "repo",
+      "name": "microsoft/aspire (GitHub)",
+      "url": "https://github.com/microsoft/aspire",
+      "reason": "Source of truth for AppHost schema, MCP server implementation, OTel CLI plumbing. Needed to verify the post's claims and extract adoptable patterns.",
+      "suggested_ingest": "/tool-catalogue",
+      "relevance_estimate": 7
+    },
+    {
+      "type": "post",
+      "name": "Burke Holland — 'Markdown is not the answer / deterministic gates' X post",
+      "url": "https://x.com/burkeholland/status/2040131862501200271",
+      "reason": "The provenance quote Microsoft uses to frame the entire harness-engineering pitch. Belongs in our deterministic-gates / anti-Markdown stdlib references alongside Karpathy's LLM Wiki and 12 Factor Agents.",
+      "suggested_ingest": "/ingest-post",
+      "relevance_estimate": 8
+    },
+    {
+      "type": "article",
+      "name": "Aspire — Getting Started / First App",
+      "url": "https://aspire.dev/get-started/first-app",
+      "reason": "Walkthrough of agent-native `aspire init` plus the bundled skills + MCP; confirms exact ergonomics pattern we could mirror in our orchestrator bootstrap.",
+      "suggested_ingest": "/ingest-article",
+      "relevance_estimate": 6
+    }
+  ],
+  "patterns_to_adopt": [
+    {
+      "pattern": "`--isolated` mode for port-collision-free parallel agents",
+      "source": "aspire start --isolated",
+      "target": "Orchestrator tmux+worktree workers — currently we isolate filesystem via worktree but don't enforce unique ports for parallel E2E / dev server runs. Add a port-allocation primitive per worker window."
+    },
+    {
+      "pattern": "CLI-exposed OpenTelemetry as agent feedback surface",
+      "source": "aspire CLI traces/metrics/logs",
+      "target": "Expose a normalized `orchestrator telemetry` command (tail traces / last N metrics) so Claude Code workers can self-diagnose without reading raw log files. Could sit next to Chrome DevTools MCP as a second verification channel."
+    },
+    {
+      "pattern": "Bundle agent primitives (MCP + skills) in the init command",
+      "source": "aspire init",
+      "target": "Our `./run-tmux.sh` bootstrap should optionally scaffold CLAUDE.md + .claude/skills + MCP server registrations in target projects by default, matching the 'day-zero agent-ready' ergonomics."
+    }
+  ],
+  "notes": "Strategic context: this is the first Big-Tech (Microsoft) product launch that opens with the harness-engineering thesis in our exact vocabulary. Useful citation for conservative German enterprise buyers ('Microsoft is shipping this now'). Contrasts with our language-agnostic Claude Code + tmux + worktree approach — Aspire is deeply .NET/C#/TypeScript opinionated. Convergence with Lopopolo's AIE Europe keynote and Anthropic's long-running harness post confirms industry-wide shift from 'better models' to 'better harnesses'.",
+  "status": "done",
+  "error": null
+}

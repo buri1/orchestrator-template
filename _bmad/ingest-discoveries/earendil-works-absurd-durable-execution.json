@@ -1,0 +1,67 @@
+{
+  "source_url": "https://github.com/earendil-works/absurd",
+  "source_title": "earendil-works/absurd: An experiment in durability",
+  "type": "tool",
+  "source": "manual",
+  "ingested_at": "2026-04-04",
+  "catalogue_path": "research/catalogue/agent-harnesses/absurd.md",
+  "relevance": 8,
+  "actionable": 8,
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Postgres-Only Durable Execution",
+      "description": "Entire workflow engine runs as Postgres stored functions -- single absurd.sql file, zero additional services. Tasks decompose into steps with automatic checkpointing. On crash/restart, replays checkpoints and resumes from last completed step.",
+      "tags": ["durable-execution", "postgres", "zero-infra", "crash-recovery"]
+    },
+    {
+      "id": 2,
+      "title": "Agent Skill Installation",
+      "description": "`absurdctl install-skill` injects Absurd skills into agent working directories (.agents/skills or .pi/skills). First-class support for agent-driven durable workflows.",
+      "tags": ["agent-integration", "skill-system", "pi-compatible"]
+    },
+    {
+      "id": 3,
+      "title": "Event-Driven Task Suspension",
+      "description": "Tasks can suspend via `awaitEvent()` and resume when events arrive. Events are cached (first-emit-wins) and race-free. Maps directly to orchestrator patterns like waiting for PR creation or E2E test completion.",
+      "tags": ["event-driven", "task-suspension", "race-free", "orchestration"]
+    },
+    {
+      "id": 4,
+      "title": "Pull-Based Worker Model",
+      "description": "Workers pull tasks from Postgres as they have capacity. No push coordinator needed. Natural backpressure -- workers only take what they can handle.",
+      "tags": ["pull-based", "backpressure", "worker-model"]
+    },
+    {
+      "id": 5,
+      "title": "Multi-Language SDKs",
+      "description": "TypeScript, Python, and Go (experimental) SDKs. Complexity pushed into Postgres stored functions, SDKs are thin wrappers providing language-idiomatic ergonomics.",
+      "tags": ["typescript-sdk", "python-sdk", "multi-language"]
+    }
+  ],
+  "referenced_tools": [
+    { "name": "Absurd", "catalogued": true, "note": "This entry" },
+    { "name": "Temporal", "catalogued": false, "note": "Competitor -- requires dedicated infrastructure" },
+    { "name": "Inngest", "catalogued": false, "note": "Competitor -- event-driven but requires service" },
+    { "name": "PGMQ", "catalogued": false, "note": "Postgres message queue -- simpler but no durable execution" },
+    { "name": "DBOS", "catalogued": false, "note": "Competitor -- TypeScript durable execution" }
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://lucumr.pocoo.org/2025/11/3/absurd-workflows/",
+      "reason": "Armin Ronacher's announcement post with design philosophy and architectural rationale",
+      "suggested_skill": "/research-librarian"
+    },
+    {
+      "url": "https://earendil-works.github.io/absurd/comparison/",
+      "reason": "Official comparison with PGMQ, Cadence, Temporal, Inngest, DBOS",
+      "suggested_skill": "/research-librarian"
+    }
+  ],
+  "action_items": [
+    "Evaluate applying absurd.sql to Supabase instance for orchestrator state durability",
+    "Prototype replacing orchestrator-tmux-state.json with Absurd checkpointed workflow",
+    "Test absurdctl install-skill for orchestrator worker skill injection",
+    "Read Armin's announcement post for deeper architectural rationale"
+  ]
+}

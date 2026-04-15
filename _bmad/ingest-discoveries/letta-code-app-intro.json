@@ -1,0 +1,44 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=oet9f6d5g_k",
+  "source_title": "Introducing the Letta Code App",
+  "source_type": "talk",
+  "ingested_at": "2026-04-04T12:00:00Z",
+  "catalogue_path": "research/catalogue/talks/2026-04/letta-code-app-intro.md",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/letta-ai/letta-code",
+      "title": "Letta Code GitHub Repository",
+      "relevance": 8,
+      "reason": "2.1K stars; Apache-2.0 memory-first coding harness in TypeScript; reference implementation of persistent agent memory with skill learning; model-agnostic architecture",
+      "suggested_ingest": "/ingest-post"
+    },
+    {
+      "url": "https://www.letta.com/blog/letta-code",
+      "title": "Letta Code: A Memory-First Coding Agent",
+      "relevance": 8,
+      "reason": "Technical deep dive on memory architecture, skill learning system, Terminal-Bench benchmark results, and comparison with provider-specific harnesses",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.letta.com/blog/letta-v1-agent",
+      "title": "Rearchitecting Letta's Agent Loop: Lessons from ReAct, MemGPT, & Claude Code",
+      "relevance": 9,
+      "reason": "Agent loop design lessons drawn from ReAct, MemGPT, and Claude Code; directly relevant to our orchestrator loop architecture",
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.tbench.ai/",
+      "title": "Terminal-Bench — Coding Agent Benchmark",
+      "relevance": 7,
+      "reason": "Benchmark for evaluating coding harnesses across model providers; useful for comparing our own harness configurations objectively",
+      "suggested_ingest": "/ingest-post"
+    },
+    {
+      "url": "https://github.com/letta-ai/letta",
+      "title": "Letta Platform (MemGPT) — Stateful Agent Framework",
+      "relevance": 7,
+      "reason": "19K stars; parent platform for Letta Code; stateful agent memory with self-editing context blocks; already partially catalogued but may need update",
+      "suggested_ingest": "/ingest-post"
+    }
+  ]
+}

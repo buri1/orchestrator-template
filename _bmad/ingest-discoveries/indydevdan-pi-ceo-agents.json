@@ -1,0 +1,28 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=TqjmTZRL31E",
+  "source_title": "Pi CEO Agents. Claude 1M Context. Multi-Agent Teams.",
+  "catalogue_path": "research/catalogue/talks/2026-03/indydevdan-pi-ceo-agents-claude-1m-context.md",
+  "ingested_at": "2026-03-28T12:00:00.000Z",
+  "relevance_score": 7,
+  "verdict": "MEDIUM-HIGH — validates Claude Max flat-pricing strategy; CEO Agent pattern is higher-abstraction orchestrator/worker; Pi harness walkthrough useful for migration eval",
+  "discovered_urls": [
+    {
+      "url": "https://pi.dev/",
+      "title": "Pi coding agent — harness powering the CEO Agent system",
+      "relevance": 8,
+      "notes": "Already catalogued as pi-agent"
+    },
+    {
+      "url": "https://agenticengineer.com/tactical-agentic-coding",
+      "title": "Tactical Agentic Coding course — includes CEO Agent setup",
+      "relevance": 6,
+      "notes": "Dan's paid course ($599) with 14 lessons including multi-agent orchestration"
+    },
+    {
+      "url": "https://github.com/disler/pi-vs-claude-code",
+      "title": "Pi vs Claude Code — 15 extensions including agent-team and agent-chain",
+      "relevance": 7,
+      "notes": "Companion repo with multi-agent orchestration extensions; not separately catalogued"
+    }
+  ]
+}

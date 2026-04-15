@@ -2,8 +2,26 @@
   "handle": "doodlestein",
   "practitioner_ref": null,
   "month": "2026-02",
-  "synced_at": "2026-03-12T13:00:00Z",
+  "synced_at": "2026-04-11T00:00:00Z",
   "posts": [
+    {
+      "id": "2027515287235342804",
+      "url": "https://x.com/doodlestein/status/2027515287235342804",
+      "type": "post",
+      "date": "2026-02-27",
+      "text": "I've seen a lot of skepticism recently from people about the claims around how long agents like Claude Code w/ Opus 4.6 can go autonomously without some kind of automated loop feeding them new instructions. People think it's BS because they haven't observed it. It's real. 17+hrs",
+      "media": ["photo"],
+      "metrics": { "likes": 257, "retweets": 14, "replies": 50, "views": 28849, "bookmarks": 108, "quotes": 0 },
+      "links": [],
+      "topics": ["claude-code", "agent-orchestration", "llm-engineering", "ai-ops"],
+      "relevance": 9,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Key datapoint: 17+hr autonomous Opus 4.6 runs in Claude Code, no external loop. Screenshot proof attached. Directly relevant to orchestrator long-running agent claims; validates Anthropic's long-horizon capability narrative. 28K views, 108 bookmarks, 50 replies (skeptical thread)."
+    },
     {
       "id": "2027199039490466225",
       "url": "https://x.com/doodlestein/status/2027199039490466225",
@@ -39,6 +57,24 @@
       "catalogue_path": null,
       "enriched": true,
       "notes": "Agent Mail Rust sneak peek — lists all 9 component libraries assembled in the Flywheel manner. Key signal: flywheel composability in action. Official launch imminent. Connects FrankenTUI, FrankenSQLite, FrankenSearch, asupersync, fastmcp_rust, sqlmodel_rust, beads_rust, toon_rust."
+    },
+    {
+      "id": "2026368671199932854",
+      "url": "https://x.com/doodlestein/status/2026368671199932854",
+      "type": "post",
+      "date": "2026-02-24",
+      "text": "Plus:\n\n1) A next-level safe version of SQLite that natively supports multiple concurrent writers using a similar approach to what Postgres uses (this is like 2-3 days from completion already). FrankenSQLite.\n\n2) a from-scratch, radically innovative and safe JS engine and node/bun replacement. FrankenEngine and FrankenNode.\n\n3) next level safe rust versions of Numpy, Scipy, Pandas, NetworkX, Jax, and Pytorch. Faster, better, and all memory safe. Franken<you get the idea>.\n\n4) Same for Redis, Whisper, and Mermaid.\n\n5) FrankenCode (haven't started this yet but it will merge my Rust version of Pi Agent, which is already done, with Codex and my new FrankenEngine and FrankenNode) to make the best, most extensible, and SAFEST agent harness in the world, with the best interface via my FrankenTUI library, which is the best and fastest TUI library in the world now.\n\n6) All of this will flow into FrankenTerm, which is an unholy mixture in Rust of WezTerm, Ghostty, Rio, Zellij, and a ton of my other projects (like process_triage, storage_balast_helper, vibe_cockpit, etc) to make the very best cross-platform terminal emulator with integrated multiplexer that's designed from the ground up to withstand the extreme demands of multi-day sessions involving hundreds of separate agents.",
+      "media": [],
+      "metrics": { "likes": 255, "retweets": 4, "replies": 24, "views": 66553, "bookmarks": 164, "quotes": 0 },
+      "links": [],
+      "topics": ["coding-tools", "rust", "agent-orchestration", "infrastructure", "open-source"],
+      "relevance": 10,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "THE FRANKEN ROADMAP. Full 6-item project manifest: FrankenSQLite (concurrent writers Postgres-style), FrankenEngine/FrankenNode (safe JS runtime), safe Rust ports of Numpy/Scipy/Pandas/NetworkX/Jax/Pytorch, Franken Redis/Whisper/Mermaid, FrankenCode (Pi Rust + Codex + FrankenEngine = best agent harness in the world), FrankenTerm (WezTerm+Ghostty+Rio+Zellij cross-platform terminal for hundreds-of-agents multi-day sessions). 66K views, 164 bookmarks. Definitive vision document for the whole Frankenverse."
     },
     {
       "id": "2026110356079178141",
@@ -113,6 +149,24 @@
       "notes": "HIGHEST SIGNAL POST. pi_agent_rust full announcement. 95K views, 704 likes, 656 bookmarks. Re-architecture of Pi execution model: capability-gated hostcalls, QuickJS embedded runtime, typed hostcall ABI, per-extension quotas, JSONL v3 sessions, 90 providers. 4.95x Node speedup. Directly relevant to agent-harnesses/pi/ catalogue category. Definitive ingest candidate."
     },
     {
+      "id": "2020910414708507024",
+      "url": "https://x.com/doodlestein/status/2020910414708507024",
+      "type": "post",
+      "date": "2026-02-09",
+      "text": "It has saved me from a similar fate well over 100 times at this point. Not using dcg while doing agent coding is like writing your whole final essay for class without ever saving the file in MS Word (and with autosave disabled). It takes 10 seconds to install and it's 💯🆓.",
+      "media": [],
+      "metrics": { "likes": 383, "retweets": 22, "replies": 6, "views": 57934, "bookmarks": 583, "quotes": 0 },
+      "links": [],
+      "topics": ["claude-code", "coding-tools", "ai-ops", "open-source"],
+      "relevance": 8,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "dcg viral testimonial: 100+ saves. 'No dcg = essay without autosave' analogy. 57K views, 583 bookmarks — one of highest engagement in Feb. Reinforces dcg as de facto safety net for agent coding. Pairs with full dcg deep-dive post (2015510232869245033)."
+    },
+    {
       "id": "2020641985858572775",
       "url": "https://x.com/doodlestein/status/2020641985858572775",
       "type": "post",
@@ -147,6 +201,24 @@
       "catalogue_path": null,
       "enriched": true,
       "notes": "FrankenTUI website launch. Shows spec+beads evolution publicly. Companion to frankentsqlite.com pattern — project sites as living documentation."
+    },
+    {
+      "id": "2019947644332933204",
+      "url": "https://x.com/doodlestein/status/2019947644332933204",
+      "type": "post",
+      "date": "2026-02-07",
+      "text": "Definitely the coolest use case so far, and shows how qualitatively different FrankenTUI is than other projects. The performance is so insane that it opens up new vistas. \"Quantity has a quality all its own\" applies to raw execution speed:\n\nhttps://x.com/nicerinperson/status/2019204692161577143?s=46",
+      "media": [],
+      "metrics": { "likes": 3, "retweets": 0, "replies": 0, "views": 1725, "bookmarks": 1, "quotes": 0 },
+      "links": ["https://x.com/nicerinperson/status/2019204692161577143?s=46"],
+      "topics": ["coding-tools", "rust"],
+      "relevance": 3,
+      "signal_tier": "LOW",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "QRT of community FrankenTUI use case. 'Quantity has a quality all its own' framing of raw performance unlocking new design space. Very low engagement (3 likes, 1725 views). Low standalone value."
     },
     {
       "id": "2019626572018327718",
@@ -226,6 +298,24 @@
       "catalogue_path": null,
       "enriched": true,
       "notes": "FrankenTUI completion announcement with video demo. ~4 days build time. 24K views, 92 bookmarks. Video demo included. Bold claim: best TUI framework around."
+    },
+    {
+      "id": "2018482331825172672",
+      "url": "https://x.com/doodlestein/status/2018482331825172672",
+      "type": "post",
+      "date": "2026-02-03",
+      "text": "This is such a ridiculous way to develop world-class software. The funniest part is that it WORKS! \n\n(FYI, this is about the optimal way to support existing Pi Agent extensions that are written in JS/TS in my Rust port of Pi Agent):",
+      "media": ["photo", "photo"],
+      "metrics": { "likes": 62, "retweets": 4, "replies": 5, "views": 7975, "bookmarks": 55, "quotes": 0 },
+      "links": [],
+      "topics": ["coding-tools", "rust", "agent-orchestration", "llm-engineering"],
+      "relevance": 6,
+      "signal_tier": "MEDIUM",
+      "ingest_candidate": false,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Meta-commentary on agent-driven development of pi_agent_rust JS/TS extension support (via QuickJS embedding). 'Ridiculous way but it WORKS.' Two screenshots attached. 55 bookmarks. Connects to later pi_agent_rust full release."
     },
     {
       "id": "2018192810902487311",

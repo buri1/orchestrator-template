@@ -1,7 +1,14 @@
 {
-  "source_url": "https://github.com/lee101/codex-infinity",
-  "source_title": "Codex Infinity: Infinite coding agent",
-  "catalogue_path": "research/catalogue/agent-harnesses/codex-infinity.md",
-  "ingested_at": "2026-03-22T18:00:00Z",
-  "discovered_urls": []
+  "source_url": "https://codex-infinity.com/",
+  "source_title": "Codex Infinity - Infinite Coding Agent Platform",
+  "catalogue_path": "research/catalogue/general-interest/codex-infinity.md",
+  "ingested_at": "2026-04-04T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/lee101/codex-infinity",
+      "context": "Codex Infinity GitHub repo - autonomous coding agent extending OpenAI Codex CLI with auto-continuation loops, Apache-2.0, Rust",
+      "suggested_type": "tool",
+      "relevance_hint": "Auto-next-idea pattern: agent generates and implements improvement ideas autonomously after task completion"
+    }
+  ]
 }

@@ -1,0 +1,20 @@
+{
+  "source_url": "https://x.com/omarsar0/status/2039349083039817984",
+  "source_title": "MemFactory — Modular Plug-and-Play Agent Memory with RL-Based Management",
+  "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-memfactory-agent-memory-framework.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://arxiv.org/abs/2603.29493",
+      "context": "MemFactory paper — modular memory architecture with GRPO-based RL optimization",
+      "suggested_type": "article",
+      "relevance_hint": "Up to 14.8% improvement in agent memory management via RL — relevant to our context engineering approach"
+    },
+    {
+      "url": "https://github.com/Yalance/MemFactory",
+      "context": "Open-source implementation of the MemFactory modular memory framework",
+      "suggested_type": "tool",
+      "relevance_hint": "Composable memory modules for agents — potential reference for our knowledge catalogue architecture"
+    }
+  ]
+}

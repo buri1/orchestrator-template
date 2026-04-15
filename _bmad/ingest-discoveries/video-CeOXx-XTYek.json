@@ -1,0 +1,38 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=CeOXx-XTYek",
+  "source_title": "Extreme Harness Engineering: 1M LOC, 1B toks/day, 0% human code or review — Ryan Lopopolo, OpenAI",
+  "catalogue_path": "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+  "ingested_at": "2026-04-04T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://openai.com/index/harness-engineering/",
+      "title": "Harness engineering: leveraging Codex in an agent-first world (OpenAI blog by Lopopolo)",
+      "relevance": 10,
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://github.com/openai/symphony",
+      "title": "Symphony — OpenAI's open-source Elixir-based agent orchestration framework",
+      "relevance": 9,
+      "suggested_ingest": "tool catalogue entry"
+    },
+    {
+      "url": "https://www.latent.space/p/ainews-is-harness-engineering-real",
+      "title": "[AINews] Is Harness Engineering real? — Big Model vs Big Harness debate roundup",
+      "relevance": 8,
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.theneuron.ai/explainer-articles/openais-harness-engineering-playbook-how-to-ship-1m-lines-of-code-without-writing-any/",
+      "title": "OpenAI's Harness Engineering Playbook — detailed explainer with 7 Agent Legibility Metrics",
+      "relevance": 7,
+      "suggested_ingest": "/ingest-article"
+    },
+    {
+      "url": "https://www.latent.space/p/harness-eng",
+      "title": "Latent Space full transcript + show notes for the episode",
+      "relevance": 9,
+      "suggested_ingest": "reference (transcript source)"
+    }
+  ]
+}

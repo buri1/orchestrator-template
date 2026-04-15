@@ -1,15 +1,15 @@
 {
   "handle": "@doodlestein",
   "practitioner_profile": null,
-  "last_scan": "2026-03-12T13:00:00Z",
-  "scan_count": 1,
-  "total_tracked": 23,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 3,
+  "total_tracked": 34,
   "stats": {
-    "high": 14,
-    "medium": 6,
-    "low": 3,
+    "high": 22,
+    "medium": 7,
+    "low": 5,
     "noise": 0,
     "ingested": 0
   },
-  "notes": "First scan. Coverage period: 2026-01-15 to 2026-03-07. 9 known posts from prior research + 14 newly discovered via web search. No jeff-emanuel.md practitioner profile exists yet — practitioner_ref is null across all shards. Highest-priority ingest candidates: pi_agent_rust (2024526138102435934), dcg deep-dive (2015510232869245033), agent swarm health suite (2025361026363875633), rch announcement (2019626572018327718), beads_rust (2012972038332260744), FrankenSearch (2025758721888924091), FrankenSQLite website (2027199039490466225), Agent Mail Rust sneak peek (2026872257172161002), Jan 22 vision post (2014204765085798716)."
+  "notes": "Scan 3 (2026-04-11). Added 9 new posts across 3 shards. 2026-04 shard NEW: 2041260730335277240 (xf tool vs paid X API, Apr 6, MEDIUM). 2026-03 backfill: 2038455960599953550 (Mar 30 rate-limits critique, 49K views, HIGH 10/10 — canonical orchestrator-relevant post), 2035407998432989532 (Mar 21 complete Flywheel guide, HIGH 10/10), 2034379756796342593 (Mar 18 encrypted gh issues methodology thread, 263 bookmarks, HIGH 10/10 — best-practices showcase). 2026-02 backfill: 2027515287235342804 (17+hrs autonomous Opus 4.6 claim, 28K views, HIGH), 2026368671199932854 (Franken 6-project roadmap, 66K views, HIGH 10/10), 2020910414708507024 (dcg 100+ saves viral, 583 bookmarks, HIGH), 2019947644332933204 (FrankenTUI QRT, LOW), 2018482331825172672 (Pi agent JS support meta, MEDIUM). Top new ingest candidates: 2038455960599953550 (rate-limits critique), 2035407998432989532 (complete flywheel guide), 2034379756796342593 (encrypted gh issues methodology), 2026368671199932854 (Franken roadmap), 2027515287235342804 (17hr autonomous). 2035483415613468858 now has catalogue_path set (beads-viewer demo post already catalogued). No jeff-emanuel.md practitioner profile exists yet — should be created given 22 HIGH signal posts across 4 months. Sparse April coverage (1 post), may need follow-up scan after April 11."
 }

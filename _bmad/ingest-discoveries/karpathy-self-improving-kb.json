@@ -1,0 +1,46 @@
+{
+  "source_url": "https://x.com/i/trending/2039841987067617664",
+  "trending_topic": "Karpathy Shares Simple Workflow for Self-Improving AI Knowledge Base",
+  "canonical_url": "https://x.com/karpathy/status/2039805659525644595",
+  "canonical_gist": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
+  "ingested_at": "2026-04-11",
+  "status": "dedup-existing",
+  "catalogue_path": "research/catalogue/posts/2026-04/karpathy-llm-wiki-knowledge-bases.md",
+  "relevance": 10,
+  "note": "Trending-list URL (numeric ID is a trending-topic ID, not a tweet ID) maps to the canonical Karpathy LLM Knowledge Bases post, already catalogued at 10/10 with comprehensive coverage (3-layer architecture, 3 operations, 6 key takeaways, 6 notable replies, 6 deep-dive candidates, 7 referenced tools). No new content to add — this ingest is a dedup pass that records the trending URL against the existing entry.",
+  "relates_to": [
+    "research/catalogue/posts/2026-04/karpathy-llm-wiki-knowledge-bases.md",
+    "research/catalogue/posts/2026-04/omarsar0-personal-knowledge-base-agents-obsidian.md",
+    "research/catalogue/posts/2026-04/mattshumer-memory-systems-openclaw-hermes.md",
+    "research/catalogue/posts/2026-04/brianroemmele-memory-forgetting-strategy-agents.json"
+  ],
+  "discoveries": [
+    {
+      "name": "llm-knowledge-bases (rvk7895)",
+      "url": "https://github.com/rvk7895/llm-knowledge-bases",
+      "kind": "tool",
+      "why": "Claude Code plugin implementing the Karpathy pattern with /kb-init, /kb compile, /kb query, /kb lint commands",
+      "action": "Candidate /ingest-tool"
+    },
+    {
+      "name": "qmd (Tobi Lutke)",
+      "url": "https://github.com/tobi/qmd",
+      "kind": "tool",
+      "why": "On-device markdown search — hybrid BM25 + vector + LLM re-ranking, CLI + MCP server, no cloud dependency. Directly adoptable for our catalogue.",
+      "action": "Candidate /ingest-tool"
+    },
+    {
+      "name": "Karpathy LLM Wiki Gist",
+      "url": "https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f",
+      "kind": "article",
+      "why": "The canonical ~3,500-word idea file. Already cited in existing catalogue entry but not ingested as standalone article.",
+      "action": "Candidate /ingest-article"
+    }
+  ],
+  "adoptable_patterns": [
+    "Formalize /lint skill — scan catalogue for orphan pages, stale claims, missing cross-references, contradictions",
+    "Add 'file back' step to query operations so synthesized answers become catalogue entries (compounding loop)",
+    "Adopt Obsidian graph view for visualizing catalogue structure",
+    "Establish trust boundary between human-curated and agent-generated catalogue entries (per Steph Ango reply)"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=1450s",
+  "title": "Opening Keynote: AI Engineering as the Successor to Web Development",
+  "speaker": "Malte Ubl",
+  "speaker_role": "CTO, Vercel",
+  "event": "AI Engineer Europe 2026",
+  "event_location": "London",
+  "date": "2026-04-09",
+  "duration_minutes": 18,
+  "type": "talk",
+  "source": "manual",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-malte-ubl-ai-engineering-successor-web-dev.md",
+  "relevance": 9,
+  "novelty": 7,
+  "actionable": 8,
+  "topics": [
+    "ai engineering",
+    "successor to web development",
+    "agent archetypes",
+    "saas apocalypse",
+    "engineer renaissance",
+    "software elasticity",
+    "agents as users",
+    "cli-first design",
+    "harness security",
+    "europe leadership",
+    "model commoditization",
+    "compress-the-research",
+    "vercel ai sdk",
+    "pi coding agent",
+    "openclaw"
+  ],
+  "key_discoveries": [
+    {
+      "id": 1,
+      "title": "Four Agent Archetypes Taxonomy",
+      "description": "Ubl's taxonomy of agent patterns working in the wild: (a) Agent-as-a-Service (Sierra, Decagon); (b) Compress the Research — event→research→decision, replace research phase; (c) Surface Information That Exists — make dormant data actionable; (d) Automate What People Hate — highest-ROI low-hanging fruit. Usable as client intake classification framework."
+    },
+    {
+      "id": 2,
+      "title": "Agents-as-Users Inversion: 60%+ of vercel.com Traffic",
+      "description": "60%+ of page views on vercel.com over last 7 days were AI agents, not humans. The web is now consumed primarily by agents. Product heuristic: 'Whenever I see a UI feature proposal, I ask: what's the CLI?' Shifts product design from dashboard-first to API/CLI-first."
+    },
+    {
+      "id": 3,
+      "title": "Harness/Exec Co-location as 1999-Era Security Hole",
+      "description": "Current agent harnesses run the harness and the generated code in the same trust boundary. Ubl calls this the wrong architecture. Anthropic's new agent product separates them. Direct critique applicable to any tmux+dangerously-skip-permissions setup including ours."
+    },
+    {
+      "id": 4,
+      "title": "Software Market Elasticity Thesis",
+      "description": "'We're speedrunning an experiment in the economics of how elastic the software market is.' Cheaper software → more software → more engineer demand. SaaS Apocalypse and Engineer Renaissance are two observations of the same elasticity effect. Reframes the 'AI replaces engineers' narrative."
+    },
+    {
+      "id": 5,
+      "title": "Europe as AI Engineering Leader (Narrative Violation)",
+      "description": "Europe won't lead on models but leads on the engineering layer that captures value: Vercel AI SDK (Las GML, Berlin), Pi coding agent (Mario Zechner, Austria), OpenClaw (Peter Steinberger, Vienna). Explicit narrative violation vs the 'Europe is behind in AI' take. Validates DE/AT positioning."
+    },
+    {
+      "id": 6,
+      "title": "Compress-the-Research Pattern with Vercel Case Studies",
+      "description": "Vercel runs two internal agents on this pattern: (1) contact-sales routing (75% auto-handled end-to-end), (2) abuse report analysis. Pattern: business event → [agent replaces research] → human decision. Sellable to conservative buyers because a human still makes the final call."
+    },
+    {
+      "id": 7,
+      "title": "'What Do You Hate Most About Your Job?' as Discovery Heuristic",
+      "description": "Vercel's in-house support agent achieved 90% deflection rate and 'job satisfaction exploded' because the team no longer does boring work. The discovery heuristic: walk up to employees, ask what they hate most, automate that. Highest-ROI entry point for enterprise agent deployment."
+    },
+    {
+      "id": 8,
+      "title": "Two-Futures Framing: Lab Dominance vs Model Commoditization",
+      "description": "Future A: labs win, AI stays expensive, engineers become forward-deployed for labs. Future B (Ubl thinks more likely): models commoditize, Google wins infra race, application layer captures value, engineers are powerful. Strategic framework for deciding where to invest (application/harness layer)."
+    }
+  ],
+  "notable_quotes": [
+    "AI engineering is the legitimate successor to web development as a really mainstream discipline of engineering that will shape the next decade of software development.",
+    "Agents are a new kind of software.",
+    "We are speedrunning an experiment in the economics of how elastic the software market is.",
+    "60%+ of page views on vercel.com in the last 7 days were AI agents.",
+    "Whenever I see a UI feature proposal, I ask: what's the CLI?",
+    "It almost feels like 1999 where really everything can be hacked.",
+    "Europe is the leader in AI engineering innovation.",
+    "Don't just automate the most advanced agents. There's so much low-hanging fruit to save millions/billions without massive changes."
+  ],
+  "deep_dive_candidates": [
+    {
+      "url": "https://sdk.vercel.ai/",
+      "reason": "Vercel AI SDK — Berlin-led project Ubl cites as Europe's flagship harness-layer tool; 10M+ weekly downloads",
+      "suggested_skill": "tool-catalogue"
+    },
+    {
+      "url": "https://github.com/vercel/ai",
+      "reason": "AI SDK source; reference implementation for multi-provider TypeScript agent dev",
+      "suggested_skill": "tool-catalogue"
+    },
+    {
+      "url": "https://ai.engineer/europe-2026",
+      "reason": "AIE Europe 2026 conference index; other talks likely relevant to harness engineering and orchestration",
+      "suggested_skill": "event-tracking"
+    },
+    {
+      "url": "https://vercel.com/blog",
+      "reason": "Vercel blog likely has write-ups of contact-sales agent (75% auto-handled) and abuse-report agent as compress-the-research case studies",
+      "suggested_skill": "ingest-article"
+    }
+  ],
+  "adoptable_patterns_count": 8,
+  "connections_to_existing_catalogue": [
+    "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+    "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md",
+    "research/catalogue/talks/2026-03/indydevdan-pi-ceo-agents-claude-1m-context.md",
+    "research/catalogue/talks/2026-03/jensen-huang-panel-nvidia-gtc-2026.md",
+    "research/catalogue/talks/2026-03/harrison-chase-context-engineering-sequoia.md",
+    "research/catalogue/talks/2026-04/2026-04-01_greg-isenberg-23-ai-trends.md",
+    "research/catalogue/articles/2026-03/agentic-platform-engineering-github-copilot.md",
+    "research/catalogue/posts/2026-04/pawelhuryn-orchestration-over-autonomy.md"
+  ],
+  "ingested_at": "2026-04-04T00:00:00Z"
+}

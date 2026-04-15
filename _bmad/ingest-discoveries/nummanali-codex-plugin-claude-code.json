@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/nummanali/status/2038677780880138716",
+  "source_title": "OpenAI Codex Plugin for Claude Code: Cross-Platform Agent Delegation",
+  "catalogue_path": "research/catalogue/posts/2026-04/nummanali-codex-plugin-claude-code.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/openai/codex-plugin-cc",
+      "context": "Official OpenAI plugin for controlling Codex from Claude Code",
+      "suggested_type": "tool",
+      "relevance_hint": "Cross-platform agent delegation — directly relevant to multi-agent orchestration architecture"
+    }
+  ]
+}

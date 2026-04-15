@@ -1,0 +1,16 @@
+{
+  "source_url": "https://github.com/tw93/Kaku",
+  "source_title": "tw93/Kaku - A fast, out-of-the-box terminal built for AI coding",
+  "source_type": "tool",
+  "ingested_at": "2026-04-04",
+  "catalogue_path": "research/catalogue/developer-gui/kaku.md",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/tw93/Pake",
+      "title": "Pake — Turn any webpage into a desktop app with Rust/Tauri (47.6K stars)",
+      "type": "tool",
+      "relevance": 6,
+      "notes": "tw93's flagship project; Rust/Tauri desktop app wrapper; relevant as reference for packaging web apps as native desktop tools, potential pattern for building standalone agent dashboards"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "source_url": "https://github.com/ballred/obsidian-claude-pkm",
+  "source_title": "ballred/obsidian-claude-pkm - Obsidian + Claude Code personal knowledge management system",
+  "source_type": "tool",
+  "ingested_at": "2026-04-04",
+  "catalogue_path": "research/catalogue/agent-memory/obsidian-claude-pkm.md",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/ballred/obsidian-claude-pkm/blob/main/docs/CUSTOMIZATION.md",
+      "title": "Obsidian-Claude-PKM Customization Guide — skill authoring, agent configuration, hook patterns",
+      "type": "documentation",
+      "relevance": 6,
+      "reason": "Detailed guide on authoring custom Claude Code skills and hooks within the vault system; patterns transferable to our orchestrator skill definitions"
+    },
+    {
+      "url": "https://github.com/ballred/obsidian-claude-pkm/blob/main/vault-template/.claude/agents/goal-aligner.md",
+      "title": "Goal-Aligner Agent — cross-session memory agent auditing activity against stated goals",
+      "type": "tool",
+      "relevance": 6,
+      "reason": "Reference implementation of a Claude Code agent with memory:project for cross-session learning; pattern for role-based agent personas with persistent memory"
+    }
+  ]
+}

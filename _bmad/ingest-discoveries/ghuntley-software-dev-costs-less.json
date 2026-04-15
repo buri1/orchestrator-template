@@ -1,0 +1,26 @@
+{
+  "source_url": "https://ghuntley.com/real/",
+  "source_title": "Software development now costs less than the wage of a developer",
+  "catalogue_path": "research/catalogue/articles/2026-04/ghuntley-software-dev-costs-less.md",
+  "ingested_at": "2026-04-13T10:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://ghuntley.com/student/",
+      "context": "Companion article: 'Dear Student: Yes, AI is here, you're screwed unless you take action' — education and career implications of AI commoditization",
+      "suggested_type": "article",
+      "relevance_hint": "Same author, same thesis applied to education pipeline — relevant for workforce displacement angle"
+    },
+    {
+      "url": "https://ghuntley.com/oh-fuck/",
+      "context": "Earlier article (Dec 2024): 'An oh fuck moment in time' — the initial observation that catalyzed the commoditization thesis",
+      "suggested_type": "article",
+      "relevance_hint": "Origin story for the $10.42/hr thesis; shows evolution of thinking over 14 months"
+    },
+    {
+      "url": "https://ghuntley.com/specs/",
+      "context": "Technical demonstration: 'Can a LLM convert C to ASM to specs and then to a working Z/80 Speccy tape?' — proves LLM capability depth beyond typical coding tasks",
+      "suggested_type": "article",
+      "relevance_hint": "Concrete evidence for the capability claims in the main article; unusual technical domain (retro computing)"
+    }
+  ]
+}

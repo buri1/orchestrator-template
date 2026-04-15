@@ -1,0 +1,203 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=21720s",
+  "source_type": "talk",
+  "source_title": "Open Agent Ecosystem — Having an AI Engineer at Your Fingertips",
+  "speaker": "Merve Noyan (MVA) — ML Engineer at HuggingFace (open source team)",
+  "event": "AI Engineer Europe 2026, London",
+  "event_date": "2026-04-09",
+  "duration_minutes": 20,
+  "ingested_at": "2026-04-04T00:00:00.000Z",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-mva-hugginface-open-ecosystem.md",
+  "relevance": 8,
+  "novelty": 8,
+  "actionable": 7,
+  "key_insight": "Open agent stack is now production-usable: GLM 5.1 leads SWE-bench Pro, Hermes agent claims memory-management improvements over OpenClaw, HF Hub ships MCP + Skills + local agent + traces-dataset repo type — answering our fallback, privacy, and cost concerns.",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/NousResearch/hermes-agent",
+      "context": "Hermes agent — Merve's 'die on this hill' local coding agent; claimed 'step beyond OpenClaw by means of memory management'; setup wizard + Slack/WhatsApp integration + one-command install; Merve autonomously fixed a Slack-integration issue using GLM 5.1 + Hermes agent",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue agent-harnesses/hermes-agent.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/blog/hermes-agent",
+      "context": "HF blog post or announcement page for Hermes agent — secondary entry point; verify exact URL",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/ggml-org/llama.cpp",
+      "context": "llama.cpp now ships llama-agent as a binary — just pass a HF hub ID and it runs a full coding agent loop. Zero-setup local agent primitive",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue (add llama-agent note to llama.cpp entry, or create agent-harnesses/llama-agent.md)",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/zai-org/GLM-5.1",
+      "context": "GLM 5.1 — currently top of SWE-bench Pro; Merve's personal coding-setup model; open-source model catching up to closed; primary non-Anthropic fallback candidate for our orchestrator",
+      "suggested_type": "model",
+      "suggested_ingest": "Add to open-models catalogue entry",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/docs/hub/skills",
+      "context": "HuggingFace Skills documentation — vibe-train pattern ('train Qwen 3.5 on this dataset' becomes a real job); LLM-trainer skill computes VRAM and launches; vision-training skills for object detection and segmentation; HF CLI skill for repo/jobs/demo management",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article agent-protocols/hf-skills.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/docs/inference-providers",
+      "context": "HF Inference Providers — routes best model to best provider (Groq, Cerebras, Novita, etc.); compares cheapest vs fastest; dedicated 'tool use' column for agent comparisons; LiteLLM-class router with HF-native UX",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article infrastructure/hf-inference-providers.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/docs/hub/mcp",
+      "context": "HF Hub MCP server — plug the entire Hub into any LLM/harness; native Hub integration",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article infrastructure/hf-hub-mcp.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/docs/hub/datasets-traces",
+      "context": "NEW HF Hub dataset repo type for agent traces — hosts Codex/Claude Code/Pi traces, parsed into a traces column in the dataset viewer; you can train models on your own sessions; Hermes agent integration coming soon; directly relevant to our orchestrator session logging strategy",
+      "suggested_type": "article",
+      "suggested_ingest": "/ingest-article observability/hf-traces-datasets.md",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/datasets?other=benchmark",
+      "context": "HF benchmark datasets filter — surfaces SWE-bench Pro, HLE, AIME leaderboards with open-model rankings; empirical model selection primitive",
+      "suggested_type": "reference",
+      "suggested_ingest": "/ingest-article",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/spaces",
+      "context": "Dynamic HF Spaces MCP — any HF space becomes a callable agent tool; demo: 'generate image of baklava made of yarn' routed to Qwen Image space; on-demand image/audio/video tools for agents",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue infrastructure/hf-spaces-mcp.md",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/docs/hub/buckets",
+      "context": "NEW HF Buckets product — S3-like object storage, cheaper/faster than S3, mountable; absorbed intermediate storage for Niels's 30K-paper OCR workflow; relevant storage layer for large agent workloads",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue infrastructure/hf-buckets.md",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/datalab-to/chandra",
+      "context": "Chandra OCR — currently top of ALM OCR bench; default recommendation from new HF OCR skill; relevant for document-processing pipelines (research librarian, client PDF ingestion)",
+      "suggested_type": "model",
+      "suggested_ingest": "Model catalogue entry",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/google/gemma-4-omni",
+      "context": "Gemma 4 Omni — day-zero vision LM; represents trend of VLMs shipping immediately on HF; relevant for computer-use agents via screenshots",
+      "suggested_type": "model",
+      "suggested_ingest": "Model catalogue entry",
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/Qwen/Qwen3.5-VL",
+      "context": "Qwen 3.5 VL — day-zero VLM; computer-use candidate",
+      "suggested_type": "model",
+      "suggested_ingest": "Model catalogue entry",
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://huggingface.co/moonshotai/Kimi-2.5",
+      "context": "Kimi 2.5 — day-zero VLM; computer-use candidate",
+      "suggested_type": "model",
+      "suggested_ingest": "Model catalogue entry",
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://artificialanalysis.ai/",
+      "context": "Artificial Analysis intelligence index — Merve cites it as showing open models (green) catching up to closed (black); empirical benchmark for tracking the gap over time",
+      "suggested_type": "reference",
+      "suggested_ingest": "/ingest-article general-interest/artificial-analysis-intelligence-index.md",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://github.com/vllm-project/vllm",
+      "context": "vLLM — one of three easy paths to run open agent models; few lines of code",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue (likely already catalogued; verify)",
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=O_IMsEg91g8",
+      "context": "Full AIE Europe 2026 London session recording — Merve's talk starts at t=21720s; other talks in same stream already partially catalogued (Malte Ubl, Peter Steinberger, Raia Hadsell, Ryan Lopopolo)",
+      "suggested_type": "talk-index",
+      "suggested_ingest": "Review for additional talks to ingest",
+      "priority": "low",
+      "already_catalogued": true
+    }
+  ],
+  "cross_references": [
+    {
+      "path": "research/catalogue/orchestration-platforms/openclaw.md",
+      "relation": "Hermes agent explicitly positioned as 'a step beyond OpenClaw by means of memory management' — direct competitor framing"
+    },
+    {
+      "path": "research/catalogue/infrastructure/litellm.md",
+      "relation": "HF Inference Providers is a LiteLLM-class router with tool-use column; competitive comparison candidate"
+    },
+    {
+      "path": "research/catalogue/agent-harnesses/pi/pi-agent.md",
+      "relation": "Merve's 'Pi' reference is the HF-integrated local coding agent variant; may differ from our catalogued pi-agent; verify relationship"
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+      "relation": "Lopopolo's skill-distillation-from-session-logs pattern is the training-side complement to HF's new traces dataset repo type"
+    },
+    {
+      "path": "research/catalogue/talks/2026-03/open-models-runtime-harness-langchain-nvidia.md",
+      "relation": "Harrison Chase's Model+Runtime+Harness taxonomy — Merve's talk is the HF-specific instantiation of that taxonomy"
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+      "relation": "Same AIE Europe 2026 event; Hermes agent positioned as OpenClaw alternative"
+    },
+    {
+      "path": "research/catalogue/articles/2026-03/swebench-pro-evolving-coding-agent-benchmarks.md",
+      "relation": "GLM 5.1 currently leads SWE-bench Pro — adds concrete ranking data to the benchmark entry"
+    }
+  ],
+  "action_items_for_our_orchestrator": [
+    "Add agent-harnesses/hermes-agent.md as high-priority OpenClaw alternative",
+    "Add agent-harnesses/llama-agent.md — zero-setup local agent via llama.cpp binary",
+    "Add GLM 5.1 as primary non-Anthropic fallback; evaluate via HF Inference Providers",
+    "Add infrastructure/hf-inference-providers.md and compare to LiteLLM entry",
+    "Add observability/hf-traces-datasets.md — push a week of L-Thread traces as a prototype",
+    "Add agent-protocols/hf-skills.md covering HF CLI skill + LLM trainer skill",
+    "Prototype: run a client task through Hermes agent + GLM 5.1 end-to-end, compare to Claude Max cost/quality",
+    "Prototype: use HF traces dataset as host for our orchestrator session logs (skill distillation pipeline)",
+    "Add Chandra OCR model reference for research librarian's document-processing pipeline",
+    "Watch for Hermes agent <-> HF traces dataset integration (Merve said 'coming soon')"
+  ]
+}

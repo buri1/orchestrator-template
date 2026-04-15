@@ -1,0 +1,71 @@
+{
+  "source_url": "https://x.com/omarsar0/status/2040099881008652634",
+  "source_type": "post",
+  "handle": "omarsar0",
+  "date": "2026-04-03",
+  "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-llm-knowledge-base-diagram.md",
+  "discoveries": [
+    {
+      "type": "tool",
+      "name": "Obsidian",
+      "url": "https://obsidian.md",
+      "relevance": 8,
+      "reason": "IDE layer for Karpathy/Elvis LLM Knowledge Base pattern; graph view and web clipper referenced in diagram",
+      "already_catalogued": false,
+      "suggested_action": "tool-catalogue (referenced in 3+ entries)"
+    },
+    {
+      "type": "tool",
+      "name": "Marp",
+      "url": "https://marp.app",
+      "relevance": 5,
+      "reason": "Markdown-to-slide-deck output layer in LLM KB diagram",
+      "already_catalogued": false
+    },
+    {
+      "type": "article",
+      "name": "DAIR.AI Academy",
+      "url": "https://academy.dair.ai",
+      "relevance": 7,
+      "reason": "Elvis's research curation home; likely hosts companion posts on LLM knowledge base pattern",
+      "suggested_action": "ingest-article"
+    },
+    {
+      "type": "related-post",
+      "name": "Karpathy original LLM Wiki post (quoted)",
+      "url": "https://x.com/karpathy/status/2039805659525644595",
+      "relevance": 10,
+      "reason": "The originating post being quoted",
+      "already_catalogued": true,
+      "catalogue_ref": "research/catalogue/posts/2026-04/karpathy-llm-wiki-knowledge-bases.md"
+    },
+    {
+      "type": "related-post",
+      "name": "Elvis's same-day Obsidian text post",
+      "url": "https://x.com/omarsar0/status/2039844072748204246",
+      "relevance": 8,
+      "reason": "Companion post from same practitioner on same day re: Obsidian + qmd + DAIR Observatory",
+      "already_catalogued": true,
+      "catalogue_ref": "research/catalogue/posts/2026-04/omarsar0-personal-knowledge-base-agents-obsidian.md"
+    },
+    {
+      "type": "repo",
+      "name": "llm-knowledge-bases (rvk7895)",
+      "url": "https://github.com/rvk7895/llm-knowledge-bases",
+      "relevance": 9,
+      "reason": "Claude Code plugin implementing the Karpathy pattern: /kb-init /kb compile /kb query /kb lint",
+      "suggested_action": "ingest-article or tool-catalogue"
+    }
+  ],
+  "engagement": {
+    "likes": 1643,
+    "retweets": 188,
+    "replies": 52,
+    "bookmarks": 2535,
+    "views": 143289,
+    "bookmark_to_like_ratio": 1.54,
+    "signal_tier": "HIGH"
+  },
+  "ingested_at": "2026-04-11T00:00:00Z",
+  "ingested_by": "ingest-post skill"
+}

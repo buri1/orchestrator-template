@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/omarsar0/status/2039844072748204246",
+  "source_title": "Building a Personal Knowledge Base for AI Agents with Obsidian",
+  "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-personal-knowledge-base-agents-obsidian.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/dair-ai/qmd",
+      "context": "qmd CLI for structured document management — part of the knowledge base stack for agents",
+      "suggested_type": "tool",
+      "relevance_hint": "Potential tool for our own ingestion pipeline and structured markdown management"
+    }
+  ]
+}

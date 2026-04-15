@@ -1,0 +1,26 @@
+{
+  "handle": "doodlestein",
+  "practitioner_ref": null,
+  "month": "2026-04",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2041260730335277240",
+      "url": "https://x.com/doodlestein/status/2041260730335277240",
+      "type": "post",
+      "date": "2026-04-06",
+      "text": "If you're just interested in doing stuff with your own posts (and likes, DMs, etc.), you can save yourself some money by downloading your personal data archive and using it with my free xf tool instead of using the new paid X api:",
+      "media": [],
+      "metrics": { "likes": 52, "retweets": 3, "replies": 4, "views": 6898, "bookmarks": 64, "quotes": 0 },
+      "links": ["https://github.com/Dicklesworthstone/xf"],
+      "topics": ["coding-tools", "rust", "open-source", "infrastructure"],
+      "relevance": 6,
+      "signal_tier": "MEDIUM",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "xf tool (Rust CLI for X/Twitter archive full-text search using Tantivy+SQLite, sub-ms queries) promoted as free alternative to new paid X API. Github link included. 64 bookmarks, 6898 views. Positioning: local-first, zero telemetry. Relates to his broader cass/xf lexical+semantic hybrid search work and aligns with privacy-first agent tooling theme."
+    }
+  ]
+}

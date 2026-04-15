@@ -1,0 +1,26 @@
+{
+  "source_url": "https://x.com/omarsar0/status/2038967842075500870",
+  "source_title": "Meta-Harness: Changing the Harness Around a Fixed LLM Produces 6x Performance Difference",
+  "catalogue_path": "research/catalogue/posts/2026-04/omarsar0-meta-harness-stanford-mit.md",
+  "ingested_at": "2026-04-03T12:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://arxiv.org/abs/2603.28052",
+      "context": "Full paper on meta-harness end-to-end optimization from Stanford and MIT",
+      "suggested_type": "article",
+      "relevance_hint": "Scientific proof that harness engineering produces larger gains than model switching — directly validates our orchestrator architecture philosophy"
+    },
+    {
+      "url": "https://github.com/stanford-iris-lab/meta-harness-tbench2-artifact",
+      "context": "Open-source implementation of the meta-harness system",
+      "suggested_type": "tool",
+      "relevance_hint": "Could inform automated prompt/harness optimization in our pipeline"
+    },
+    {
+      "url": "https://yoonholee.com/meta-harness/",
+      "context": "Project page with interactive results and methodology overview",
+      "suggested_type": "article",
+      "relevance_hint": "Accessible summary of the meta-harness approach with visualizations"
+    }
+  ]
+}

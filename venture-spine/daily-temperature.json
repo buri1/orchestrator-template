@@ -1,0 +1,100 @@
+{
+  "generated": "2026-03-25T11:46:41Z",
+  "date": "2026-03-25",
+  "focus_project": "adwo-2",
+  "summary": {
+    "red": 3,
+    "yellow": 0,
+    "green": 5
+  },
+  "projects": [
+    {
+      "slug": "adwo-2",
+      "name": "ADWO v2",
+      "health": "red",
+      "tier": 2,
+      "lifecycle": "active-dev",
+      "days_stale": 51,
+      "open_issues": "0",
+      "open_prs": "0",
+      "ci": "none"
+    },
+    {
+      "slug": "cityhub",
+      "name": "CityHub",
+      "health": "red",
+      "tier": 1,
+      "lifecycle": "active-dev",
+      "days_stale": 40,
+      "open_issues": "1",
+      "open_prs": "0",
+      "ci": "failure"
+    },
+    {
+      "slug": "contentos",
+      "name": "ContentOS",
+      "health": "green",
+      "tier": 3,
+      "lifecycle": "ideation",
+      "days_stale": 39,
+      "open_issues": "0",
+      "open_prs": "0",
+      "ci": "none"
+    },
+    {
+      "slug": "finance-agent",
+      "name": "Finance Agent",
+      "health": "green",
+      "tier": 2,
+      "lifecycle": "maintenance",
+      "days_stale": 39,
+      "open_issues": "1",
+      "open_prs": "0",
+      "ci": "none"
+    },
+    {
+      "slug": "hoyo-kingdom",
+      "name": "Hoyo Kingdom",
+      "health": "green",
+      "tier": 3,
+      "lifecycle": "paused",
+      "days_stale": 65,
+      "open_issues": "0",
+      "open_prs": "0",
+      "ci": "none"
+    },
+    {
+      "slug": "omniport-hh",
+      "name": "OmniPort Hildesheim",
+      "health": "red",
+      "tier": 1,
+      "lifecycle": "active-dev",
+      "days_stale": 8,
+      "open_issues": "0",
+      "open_prs": "0",
+      "ci": "none"
+    },
+    {
+      "slug": "orchestrator",
+      "name": "L-Thread Orchestrator",
+      "health": "green",
+      "tier": 1,
+      "lifecycle": "active-dev",
+      "days_stale": 2,
+      "open_issues": "0",
+      "open_prs": "0",
+      "ci": "none"
+    },
+    {
+      "slug": "vaseo",
+      "name": "VASEO",
+      "health": "green",
+      "tier": 3,
+      "lifecycle": "paused",
+      "days_stale": 53,
+      "open_issues": "6",
+      "open_prs": "0",
+      "ci": "none"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "source_url": "https://www.infoq.com/news/2026/04/google-agent-testbed-scion/",
+  "source_type": "article",
+  "source_title": "Google's Scion: Multi-Agent Orchestration Testbed",
+  "source_author": "Sergio De Simone",
+  "publication": "InfoQ",
+  "publication_date": "2026-04-07",
+  "ingested_at": "2026-04-11",
+  "catalogue_path": "research/catalogue/articles/2026-04/infoq-google-scion-agent-testbed.md",
+  "relevance": 9,
+  "actionable": 7,
+  "summary": "Google has open-sourced Scion, a multi-agent orchestration testbed framed as a 'hypervisor for agents'. It manages concurrent deep agents (Claude Code, Gemini CLI, Codex, OpenCode) across containers, VMs, and Kubernetes with isolated identity, credentials, and git worktrees per agent. Design philosophy: 'isolation over constraints' — agents run in --yolo mode with boundaries enforced at the infrastructure layer (containers + network policy) rather than via in-context behavioral rules. Orthogonal modules for agent memory, chatrooms, and task management. Demonstrated via Relics of the Athenaeum, a multi-agent puzzle game.",
+  "key_takeaways": [
+    "'Hypervisor for agents' framing — Scion schedules agents as workloads across local/VM/Kubernetes with isolated credentials and shared workspaces",
+    "'Isolation over constraints' design philosophy — agents run in --yolo mode, boundaries enforced at infrastructure layer not prompt layer",
+    "Harness-agnostic AgentHarness adapter model — full Claude Code + Gemini support, partial OpenCode + Codex",
+    "Agent memory, chatrooms, and task management shipped as orthogonal composable modules, not a monolithic framework",
+    "Google uses an interactive multi-agent game (Relics of the Athenaeum) as its demo/eval harness instead of static benchmarks"
+  ],
+  "discoveries": [
+    {
+      "type": "tool",
+      "name": "Scion",
+      "url": "https://github.com/GoogleCloudPlatform/scion",
+      "description": "Google's multi-agent orchestration testbed — hypervisor-for-agents pattern with container + git worktree + network policy isolation, harness adapters for Claude Code / Gemini / OpenCode / Codex",
+      "relevance": 9,
+      "category": "orchestration-platforms",
+      "suggested_ingest": "/tool-catalogue",
+      "priority": "high",
+      "rationale": "External validation of our tmux+worktree+isolated-credentials architecture at Google scale; 'isolation over constraints' is our exact philosophy; AgentHarness adapter abstraction is directly transferable"
+    },
+    {
+      "type": "documentation",
+      "name": "Scion Documentation",
+      "url": "https://googlecloudplatform.github.io/scion",
+      "description": "Official Scion design docs and harness-adapter reference",
+      "relevance": 8,
+      "suggested_ingest": "/ingest-article",
+      "priority": "medium"
+    },
+    {
+      "type": "tool",
+      "name": "Relics of the Athenaeum",
+      "url": "https://github.com/GoogleCloudPlatform/scion",
+      "description": "Google's multi-agent puzzle-solving game used as a demonstration/eval harness for Scion — agents solve puzzles, impersonate characters, dynamically spawn workers via shared workspaces and DMs",
+      "relevance": 7,
+      "suggested_ingest": "/tool-catalogue or /ingest-article",
+      "priority": "medium",
+      "rationale": "Signal for how Big Tech evaluates multi-agent systems via interactive emergent environments rather than static benchmarks — potential eval pattern for our own harness testing"
+    },
+    {
+      "type": "tool",
+      "name": "Gemini CLI",
+      "url": "https://github.com/google-gemini/gemini-cli",
+      "description": "Google's coding agent CLI, supported as a first-class harness by Scion",
+      "relevance": 7,
+      "suggested_ingest": "/tool-catalogue",
+      "priority": "medium",
+      "rationale": "Supported by Scion; if Scion's AgentHarness adapter is transferable, Gemini CLI becomes a viable secondary harness"
+    },
+    {
+      "type": "tool",
+      "name": "OpenCode",
+      "url": "https://github.com/sst/opencode",
+      "description": "Open-source coding agent, partial harness support in Scion",
+      "relevance": 6,
+      "suggested_ingest": "/tool-catalogue",
+      "priority": "low"
+    }
+  ],
+  "cross_references": [
+    {
+      "catalogue_entry": "research/catalogue/conference-reports/aie-europe-2026-synthesis.md",
+      "connection": "Scion's 'isolation over constraints' philosophy and container+worktree+network-policy pattern is the infrastructure-layer counterpart to Sunil Pai's Deno capability-bounded worker sandbox (Code Mode) from AIE Europe 2026 — same goal, different layer"
+    },
+    {
+      "catalogue_entry": "research/catalogue/agent-harnesses/claude-agent-sdk.md",
+      "connection": "Scion uses Claude Code as a first-class supported harness via its AgentHarness adapter"
+    },
+    {
+      "catalogue_entry": "research/catalogue/agent-harnesses/overstory.md",
+      "connection": "Overstory's AgentRuntime adapter + merge queue is the closest pattern match to Scion's AgentHarness adapter model"
+    },
+    {
+      "catalogue_entry": "research/catalogue/orchestration-platforms/gas-town.md",
+      "connection": "Gas Town's git worktree isolation + actor model is the tmux-level ancestor of Scion's container-level isolation"
+    },
+    {
+      "catalogue_entry": "research/catalogue/agent-protocols/12-factor-agents.md",
+      "connection": "Scion's orthogonal memory/chatroom/task modules mirror the 12-Factor Agents deconstruction philosophy"
+    }
+  ],
+  "notes_for_burak": "External validation from Google of the exact architecture we've converged on (tmux+worktree+isolated credentials). 'Isolation over constraints' in four words IS our operating philosophy. Worth reading the Scion source carefully for: (1) AgentHarness adapter abstraction — directly transferable to our orchestrator; (2) network policy enforcement pattern — candidate replacement for --dangerously-skip-permissions; (3) chatroom module — reference for L-Thread agent-to-agent messaging. Not a drop-in replacement (GCP-centric) but a top-tier reference architecture."
+}

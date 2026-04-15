@@ -1,0 +1,20 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=2czYyrTzILg",
+  "source_title": "From Chaos to Choreography: Multi-Agent Orchestration Patterns That Actually Work — Sandipan Bhaumik",
+  "catalogue_path": "research/catalogue/talks/2026-04/sandipan-bhaumik-chaos-to-choreography-multi-agent-orchestration.md",
+  "ingested_at": "2026-04-04T22:00:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://newsletter.agentbuild.ai/p/why-multi-agent-systems-are-eating",
+      "title": "Why Multi-Agent Systems Are Eating Enterprise AI (And How Not to Choke)",
+      "relevance": 8,
+      "reason": "Bhaumik's detailed newsletter companion piece on hub-and-spoke, agent-washing, observability, and the 40% failure stat"
+    },
+    {
+      "url": "https://docs.databricks.com/aws/en/generative-ai/guide/agent-system-design-patterns",
+      "title": "Agent System Design Patterns — Databricks",
+      "relevance": 7,
+      "reason": "Official Databricks agent design patterns guide; production-grade patterns from the same platform perspective as the talk"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "source_url": "https://x.com/no_stp_on_snek/status/2039787271365300335",
+  "source_title": "Gemma 4 31B Compressed from 30.4GB to 18.9GB with TurboQuant+",
+  "catalogue_path": "research/catalogue/posts/2026-04/no-stp-on-snek-gemma4-turboquant-compression.md",
+  "ingested_at": "2026-04-03T12:00:00.000Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/TheTom/turboquant_plus",
+      "context": "Open-source TurboQuant+ implementation for Gemma 4 weight compression",
+      "suggested_type": "tool",
+      "relevance_hint": "Extension of Google's TurboQuant compression for Gemma 4"
+    }
+  ]
+}

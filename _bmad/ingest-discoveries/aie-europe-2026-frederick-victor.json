@@ -1,0 +1,84 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=22426s",
+  "source_type": "talk",
+  "source_title": "Victor — An AI Coworker That Lives in Slack",
+  "speaker": "Frederick Vichowski (Co-founder of Victor, formerly JACE)",
+  "event": "AI Engineer Europe 2026, London",
+  "event_date": "2026-04-09",
+  "duration_minutes": 20,
+  "ingested_at": "2026-04-04T00:00:00.000Z",
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-frederick-vichowski-victor-ai-employee.md",
+  "relevance": 9,
+  "novelty": 8,
+  "actionable": 7,
+  "key_insight": "Company agents (not personal agents) are the employee metaphor made real — one admin connects integrations for the whole team, Slack hides 10-minute agent latency, and memory/permissions/tone must be re-architected because they don't scale linearly from the personal-agent case.",
+  "discovered_urls": [
+    {
+      "url": "https://heyvictor.com",
+      "context": "Victor product — Slack-native AI coworker with 3,000+ Pipedream integrations, launched Feb 2026, immediate PMF. Relevant for understanding scoping feature + team permission model.",
+      "suggested_type": "product",
+      "suggested_ingest": "/ingest-article",
+      "priority": "high",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://jace.ai",
+      "context": "JACE — Vichowski's 2024 email agent built in Sonnet 3.5 era. Still operational. Historical reference for the persistent-context + proactivity pattern that evolved into Victor.",
+      "suggested_type": "product",
+      "suggested_ingest": "/ingest-article",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://pipedream.com",
+      "context": "Pipedream — the 3,000+ integration connector layer Victor builds on. Reference for any future integration-breadth evaluation in our own orchestrator work.",
+      "suggested_type": "tool",
+      "suggested_ingest": "/tool-catalogue",
+      "priority": "medium",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://webarena.dev",
+      "context": "Web Arena benchmark — JCAI (Vichowski's 2023 product) achieved state-of-the-art here using lossless DOM minification. Useful historical context for browser-agent reliability ceiling (60%/step compounds to ~8%).",
+      "suggested_type": "benchmark",
+      "suggested_ingest": "/ingest-article",
+      "priority": "low",
+      "already_catalogued": false
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=O_IMsEg91g8",
+      "context": "Full AIE Europe 2026 London session recording — Vichowski's talk starts at t=22426s (~6h13m). Other talks in the same stream already ingested (Ubl, Steinberger, Hadsell, Lopopolo, Radik, Vincent).",
+      "suggested_type": "talk-index",
+      "suggested_ingest": "Review for any remaining untagged talks",
+      "priority": "low",
+      "already_catalogued": true
+    }
+  ],
+  "cross_references": [
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+      "relation": "Same AIE Europe 2026 day — both talks identify memory and permissions at scale as core agent-security problems. Victor explicitly references OpenClaw memory clutter as the canonical failure mode they had to solve before launch."
+    },
+    {
+      "path": "research/catalogue/talks/2026-04/aie-europe-2026-malte-ubl-ai-engineering-successor-web-dev.md",
+      "relation": "Same AIE Europe 2026 day — Ubl's 'agent-as-a-service' archetype is the category Victor occupies."
+    },
+    {
+      "path": "research/catalogue/orchestration-platforms/openclaw.md",
+      "relation": "OpenClaw memory clutter problem is the canonical failure mode Victor references — worth adding Vichowski's 'N users = N× clutter' finding"
+    },
+    {
+      "path": "research/catalogue/posts/2026-03/swyx-oss-cowork-clones-thread.md",
+      "relation": "Swyx's OSS cowork clones thread catalogues team-agent alternatives — Victor is the proprietary counterpart to that open-source ecosystem"
+    }
+  ],
+  "action_items_for_our_orchestrator": [
+    "Adopt 'personal integrations stay private to their owner' as a hard permission invariant for any future team-scoped agent",
+    "Apply latency-hiding principle to long-running tmux workers — route completion through an async channel (devlog, Slack, email), not a blocking web UI",
+    "Treat proactivity as an earned-trust gradient — default-off for new installs, opt-in expansion to power users first",
+    "Model agent tone as a product surface, not a debug toggle — validate personality before exposing agents to non-technical users",
+    "Plan for multi-channel context flattening (threads + DMs + reactions + edits + deletes) before any Slack integration",
+    "Add Pipedream to tool catalogue as the reference integration-connector layer",
+    "Add Vichowski's 'memory clutters N× faster at N users' finding as a cross-reference in the OpenClaw catalogue entry"
+  ]
+}

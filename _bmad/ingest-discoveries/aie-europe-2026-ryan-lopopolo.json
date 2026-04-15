@@ -1,0 +1,75 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=4008s",
+  "source_title": "Harness Engineering: How to Build Software When Humans Steer and Agents Execute",
+  "speaker": "Ryan Lopopolo (Member of Technical Staff, OpenAI)",
+  "event": "AI Engineer Europe 2026, London",
+  "event_date": "2026-04-09",
+  "duration_minutes": 18,
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-ryan-lopopolo-harness-engineering.md",
+  "ingested_at": "2026-04-04T00:00:00.000Z",
+  "relevance_score": 10,
+  "novelty_score": 8,
+  "actionable_score": 10,
+  "verdict": "VERY HIGH — compressed 18-min conference version of Lopopolo's harness engineering thesis; the 8 talking points (prompts-as-lint, QA plans, persona docs, durable failure-class solutions, anti-slop instruction, tests-as-invariants, parallel P3 workers, remove-from-loop) map 1:1 to concrete changes in our tmux orchestrator; keynote is arguably more actionable than the 75-min Latent Space podcast because every minute is a directly adoptable pattern",
+  "key_insight": "Humans steer, agents execute: implementation is free, the scarce resources are human time, attention, and context window — encode every non-functional requirement in lint rules, tests, and prompts, then remove yourself from the loop",
+  "cross_reference": {
+    "related_catalogue_entry": "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+    "relationship": "Same speaker, same core thesis, different venue and format. Podcast (April 7) is 75 min deep dive on Symphony/Elixir architecture and zero-code metrics. Keynote (April 9) is compressed 18-min with novel material: 'humans steer, agents execute' framing, anti-slop prompt, QA plan gray-box pattern, persona-oriented docs, prompts-everywhere enumeration, economic framing of code-is-free."
+  },
+  "adoptable_patterns_for_orchestrator": [
+    "Prompts-as-lint: rewrite lint error messages as fix instructions; wire reviewer agent to consume lint output as prompt body",
+    "QA plan gate: add QA_PLAN_CHECK phase between WAIT_FOR_PR and REVIEW-FIX LOOP; require media attachments as proof of work",
+    "Persona-oriented docs: split CLAUDE.md into CLAUDE-orchestrator.md / CLAUDE-worker-*.md / CLAUDE-reviewer.md",
+    "Durable failure-class solutions: when same pattern appears 3+ times in devlog, spawn harness-improvement agent",
+    "Anti-slop instruction: literally add 'Do not produce slop. Do not accept slop.' to orchestrator + worker system prompts",
+    "Structural invariant tests: files <350 lines, folder depth <4, exports per file <20",
+    "Parallel P3 spawn: fire 4 workers on isolated git worktrees for ambiguous/low-stakes issues, reviewer picks best",
+    "Human-interventions metric: track human_interventions_count in orchestrator-tmux-state.json as regression signal"
+  ],
+  "key_quotes": [
+    "Every one of you is a staff engineer. You have as many team members as you can possibly drive concurrently and have tokens to support.",
+    "Zod is type load-bearing infrastructure for our AI future.",
+    "The models crave tokens. We can operationalize our codebase to give them tokens.",
+    "Just go build things. Do not hesitate to remove yourselves from the loop.",
+    "You can simply say 'do not produce slop. Don't accept slop.' You won't get slop in your codebase.",
+    "If I wrote the code myself, I have strong feelings about how it runs. If I didn't, I don't.",
+    "I use cookbooks to generate skills to write prompts to write prompts."
+  ],
+  "talking_points_summary": [
+    "Late-2025 convergence: GPT 5.2 isomorphism with senior engineers, code is free, 5-5000 engineer-equivalents per human",
+    "New scarce resources: human time/attention, model context window, systems thinking as primary skill",
+    "Code-is-cheap economics: P3s cleared in parallel, i18n from day one, migrations always finish, zero authorship attachment",
+    "Codebase legibility: structure native to agents, respect scarce context, make tokens predictable, persona-oriented docs",
+    "Encode non-functional requirements in writing: lint rules, docs, review agents, agents.md — 500 decisions per patch must be specified",
+    "Durable solutions to failure classes: lint-enforce retry/timeout wrapping on every fetch, then migrate entire codebase once",
+    "Prompts everywhere: agents.md, lint error messages, review agent PR comments, source-code-structure tests, cookbook-generated meta-prompts",
+    "Gray-box delegation via QA plans: reviewer asserts QA plan exists with media attachments; trust compounds, delegation scales"
+  ],
+  "discovered_urls": [
+    {
+      "url": "https://openai.com/index/harness-engineering/",
+      "title": "OpenAI — Harness Engineering (blog post)",
+      "relevance": 10,
+      "notes": "Already catalogued at articles/2026-02/harness-engineering-codex-agent-centric-world.md"
+    },
+    {
+      "url": "https://www.latent.space/p/harness-eng",
+      "title": "Latent Space podcast — Extreme Harness Engineering interview with transcript",
+      "relevance": 10,
+      "notes": "Already catalogued at talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md"
+    },
+    {
+      "url": "https://www.ai.engineer/europe",
+      "title": "AI Engineer Europe 2026 conference hub",
+      "relevance": 8,
+      "notes": "Conference series with multiple other talks worth ingesting (Malte Ubl, Raia Hadsell already catalogued)"
+    }
+  ],
+  "tools_referenced": [
+    "Zod (TypeScript runtime validation — 'load-bearing infrastructure for AI future')",
+    "agents.md (project-level agent constitution file)",
+    "OpenAI Codex (the underlying agent used exclusively by Lopopolo's team)",
+    "GPT 5.2 (claimed isomorphism threshold)",
+    "ESLint / custom lint tooling (vehicle for encoding NFRs)"
+  ]
+}

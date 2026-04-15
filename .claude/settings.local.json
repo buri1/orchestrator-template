@@ -57,7 +57,14 @@
       "mcp__chrome-devtools__list_pages",
       "mcp__chrome-devtools__navigate_page",
       "mcp__chrome-devtools__evaluate_script",
-      "WebFetch(domain:thenewstack.io)"
+      "WebFetch(domain:thenewstack.io)",
+      "WebFetch(domain:autonomee.ai)",
+      "WebFetch(domain:latentpatterns.com)",
+      "WebFetch(domain:www.opensourceprojects.dev)",
+      "WebFetch(domain:api.fxtwitter.com)",
+      "WebFetch(domain:nvidianews.nvidia.com)",
+      "WebFetch(domain:blogs.nvidia.com)",
+      "Read(//Users/buraksmac/.codex/**)"
     ]
   },
   "hooks": {

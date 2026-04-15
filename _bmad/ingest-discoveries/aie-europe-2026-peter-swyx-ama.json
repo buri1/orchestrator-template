@@ -1,0 +1,130 @@
+{
+  "source_url": "https://www.youtube.com/watch?v=O_IMsEg91g8&t=8807s",
+  "source_title": "OpenClaw AMA — Deep Dive with Creator Peter Steinberger (AI Engineer Europe 2026)",
+  "source_format": "talk",
+  "source_subformat": "ama",
+  "speakers": [
+    "Peter Steinberger (Creator of OpenClaw, now at OpenAI)",
+    "Shawn Wang / Swyx (AI Engineer conference founder)"
+  ],
+  "event": "AI Engineer Europe 2026",
+  "location": "London",
+  "event_date": "2026-04-09",
+  "duration_minutes": 25,
+  "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-swyx-ama.md",
+  "ingested_at": "2026-04-04T00:00:00Z",
+  "relevance": 9,
+  "novelty": 7,
+  "actionable": 8,
+  "key_insight": "Iterative with taste as the bottleneck beats dark factory; concurrency is a workaround until tokens are faster (10 to 5-6 sessions trajectory); European harness sovereignty comes from plugin governance + risk tolerance a US big lab legally can't match; soul.md is load-bearing because consumer channels expect personality.",
+  "talking_points": [
+    "Closed Claw concerns — Peter at OpenAI + broad sponsorship to avoid takeover appearance",
+    "Local and open models importance — European at heart, clanker bypasses enterprise silos",
+    "Peter's coding workflow — prompt request not pull request, 10 peak to 5-6 now",
+    "Dark Factory vs Iterative — first idea never the final project, taste is the bottleneck",
+    "Taste definition — lowest level 'doesn't stink like AI', higher level delightful details like OpenClaw roasts",
+    "Soul.md as key innovation — WhatsApp needed personality Claude Code didn't have",
+    "OpenClaw could only come from someone like Peter — big US labs legally can't ship it",
+    "Dream stack — ubiquitous agents, Star Trek computer, canvas on every screen, work.openclaw + home.openclaw federation",
+    "Prompt injection — frontier models detect it, untrusted content tagging, small local models are dangerous, Simon Willison dual-LLM is smart",
+    "Future skills — taste, system design, saying NO, big picture thinking",
+    "Dreaming feature — memory reconciliation like sleep garbage collection, Anthropic also building it per source leak",
+    "Plugin architecture — everything is a plugin, like Linux, don't need PRs for experiments"
+  ],
+  "key_quotes": [
+    "Everyone in the industry wins if more people spend time with AI",
+    "European at heart. You want to own your data",
+    "Much cooler automation use cases that large companies can never do",
+    "At some point this is not natural that you work on 6 things at the same time. It's a workaround until tokens are faster",
+    "I don't think you can build good software by specifying everything up front",
+    "The way to the mountain is usually never a straight line",
+    "First idea about a project is very unlikely to be the final project",
+    "Doesn't stink like AI",
+    "Madness with a touch of science fiction",
+    "Saying no is becoming more and more important",
+    "If you don't think about boundaries you swipe yourself into a corner",
+    "Even the wildest idea is a prompt away. But this + this + this + this fitting together is the problem",
+    "I still remember Simon Willison saying he's been doing it 2 years and still figuring out what works",
+    "Understanding the theory will not make you better at using the tools",
+    "Like Linux — you install your own parts"
+  ],
+  "cross_references": [
+    {
+      "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-malte-ubl-ai-engineering-successor-web-dev.md",
+      "relationship": "Opening keynote at the same conference names OpenClaw/Peter as the European flagship"
+    },
+    {
+      "catalogue_path": "research/catalogue/talks/2026-04/ryan-lopopolo-extreme-harness-engineering-openai.md",
+      "relationship": "Direct counter-thesis: Lopopolo 1M LOC 0% human review vs Peter iterative-with-taste"
+    },
+    {
+      "catalogue_path": "research/catalogue/orchestration-platforms/openclaw.md",
+      "relationship": "Core platform entry — this AMA provides the 'why' behind architectural decisions"
+    },
+    {
+      "catalogue_path": "research/catalogue/practitioners/steipete.md",
+      "relationship": "Speaker profile — richest single source for Peter's worldview"
+    },
+    {
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-browne-crashing-out-anthropic-pi-pilled.md",
+      "relationship": "Theo discusses Anthropic's OpenClaw ban from the other side"
+    },
+    {
+      "catalogue_path": "research/catalogue/posts/2026-04/mattshumer-memory-systems-openclaw-hermes.md",
+      "relationship": "Independent confirmation of OpenClaw memory innovations"
+    },
+    {
+      "catalogue_path": "research/catalogue/agent-memory/cass-memory-system.md",
+      "relationship": "Three-layer memory reconciliation = Peter's dreaming feature (independent convergence)"
+    },
+    {
+      "catalogue_path": "research/catalogue/talks/2026-04/cole-medin-ai-second-brain-claude-code.md",
+      "relationship": "SOUL.md/USER.md/MEMORY.md layering derives from Peter's soul.md pattern"
+    },
+    {
+      "catalogue_path": "research/catalogue/talks/2026-03/simon-willison-agentic-engineering-pragmatic-summit.md",
+      "relationship": "Peter cites Simon Willison's dual-LLM approach and '2 years still figuring out' quote"
+    },
+    {
+      "catalogue_path": "research/catalogue/talks/2026-04-01_felixba-ki-leben-satire-openclaw.md",
+      "relationship": "German satirical tutorial that validates Peter's 'unlimited access is the hard problem' point"
+    },
+    {
+      "catalogue_path": "research/catalogue/talks/2026-04/aie-europe-2026-peter-steinberger-state-of-claw.md",
+      "relationship": "Direct pair — same speaker, same conference, same day. State of Claw = product/architecture update; this AMA = philosophy/operator worldview. Read as one unit."
+    }
+  ],
+  "discovered_urls": [
+    {
+      "url": "https://simonwillison.net/2023/Apr/25/dual-llm-pattern/",
+      "context": "Simon Willison's dual-LLM pattern that Peter cites by name as a smart prompt-injection mitigation",
+      "suggested_type": "article",
+      "relevance_hint": "Reference architecture for separating privileged and quarantined LLMs in agent harnesses"
+    },
+    {
+      "url": "https://openclaw.ai/",
+      "context": "Peter Steinberger's OpenClaw consumer-agent harness — the subject of the AMA",
+      "suggested_type": "tool",
+      "relevance_hint": "Already catalogued in orchestration-platforms/openclaw.md but may warrant plugin-directory follow-up"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=O_IMsEg91g8",
+      "context": "Full AI Engineer Europe 2026 livestream — contains many more talks from the same event worth ingesting",
+      "suggested_type": "talk-series",
+      "relevance_hint": "Parent stream for all AIE Europe 2026 ingestions"
+    }
+  ],
+  "adoptable_patterns_count": 10,
+  "adoptable_patterns_ids": [
+    "concurrency-as-workaround",
+    "saying-no-gate-before-spawn",
+    "untrusted-content-tagging-ingest",
+    "small-model-warning-banner",
+    "soul-md-per-client-channel",
+    "dreaming-session-end-hook",
+    "plugin-directory-lower-bar",
+    "iterative-over-dark-factory-positioning",
+    "work-home-federation-roadmap",
+    "canvas-output-surface"
+  ]
+}

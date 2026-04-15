@@ -1,0 +1,20 @@
+{
+  "source_url": "https://x.com/Amank1412/status/2023754885473394918",
+  "source_title": "Garry Tan's CLAUDE.md Prompt for Claude Code — Structured Review Before Implementation",
+  "catalogue_path": "research/catalogue/posts/2026-04/amank1412-yc-ceo-claude-md-prompt.md",
+  "ingested_at": "2026-04-03T15:30:00Z",
+  "discovered_urls": [
+    {
+      "url": "https://github.com/garrytan/gstack",
+      "context": "Garry Tan's full 23-skill Claude Code setup that evolved from this prompt; 600K+ LOC produced in 60 days",
+      "suggested_type": "tool",
+      "relevance_hint": "Complete role-based Claude Code skill system (CEO/Designer/EM/QA); directly comparable to our orchestrator's multi-agent role pattern; highest-profile Claude Code setup in production"
+    },
+    {
+      "url": "https://x.com/garrytan/status/2020072098635665909",
+      "context": "Garry Tan's original Feb 7 post with the actual prompt text screenshot that started the viral spread",
+      "suggested_type": "post",
+      "relevance_hint": "Contains the original prompt text; 233K+ derivative views from Aman's post alone; primary source for the review-before-implementation pattern"
+    }
+  ]
+}

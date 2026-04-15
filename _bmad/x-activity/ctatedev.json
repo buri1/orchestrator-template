@@ -1,0 +1,15 @@
+{
+  "handle": "@ctatedev",
+  "practitioner_profile": null,
+  "last_scan": "2026-04-11T00:00:00Z",
+  "scan_count": 3,
+  "total_tracked": 16,
+  "stats": {
+    "high": 14,
+    "medium": 2,
+    "low": 1,
+    "noise": 0,
+    "ingested": 4
+  },
+  "notes": "Scan 3 (2026-04-11). Added 11 new posts across 3 months. Backfilled 2026-01 with json-render launch (2011589295862395238, 680K views, 6086 bookmarks) and Vercel Agent Browser quote (2013092128079876253). Added 2026-02 Slack skill (2027809304116342846), react-pdf (2024761826479620208), shadcn/ui (2023672772782592025). Added 2026-03 dashboard (2037599050112160165), emulate launch + programmatic API (2035063439001854227, 2036206273146822749), Generative TUI (2036149934441783691), auto-connect (2032905426631598324), YAML wire format (2032557225030664272), Svelte UI (2030803371184058690), Generative UI for MCP Apps (2030100369506709691), npm/brew install (2033990791593402509). 4 posts already ingested as catalogue entries (generative-ui-mcp-apps, generative-tui, json-render-yaml-wire-format, emulate-local-api-emulation). Top new ingest candidates: 2011589295862395238 (json-render launch), 2037599050112160165 (dashboard), 2028128730132922760 (Electron), 2032905426631598324 (auto-connect), 2027809304116342846 (Slack), 2026357704617267314 (Autonomous Dogfooding). No April posts found via WebSearch — ctatedev may be on a quiet period or posts not indexed yet. Chris Tate (Vercel) remains the dominant single voice on generative UI + agent-browser in 2026-Q1."
+}

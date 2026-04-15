@@ -1,0 +1,44 @@
+{
+  "handle": "mitchellh",
+  "practitioner_ref": null,
+  "month": "2026-02",
+  "synced_at": "2026-04-11T00:00:00Z",
+  "posts": [
+    {
+      "id": "2024913161238053296",
+      "url": "https://x.com/mitchellh/status/2024913161238053296",
+      "type": "post",
+      "date": "2026-02-20",
+      "text": "Another day another libghostty-based project, this time a macOS terminal with vertical tabs, better organization/notifications, embedded/scriptable browser specifically targeted towards people who use a ton of terminal-based agentic workflows.",
+      "media": [],
+      "metrics": { "likes": 974, "retweets": 57, "replies": 40, "views": 89965, "bookmarks": 764 },
+      "links": ["https://github.com/manaflow-ai/cmux"],
+      "topics": ["infrastructure", "coding-tools", "agent-orchestration"],
+      "relevance": 8,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "mitchellh spotlighting cmux (manaflow-ai/cmux) as a libghostty success story — agentic workflow terminal. 89K views, 764 bookmarks. Strong external validation of cmux relevance. Directly connects Ghostty ecosystem to agentic infrastructure."
+    },
+    {
+      "id": "2021610956334276844",
+      "url": "https://x.com/mitchellh/status/2021610956334276844",
+      "type": "post",
+      "date": "2026-02-11",
+      "text": "Here are a couple more projects that use libghostty: https://supacode.sh/ Supacode, an agentic coding app. And another libghostty based terminal for iOS: https://vvterm.com/",
+      "media": [],
+      "metrics": { "likes": 86, "retweets": 4, "replies": 4, "views": 19893, "bookmarks": 68, "quotes": 2 },
+      "links": ["https://supacode.sh/", "https://vvterm.com/"],
+      "topics": ["infrastructure", "coding-tools", "agent-orchestration"],
+      "relevance": 7,
+      "signal_tier": "HIGH",
+      "ingest_candidate": true,
+      "ingested": false,
+      "catalogue_path": null,
+      "enriched": true,
+      "notes": "Supacode spotlight: 'Native terminal coding agents command center. Run 50+ coding agents in parallel.' Direct precedent/competitor to our tmux-based orchestrator. mitchellh explicitly validating the multi-agent-in-terminal architecture. Also vvterm iOS terminal. Ingest candidate: Supacode is directly relevant prior art for the orchestrator."
+    }
+  ]
+}
