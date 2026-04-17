@@ -1,7 +1,13 @@
 {
   "version": 1,
-  "last_run": "2026-04-17T00:00:00+00:00",
+  "last_run": "2026-04-17T12:00:00+00:00",
   "ingested": {
+    "https://www.youtube.com/watch?v=3GybJGsnYak": {
+      "type": "talk",
+      "source": "manual",
+      "ingested_at": "2026-04-17T12:00:00Z",
+      "catalogue_path": "research/catalogue/talks/2026-04/boxminingai-honcho-memory-test.md"
+    },
     "https://x.com/sawyerhood/status/2036842374933180660": {
       "source": "manual",
       "ingested_at": "2026-03-25T18:30:00Z",
