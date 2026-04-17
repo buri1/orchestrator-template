@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_run": "2026-04-13T07:02:46.932081+00:00",
+  "last_run": "2026-04-17T00:00:00+00:00",
   "ingested": {
     "https://x.com/sawyerhood/status/2036842374933180660": {
       "source": "manual",
@@ -2438,6 +2438,78 @@
       "source": "chrome",
       "ingested_at": "2026-04-13T07:02:46.932077+00:00",
       "catalogue_path": "research/catalogue/articles/2026-04/spec-driven-development-eating-software-engineering.md"
+    },
+    "https://github.com/Azure/git-ape": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "tool",
+      "catalogue_path": "research/catalogue/agent-harnesses/git-ape.md"
+    },
+    "https://github.com/NousResearch/autoreason": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "tool",
+      "catalogue_path": "research/catalogue/reference/autoreason-nous-research.md"
+    },
+    "https://github.com/atoms-co/splitter": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "tool",
+      "catalogue_path": "research/catalogue/infrastructure/splitter-atoms.md"
+    },
+    "https://github.com/getlark/runtimeuse": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "tool",
+      "catalogue_path": "research/catalogue/infrastructure/runtimeuse.md"
+    },
+    "https://www.youtube.com/live/PzROd-AAogY": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "talk",
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-beardyman-offtopic-stream.md"
+    },
+    "https://www.langchain.com/blog/deep-agents-deploy-an-open-alternative-to-claude-managed-agents": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "article",
+      "catalogue_path": "research/catalogue/articles/2026-04/langchain-deep-agents-deploy-open-alternative.md"
+    },
+    "https://blog.cloudflare.com/voice-agents/": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "article",
+      "catalogue_path": "research/catalogue/articles/2026-04/cloudflare-voice-agents.md"
+    },
+    "https://x.com/svpino/status/2042986795210805352": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "post",
+      "catalogue_path": "research/catalogue/posts/2026-04/svpino-agent-three-components.md"
+    },
+    "https://x.com/akshay_pachaar/status/2043374229199151351": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "post",
+      "catalogue_path": "research/catalogue/posts/2026-04/akshay-pachaar-claude-md-15k-stars-karpathy.md"
+    },
+    "https://x.com/MilksandMatcha/status/2044863551186309460": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "post",
+      "catalogue_path": "research/catalogue/posts/2026-04/sarah-chieng-cerebras-single-agent-nightmare.md"
+    },
+    "https://github.com/codejunkie99/agentic-stack": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "tool",
+      "catalogue_path": "research/catalogue/agent-harnesses/agentic-stack-codejunkie.md"
+    },
+    "https://x.com/MilksandMatcha": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "practitioner",
+      "catalogue_path": "research/catalogue/practitioners/sarah-chieng.md"
     }
   }
 }

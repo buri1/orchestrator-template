@@ -8,7 +8,7 @@
 |-------|-------|
 | Type | Living Backlog |
 | Created | 2026-03-21 |
-| Last Updated | 2026-04-03 ("Engineered Enough" complexity gate added from Garry Tan post) |
+| Last Updated | 2026-04-17 (Agentic Stack `--rationale` graduation + Cerebras "Year of Latency Debt" frame added) |
 | Status | Active — append new patterns as they're discovered |
 
 ---
@@ -247,7 +247,19 @@ Full-stack LLM tracing (traces, spans, scores, sessions) with ClickHouse backend
 **Implementation**: `docker compose up`. 2 hours setup. Phase 2 graduation when scaling past 10 agents.
 **Priority**: Medium — government client trust artifact. Enables Judgment SLOs.
 
+#### Rationale-Gated Lesson Graduation (from Agentic Stack)
+**Source**: [agent-harnesses/agentic-stack-codejunkie.md](./agent-harnesses/agentic-stack-codejunkie.md) | [codejunkie99/agentic-stack](https://github.com/codejunkie99/agentic-stack) (217 stars, MIT, Python)
+Lesson graduation CLI requires `--rationale "<why>"` to promote a candidate lesson from staged to `lessons.jsonl` (semantic memory source of truth). "Rubber-stamping is structurally impossible." Git history of `.agent/memory/` becomes the agent's autobiography. Separated from mechanical-only nightly staging (`auto_dream.py` — no reasoning, no network, no commits).
+**Implementation**: Add `stage/list/graduate/reject/reopen` subcommands to `/research-librarian` targeting ADOPTABLE-PATTERNS.md append-protocol. `graduate <entry-path> --rationale "<why>"` writes to a `graduation_log` field on the entry in `_bmad/ingest-ledger.json`. 2-4h task. Kills rubber-stamping when I promote patterns mid-session.
+**Priority**: Medium — curation discipline, not harness capability. Fits Principle 5 (human review is the binding constraint) by making each promotion auditable.
+
 ### 2.3 LOW PRIORITY — Track for Later
+
+#### "Year of Latency Debt" Framing (from Sarah Chieng / Cerebras DevX)
+**Source**: [practitioners/sarah-chieng.md](./practitioners/sarah-chieng.md) | [cerebras.ai/blog/latency-debt](https://www.cerebras.ai/blog/latency-debt)
+Rhetorical frame: 2026's binding constraint is **token speed, not token quantity**. Multi-agent / coding / voice / HITL workloads are sequential + memory-bound + latency-sensitive, which is the wrong shape for GPUs. 1,000-3,000 tok/s Cerebras inference changes delegation back into pair programming.
+**Implementation**: (A) Adopt paraphrased frame in client proposals and MC launch content — "speed-of-iteration is now the moat" fits both German client pitch and our Agentic Engineering content strategy. (B) Prototype Cerebras Codex-Spark as a fallback backend when Claude Max 2-concurrent-Opus limit hits (benchmark: 1M tokens/day free tier). (C) Wire into MC Nag Agent for sub-2s daily briefings.
+**Priority**: Low — rhetorical/thesis-level frame, Phase 2+ experimentation. Track as Cerebras IPO lands Q2 2026 and fast-inference pricing stabilizes.
 
 #### Thread-Based Episodic Memory (from Random Labs Slate)
 **Source**: [articles/2026-03/random-labs-slate.md](./articles/2026-03/random-labs-slate.md)
