@@ -2467,7 +2467,43 @@
       "source": "manual",
       "ingested_at": "2026-04-17T00:00:00+00:00",
       "type": "talk",
-      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-beardyman-offtopic-stream.md"
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-anthropic-disaster-stream-2026-04-16.md",
+      "note": "Re-catalogued 2026-04-17: previous agent miscategorized as Beardyman music stream (1/10); correct entry is the 6h Anthropic Disaster Stream index (9/10) covering Claude Code Desktop, Cal.com, Fake Stars, Markdown, and Laziness Lost. Beardyman is only the ~15min tail. See deep-dive sub-URLs below."
+    },
+    "https://www.youtube.com/live/PzROd-AAogY#claude-code-desktop": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "talk",
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-claude-code-desktop-app-roast.md",
+      "note": "Deep-dive sub-segment of PzROd-AAogY stream (~01:16-02:17): Theo's hands-on roast of Anthropic's Claude Code Desktop app, including Routines and Remote Control features."
+    },
+    "https://www.youtube.com/live/PzROd-AAogY#laziness-lost": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "talk",
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-laziness-lost-cantrill-review.md",
+      "note": "Deep-dive sub-segment of PzROd-AAogY stream (~04:36-05:06): Theo reads Brian Cantrill's 'The Peril of Laziness Lost' (likely Oxide RFD 603) and applies the 3 programmer virtues to LLMs. Philosophical foundation for our anti-slop harness work."
+    },
+    "https://www.youtube.com/live/PzROd-AAogY#cal-open-source-death": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "talk",
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-cal-com-open-source-death-analysis.md",
+      "note": "Deep-dive sub-segment of PzROd-AAogY stream (~05:06-end): Theo reacts to Cal.com closing source and articulates the Security Knowledge × Domain Knowledge framework. Proposes 3-phase dev cycle (Development → Review → Hardening with token-budget cap) as the operational response. Directly adoptable for our orchestrator; public framing for why we don't open-source client work."
+    },
+    "https://www.youtube.com/live/PzROd-AAogY#fake-star-economy": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "talk",
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-github-fake-star-economy-investigation.md",
+      "note": "Deep-dive sub-segment of PzROd-AAogY stream (~02:35-03:29): Theo walks through the Awesome Agents investigation + Star Scout peer-reviewed paper (CMU/NCSU/Socket, 20TB GitHub metadata). 6M fake stars, 18,600 repos, 301K accounts. Practitioner-usable detection heuristics (fork-to-star ratio, zero-follower %, ghost %). Hermes Agent cleared clean — good news for our Hermes entries. Legal exposure via FTC rule + Headspin SEC precedent. Actionable for catalogue hygiene."
+    },
+    "https://www.youtube.com/live/PzROd-AAogY#markdown-cursed": {
+      "source": "manual",
+      "ingested_at": "2026-04-17T00:00:00+00:00",
+      "type": "talk",
+      "catalogue_path": "research/catalogue/talks/2026-04/theo-t3gg-markdown-cursed-language-review.md",
+      "note": "Deep-dive sub-segment of PzROd-AAogY stream (~03:55-04:29): Theo reads Barack's 'Why are we still using Markdown?' article. Context-sensitive grammar, ReDoS in marked, XSS via inline HTML, CommonMark non-convergence, Obsidian dataview.js cursed hybrid. Educational more than urgent; action items limited to template audit + avoiding Obsidian-specific extensions in agent-consumed files."
     },
     "https://www.langchain.com/blog/deep-agents-deploy-an-open-alternative-to-claude-managed-agents": {
       "source": "manual",
